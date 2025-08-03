@@ -1,0 +1,33 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalEnv": ["NODE_AUTH_TOKEN"],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["./dist/**"],
+      "env": ["NODE_ENV"]
+    },
+    "@solanavault/dapp#build": {
+      "dependsOn": ["^build"],
+      "outputs": ["./dist/**"],
+      "env": [
+        "NODE_ENV",
+        "VITE_SOLANA_RPC_URL",
+        "CF_PAGES_COMMIT_SHA",
+        "GITHUB_SHA",
+        "SENTRY_AUTH_TOKEN"
+      ]
+    },
+    "lint": {
+      "dependsOn": ["^build"]
+    },
+    "test": {
+      "dependsOn": ["build"],
+      "cache": false
+    },
+    "test:run": {
+      "dependsOn": ["build"],
+      "cache": false
+    }
+  }
+}

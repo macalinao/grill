@@ -1,0 +1,59 @@
+{
+  "name": "@macalinao/kite-monorepo",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "catalog": {
+      "eslint": "^9.29.0",
+      "typescript": "^5.8.3",
+      "@macalinao/eslint-config": "^4.2.0",
+      "@macalinao/tsconfig": "^3.2.0",
+      "@solana/kit": "^2.3.0",
+      "tslib": "^2.8.1",
+      "@coral-xyz/borsh": "^0.31.1"
+    }
+  },
+  "scripts": {
+    "build": "turbo build",
+    "build:watch": "turbo watch build",
+    "lint": "biome check && turbo run lint",
+    "lint:fix": "biome check --write --unsafe && turbo run lint -- --fix",
+    "clean": "turbo run clean",
+    "test": "CI=true turbo run test",
+    "test:e2e": "bun run build && anchor test",
+    "watch": "turbo watch build",
+    "changeset": "changeset",
+    "changeset:version": "changeset version",
+    "changeset:publish": "changeset publish",
+    "ci:version": "changeset version && bun update",
+    "ci:publish": "for dir in packages/*; do (cd \"$dir\" && bun publish || true); done && changeset tag",
+    "prepare": "husky",
+    "codegen": "turbo run codegen"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.0.6",
+    "@changesets/cli": "^2.29.5",
+    "eslint": "catalog:",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
+    "turbo": "^2.5.5",
+    "typescript": "catalog:"
+  },
+  "packageManager": "bun@1.2.19",
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}": [
+      "biome check --write",
+      "eslint --fix --cache"
+    ],
+    "*.{md,yml,yaml}": "prettier --write",
+    "*.{json,jsonc,html}": "biome format --write"
+  },
+  "dependencies": {
+    "@coral-xyz/borsh": "catalog:",
+    "@solana/kit": "catalog:"
+  }
+}
