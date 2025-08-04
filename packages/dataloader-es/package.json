@@ -1,0 +1,44 @@
+{
+  "name": "@macalinao/dataloader-es",
+  "version": "0.1.0",
+  "description": "ESM-native DataLoader implementation for efficient batching and caching",
+  "type": "module",
+  "author": "Ian Macalinao <me@ianm.com>",
+  "homepage": "https://github.com/macalinao/use-solana-kit",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist/",
+    "src/"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/macalinao/use-solana-kit.git",
+    "directory": "packages/dataloader-es"
+  },
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -fr dist/",
+    "lint": "eslint . --cache",
+    "test": "bun test"
+  },
+  "devDependencies": {
+    "@macalinao/eslint-config": "^4.2.0",
+    "@macalinao/tsconfig": "^3.2.2",
+    "@types/bun": "^1.2.19",
+    "@types/node": "^22.10.6",
+    "eslint": "^9.26.0",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
+  }
+}

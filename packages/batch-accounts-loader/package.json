@@ -1,0 +1,52 @@
+{
+  "name": "@macalinao/batch-accounts-loader",
+  "version": "0.1.0",
+  "description": "Efficient batch account loading for Solana using DataLoader and @solana/kit",
+  "type": "module",
+  "author": "Ian Macalinao <me@ianm.com>",
+  "homepage": "https://github.com/macalinao/use-solana-kit",
+  "license": "Apache-2.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist/",
+    "src/"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/macalinao/use-solana-kit.git",
+    "directory": "packages/batch-accounts-loader"
+  },
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -fr dist/",
+    "lint": "eslint . --cache",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@macalinao/dataloader-es": "workspace:*",
+    "lodash-es": "^4.17.21",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@macalinao/eslint-config": "^4.2.0",
+    "@macalinao/tsconfig": "^3.2.2",
+    "@types/lodash-es": "^4.17.12",
+    "@types/node": "^22.10.6",
+    "eslint": "^9.26.0",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
+  },
+  "peerDependencies": {
+    "@solana/kit": "^2.3.0"
+  }
+}

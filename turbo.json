@@ -7,17 +7,6 @@
       "outputs": ["./dist/**"],
       "env": ["NODE_ENV"]
     },
-    "@solanavault/dapp#build": {
-      "dependsOn": ["^build"],
-      "outputs": ["./dist/**"],
-      "env": [
-        "NODE_ENV",
-        "VITE_SOLANA_RPC_URL",
-        "CF_PAGES_COMMIT_SHA",
-        "GITHUB_SHA",
-        "SENTRY_AUTH_TOKEN"
-      ]
-    },
     "lint": {
       "dependsOn": ["^build"]
     },

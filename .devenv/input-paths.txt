@@ -1,0 +1,8 @@
+/Users/igm/proj/macalinao/use-solana-kit/.devenv/flake.json
+/Users/igm/proj/macalinao/use-solana-kit/.devenv.flake.nix
+/Users/igm/proj/macalinao/use-solana-kit/.env
+/Users/igm/proj/macalinao/use-solana-kit/.env.example
+/Users/igm/proj/macalinao/use-solana-kit/devenv.local.nix
+/Users/igm/proj/macalinao/use-solana-kit/devenv.lock
+/Users/igm/proj/macalinao/use-solana-kit/devenv.nix
+/Users/igm/proj/macalinao/use-solana-kit/devenv.yaml

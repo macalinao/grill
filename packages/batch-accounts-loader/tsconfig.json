@@ -1,0 +1,4 @@
+{
+  "extends": "@macalinao/tsconfig/tsconfig.base.json",
+  "exclude": ["**/*.test.ts", "**/*.test.tsx", "dist"]
+}

@@ -1,0 +1,27 @@
+import type { Address } from "@solana/kit";
+import { EventEmitter } from "eventemitter3";
+
+export type CacheBatchUpdateEvent = {
+  type: "batchUpdate";
+  keys: Set<Address>;
+};
+
+export type CacheClearEvent = {
+  type: "clear";
+};
+
+export type CacheEvent = CacheBatchUpdateEvent | CacheClearEvent;
+
+interface CacheEventTypes {
+  change: (event: CacheEvent) => void;
+}
+
+export class AccountsEmitter extends EventEmitter<CacheEventTypes> {
+  emitBatchUpdate(keys: Set<Address>): void {
+    this.emit("change", { type: "batchUpdate", keys });
+  }
+
+  emitClear(): void {
+    this.emit("change", { type: "clear" });
+  }
+}
