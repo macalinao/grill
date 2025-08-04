@@ -1,3 +1,6 @@
 {
-  "extends": "@macalinao/tsconfig/tsconfig.react.json"
+  "extends": "@macalinao/tsconfig/tsconfig.react.json",
+  "compilerOptions": {
+    "isolatedDeclarations": false
+  }
 }

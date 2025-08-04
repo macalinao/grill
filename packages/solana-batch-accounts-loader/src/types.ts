@@ -1,5 +1,6 @@
 import type {
   AccountInfoBase,
+  Address,
   GetMultipleAccountsApi,
   ReadonlyUint8Array,
   Rpc,
@@ -21,4 +22,8 @@ export interface BatchAccountsLoaderConfig {
    * Defaults to 10ms.
    */
   batchDurationMs?: number;
+  /**
+   * Called when accounts are fetched with the addresses that were fetched.
+   */
+  onFetchAccounts?: (addresses: Address[]) => void;
 }

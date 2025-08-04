@@ -1,26 +1,28 @@
-import type { AccountInfoFetcher } from "@saberhq/solana-contrib";
-import { exists } from "@saberhq/solana-contrib";
+import { createBatchAccountsLoader } from "@macalinao/solana-batch-accounts-loader";
+import type { Address } from "@solana/kit";
+import { createSolanaRpc } from "@solana/kit";
 import { useConnection } from "@solana/wallet-adapter-react";
 import type { AccountInfo } from "@solana/web3.js";
 import { PublicKey } from "@solana/web3.js";
-import DataLoader from "dataloader";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-import type { SailError } from "../errors";
-import { SailRefetchSubscriptionsError } from "../errors";
-import type { AccountDatum, AccountFetchResult } from "../types";
-import { SailBatchFetcher } from "./batchProvider";
-import type { CacheBatchUpdateEvent } from "./emitter";
-import { AccountsEmitter } from "./emitter";
-import { getMultipleAccounts } from "./fetchers";
-import { fetchKeysUsingLoader } from "./fetchKeysUsingLoader";
-import { getCacheKeyOfPublicKey } from "./utils";
+import type { MastError } from "../errors/index.js";
+import { MastRefetchSubscriptionsError } from "../errors/index.js";
+import type { CacheBatchUpdateEvent } from "./emitter.js";
+import { AccountsEmitter } from "./emitter.js";
+import type { AccountFetchResult } from "./fetchers.js";
 
-export type AccountLoader = DataLoader<
-  PublicKey,
-  AccountInfo<Buffer> | null,
-  string
->;
+export type AccountLoader = ReturnType<typeof createBatchAccountsLoader>;
+
+const getCacheKeyOfPublicKey = (key: PublicKey): string => key.toBase58();
+
+export type AccountDatum =
+  | {
+      accountId: PublicKey;
+      accountInfo: AccountInfo<Buffer>;
+    }
+  | null
+  | undefined;
 
 interface AccountsProviderState {
   accountsCache: Map<string, AccountInfo<Buffer> | null>;
@@ -46,7 +48,7 @@ export interface UseAccountsArgs {
   /**
    * Called whenever an error occurs.
    */
-  onError: (err: SailError) => void;
+  onError: (err: MastError) => void;
   /**
    * If true, allows one to subscribe to account updates via websockets rather than via polling.
    */
@@ -76,7 +78,7 @@ export const fetchKeysMaybe = async (
 ): Promise<readonly (AccountFetchResult | null | undefined)[]> => {
   const keysWithIndex = keys.map((k, i) => [k, i] as const);
   const nonEmptyKeysWithIndex = keysWithIndex.filter(
-    (key): key is readonly [PublicKey, number] => exists(key[0]),
+    (key): key is readonly [PublicKey, number] => key[0] != null,
   );
   const nonEmptyKeys = nonEmptyKeysWithIndex.map((n) => n[0]);
   const accountsData = await fetchKeys(nonEmptyKeys);
@@ -140,11 +142,6 @@ export interface UseAccounts extends Required<UseAccountsArgs> {
    * If the AccountInfo has been fetched but wasn't found, this returns null.
    */
   getDatum: (key: PublicKey | null | undefined) => AccountDatum;
-
-  /**
-   * Fetches accounts.
-   */
-  batchFetcher: AccountInfoFetcher;
 }
 
 export const useAccountsInternal = (args: UseAccountsArgs): UseAccounts => {
@@ -171,68 +168,118 @@ export const useAccountsInternal = (args: UseAccountsArgs): UseAccounts => {
     });
   }, [connection]);
 
-  const accountLoader = useMemo(
-    () =>
-      new DataLoader<PublicKey, AccountInfo<Buffer> | null, string>(
-        async (keys: readonly PublicKey[]) => {
-          const result = await getMultipleAccounts(
-            connection,
-            keys,
-            onError,
-            "confirmed",
-          );
-          const batch = new Set<string>();
-          result.array.forEach((info, i) => {
-            const addr = keys[i];
-            if (addr && !(info instanceof Error)) {
-              const cacheKey = getCacheKeyOfPublicKey(addr);
-              accountsCache.set(cacheKey, info);
-              batch.add(cacheKey);
-            }
-          });
-          emitter.raiseBatchCacheUpdated(batch);
-          return result.array;
-        },
-        {
-          // aggregate all requests over 500ms
-          batchScheduleFn: (callback) => setTimeout(callback, batchDurationMs),
-          cacheKeyFn: getCacheKeyOfPublicKey,
-        },
-      ),
-    [accountsCache, batchDurationMs, connection, emitter, onError],
-  );
-
-  const { batchFetcher } = useMemo(() => {
-    return {
-      batchFetcher: new SailBatchFetcher(accountLoader),
-    };
-  }, [accountLoader]);
+  const accountLoader = useMemo(() => {
+    const rpc = createSolanaRpc(connection.rpcEndpoint);
+    return createBatchAccountsLoader({
+      rpc,
+      commitment: "confirmed",
+      batchDurationMs,
+      onFetchAccounts: (addresses: string[]) => {
+        const batch = new Set<string>();
+        addresses.forEach((addr: string) => {
+          batch.add(addr);
+        });
+        emitter.raiseBatchCacheUpdated(batch);
+      },
+    });
+  }, [batchDurationMs, connection, emitter]);
 
   const fetchKeys = useCallback(
-    async (keys: readonly PublicKey[]) => {
-      return await fetchKeysUsingLoader(accountLoader, keys);
+    async (
+      keys: readonly PublicKey[],
+    ): Promise<readonly AccountFetchResult[]> => {
+      const results = await Promise.all(
+        keys.map(async (key) => {
+          const keyStr = getCacheKeyOfPublicKey(key);
+          const accountInfo = await accountLoader.load(keyStr);
+          if (accountInfo) {
+            const info: AccountInfo<Buffer> = {
+              data: Buffer.from(accountInfo.data),
+              executable: accountInfo.executable,
+              lamports: Number(accountInfo.lamports),
+              owner: new PublicKey(accountInfo.owner),
+              rentEpoch: Number(accountInfo.rentEpoch),
+            };
+            accountsCache.set(keyStr, info);
+            return {
+              data: new Uint8Array(info.data),
+              executable: info.executable,
+              lamports: BigInt(info.lamports),
+              owner: info.owner.toBase58() as Address,
+            } satisfies AccountFetchResult;
+          }
+          accountsCache.set(keyStr, null);
+          // Return a "null" account fetch result
+          return {
+            data: null,
+            executable: false,
+            lamports: BigInt(0),
+            owner: "11111111111111111111111111111111" as Address,
+          } satisfies AccountFetchResult;
+        }),
+      );
+      return results;
     },
-    [accountLoader],
+    [accountLoader, accountsCache],
   );
 
   const onBatchCache = emitter.onBatchCache;
 
   const refetch = useCallback(
     async (key: PublicKey) => {
-      const result = await accountLoader.clear(key).load(key);
-      return result;
+      const keyStr = getCacheKeyOfPublicKey(key);
+      accountLoader.clear(keyStr);
+      const accountInfo = await accountLoader.load(keyStr);
+      if (accountInfo) {
+        const info: AccountInfo<Buffer> = {
+          data: Buffer.from(accountInfo.data),
+          executable: accountInfo.executable,
+          lamports: Number(accountInfo.lamports),
+          owner: new PublicKey(accountInfo.owner),
+          rentEpoch: Number(accountInfo.rentEpoch),
+        };
+        accountsCache.set(keyStr, info);
+        return info;
+      }
+      accountsCache.set(keyStr, null);
+      return null;
     },
-    [accountLoader],
+    [accountLoader, accountsCache],
   );
 
   const refetchMany = useCallback(
     async (keys: readonly PublicKey[]) => {
-      keys.forEach((key) => {
-        accountLoader.clear(key);
+      const keyStrs = keys.map(getCacheKeyOfPublicKey);
+      keyStrs.forEach((keyStr) => {
+        accountLoader.clear(keyStr);
       });
-      return await accountLoader.loadMany(keys);
+      const results = await accountLoader.loadMany(keyStrs);
+      return results.map((result, i) => {
+        const keyStr = keyStrs[i];
+        if (!keyStr) {
+          return null;
+        }
+
+        if (result instanceof Error) {
+          return result;
+        }
+
+        if (result) {
+          const info: AccountInfo<Buffer> = {
+            data: Buffer.from(result.data),
+            executable: result.executable,
+            lamports: Number(result.lamports),
+            owner: new PublicKey(result.owner),
+            rentEpoch: Number(result.rentEpoch),
+          };
+          accountsCache.set(keyStr, info);
+          return info;
+        }
+        accountsCache.set(keyStr, null);
+        return null;
+      });
     },
-    [accountLoader],
+    [accountLoader, accountsCache],
   );
 
   const getCached = useCallback(
@@ -259,7 +306,16 @@ export const useAccountsInternal = (args: UseAccountsArgs): UseAccounts => {
         listener = connection.onAccountChange(key, (data) => {
           const cacheKey = getCacheKeyOfPublicKey(key);
           accountsCache.set(cacheKey, data);
-          accountLoader.clear(key).prime(key, data);
+          // Clear and prime the loader with the new data
+          accountLoader.clear(cacheKey);
+          accountLoader.prime(cacheKey, {
+            data: new Uint8Array(data.data),
+            executable: data.executable,
+            lamports: data.lamports as any,
+            owner: data.owner.toBase58() as Address,
+            rentEpoch: BigInt(data.rentEpoch ?? 0),
+            space: BigInt(data.data.length),
+          });
           emitter.raiseBatchCacheUpdated(new Set([cacheKey]));
         });
       }
@@ -299,8 +355,8 @@ export const useAccountsInternal = (args: UseAccountsArgs): UseAccounts => {
       return;
     }
     const interval = setInterval(() => {
-      void refetchAllSubscriptions().catch((e) => {
-        onError(new SailRefetchSubscriptionsError(e));
+      void refetchAllSubscriptions().catch((e: unknown) => {
+        onError(new MastRefetchSubscriptionsError(e));
       });
     }, refreshIntervalMs);
     return () => {
@@ -343,7 +399,5 @@ export const useAccountsInternal = (args: UseAccountsArgs): UseAccounts => {
     useWebsocketAccountUpdates,
     disableAutoRefresh: disableRefresh,
     onError,
-
-    batchFetcher,
   };
 };

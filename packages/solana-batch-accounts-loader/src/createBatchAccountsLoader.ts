@@ -1,4 +1,5 @@
 import { DataLoader } from "@macalinao/dataloader-es";
+import type { Address } from "@solana/kit";
 import { address, getBase64Encoder } from "@solana/kit";
 import { chunk } from "lodash-es";
 
@@ -15,13 +16,14 @@ export function createBatchAccountsLoader({
   commitment = "confirmed",
   maxBatchSize = 99,
   batchDurationMs = 10,
-}: BatchAccountsLoaderConfig): DataLoader<string, AccountInfo | null> {
-  return new DataLoader<string, AccountInfo | null>(
+  onFetchAccounts,
+}: BatchAccountsLoaderConfig): DataLoader<Address, AccountInfo | null> {
+  return new DataLoader<Address, AccountInfo | null>(
     async (keys) => {
       const encoder = getBase64Encoder();
       // Process in chunks to respect RPC limits
       const chunks = chunk(
-        keys as string[],
+        keys,
         // maximum number of accounts that can be fetched in a single RPC call from a Solana RPC node
         99,
       );
@@ -37,6 +39,11 @@ export function createBatchAccountsLoader({
                   encoding: "base64",
                 })
                 .send();
+
+              // Call onFetchAccounts callback if provided
+              if (onFetchAccounts) {
+                onFetchAccounts(addressChunk);
+              }
 
               return response.value.map((account): AccountInfo | null => {
                 if (!account) {

@@ -35,6 +35,7 @@
   "dependencies": {
     "@macalinao/dataloader-es": "workspace:*",
     "@macalinao/solana-batch-accounts-loader": "workspace:*",
+    "@solana/kit": "^2.3.0",
     "@solana/web3.js": "^1.95.5",
     "eventemitter3": "^5.0.1",
     "lodash-es": "^4.17.21",

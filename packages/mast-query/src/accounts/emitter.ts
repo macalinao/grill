@@ -24,4 +24,21 @@ export class AccountsEmitter extends EventEmitter<CacheEventTypes> {
   emitClear(): void {
     this.emit("change", { type: "clear" });
   }
+
+  // Legacy method names for backwards compatibility
+  raiseBatchCacheUpdated(keys: Set<string>): void {
+    this.emitBatchUpdate(keys as Set<Address>);
+  }
+
+  raiseCacheCleared(): void {
+    this.emitClear();
+  }
+
+  onBatchCache(cb: (args: CacheBatchUpdateEvent) => void): void {
+    this.on("change", (event) => {
+      if (event.type === "batchUpdate") {
+        cb(event);
+      }
+    });
+  }
 }
