@@ -2,8 +2,8 @@ import type {
   Address,
   AddressesByLookupTableAddress,
   Blockhash,
-  TransactionMessageWithBlockhashLifetime,
   Instruction,
+  TransactionMessageWithBlockhashLifetime,
 } from "@solana/kit";
 import {
   createTransactionMessage,
@@ -31,7 +31,7 @@ export async function buildTransactionMessage({
 }: BuildTransactionMessageOptions): Promise<TransactionMessageWithBlockhashLifetime> {
   // Create transaction message with instructions
   let message = createTransactionMessage({ version: 0 });
-  
+
   // Add instructions
   message = {
     ...message,

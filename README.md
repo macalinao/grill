@@ -1,11 +1,18 @@
-# Mast - Modern Solana Development Kit
+# Grill - Modern Solana Development Kit
 
-A comprehensive toolkit for building Solana applications with React and [@solana/kit](https://github.com/solana-developers/solana-web3.js-v2).
+A comprehensive toolkit for building Solana applications with React, featuring automatic account batching and caching.
 
 ## Packages
 
+### [@macalinao/grill](./packages/grill)
+React provider for Solana account management with automatic batching and caching, built on top of gill-react.
+
+```bash
+bun add @macalinao/grill gill-react gill
+```
+
 ### [@macalinao/mast](./packages/mast)
-Complete toolkit that exports both mast-query and wallet-adapter functionality.
+Complete toolkit that exports wallet-adapter functionality and re-exports gill-react hooks.
 
 ```bash
 bun add @macalinao/mast
@@ -28,42 +35,74 @@ bun add @macalinao/wallet-adapter
 ## Quick Start
 
 ```tsx
-import { MastProvider } from "@macalinao/mast";
-import { createSolanaRpc } from "@solana/kit";
-import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
+import { GrillProvider } from "@macalinao/grill";
+import { createSolanaClient } from "gill";
+import { SolanaProvider } from "gill-react";
 import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
-const endpoint = "https://api.mainnet-beta.solana.com";
-const rpc = createSolanaRpc(endpoint);
+const solanaClient = createSolanaClient({ urlOrMoniker: "mainnet-beta" });
 
 function App() {
   return (
-    <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={[]} autoConnect>
-        <WalletModalProvider>
-          <QueryClientProvider client={queryClient}>
-            <MastProvider rpc={rpc}>
-              {/* Your app components */}
-            </MastProvider>
-          </QueryClientProvider>
-        </WalletModalProvider>
-      </WalletProvider>
-    </ConnectionProvider>
+    <QueryClientProvider client={queryClient}>
+      <SolanaProvider client={solanaClient}>
+        <ConnectionProvider endpoint="https://api.mainnet-beta.solana.com">
+          <WalletProvider wallets={[]} autoConnect>
+            <WalletModalProvider>
+              <GrillProvider>
+                {/* Your app components */}
+              </GrillProvider>
+            </WalletModalProvider>
+          </WalletProvider>
+        </ConnectionProvider>
+      </SolanaProvider>
+    </QueryClientProvider>
+  );
+}
+```
+
+## Using Grill
+
+```tsx
+import { useAccount } from "@macalinao/grill";
+
+function MyComponent() {
+  const { data: account, isLoading, error } = useAccount('So11111111111111111111111111111111111111112');
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  if (!account) return <div>Account not found</div>;
+
+  return (
+    <div>
+      <p>Owner: {account.owner}</p>
+      <p>Lamports: {account.lamports}</p>
+    </div>
   );
 }
 ```
 
 ## Features
 
-- 🚀 Built for [@solana/kit](https://github.com/solana-developers/solana-web3.js-v2) (Solana Web3.js 2.0)
-- ⚡ Efficient account batching and caching with React Query
+- 🚀 Built on gill and gill-react for modern Solana development
+- ⚡ Automatic account batching - multiple concurrent requests are batched into single RPC calls
+- 📊 React Query integration for caching and state management
 - 🔐 Seamless wallet adapter integration
-- 🎯 Type-safe transaction building
+- 🎯 Type-safe with full TypeScript support
 - 📦 Modern ESM package structure
-- 🛠️ Full TypeScript support
+
+## Architecture
+
+Grill provides a `GrillProvider` that creates a DataLoader for batching account requests. When multiple components request account data simultaneously, Grill automatically batches these requests into a single RPC call, significantly improving performance.
+
+The `useAccount` hook integrates with React Query to provide:
+- Automatic caching with configurable stale times
+- Background refetching
+- Loading and error states
+- Manual refetch capabilities
 
 ## Development
 
