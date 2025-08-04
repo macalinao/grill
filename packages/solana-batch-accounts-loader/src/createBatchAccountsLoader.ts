@@ -1,9 +1,9 @@
 import { DataLoader } from "@macalinao/dataloader-es";
 import type { Address } from "@solana/kit";
-import { address, getBase64Encoder } from "@solana/kit";
+import { address, fetchEncodedAccounts } from "@solana/kit";
 import { chunk } from "lodash-es";
 
-import type { AccountInfo, BatchAccountsLoaderConfig } from "./types.js";
+import type { BatchAccountsLoaderConfig, RawAccount } from "./types.js";
 
 /**
  * Creates a DataLoader for batching Solana RPC account fetches.
@@ -17,10 +17,9 @@ export function createBatchAccountsLoader({
   maxBatchSize = 99,
   batchDurationMs = 10,
   onFetchAccounts,
-}: BatchAccountsLoaderConfig): DataLoader<Address, AccountInfo | null> {
-  return new DataLoader<Address, AccountInfo | null>(
+}: BatchAccountsLoaderConfig): DataLoader<Address, RawAccount | null> {
+  return new DataLoader<Address, RawAccount | null>(
     async (keys) => {
-      const encoder = getBase64Encoder();
       // Process in chunks to respect RPC limits
       const chunks = chunk(
         keys,
@@ -33,28 +32,25 @@ export function createBatchAccountsLoader({
           chunks.map(async (addressChunk) => {
             try {
               const addresses = addressChunk.map((key) => address(key));
-              const response = await rpc
-                .getMultipleAccounts(addresses, {
-                  commitment,
-                  encoding: "base64",
-                })
-                .send();
+              const accounts = await fetchEncodedAccounts(rpc, addresses, {
+                commitment,
+              });
 
               // Call onFetchAccounts callback if provided
               if (onFetchAccounts) {
                 onFetchAccounts(addressChunk);
               }
 
-              return response.value.map((account): AccountInfo | null => {
-                if (!account) {
+              return accounts.map((account): RawAccount | null => {
+                if (!account.exists) {
                   return null;
                 }
                 return {
-                  data: encoder.encode(account.data[0]),
+                  address: account.address,
+                  data: account.data,
                   executable: account.executable,
                   lamports: account.lamports,
-                  owner: account.owner,
-                  rentEpoch: account.rentEpoch,
+                  programAddress: account.programAddress,
                   space: account.space,
                 };
               });

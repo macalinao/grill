@@ -5,7 +5,8 @@
   "license": "Apache-2.0",
   "workspaces": {
     "packages": [
-      "packages/*"
+      "packages/*",
+      "apps/*"
     ],
     "catalog": {
       "eslint": "^9.29.0",
@@ -43,11 +44,11 @@
   "devDependencies": {
     "@biomejs/biome": "2.0.6",
     "@changesets/cli": "^2.29.5",
-    "eslint": "^9.26.0",
+    "eslint": "^9.32.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.4",
     "turbo": "^2.5.5",
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.2"
   },
   "packageManager": "bun@1.2.19",
   "lint-staged": {

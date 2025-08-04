@@ -67,20 +67,20 @@ describe("createBatchAccountsLoader", () => {
     // Verify results - data should now be Uint8Array
     const encoder = getBase64Encoder();
     expect(account1).toEqual({
+      address: address("11111111111111111111111111111111"),
       data: encoder.encode("base64data1"),
       executable: false,
       lamports: lamports(1000000n),
-      owner: address("11111111111111111111111111111111"),
-      rentEpoch: 100n,
+      programAddress: address("11111111111111111111111111111111"),
       space: 100n,
     });
 
     expect(account2).toEqual({
+      address: address("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"),
       data: encoder.encode("base64data2"),
       executable: true,
       lamports: lamports(2000000n),
-      owner: address("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"),
-      rentEpoch: 101n,
+      programAddress: address("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"),
       space: 100n,
     });
 
@@ -160,7 +160,7 @@ describe("createBatchAccountsLoader", () => {
       address("4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R"),
     ];
 
-    await loader.loadMany(accountIds.map(String));
+    await loader.loadMany(accountIds);
 
     // Should make 3 RPC calls (2 + 2 + 1)
     expect(getMultipleAccountsMock).toHaveBeenCalledTimes(3);

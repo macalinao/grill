@@ -1,2 +1,2 @@
 export { createBatchAccountsLoader } from "./createBatchAccountsLoader.js";
-export type { AccountInfo, BatchAccountsLoaderConfig } from "./types.js";
+export type { BatchAccountsLoaderConfig, RawAccount } from "./types.js";

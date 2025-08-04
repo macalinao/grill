@@ -33,12 +33,12 @@
     "test": "bun test"
   },
   "devDependencies": {
-    "@macalinao/eslint-config": "^4.2.0",
+    "@macalinao/eslint-config": "^4.2.2",
     "@macalinao/tsconfig": "^3.2.2",
     "@types/bun": "^1.2.19",
-    "@types/node": "^22.10.6",
-    "eslint": "^9.26.0",
-    "typescript": "^5.8.3",
+    "@types/node": "^22.17.0",
+    "eslint": "^9.32.0",
+    "typescript": "^5.9.2",
     "vitest": "^3.2.4"
   }
 }

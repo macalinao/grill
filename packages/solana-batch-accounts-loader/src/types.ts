@@ -1,14 +1,12 @@
 import type {
-  AccountInfoBase,
+  Account,
   Address,
   GetMultipleAccountsApi,
   ReadonlyUint8Array,
   Rpc,
 } from "@solana/kit";
 
-export interface AccountInfo extends AccountInfoBase {
-  readonly data: ReadonlyUint8Array;
-}
+export type RawAccount = Account<ReadonlyUint8Array>;
 
 export interface BatchAccountsLoaderConfig {
   rpc: Rpc<GetMultipleAccountsApi>;
