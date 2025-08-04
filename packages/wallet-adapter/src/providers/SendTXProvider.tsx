@@ -12,7 +12,7 @@ export interface SendTXProviderProps {
   children: ReactNode;
 }
 
-export function SendTXProvider({ children }: SendTXProviderProps) {
+export function SendTXProvider({ children }: SendTXProviderProps): ReactNode {
   const value: SendTXContextValue = {};
 
   return (

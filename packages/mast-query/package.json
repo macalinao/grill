@@ -1,7 +1,7 @@
 {
-  "name": "@macalinao/wallet-adapter",
+  "name": "@macalinao/mast-query",
   "version": "0.1.0",
-  "description": "Solana wallet adapter integration for @solana/kit",
+  "description": "Account caching and batched loading for React-based Solana applications built for @solana/kit",
   "type": "module",
   "author": "Ian Macalinao <me@ianm.com>",
   "homepage": "https://github.com/macalinao/use-solana-kit",
@@ -24,7 +24,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/macalinao/use-solana-kit.git",
-    "directory": "packages/wallet-adapter"
+    "directory": "packages/mast-query"
   },
   "scripts": {
     "build": "tsc",
@@ -33,23 +33,31 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@macalinao/mast-query": "workspace:*",
-    "sonner": "^2.0.6",
-    "tslib": "^2.8.1"
+    "@macalinao/dataloader-es": "workspace:*",
+    "@macalinao/solana-batch-accounts-loader": "workspace:*",
+    "@solana/web3.js": "^1.95.5",
+    "eventemitter3": "^5.0.1",
+    "lodash-es": "^4.17.21",
+    "retry": "^0.13.1",
+    "tiny-invariant": "^1.2.0",
+    "tslib": "^2.8.1",
+    "unstated-next": "^1.1.0",
+    "use-debounce": "^10.0.0"
   },
   "devDependencies": {
     "@macalinao/eslint-config-react": "^3.1.2",
     "@macalinao/tsconfig": "^3.2.2",
+    "@types/lodash-es": "^4.17.12",
     "@types/node": "^22.10.6",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
+    "@types/retry": "^0.12.5",
     "eslint": "^9.26.0",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4"
   },
   "peerDependencies": {
     "@solana/kit": "^2.3.0",
-    "@solana/wallet-adapter-base": "^0.9.27",
     "@solana/wallet-adapter-react": "^0.15.39",
     "@tanstack/react-query": "^5.84.0",
     "react": "^19.1.0",

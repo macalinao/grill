@@ -1,21 +1,21 @@
-# Kite - Modern Solana Development Kit
+# Mast - Modern Solana Development Kit
 
 A comprehensive toolkit for building Solana applications with React and [@solana/kit](https://github.com/solana-developers/solana-web3.js-v2).
 
 ## Packages
 
-### [@macalinao/kite](./packages/kite)
-Complete toolkit that exports both kite-query and wallet-adapter functionality.
+### [@macalinao/mast](./packages/mast)
+Complete toolkit that exports both mast-query and wallet-adapter functionality.
 
 ```bash
-bun add @macalinao/kite
+bun add @macalinao/mast
 ```
 
-### [@macalinao/kite-query](./packages/kite-query)
+### [@macalinao/mast-query](./packages/mast-query)
 Account caching and batched loading for React-based Solana applications, inspired by [@saberhq/sail](https://github.com/saber-hq/sail) but built for @solana/kit.
 
 ```bash
-bun add @macalinao/kite-query
+bun add @macalinao/mast-query
 ```
 
 ### [@macalinao/wallet-adapter](./packages/wallet-adapter)
@@ -28,7 +28,7 @@ bun add @macalinao/wallet-adapter
 ## Quick Start
 
 ```tsx
-import { KiteProvider } from "@macalinao/kite";
+import { MastProvider } from "@macalinao/mast";
 import { createSolanaRpc } from "@solana/kit";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";
@@ -45,9 +45,9 @@ function App() {
       <WalletProvider wallets={[]} autoConnect>
         <WalletModalProvider>
           <QueryClientProvider client={queryClient}>
-            <KiteProvider rpc={rpc}>
+            <MastProvider rpc={rpc}>
               {/* Your app components */}
-            </KiteProvider>
+            </MastProvider>
           </QueryClientProvider>
         </WalletModalProvider>
       </WalletProvider>

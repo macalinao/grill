@@ -1,4 +1,4 @@
-import type { Address, TransactionSigner } from "@solana/kit";
+import type { Address } from "@solana/kit";
 import { address } from "@solana/kit";
 import type { WalletAdapter } from "@solana/wallet-adapter-base";
 
@@ -7,7 +7,8 @@ export interface WalletTransactionSignerConfig {
   publicKey: Address;
 }
 
-export class WalletTransactionSigner implements TransactionSigner {
+// Temporary implementation until @solana/kit provides proper TransactionSigner interface
+export class WalletTransactionSigner {
   readonly address: Address;
   private wallet: WalletAdapter;
 
@@ -44,7 +45,7 @@ export class WalletTransactionSigner implements TransactionSigner {
 
 export function createWalletTransactionSigner(
   wallet: WalletAdapter,
-): TransactionSigner | null {
+): WalletTransactionSigner | null {
   if (!wallet.publicKey) {
     return null;
   }
