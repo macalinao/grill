@@ -21,12 +21,12 @@ bun add @macalinao/batch-accounts-loader
 ### Basic Setup
 
 ```typescript
-import { BatchAccountsLoader } from "@macalinao/batch-accounts-loader";
+import { createBatchAccountsLoader } from "@macalinao/batch-accounts-loader";
 import { createSolanaRpc } from "@solana/kit";
 
 const rpc = createSolanaRpc("https://api.mainnet-beta.solana.com");
 
-const loader = new BatchAccountsLoader({
+const loader = createBatchAccountsLoader({
   rpc,
   commitment: "confirmed",
   maxBatchSize: 100, // Optional, defaults to 100
@@ -57,7 +57,8 @@ const accountIds = [
   address("So11111111111111111111111111111111111111112"),
 ];
 
-const results = await loader.loadMany(accountIds);
+// Convert addresses to strings for the loader
+const results = await loader.loadMany(accountIds.map(String));
 
 results.forEach((result, index) => {
   if (result instanceof Error) {
@@ -85,9 +86,9 @@ loader.prime(accountId, accountInfo);
 
 ## How It Works
 
-BatchAccountsLoader uses DataLoader to automatically batch multiple account requests into efficient `getMultipleAccounts` RPC calls. When you call `load()` or `loadMany()`, the loader:
+The `createBatchAccountsLoader` function creates a DataLoader instance that automatically batches multiple account requests into efficient `getMultipleAccounts` RPC calls. When you call `load()` or `loadMany()`, the loader:
 
-1. Collects all requests made within the same tick
+1. Collects all requests made within a 10ms window
 2. Groups them into batches (respecting `maxBatchSize`)
 3. Makes a single RPC call per batch
 4. Caches results to prevent duplicate requests
@@ -97,9 +98,11 @@ This pattern significantly reduces RPC calls and improves performance when loadi
 
 ## API Reference
 
-### `BatchAccountsLoader`
+### `createBatchAccountsLoader(config)`
 
-#### Constructor Options
+Creates a DataLoader instance for batching Solana account fetches.
+
+#### Parameters
 
 ```typescript
 interface BatchAccountsLoaderConfig {
@@ -113,13 +116,15 @@ interface BatchAccountsLoaderConfig {
 - `commitment` - Commitment level for queries (default: "confirmed")
 - `maxBatchSize` - Maximum accounts per RPC call (default: 100)
 
-#### Methods
+#### Returns
 
-- `load(accountId: Address): Promise<AccountInfo | null>` - Load a single account
-- `loadMany(accountIds: Address[]): Promise<(AccountInfo | null | Error)[]>` - Load multiple accounts
-- `clear(accountId: Address): void` - Clear specific account from cache
-- `clearAll(): void` - Clear all cached accounts
-- `prime(accountId: Address, value: AccountInfo | null): void` - Prime cache with a value
+Returns a `DataLoader<string, AccountInfo | null>` with the following methods:
+
+- `load(key: string): Promise<AccountInfo | null>` - Load a single account
+- `loadMany(keys: string[]): Promise<(AccountInfo | null | Error)[]>` - Load multiple accounts
+- `clear(key: string): DataLoader` - Clear specific account from cache
+- `clearAll(): DataLoader` - Clear all cached accounts
+- `prime(key: string, value: AccountInfo | null): DataLoader` - Prime cache with a value
 
 ### `AccountInfo`
 

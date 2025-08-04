@@ -1,7 +1,12 @@
-import type { Address, GetMultipleAccountsApi, Rpc } from "@solana/kit";
+import type {
+  Address,
+  GetMultipleAccountsApi,
+  ReadonlyUint8Array,
+  Rpc,
+} from "@solana/kit";
 
 export interface AccountInfo {
-  readonly data: string;
+  readonly data: ReadonlyUint8Array;
   readonly executable: boolean;
   readonly lamports: bigint;
   readonly owner: Address;

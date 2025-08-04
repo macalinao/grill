@@ -1,14 +1,14 @@
 import type { Address } from "@solana/kit";
 import { EventEmitter } from "eventemitter3";
 
-export type CacheBatchUpdateEvent = {
+export interface CacheBatchUpdateEvent {
   type: "batchUpdate";
   keys: Set<Address>;
-};
+}
 
-export type CacheClearEvent = {
+export interface CacheClearEvent {
   type: "clear";
-};
+}
 
 export type CacheEvent = CacheBatchUpdateEvent | CacheClearEvent;
 

@@ -1,17 +1,3 @@
 {
-  "extends": "@macalinao/tsconfig/react.json",
-  "compilerOptions": {
-    "composite": true,
-    "declaration": true,
-    "declarationMap": true,
-    "incremental": true,
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "tsBuildInfoFile": "./tsconfig.tsbuildinfo",
-    "esModuleInterop": true,
-    "target": "ES2022",
-    "lib": ["ES2022", "DOM"]
-  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "extends": "@macalinao/tsconfig/tsconfig.react.json"
 }

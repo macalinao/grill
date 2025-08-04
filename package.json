@@ -45,7 +45,7 @@
     "@changesets/cli": "^2.29.5",
     "eslint": "catalog:",
     "husky": "^9.1.7",
-    "lint-staged": "^16.1.2",
+    "lint-staged": "^16.1.4",
     "turbo": "^2.5.5",
     "typescript": "catalog:"
   },

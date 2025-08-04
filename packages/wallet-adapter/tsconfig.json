@@ -1,5 +1,5 @@
 {
-  "extends": "@macalinao/tsconfig/react.json",
+  "extends": "@macalinao/tsconfig/tsconfig.react.json",
   "compilerOptions": {
     "composite": true,
     "declaration": true,

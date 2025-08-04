@@ -1,7 +1,7 @@
 import { configs } from "@macalinao/eslint-config-react";
 
 export default [
-  ...configs.reactFull,
+  ...configs.reactFast,
   {
     languageOptions: {
       parserOptions: {
