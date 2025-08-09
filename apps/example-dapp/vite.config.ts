@@ -1,13 +1,16 @@
-import path from "node:path";
+// @ts-expect-error something wrong with types here
 import tailwindcss from "@tailwindcss/vite";
+// @ts-expect-error something wrong with types here
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
+import tsconfigPaths from "vite-tsconfig-paths";
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
+    tsconfigPaths(),
     tanstackRouter({
       target: "react",
       autoCodeSplitting: true,
@@ -16,11 +19,6 @@ export default defineConfig({
     tailwindcss(),
     nodePolyfills(),
   ],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
-  },
   define: {
     "process.env": {},
   },
