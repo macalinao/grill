@@ -32,7 +32,7 @@ function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="grill-theme">
       <QueryClientProvider client={queryClient}>
-        <ConnectionProvider endpoint="https://api.mainnet-beta.solana.com">
+        <ConnectionProvider endpoint={"https://api.mainnet-beta.solana.com"}>
           <WalletAdapterProvider wallets={wallets} autoConnect>
             <WalletModalProvider>
               <WalletAdapterCompatProvider>

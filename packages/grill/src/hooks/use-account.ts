@@ -24,9 +24,9 @@ type UseAccountInput<
   TDecodedData extends object = Uint8Array,
 > = GillUseRpcHook<TConfig> & {
   /**
-   * Address of the account to get the balance of
+   * Address of the account to get the balance of.
    */
-  address: Address;
+  address: Address | null | undefined;
   /**
    * Account decoder that can decode the account's `data` byte array value
    */
@@ -53,8 +53,11 @@ export function useAccount<
   const { data, ...rest } = useQuery({
     networkMode: "offlineFirst",
     ...options,
-    queryKey: createAccountQueryKey(address),
+    queryKey: address ? createAccountQueryKey(address) : [null],
     queryFn: async () => {
+      if (!address) {
+        return null;
+      }
       const account = await accountLoader.load(address);
       if (!account) {
         return null;
