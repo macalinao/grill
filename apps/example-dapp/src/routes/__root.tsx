@@ -8,7 +8,9 @@ export const Route = createRootRoute({
       <nav className="flex gap-4 p-4 border-b">
         <Link to="/">
           {({ isActive }) => (
-            <Button variant={isActive ? "default" : "ghost"}>Simple Dashboard</Button>
+            <Button variant={isActive ? "default" : "ghost"}>
+              Simple Dashboard
+            </Button>
           )}
         </Link>
         <Link to="/dashboard">

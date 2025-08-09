@@ -1,9 +1,12 @@
 import { createBatchAccountsLoader } from "@macalinao/solana-batch-accounts-loader";
-import type { FC } from "react";
-import { useMemo } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import type { Address } from "gill";
 import { useSolanaClient } from "gill-react";
-import { SolanaAccountContext } from "./context.js";
+import type { FC } from "react";
+import { useCallback, useMemo } from "react";
+import { GrillContext } from "./context.js";
 import type { GrillProviderProps } from "./types.js";
+import { reloadAccounts as doReloadAccounts } from "./utils/reloadAccounts.js";
 
 /**
  * Provider component for Solana account batching functionality.
@@ -14,9 +17,12 @@ export const GrillProvider: FC<GrillProviderProps> = ({
   children,
   maxBatchSize = 99,
   batchDurationMs = 10,
+  onTransactionStatusEvent = (e) => {
+    console.log(e);
+  },
 }) => {
-  const solanaClient = useSolanaClient();
-  const rpc = solanaClient.rpc;
+  const { rpc } = useSolanaClient();
+  const queryClient = useQueryClient();
 
   const accountLoader = useMemo(
     () =>
@@ -25,12 +31,29 @@ export const GrillProvider: FC<GrillProviderProps> = ({
         maxBatchSize,
         batchDurationMs,
       }),
-    [rpc, maxBatchSize, batchDurationMs]
+    [rpc, maxBatchSize, batchDurationMs],
+  );
+
+  const reloadAccounts = useCallback(
+    async (addresses: Address[]) => {
+      await doReloadAccounts({
+        queryClient,
+        accountLoader,
+        addresses,
+      });
+    },
+    [queryClient, accountLoader],
   );
 
   return (
-    <SolanaAccountContext.Provider value={{ accountLoader }}>
+    <GrillContext.Provider
+      value={{
+        accountLoader,
+        reloadAccounts,
+        internal_onTransactionStatusEvent: onTransactionStatusEvent,
+      }}
+    >
       {children}
-    </SolanaAccountContext.Provider>
+    </GrillContext.Provider>
   );
 };

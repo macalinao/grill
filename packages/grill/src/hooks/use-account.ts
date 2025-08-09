@@ -9,7 +9,7 @@ import type {
 } from "gill";
 import { decodeAccount } from "gill";
 import { GRILL_HOOK_CLIENT_KEY } from "../constants.js";
-import { useSolanaAccountContext } from "../context.js";
+import { useGrillContext } from "../context.js";
 import type { GillUseRpcHook } from "./types.js";
 
 type RpcConfig = Simplify<Omit<FetchAccountConfig, "abortSignal">>;
@@ -28,7 +28,9 @@ type UseAccountInput<
    */
   address: Address | null | undefined;
   /**
-   * Account decoder that can decode the account's `data` byte array value
+   * Account decoder that can decode the account's `data` byte array value.
+   *
+   * Note: if not provided, the account will be returned as a `Uint8Array`.
    */
   decoder?: Decoder<TDecodedData>;
 };
@@ -49,7 +51,7 @@ export function useAccount<
   TConfig extends RpcConfig = RpcConfig,
   TDecodedData extends object = Uint8Array,
 >({ options, address, decoder }: UseAccountInput<TConfig, TDecodedData>) {
-  const { accountLoader } = useSolanaAccountContext();
+  const { accountLoader } = useGrillContext();
   const { data, ...rest } = useQuery({
     networkMode: "offlineFirst",
     ...options,
@@ -74,6 +76,6 @@ export function useAccount<
   });
   return {
     ...rest,
-    account: data,
+    account: data as UseAccountResponse<TDecodedData> | null,
   };
 }

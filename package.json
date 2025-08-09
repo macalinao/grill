@@ -32,7 +32,6 @@
     "lint:fix": "biome check --write --unsafe && turbo run lint -- --fix",
     "clean": "turbo run clean",
     "test": "CI=true turbo run test",
-    "test:e2e": "bun run build && anchor test",
     "watch": "turbo watch build",
     "changeset": "changeset",
     "changeset:version": "changeset version",
@@ -48,6 +47,7 @@
     "eslint": "^9.33.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.5",
+    "prettier": "^3.6.2",
     "turbo": "^2.5.5",
     "typescript": "^5.9.2"
   },

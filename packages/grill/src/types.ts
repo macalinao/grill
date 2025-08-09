@@ -1,4 +1,9 @@
 import type { ReactNode } from "react";
+import type { TransactionStatusEvent } from "./hooks/use-send-tx.js";
+
+export type TransactionStatusEventCallback = (
+  e: TransactionStatusEvent,
+) => void;
 
 /**
  * Props for the GrillProvider component
@@ -9,4 +14,5 @@ export interface GrillProviderProps {
   maxBatchSize?: number;
   /** Duration in milliseconds to wait before sending a batch. Defaults to 10ms. */
   batchDurationMs?: number;
+  onTransactionStatusEvent?: TransactionStatusEventCallback;
 }

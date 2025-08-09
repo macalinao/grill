@@ -1,12 +1,12 @@
+import type { DataLoader } from "@macalinao/dataloader-es";
 import type {
-  Account,
   Address,
+  EncodedAccount,
   GetMultipleAccountsApi,
-  ReadonlyUint8Array,
   Rpc,
 } from "@solana/kit";
 
-export type RawAccount = Account<ReadonlyUint8Array>;
+export type RawAccount = EncodedAccount;
 
 export interface BatchAccountsLoaderConfig {
   rpc: Rpc<GetMultipleAccountsApi>;
@@ -25,3 +25,8 @@ export interface BatchAccountsLoaderConfig {
    */
   onFetchAccounts?: (addresses: Address[]) => void;
 }
+
+/**
+ * A DataLoader for batching Solana RPC account fetches.
+ */
+export type BatchAccountsLoader = DataLoader<Address, RawAccount | null>;

@@ -1,9 +1,13 @@
 import { DataLoader } from "@macalinao/dataloader-es";
-import type { Address } from "@solana/kit";
+import type { Address, EncodedAccount } from "@solana/kit";
 import { address, fetchEncodedAccounts } from "@solana/kit";
 import { chunk } from "lodash-es";
 
-import type { BatchAccountsLoaderConfig, RawAccount } from "./types.js";
+import type {
+  BatchAccountsLoader,
+  BatchAccountsLoaderConfig,
+  RawAccount,
+} from "./types.js";
 
 /**
  * Creates a DataLoader for batching Solana RPC account fetches.
@@ -17,8 +21,8 @@ export function createBatchAccountsLoader({
   maxBatchSize = 99,
   batchDurationMs = 10,
   onFetchAccounts,
-}: BatchAccountsLoaderConfig): DataLoader<Address, RawAccount | null> {
-  return new DataLoader<Address, RawAccount | null>(
+}: BatchAccountsLoaderConfig): BatchAccountsLoader {
+  return new DataLoader<Address, EncodedAccount | null>(
     async (keys) => {
       // Process in chunks to respect RPC limits
       const chunks = chunk(

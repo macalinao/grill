@@ -4,7 +4,9 @@ import { WalletContext } from "../contexts/wallet-context.js";
 
 export interface WalletProviderProps {
   children: ReactNode;
-  /** The transaction sending signer, or null if wallet is not connected */
+  /**
+   * The transaction sending signer, or null if wallet is not connected
+   */
   signer: TransactionSendingSigner<Address> | null;
 }
 
