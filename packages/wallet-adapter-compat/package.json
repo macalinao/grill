@@ -43,7 +43,7 @@
     "@macalinao/eslint-config-react": "^3.1.2",
     "@macalinao/tsconfig": "catalog:",
     "@solana/web3.js": "^1.98.4",
-    "@types/node": "^22.17.1",
+    "@types/node": "^24.2.1",
     "@types/react": "^19.1.9",
     "@types/react-dom": "^19.1.7",
     "eslint": "catalog:",
