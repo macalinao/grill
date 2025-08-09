@@ -40,7 +40,7 @@ const solanaClient = createSolanaClient({
   urlOrMoniker: import.meta.env.VITE_SOLANA_RPC_URL ?? "mainnet-beta",
 });
 
-function App() {
+export const App: React.FC = () => {
   const wallets = useMemo(
     () => [new PhantomWalletAdapter(), new SolflareWalletAdapter()],
     [],
@@ -69,6 +69,4 @@ function App() {
       </QueryClientProvider>
     </ThemeProvider>
   );
-}
-
-export default App;
+};

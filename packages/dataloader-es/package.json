@@ -36,7 +36,7 @@
     "@macalinao/eslint-config": "catalog:",
     "@macalinao/tsconfig": "catalog:",
     "@types/bun": "^1.2.19",
-    "@types/node": "^22.17.1",
+    "@types/node": "^24.2.1",
     "eslint": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"

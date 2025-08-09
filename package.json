@@ -1,5 +1,5 @@
 {
-  "name": "@macalinao/mast-monorepo",
+  "name": "@macalinao/grill-monorepo",
   "private": true,
   "type": "module",
   "license": "Apache-2.0",
@@ -55,8 +55,8 @@
   "lint-staged": {
     "*.{json,jsonc,html}": "biome format --write"
   },
-  "dependencies": {
-    "@coral-xyz/borsh": "^0.31.1",
-    "@solana/kit": "^2.3.0"
+  "overrides": {
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
   }
 }
