@@ -54,7 +54,7 @@ export function useAccount<
     networkMode: "offlineFirst",
     ...options,
     queryKey: address ? createAccountQueryKey(address) : [null],
-    queryFn: async () => {
+    queryFn: async (): Promise<UseAccountResponse<TDecodedData> | null> => {
       if (!address) {
         return null;
       }
@@ -63,14 +63,17 @@ export function useAccount<
         return null;
       }
       if (decoder) {
-        return decodeAccount(account, decoder);
+        return decodeAccount(
+          account,
+          decoder,
+        ) as UseAccountResponse<TDecodedData>;
       }
-      return account;
+      return account as UseAccountResponse<TDecodedData>;
     },
     enabled: !!address,
   });
   return {
     ...rest,
-    account: data as UseAccountResponse<TDecodedData>,
+    account: data,
   };
 }

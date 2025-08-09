@@ -10,7 +10,7 @@
     ],
     "catalog": {
       "eslint": "^9.29.0",
-      "typescript": "^5.8.3",
+      "typescript": "^5.9.2",
       "@macalinao/eslint-config": "^4.2.0",
       "@macalinao/tsconfig": "^3.2.0",
       "@solana/kit": "^2.3.0",
