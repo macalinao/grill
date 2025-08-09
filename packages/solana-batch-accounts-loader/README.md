@@ -1,11 +1,11 @@
-# @macalinao/batch-accounts-loader
+# @macalinao/solana-batch-accounts-loader
 
 Efficient batch account loading for Solana using DataLoader and [@solana/kit](https://github.com/solana-developers/solana-web3.js-v2).
 
 ## Installation
 
 ```bash
-bun add @macalinao/batch-accounts-loader
+bun add @macalinao/solana-batch-accounts-loader
 ```
 
 ## Features

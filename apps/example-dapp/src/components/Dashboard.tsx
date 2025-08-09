@@ -1,57 +1,63 @@
-import { useWallet } from "@solana/wallet-adapter-react"
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { toast } from "sonner"
-import { useSolanaClient } from "gill-react"
-import { useAccount } from "@macalinao/grill"
-import { address } from "@solana/kit"
-import { useState } from "react"
+import { useKitWallet } from "@macalinao/grill";
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import { useBalance, useSolanaClient } from "gill-react";
+import { useState } from "react";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export function Dashboard() {
-  const { publicKey } = useWallet()
-  const { rpc } = useSolanaClient()
-  const [loading, setLoading] = useState(false)
-  
+  const { signer } = useKitWallet();
+  const { rpc } = useSolanaClient();
+  const [loading, setLoading] = useState(false);
+
   // Use the useAccount hook from grill for reactive balance fetching
-  const accountQuery = useAccount(publicKey ? address(publicKey.toBase58()) : null)
+  const accountQuery = useBalance({
+    address: signer?.address,
+  });
 
   const handleRefreshBalance = () => {
-    if (!publicKey) {
-      toast.error("Please connect your wallet first")
-      return
+    if (!signer) {
+      toast.error("Please connect your wallet first");
+      return;
     }
-    
+
     // Refetch the account data using React Query
-    accountQuery.refetch()
-    toast.success("Balance refreshed")
-  }
+    accountQuery.refetch();
+    toast.success("Balance refreshed");
+  };
 
   const handleGetSlot = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
-      const slot = await rpc.getSlot().send()
-      toast.success(`Current slot: ${slot}`)
+      const slot = await rpc.getSlot().send();
+      toast.success(`Current slot: ${slot}`);
     } catch (error) {
-      console.error(error)
-      toast.error("Failed to fetch slot")
+      console.error(error);
+      toast.error("Failed to fetch slot");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleGetBlockHeight = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
-      const blockHeight = await rpc.getBlockHeight().send()
-      toast.success(`Current block height: ${blockHeight}`)
+      const blockHeight = await rpc.getBlockHeight().send();
+      toast.success(`Current block height: ${blockHeight}`);
     } catch (error) {
-      console.error(error)
-      toast.error("Failed to fetch block height")
+      console.error(error);
+      toast.error("Failed to fetch block height");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="container mx-auto p-6">
@@ -61,37 +67,49 @@ export function Dashboard() {
           <WalletMultiButton />
         </div>
 
-        {publicKey && (
+        {signer && (
           <Card>
             <CardHeader>
               <CardTitle>Wallet Connected</CardTitle>
-              <CardDescription>
-                Address: {publicKey.toBase58()}
-              </CardDescription>
+              <CardDescription>Address: {publicKey.toBase58()}</CardDescription>
             </CardHeader>
             <CardContent>
-              {accountQuery.data && (
+              {accountQuery.account && (
                 <p className="text-lg mb-4">
-                  Balance: {(accountQuery.data.lamports / 1e9).toFixed(4)} SOL
+                  Balance:{" "}
+                  {(Number(accountQuery.account.lamports) / 1e9).toFixed(4)} SOL
                 </p>
               )}
               {accountQuery.isLoading && (
-                <p className="text-lg mb-4 text-muted-foreground">Loading balance...</p>
+                <p className="text-lg mb-4 text-muted-foreground">
+                  Loading balance...
+                </p>
               )}
-              {accountQuery.error && (
-                <p className="text-lg mb-4 text-destructive">Error loading balance</p>
-              )}
+              {accountQuery.error &&
+                ((
+                  <p className="text-lg mb-4 text-destructive">
+                    Error loading balance
+                  </p>
+                ) as any)}
               <div className="flex gap-4 flex-wrap">
-                <Button 
-                  onClick={handleRefreshBalance} 
+                <Button
+                  onClick={handleRefreshBalance}
                   disabled={accountQuery.isLoading}
                 >
                   {accountQuery.isLoading ? "Loading..." : "Refresh Balance"}
                 </Button>
-                <Button onClick={handleGetSlot} disabled={loading} variant="secondary">
+                <Button
+                  onClick={handleGetSlot}
+                  disabled={loading}
+                  variant="secondary"
+                >
                   Get Current Slot
                 </Button>
-                <Button onClick={handleGetBlockHeight} disabled={loading} variant="secondary">
+                <Button
+                  onClick={handleGetBlockHeight}
+                  disabled={loading}
+                  variant="secondary"
+                >
                   Get Block Height
                 </Button>
               </div>
@@ -109,8 +127,9 @@ export function Dashboard() {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                This example demonstrates how to use the Grill library with React Query integration
-                to efficiently fetch data from the Solana blockchain.
+                This example demonstrates how to use the Grill library with
+                React Query integration to efficiently fetch data from the
+                Solana blockchain.
               </p>
             </CardContent>
           </Card>
@@ -135,5 +154,5 @@ export function Dashboard() {
         </Card>
       </div>
     </div>
-  )
+  );
 }

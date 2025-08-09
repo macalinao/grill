@@ -1,87 +1,100 @@
-# grill
+# @macalinao/grill
 
-A React provider for Solana account management with automatic batching and caching, built on top of gill-react.
+React provider and hooks for Solana development with automatic account batching and Kit wallet integration.
+
+## Purpose
+
+Grill provides two main features:
+
+1. **Account Batching**: Automatically batches multiple account requests into single RPC calls using DataLoader
+2. **Kit Wallet Integration**: Provides wallet context and hooks for @solana/kit's TransactionSendingSigner
 
 ## Installation
 
 ```bash
-npm install @macalinao/grill
+npm install @macalinao/grill gill-react gill
 ```
 
 ## Usage
 
-### 1. Wrap your app with GrillProvider
+### Account Batching with GrillProvider
 
 ```tsx
+import { GrillProvider, useAccount } from '@macalinao/grill';
 import { SolanaProvider } from 'gill-react';
-import { GrillProvider } from '@macalinao/grill';
 import { createSolanaClient } from 'gill';
 
-const client = createSolanaClient({ urlOrMoniker: 'devnet' });
+const client = createSolanaClient({ urlOrMoniker: 'mainnet-beta' });
 
 function App() {
   return (
     <SolanaProvider client={client}>
       <GrillProvider>
-        {/* Your app components */}
+        {/* Your app */}
       </GrillProvider>
     </SolanaProvider>
   );
 }
-```
-
-### 2. Use the useAccount hook
-
-```tsx
-import { useAccount } from '@macalinao/grill';
 
 function MyComponent() {
-  const { data: account, isLoading, error } = useAccount('So11111111111111111111111111111111111111112');
-
+  // This will be batched with other concurrent account requests
+  const { data: account, isLoading } = useAccount('So11111111111111111111111111111111111111112');
+  
   if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-  if (!account) return <div>Account not found</div>;
-
-  return (
-    <div>
-      <p>Owner: {account.owner}</p>
-      <p>Lamports: {account.lamports}</p>
-    </div>
-  );
+  if (!account) return <div>No account found</div>;
+  
+  return <div>Balance: {Number(account.lamports) / 1e9} SOL</div>;
 }
 ```
 
-## Features
+### Kit Wallet Integration with WalletProvider
 
-- **Automatic Batching**: Multiple concurrent account requests are automatically batched into a single RPC call
-- **React Query Integration**: Built-in caching, refetching, and state management
-- **TypeScript Support**: Fully typed with TypeScript
-- **Configurable**: Customize batch size and timing
+```tsx
+import { WalletProvider, useKitWallet, useTransactionSendingSigner } from '@macalinao/grill';
+import type { TransactionSendingSigner } from '@solana/kit';
+
+// Provide a TransactionSendingSigner and RPC endpoint
+function App({ signer }: { signer: TransactionSendingSigner | null }) {
+  return (
+    <WalletProvider signer={signer} rpcEndpoint="https://api.mainnet-beta.solana.com">
+      <MyComponent />
+    </WalletProvider>
+  );
+}
+
+function MyComponent() {
+  const { signer, rpc } = useKitWallet();
+  const transactionSigner = useTransactionSendingSigner();
+  
+  if (!signer) {
+    return <div>Please connect your wallet</div>;
+  }
+  
+  // Use signer for transactions
+  // Use rpc for queries
+}
+```
 
 ## API
 
-### GrillProvider
+### Providers
 
-Provider component that sets up the account batching context.
+- `GrillProvider` - Enables account batching with DataLoader
+- `WalletProvider` - Provides Kit wallet context
 
-Props:
-- `children`: React node(s)
-- `maxBatchSize?: number` - Maximum number of accounts to fetch in a single batch (default: 99)
-- `batchDurationMs?: number` - Time to wait before sending a batch in milliseconds (default: 10)
+### Hooks
 
-### useAccount
+- `useAccount(address: string)` - Fetch account data with automatic batching
+- `useKitWallet()` - Access wallet context (signer, rpc, rpcEndpoint)
+- `useTransactionSendingSigner()` - Get the transaction signer (nullable)
+- `useRequiredTransactionSendingSigner()` - Get the transaction signer (throws if null)
 
-Hook to fetch account information with automatic batching.
+## Features
 
-Parameters:
-- `address: string` - The account address to fetch
-
-Returns:
-- React Query result object with:
-  - `data: AccountInfo | null | undefined` - The account data
-  - `isLoading: boolean` - Loading state
-  - `error: Error | null` - Error state
-  - Plus all other React Query return values
+- 🚀 Automatic request batching for improved performance
+- 📊 React Query integration for caching
+- 🔐 Type-safe Kit wallet integration
+- ⚡ Optimized for concurrent account fetches
 
 ## License
 

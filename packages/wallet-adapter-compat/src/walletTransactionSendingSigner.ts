@@ -40,15 +40,15 @@ export interface WalletAdapter {
  * This implementation uses the sendTransaction method which signs and sends atomically.
  *
  * @param wallet - The wallet adapter instance
- * @param _connection - The Solana connection (unused but kept for API compatibility)
+ * @param connection - The Solana connection
  * @returns TransactionSendingSigner - A signer that can send transactions
  */
 export function createWalletTransactionSendingSigner(
   walletAdapter: WalletAdapter,
   connection: Connection,
-): TransactionSendingSigner<Address> {
+): TransactionSendingSigner<Address> | null {
   if (!walletAdapter.publicKey) {
-    throw new Error("Wallet is not connected");
+    return null;
   }
 
   const signerAddress = address(walletAdapter.publicKey.toBase58());
@@ -56,10 +56,7 @@ export function createWalletTransactionSendingSigner(
   // Create the TransactionSendingSigner
   const signer: TransactionSendingSigner<Address> = {
     address: signerAddress,
-
-    // Sign and send the transaction
-
-    signAndSendTransactions: async (transactions, _config = {}) => {
+    signAndSendTransactions: async (transactions) => {
       if (!walletAdapter.publicKey) {
         throw new Error("Wallet is not connected");
       }
@@ -98,40 +95,6 @@ export function createWalletTransactionSendingSigner(
             }`,
           );
         }
-      }
-
-      return signatures;
-    },
-  };
-
-  return signer;
-}
-
-/**
- * Creates a mock TransactionSendingSigner for development/testing.
- * This implementation demonstrates the correct types but doesn't actually send transactions.
- *
- * @param walletAddress - The wallet address
- * @returns TransactionSendingSigner - A mock signer
- */
-export function createMockTransactionSendingSigner(
-  walletAddress: Address,
-): TransactionSendingSigner<Address> {
-  const signer: TransactionSendingSigner<Address> = {
-    address: walletAddress,
-
-    // eslint-disable-next-line @typescript-eslint/require-await
-    signAndSendTransactions: async (transactions, _config = {}) => {
-      console.log(
-        `Mock signer would send ${String(transactions.length)} transaction(s)`,
-      );
-
-      // Return mock signatures
-      const signatures: SignatureBytes[] = [];
-      for (const _ of transactions) {
-        // Create a mock signature (64 bytes of zeros)
-        const mockSignature = new Uint8Array(64);
-        signatures.push(mockSignature as SignatureBytes);
       }
 
       return signatures;

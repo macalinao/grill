@@ -3,15 +3,15 @@ import { WalletMultiButton } from "@solana/wallet-adapter-react-ui"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
-import { useSolanaClient } from "gill-react"
-import { useAccount } from "@macalinao/grill"
-import { address } from "gill"
+import { useSolanaClient, useAccount } from "gill-react"
+import { address } from "@solana/kit"
 import { useState } from "react"
+import { ThemeToggle } from "./theme-toggle"
 
 export function SimpleDashboard() {
   const { publicKey } = useWallet()
   const { rpc } = useSolanaClient()
-  const accountQuery = useAccount(publicKey ? address(publicKey.toBase58()) : undefined)
+  const accountQuery = useAccount({ address: publicKey ? address(publicKey.toBase58()) : undefined } as any)
   const [slot, setSlot] = useState<number | null>(null)
   const [loading, setLoading] = useState(false)
 
@@ -29,7 +29,7 @@ export function SimpleDashboard() {
     setLoading(true)
     try {
       const currentSlot = await rpc.getSlot().send()
-      setSlot(currentSlot)
+      setSlot(Number(currentSlot))
       toast.success(`Current slot: ${currentSlot}`)
     } catch (error) {
       console.error(error)
@@ -44,7 +44,10 @@ export function SimpleDashboard() {
       <div className="flex flex-col gap-6">
         <div className="flex justify-between items-center">
           <h1 className="text-4xl font-bold">Grill + Gill Example</h1>
-          <WalletMultiButton />
+          <div className="flex items-center gap-4">
+            <ThemeToggle />
+            <WalletMultiButton />
+          </div>
         </div>
 
         {publicKey && (
@@ -61,8 +64,8 @@ export function SimpleDashboard() {
                   <p className="text-lg">Loading balance...</p>
                 ) : accountQuery.error ? (
                   <p className="text-lg text-red-500">Error loading balance</p>
-                ) : accountQuery.data ? (
-                  <p className="text-lg">Balance: {accountQuery.data.lamports / 1e9} SOL</p>
+                ) : accountQuery.account ? (
+                  <p className="text-lg">Balance: {Number(accountQuery.account.lamports) / 1e9} SOL</p>
                 ) : (
                   <p className="text-lg">Balance: 0 SOL</p>
                 )}

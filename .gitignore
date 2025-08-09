@@ -49,3 +49,6 @@ bun.lockb
 # Temporary files
 *.tmp
 *.temp
+
+.devenv.flake.nix
+.devenv/
