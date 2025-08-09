@@ -140,7 +140,6 @@
         "@types/react-dom": "^19.1.7",
         "eslint": "catalog:",
         "typescript": "catalog:",
-        "vitest": "catalog:",
       },
       "peerDependencies": {
         "@solana/kit": "catalog:",

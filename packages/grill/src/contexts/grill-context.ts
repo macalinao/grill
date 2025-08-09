@@ -1,7 +1,7 @@
 import type { DataLoader } from "@macalinao/dataloader-es";
 import type { Address, EncodedAccount } from "@solana/kit";
 import { createContext, useContext } from "react";
-import type { TransactionStatusEventCallback } from "./types.js";
+import type { TransactionStatusEventCallback } from "../types.js";
 
 /**
  * Context value interface for SolanaAccountProvider.

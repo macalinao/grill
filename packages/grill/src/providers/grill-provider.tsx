@@ -4,9 +4,9 @@ import type { Address } from "gill";
 import { useSolanaClient } from "gill-react";
 import type { FC } from "react";
 import { useCallback, useMemo } from "react";
-import { GrillContext } from "./context.js";
-import type { GrillProviderProps } from "./types.js";
-import { reloadAccounts as doReloadAccounts } from "./utils/reloadAccounts.js";
+import { GrillContext } from "../contexts/grill-context.js";
+import type { GrillProviderProps } from "../types.js";
+import { reloadAccounts as doReloadAccounts } from "../utils/reloadAccounts.js";
 
 /**
  * Provider component for Solana account batching functionality.

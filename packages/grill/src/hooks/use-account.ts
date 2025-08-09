@@ -9,7 +9,7 @@ import type {
 } from "gill";
 import { decodeAccount } from "gill";
 import { GRILL_HOOK_CLIENT_KEY } from "../constants.js";
-import { useGrillContext } from "../context.js";
+import { useGrillContext } from "../contexts/grill-context.js";
 import type { GillUseRpcHook } from "./types.js";
 
 type RpcConfig = Simplify<Omit<FetchAccountConfig, "abortSignal">>;

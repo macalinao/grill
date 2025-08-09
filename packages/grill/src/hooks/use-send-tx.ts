@@ -13,7 +13,7 @@ import { createTransaction, getExplorerLink } from "gill";
 
 import { useSolanaClient } from "gill-react";
 import { useCallback } from "react";
-import { useGrillContext } from "../context.js";
+import { useGrillContext } from "../contexts/grill-context.js";
 import { useKitWallet } from "./use-kit-wallet.js";
 
 export type TransactionId = string;

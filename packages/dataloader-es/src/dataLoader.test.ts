@@ -15,9 +15,9 @@ function idLoader<K, C = K>(
 
 describe("Primary API", () => {
   it("builds a really really simple data loader", async () => {
-    const identityLoader = new DataLoader<number, number>(async (keys) => [
-      ...keys,
-    ]);
+    const identityLoader = new DataLoader<number, number>((keys) =>
+      Promise.resolve([...keys]),
+    );
 
     const promise1 = identityLoader.load(1);
     expect(promise1).toBeInstanceOf(Promise);
@@ -27,9 +27,9 @@ describe("Primary API", () => {
   });
 
   it("supports loading multiple keys in one call", async () => {
-    const identityLoader = new DataLoader<number, number>(async (keys) => [
-      ...keys,
-    ]);
+    const identityLoader = new DataLoader<number, number>((keys) =>
+      Promise.resolve([...keys]),
+    );
 
     const promiseAll = identityLoader.loadMany([1, 2]);
     expect(promiseAll).toBeInstanceOf(Promise);
@@ -109,7 +109,7 @@ describe("Primary API", () => {
 
   it("batches cached requests", async () => {
     const loadCalls: number[][] = [];
-    let resolveBatch = () => {
+    let resolveBatch: () => void = () => {
       // noop
     };
     const identityLoader = new DataLoader<number, number>((keys) => {
@@ -129,10 +129,10 @@ describe("Primary API", () => {
     // Track when each resolves.
     let promise1Resolved = false;
     let promise2Resolved = false;
-    promise1.then(() => {
+    void promise1.then(() => {
       promise1Resolved = true;
     });
-    promise2.then(() => {
+    void promise2.then(() => {
       promise2Resolved = true;
     });
 
@@ -158,7 +158,9 @@ describe("Primary API", () => {
 
   it("max batch size respects cached results", async () => {
     const loadCalls: number[][] = [];
-    let resolveBatch = () => {};
+    let resolveBatch: () => void = () => {
+      // noop
+    };
     const identityLoader = new DataLoader<number, number>(
       (keys) => {
         loadCalls.push([...keys]);
@@ -179,10 +181,10 @@ describe("Primary API", () => {
     // Track when each resolves.
     let promise1Resolved = false;
     let promise2Resolved = false;
-    promise1.then(() => {
+    void promise1.then(() => {
       promise1Resolved = true;
     });
-    promise2.then(() => {
+    void promise2.then(() => {
       promise2Resolved = true;
     });
 
@@ -424,7 +426,9 @@ describe("Represents Errors", () => {
     const evenLoader = new DataLoader<number, number>((keys) => {
       loadCalls.push([...keys]);
       return Promise.resolve(
-        keys.map((key) => (key % 2 === 0 ? key : new Error(`Odd: ${key}`))),
+        keys.map((key) =>
+          key % 2 === 0 ? key : new Error(`Odd: ${String(key)}`),
+        ),
       );
     });
 
@@ -448,21 +452,23 @@ describe("Represents Errors", () => {
     const evenLoader = new DataLoader<number, number>((keys) => {
       loadCalls.push([...keys]);
       return Promise.resolve(
-        keys.map((key) => (key % 2 === 0 ? key : new Error(`Odd: ${key}`))),
+        keys.map((key) =>
+          key % 2 === 0 ? key : new Error(`Odd: ${String(key)}`),
+        ),
       );
     });
 
     const promise1 = evenLoader.load(1);
     const promise2 = evenLoader.load(2);
 
-    let caughtError: any;
+    let caughtError: unknown;
     try {
       await promise1;
     } catch (error) {
       caughtError = error;
     }
     expect(caughtError).toBeInstanceOf(Error);
-    expect(caughtError.message).toBe("Odd: 1");
+    expect((caughtError as Error).message).toBe("Odd: 1");
 
     expect(await promise2).toBe(2);
 
@@ -473,26 +479,28 @@ describe("Represents Errors", () => {
     const loadCalls: number[][] = [];
     const errorLoader = new DataLoader<number, number>((keys) => {
       loadCalls.push([...keys]);
-      return Promise.resolve(keys.map((key) => new Error(`Error: ${key}`)));
+      return Promise.resolve(
+        keys.map((key) => new Error(`Error: ${String(key)}`)),
+      );
     });
 
-    let caughtErrorA: any;
+    let caughtErrorA: unknown;
     try {
       await errorLoader.load(1);
     } catch (error) {
       caughtErrorA = error;
     }
     expect(caughtErrorA).toBeInstanceOf(Error);
-    expect(caughtErrorA.message).toBe("Error: 1");
+    expect((caughtErrorA as Error).message).toBe("Error: 1");
 
-    let caughtErrorB: any;
+    let caughtErrorB: unknown;
     try {
       await errorLoader.load(1);
     } catch (error) {
       caughtErrorB = error;
     }
     expect(caughtErrorB).toBeInstanceOf(Error);
-    expect(caughtErrorB.message).toBe("Error: 1");
+    expect((caughtErrorB as Error).message).toBe("Error: 1");
 
     expect(loadCalls).toEqual([[1]]);
   });
@@ -505,14 +513,14 @@ describe("Represents Errors", () => {
     // Wait a bit.
     await new Promise((resolve) => setTimeout(resolve, 0));
 
-    let caughtErrorA: any;
+    let caughtErrorA: unknown;
     try {
       await identityLoader.load(1);
     } catch (error) {
       caughtErrorA = error;
     }
     expect(caughtErrorA).toBeInstanceOf(Error);
-    expect(caughtErrorA.message).toBe("Error: 1");
+    expect((caughtErrorA as Error).message).toBe("Error: 1");
 
     expect(loadCalls).toEqual([]);
   });
@@ -521,12 +529,14 @@ describe("Represents Errors", () => {
     const loadCalls: number[][] = [];
     const errorLoader = new DataLoader<number, number>((keys) => {
       loadCalls.push([...keys]);
-      return Promise.resolve(keys.map((key) => new Error(`Error: ${key}`)));
+      return Promise.resolve(
+        keys.map((key) => new Error(`Error: ${String(key)}`)),
+      );
     });
 
-    let caughtErrorA: any;
+    let caughtErrorA: unknown;
     try {
-      await errorLoader.load(1).catch((error) => {
+      await errorLoader.load(1).catch((error: unknown) => {
         // Presumably determine if this error is transient, and only clear the
         // cache in that case.
         errorLoader.clear(1);
@@ -536,11 +546,11 @@ describe("Represents Errors", () => {
       caughtErrorA = error;
     }
     expect(caughtErrorA).toBeInstanceOf(Error);
-    expect(caughtErrorA.message).toBe("Error: 1");
+    expect((caughtErrorA as Error).message).toBe("Error: 1");
 
-    let caughtErrorB: any;
+    let caughtErrorB: unknown;
     try {
-      await errorLoader.load(1).catch((error) => {
+      await errorLoader.load(1).catch((error: unknown) => {
         // Again, only do this if you can determine the error is transient.
         errorLoader.clear(1);
         throw error;
@@ -549,7 +559,7 @@ describe("Represents Errors", () => {
       caughtErrorB = error;
     }
     expect(caughtErrorB).toBeInstanceOf(Error);
-    expect(caughtErrorB.message).toBe("Error: 1");
+    expect((caughtErrorB as Error).message).toBe("Error: 1");
 
     expect(loadCalls).toEqual([[1], [1]]);
   });
@@ -564,16 +574,16 @@ describe("Represents Errors", () => {
     const promise1 = failLoader.load(1);
     const promise2 = failLoader.load(2);
 
-    let caughtErrorA: any;
+    let caughtErrorA: unknown;
     try {
       await promise1;
     } catch (error) {
       caughtErrorA = error;
     }
     expect(caughtErrorA).toBeInstanceOf(Error);
-    expect(caughtErrorA.message).toBe("I am a terrible loader");
+    expect((caughtErrorA as Error).message).toBe("I am a terrible loader");
 
-    let caughtErrorB: any;
+    let caughtErrorB: unknown;
     try {
       await promise2;
     } catch (error) {
@@ -587,7 +597,7 @@ describe("Represents Errors", () => {
 
 describe("Accepts any kind of key", () => {
   it("Accepts objects as keys", async () => {
-    const [identityLoader, loadCalls] = idLoader<{}>();
+    const [identityLoader, loadCalls] = idLoader<object>();
 
     const keyA = {};
     const keyB = {};
@@ -604,8 +614,8 @@ describe("Accepts any kind of key", () => {
 
     expect(loadCalls).toHaveLength(1);
     expect(loadCalls[0]).toHaveLength(2);
-    expect(loadCalls[0]![0]).toBe(keyA);
-    expect(loadCalls[0]![1]).toBe(keyB);
+    expect(loadCalls[0]?.[0]).toBe(keyA);
+    expect(loadCalls[0]?.[1]).toBe(keyB);
 
     // Caching
 
@@ -621,7 +631,7 @@ describe("Accepts any kind of key", () => {
 
     expect(loadCalls).toHaveLength(2);
     expect(loadCalls[1]).toHaveLength(1);
-    expect(loadCalls[1]![0]).toBe(keyA);
+    expect(loadCalls[1]?.[0]).toBe(keyA);
   });
 });
 
@@ -770,10 +780,10 @@ describe("Accepts options", () => {
   });
 
   describe("Accepts object key in custom cacheKey function", () => {
-    function cacheKey(key: Record<string, any>): string {
+    function cacheKey(key: Record<string, unknown>): string {
       return Object.keys(key)
         .sort()
-        .map((k) => `${k}:${key[k]}`)
+        .map((k) => `${k}:${String(key[k])}`)
         .join();
     }
 
@@ -847,7 +857,7 @@ describe("Accepts options", () => {
 
       expect(identityLoadCalls).toHaveLength(1);
       expect(identityLoadCalls[0]).toHaveLength(1);
-      expect(identityLoadCalls[0]![0]).toBe(keyA);
+      expect(identityLoadCalls[0]?.[0]).toBe(keyA);
     });
 
     it("Allows priming the cache with an object key", async () => {
@@ -883,6 +893,7 @@ describe("Accepts options", () => {
         this.stash[String(key)] = value;
       }
       delete(key: K) {
+        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
         delete this.stash[String(key)];
       }
       clear() {
@@ -960,19 +971,21 @@ describe("It allows custom schedulers", () => {
       };
     }
 
-    const { schedule, dispatch } = createScheduler();
+    const scheduler = createScheduler();
     const [identityLoader, loadCalls] = idLoader<string>({
-      batchScheduleFn: schedule,
+      batchScheduleFn: (callback) => {
+        scheduler.schedule(callback);
+      },
     });
 
-    identityLoader.load("A");
-    identityLoader.load("B");
-    dispatch();
-    identityLoader.load("A");
-    identityLoader.load("C");
-    dispatch();
+    void identityLoader.load("A");
+    void identityLoader.load("B");
+    scheduler.dispatch();
+    void identityLoader.load("A");
+    void identityLoader.load("C");
+    scheduler.dispatch();
     // Note: never dispatched!
-    identityLoader.load("D");
+    void identityLoader.load("D");
 
     expect(loadCalls).toEqual([["A", "B"], ["C"]]);
   });
@@ -987,15 +1000,15 @@ describe("It is resilient to job queue ordering", () => {
       Promise.resolve()
         .then(() => Promise.resolve())
         .then(() => {
-          identityLoader.load("B");
+          void identityLoader.load("B");
           return Promise.resolve()
             .then(() => Promise.resolve())
             .then(() => {
-              identityLoader.load("C");
+              void identityLoader.load("C");
               return Promise.resolve()
                 .then(() => Promise.resolve())
                 .then(() => {
-                  identityLoader.load("D");
+                  void identityLoader.load("D");
                 });
             });
         }),
