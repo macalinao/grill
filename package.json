@@ -42,7 +42,7 @@
     "codegen": "turbo run codegen"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.0.6",
+    "@biomejs/biome": "2.1.4",
     "@changesets/cli": "^2.29.5",
     "eslint": "^9.33.0",
     "husky": "^9.1.7",
