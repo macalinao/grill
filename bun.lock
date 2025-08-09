@@ -128,7 +128,6 @@
       "dependencies": {
         "@macalinao/grill": "workspace:*",
         "@solana/webcrypto-ed25519-polyfill": "*",
-        "sonner": "^2.0.7",
         "tslib": "catalog:",
       },
       "devDependencies": {

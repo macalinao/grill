@@ -4,7 +4,7 @@
   "description": "Solana wallet adapter compatibility layer for @solana/kit",
   "type": "module",
   "author": "Ian Macalinao <me@ianm.com>",
-  "homepage": "https://github.com/macalinao/use-solana-kit",
+  "homepage": "https://github.com/macalinao/grill",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -23,19 +23,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/macalinao/use-solana-kit.git",
+    "url": "git+https://github.com/macalinao/grill.git",
     "directory": "packages/wallet-adapter-compat"
   },
   "scripts": {
     "build": "tsc",
     "clean": "rm -fr dist/",
-    "lint": "eslint . --cache",
-    "test": "vitest"
+    "lint": "eslint . --cache"
   },
   "dependencies": {
     "@macalinao/grill": "workspace:*",
     "@solana/webcrypto-ed25519-polyfill": "*",
-    "sonner": "^2.0.7",
     "tslib": "catalog:"
   },
   "devDependencies": {
@@ -47,8 +45,7 @@
     "@types/react": "^19.1.9",
     "@types/react-dom": "^19.1.7",
     "eslint": "catalog:",
-    "typescript": "catalog:",
-    "vitest": "catalog:"
+    "typescript": "catalog:"
   },
   "peerDependencies": {
     "@solana/kit": "catalog:",

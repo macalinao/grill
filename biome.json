@@ -18,7 +18,11 @@
     "lineWidth": 80,
     "attributePosition": "auto",
     "bracketSpacing": true,
-    "includes": ["**", "!**/bun.lock"]
+    "includes": [
+      "**",
+      "!**/bun.lock",
+      "!apps/example-dapp/src/routeTree.gen.ts"
+    ]
   },
   "linter": {
     "enabled": true,
@@ -64,7 +68,11 @@
         "noUnusedImports": "error"
       }
     },
-    "includes": ["**", "!**/generated/**", "!**/bun.lock"]
+    "includes": [
+      "**",
+      "!**/bun.lock",
+      "!apps/example-dapp/src/routeTree.gen.ts"
+    ]
   },
   "assist": {
     "actions": {

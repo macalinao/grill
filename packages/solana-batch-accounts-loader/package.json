@@ -4,7 +4,7 @@
   "description": "Efficient batch account loading for Solana using DataLoader and @solana/kit",
   "type": "module",
   "author": "Ian Macalinao <me@ianm.com>",
-  "homepage": "https://github.com/macalinao/use-solana-kit",
+  "homepage": "https://github.com/macalinao/grill",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -23,7 +23,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/macalinao/use-solana-kit.git",
+    "url": "git+https://github.com/macalinao/grill.git",
     "directory": "packages/solana-batch-accounts-loader"
   },
   "scripts": {

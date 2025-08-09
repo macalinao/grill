@@ -12,8 +12,10 @@ export default defineConfig({
   plugins: [
     tsconfigPaths(),
     tanstackRouter({
-      target: "react",
-      autoCodeSplitting: true,
+      routesDirectory: "src/routes",
+      generatedRouteTree: "src/routeTree.gen.ts",
+      addExtensions: true,
+      quoteStyle: "double",
     }),
     react(),
     tailwindcss(),
