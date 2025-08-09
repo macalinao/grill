@@ -53,7 +53,6 @@
   },
   "packageManager": "bun@1.2.19",
   "lint-staged": {
-    "*.{md,yml,yaml}": "prettier --write",
     "*.{json,jsonc,html}": "biome format --write"
   },
   "dependencies": {

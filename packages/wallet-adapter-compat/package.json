@@ -54,5 +54,12 @@
     "@tanstack/react-query": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}": [
+      "biome check --write",
+      "eslint --fix --cache"
+    ],
+    "*.{json,jsonc,html}": "biome format --write"
   }
 }
