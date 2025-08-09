@@ -27,7 +27,7 @@ export function SimpleDashboard() {
       return;
     }
 
-    accountQuery.refetch();
+    void accountQuery.refetch();
     toast.success("Balance refreshed");
   };
 
@@ -36,7 +36,7 @@ export function SimpleDashboard() {
     try {
       const currentSlot = await rpc.getSlot().send();
       setSlot(Number(currentSlot));
-      toast.success(`Current slot: ${currentSlot}`);
+      toast.success(`Current slot: ${currentSlot.toString()}`);
     } catch (error) {
       console.error(error);
       toast.error("Failed to fetch slot");
@@ -86,7 +86,7 @@ export function SimpleDashboard() {
                     {accountQuery.isLoading ? "Loading..." : "Refresh Balance"}
                   </Button>
                   <Button
-                    onClick={handleGetSlot}
+                    onClick={() => void handleGetSlot()}
                     disabled={loading}
                     variant="secondary"
                   >

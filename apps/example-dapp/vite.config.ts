@@ -12,13 +12,16 @@ import tsconfigPaths from "vite-tsconfig-paths";
 export default defineConfig({
   plugins: [
     tsconfigPaths(),
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     react(),
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     tanstackRouter({
       routesDirectory: "src/routes",
       generatedRouteTree: "src/routeTree.gen.ts",
       addExtensions: true,
       quoteStyle: "double",
     }),
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     tailwindcss(),
     nodePolyfills(),
   ],
