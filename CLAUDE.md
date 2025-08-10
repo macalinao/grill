@@ -44,6 +44,10 @@ bun run ci:publish          # Publish packages to npm
 cd apps/example-dapp
 bun run dev                 # Start Vite dev server
 bun run build              # Build the app
+
+# IMPORTANT: After making code changes
+bun run build                # Build to check for TypeScript errors
+bun run lint:fix            # Fix linting and formatting issues
 ```
 
 ## Architecture
@@ -105,6 +109,11 @@ Provides two contexts:
 - Arrays use shorthand syntax: `string[]` not `Array<string>`
 - **Use double quotes for strings** (not single quotes)
 - Follow default Prettier settings
+
+### After Making Code Changes
+**Always run these commands to ensure code quality:**
+1. `bun run build` - Check for TypeScript errors
+2. `bun run lint:fix` - Fix linting and formatting issues
 
 ### React Components
 - Small, focused components

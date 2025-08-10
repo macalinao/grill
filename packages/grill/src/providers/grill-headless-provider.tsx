@@ -5,8 +5,10 @@ import { useSolanaClient } from "gill-react";
 import type { FC, ReactNode } from "react";
 import { useCallback, useMemo } from "react";
 import { GrillContext } from "../contexts/grill-context.js";
+import { useKitWallet } from "../hooks/use-kit-wallet.js";
 import type { TransactionStatusEventCallback } from "../types.js";
-import { reloadAccounts as doReloadAccounts } from "../utils/reloadAccounts.js";
+import { createSendTX } from "../utils/internal/create-send-tx.js";
+import { refetchAccounts as doRefetchAccounts } from "../utils/refetch-accounts.js";
 
 export interface GrillHeadlessProviderProps {
   children: ReactNode;
@@ -34,6 +36,7 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
 }) => {
   const { rpc } = useSolanaClient();
   const queryClient = useQueryClient();
+  const { signer } = useKitWallet();
 
   const accountLoader = useMemo(
     () =>
@@ -45,9 +48,9 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
     [rpc, maxBatchSize, batchDurationMs],
   );
 
-  const reloadAccounts = useCallback(
+  const refetchAccounts = useCallback(
     async (addresses: Address[]) => {
-      await doReloadAccounts({
+      await doRefetchAccounts({
         queryClient,
         accountLoader,
         addresses,
@@ -56,12 +59,23 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
     [queryClient, accountLoader],
   );
 
+  const sendTX = useMemo(
+    () =>
+      createSendTX({
+        signer,
+        rpc,
+        refetchAccounts,
+        onTransactionStatusEvent,
+      }),
+    [signer, rpc, refetchAccounts, onTransactionStatusEvent],
+  );
+
   return (
     <GrillContext.Provider
       value={{
         accountLoader,
-        reloadAccounts,
-        internal_onTransactionStatusEvent: onTransactionStatusEvent,
+        refetchAccounts,
+        sendTX,
       }}
     >
       {children}

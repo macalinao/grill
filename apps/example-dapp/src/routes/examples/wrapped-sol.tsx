@@ -107,7 +107,7 @@ const WrappedSOLPage: FC = () => {
       setWrapAmount("");
     } catch (error) {
       console.error("Error wrapping SOL:", error);
-      // Error already handled by sendTX toast
+      // Error already handled by mutation
     } finally {
       setIsWrapping(false);
     }
@@ -135,7 +135,7 @@ const WrappedSOLPage: FC = () => {
       console.log("Transaction:", explorerLink);
     } catch (error) {
       console.error("Error closing wSOL account:", error);
-      // Error already handled by sendTX toast
+      // Error already handled by mutation
     } finally {
       setIsClosing(false);
     }
