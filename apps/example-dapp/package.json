@@ -62,9 +62,9 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}": [
-      "biome check --write",
+      "biome check --write --no-errors-on-unmatched",
       "eslint --fix --cache"
     ],
-    "*.{json,jsonc,html}": "biome format --write"
+    "*.{json,jsonc,html}": "biome format --write --no-errors-on-unmatched"
   }
 }

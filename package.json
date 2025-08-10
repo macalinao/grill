@@ -28,7 +28,7 @@
     "build:watch": "turbo watch build",
     "build:watch:packages": "turbo watch build --filter='./packages/*'",
     "lint": "biome check && turbo run lint",
-    "lint:fix": "biome check --write --unsafe && turbo run lint -- --fix",
+    "lint:fix": "biome check --write --no-errors-on-unmatched --unsafe && turbo run lint -- --fix",
     "clean": "turbo run clean",
     "test": "CI=true turbo run test",
     "watch": "turbo watch build",
@@ -52,12 +52,10 @@
   },
   "packageManager": "bun@1.2.19",
   "lint-staged": {
-    "*.{json,jsonc,html}": "biome format --write"
+    "*.{json,jsonc,html}": "biome format --write --no-errors-on-unmatched"
   },
   "overrides": {
     "react": "^19.1.1",
-    "react-dom": "^19.1.1",
-    "gill": "link:gill",
-    "gill-react": "link:gill-react"
+    "react-dom": "^19.1.1"
   }
 }
