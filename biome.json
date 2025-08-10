@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.0.6/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.1.4/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -80,7 +80,12 @@
       "source": {
         "organizeImports": "on"
       }
-    }
+    },
+    "includes": [
+      "**",
+      "!**/bun.lock",
+      "!apps/example-dapp/src/routeTree.gen.ts"
+    ]
   },
   "javascript": {
     "formatter": {
