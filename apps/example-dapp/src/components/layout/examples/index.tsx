@@ -45,8 +45,8 @@ export const ExamplesLayout: FC<ExamplesLayoutProps> = ({ className }) => {
 
   return (
     <SidebarProvider defaultOpen={true}>
-      <div className={cn("flex h-[calc(100vh-4rem)] w-full", className)}>
-        <Sidebar variant="sidebar" collapsible="icon">
+      <div className={cn("flex h-full w-full", className)}>
+        <Sidebar variant="sidebar" collapsible="icon" topOffset={64}>
           <SidebarHeader>
             <div className="px-3 py-2">
               <h2 className="text-lg font-semibold">Examples</h2>

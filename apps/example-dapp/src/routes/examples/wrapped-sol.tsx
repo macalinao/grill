@@ -29,7 +29,7 @@ import {
 const WrappedSOLPage: FC = () => {
   const { signer } = useKitWallet();
   const sendTX = useSendTX();
-  const { data: userAccount, refetch: refetchUserAccount } = useAccount({
+  const { data: userAccount } = useAccount({
     address: signer ? signer.address : null,
   });
 
@@ -40,11 +40,10 @@ const WrappedSOLPage: FC = () => {
   const [isUnwrapping, setIsUnwrapping] = useState(false);
 
   // Get the wSOL ATA address and account data using the combined hook
-  const { data: wsolTokenAccount, refetch: refetchWsolAccount } =
-    useAssociatedTokenAccount({
-      mint: signer ? WSOL_MINT : null,
-      owner: signer?.address,
-    });
+  const { data: wsolTokenAccount } = useAssociatedTokenAccount({
+    mint: signer ? WSOL_MINT : null,
+    owner: signer?.address,
+  });
 
   // Token info definitions
   const solToken: TokenInfo = {
@@ -100,8 +99,6 @@ const WrappedSOLPage: FC = () => {
       // Send the transaction using useSendTX
       const signature = await sendTX(`Wrap ${wrapAmount} SOL`, instructions);
 
-      toast.success(`Successfully wrapped ${wrapAmount} SOL!`);
-
       // Show explorer link
       const explorerLink = getExplorerLink({
         transaction: signature,
@@ -110,10 +107,6 @@ const WrappedSOLPage: FC = () => {
       console.log("Transaction:", explorerLink);
 
       setWrapAmount("");
-
-      // Refresh balances
-      void refetchUserAccount();
-      void refetchWsolAccount();
     } catch (error) {
       console.error("Error wrapping SOL:", error);
       // Error already handled by sendTX toast
@@ -146,8 +139,6 @@ const WrappedSOLPage: FC = () => {
         instructions,
       );
 
-      toast.success(`Successfully unwrapped ${unwrapAmount} wSOL!`);
-
       // Show explorer link
       const explorerLink = getExplorerLink({
         transaction: signature,
@@ -156,10 +147,6 @@ const WrappedSOLPage: FC = () => {
       console.log("Transaction:", explorerLink);
 
       setUnwrapAmount("");
-
-      // Refresh balances
-      void refetchUserAccount();
-      void refetchWsolAccount();
     } catch (error) {
       console.error("Error unwrapping wSOL:", error);
       // Error already handled by sendTX toast

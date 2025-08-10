@@ -213,6 +213,11 @@ export const useSendTX = (): SendTXFunction => {
           await reloadAccounts(writableAccounts);
         }
 
+        internal_onTransactionStatusEvent({
+          ...sentTxEvent,
+          type: "confirmed",
+        });
+
         if (result?.meta?.logMessages) {
           console.log(name, result.meta.logMessages.join("\n"));
         }

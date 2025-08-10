@@ -17,7 +17,7 @@ export interface MainLayoutProps {
 export const MainLayout: FC<MainLayoutProps> = ({ className }) => {
   return (
     <div className={cn("flex min-h-screen flex-col bg-background", className)}>
-      <header className="sticky top-0 z-50 flex h-16 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <header className="fixed top-0 z-50 flex h-16 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="flex flex-1 items-center justify-between px-4 sm:px-6 lg:px-8">
           {/* Logo and Navigation */}
           <div className="flex items-center gap-6">
@@ -50,9 +50,9 @@ export const MainLayout: FC<MainLayoutProps> = ({ className }) => {
         </div>
       </header>
 
-      <div className="flex-1">
+      <main className="flex-1 pt-16">
         <Outlet />
-      </div>
+      </main>
     </div>
   );
 };

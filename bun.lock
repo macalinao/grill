@@ -105,6 +105,7 @@
       },
       "peerDependencies": {
         "react": "^18.0.0 || ^19.0.0",
+        "sonner": "^1.7.0",
       },
     },
     "packages/solana-batch-accounts-loader": {

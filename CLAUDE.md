@@ -57,10 +57,12 @@ The project uses Bun workspaces with packages in two directories:
 ### Core Packages
 
 1. **@macalinao/grill** - Main package providing React context and hooks
-   - `GrillProvider`: Creates DataLoader for batching account requests
+   - `GrillProvider`: Creates DataLoader for batching account requests with sonner toast notifications
+   - `GrillHeadlessProvider`: Headless version without UI features (for custom implementations)
    - `WalletProvider`: Kit wallet integration context
    - `useAccount`: Hook for fetching account data with batching
    - `useKitWallet`: Access wallet signer and RPC
+   - Note: sonner is a required peer dependency for transaction toast notifications
 
 2. **@macalinao/solana-batch-accounts-loader** - DataLoader implementation for batching Solana account fetches
 
@@ -170,3 +172,12 @@ GitHub Actions workflow runs on push/PR to main:
 2. Version packages: `bun run ci:version`
 3. Publish to npm: `bun run ci:publish`
 4. Changesets handle version bumping and changelog generation
+
+## Package Structure Guidelines
+
+When creating new packages:
+- Use TypeScript directly with `tsc` for building (no tsup/rollup/etc)
+- Follow the same structure as existing packages
+- Scripts should be: `build`, `build:watch`, `clean`, `typecheck`
+- All packages use ES modules (`"type": "module"` in package.json)
+- Keep package.json scripts simple and consistent
