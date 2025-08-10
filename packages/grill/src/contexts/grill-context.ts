@@ -1,7 +1,7 @@
 import type { DataLoader } from "@macalinao/dataloader-es";
 import type { Address, EncodedAccount } from "@solana/kit";
 import { createContext, useContext } from "react";
-import type { TransactionStatusEventCallback } from "../types.js";
+import type { SendTXFunction } from "../utils/internal/create-send-tx.js";
 
 /**
  * Context value interface for SolanaAccountProvider.
@@ -10,12 +10,12 @@ import type { TransactionStatusEventCallback } from "../types.js";
 export interface GrillContextValue {
   /** DataLoader instance for batching and caching Solana account requests */
   accountLoader: DataLoader<Address, EncodedAccount | null>;
-  reloadAccounts: (addresses: Address[]) => Promise<void>;
+  refetchAccounts: (addresses: Address[]) => Promise<void>;
 
   /**
-   * Internal callback for sending transaction status events.
+   * Function to send transactions with batching and confirmation
    */
-  internal_onTransactionStatusEvent: TransactionStatusEventCallback;
+  sendTX: SendTXFunction;
 }
 
 /**

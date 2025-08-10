@@ -4,11 +4,11 @@ import type { Address } from "gill";
 import { createAccountQueryKey } from "../hooks/use-account.js";
 
 /**
- * Reloads the accounts for the given addresses
+ * Refetches the accounts for the given addresses
  * @param queryClient - The query client to invalidate the accounts for
  * @param addresses - The addresses to invalidate the accounts for
  */
-export const reloadAccounts = async ({
+export const refetchAccounts = async ({
   queryClient,
   accountLoader,
   addresses,

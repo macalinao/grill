@@ -5,7 +5,6 @@
   packages = with pkgs; [
     git
     nixfmt-rfc-style
-    biome
   ];
 
   languages.javascript = {

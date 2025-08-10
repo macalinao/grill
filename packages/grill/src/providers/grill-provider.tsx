@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { useCallback, useRef } from "react";
 import { toast } from "sonner";
-import type { TransactionStatusEvent } from "../hooks/use-send-tx.js";
+import type { TransactionStatusEvent } from "../types.js";
 import type { GrillHeadlessProviderProps } from "./grill-headless-provider.js";
 import { GrillHeadlessProvider } from "./grill-headless-provider.js";
 
