@@ -1,4 +1,4 @@
-import type { QueryKey } from "@tanstack/react-query";
+import type { QueryKey, UseQueryResult } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 import type {
   Account,
@@ -13,11 +13,6 @@ import { useGrillContext } from "../contexts/grill-context.js";
 import type { GillUseRpcHook } from "./types.js";
 
 type RpcConfig = Simplify<Omit<FetchAccountConfig, "abortSignal">>;
-
-type UseAccountResponse<TData extends Uint8Array | object = Uint8Array> =
-  Account<TData> & {
-    exists: true;
-  };
 
 type UseAccountInput<
   TConfig extends RpcConfig = RpcConfig,
@@ -50,13 +45,23 @@ export const createAccountQueryKey = (address: Address): QueryKey =>
 export function useAccount<
   TConfig extends RpcConfig = RpcConfig,
   TDecodedData extends object = Uint8Array,
->({ options, address, decoder }: UseAccountInput<TConfig, TDecodedData>) {
+>({
+  options,
+  address,
+  decoder,
+}: UseAccountInput<
+  TConfig,
+  TDecodedData
+>): UseQueryResult<Account<TDecodedData> | null> {
   const { accountLoader } = useGrillContext();
-  const { data, ...rest } = useQuery({
+  // TODO(igm): improve the types here and somehow ensure the decoder is the same
+  // for each query of an account
+  return useQuery({
     networkMode: "offlineFirst",
     ...options,
+    // eslint-disable-next-line @tanstack/query/exhaustive-deps
     queryKey: address ? createAccountQueryKey(address) : [null],
-    queryFn: async (): Promise<UseAccountResponse<TDecodedData> | null> => {
+    queryFn: async (): Promise<Account<TDecodedData> | null> => {
       if (!address) {
         return null;
       }
@@ -65,17 +70,10 @@ export function useAccount<
         return null;
       }
       if (decoder) {
-        return decodeAccount(
-          account,
-          decoder,
-        ) as UseAccountResponse<TDecodedData>;
+        return decodeAccount(account, decoder);
       }
-      return account as UseAccountResponse<TDecodedData>;
+      return account as Account<TDecodedData>;
     },
     enabled: !!address,
-  });
-  return {
-    ...rest,
-    account: data as UseAccountResponse<TDecodedData> | null,
-  };
+  }) as UseQueryResult<Account<TDecodedData> | null>;
 }

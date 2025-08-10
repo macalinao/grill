@@ -38,8 +38,7 @@
     "@types/bun": "^1.2.19",
     "@types/node": "^24.2.1",
     "eslint": "catalog:",
-    "typescript": "catalog:",
-    "vitest": "catalog:"
+    "typescript": "catalog:"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}": [

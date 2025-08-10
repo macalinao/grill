@@ -83,8 +83,8 @@ export function createWalletTransactionSendingSigner(
           const sigBytes = getBase58Encoder().encode(sig) as SignatureBytes;
 
           // also send here
-          vt.addSignature(new PublicKey(signerAddress), sigBytes);
-          await connection.sendRawTransaction(vt.serialize());
+          // vt.addSignature(new PublicKey(signerAddress), sigBytes);
+          // await connection.sendRawTransaction(vt.serialize());
 
           signatures.push(sigBytes);
         } catch (error) {

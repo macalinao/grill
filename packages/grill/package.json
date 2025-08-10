@@ -23,6 +23,7 @@
   "dependencies": {
     "@macalinao/dataloader-es": "workspace:*",
     "@macalinao/solana-batch-accounts-loader": "workspace:*",
+    "@solana-program/token": "^0.5.1",
     "@solana/kit": "catalog:",
     "@tanstack/react-query": "catalog:",
     "gill": "^0.10.3",
@@ -31,7 +32,10 @@
   },
   "devDependencies": {
     "@macalinao/eslint-config": "catalog:",
+    "@macalinao/eslint-config-react": "^3.1.2",
     "@macalinao/tsconfig": "catalog:",
+    "@testing-library/react": "^16.3.0",
+    "@types/bun": "^1.2.19",
     "@types/react": "^19.1.9",
     "typescript": "catalog:"
   },

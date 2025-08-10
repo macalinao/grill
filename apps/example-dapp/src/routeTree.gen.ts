@@ -9,9 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from "./routes/__root.tsx"
+import { Route as ExamplesRouteImport } from "./routes/examples.tsx"
 import { Route as DashboardRouteImport } from "./routes/dashboard.tsx"
 import { Route as IndexRouteImport } from "./routes/index.tsx"
+import { Route as ExamplesIndexRouteImport } from "./routes/examples/index.tsx"
+import { Route as ExamplesWrappedSolRouteImport } from "./routes/examples/wrapped-sol.tsx"
+import { Route as ExamplesDashboardRouteImport } from "./routes/examples/dashboard.tsx"
 
+const ExamplesRoute = ExamplesRouteImport.update({
+  id: "/examples",
+  path: "/examples",
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardRoute = DashboardRouteImport.update({
   id: "/dashboard",
   path: "/dashboard",
@@ -22,35 +31,87 @@ const IndexRoute = IndexRouteImport.update({
   path: "/",
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExamplesIndexRoute = ExamplesIndexRouteImport.update({
+  id: "/",
+  path: "/",
+  getParentRoute: () => ExamplesRoute,
+} as any)
+const ExamplesWrappedSolRoute = ExamplesWrappedSolRouteImport.update({
+  id: "/wrapped-sol",
+  path: "/wrapped-sol",
+  getParentRoute: () => ExamplesRoute,
+} as any)
+const ExamplesDashboardRoute = ExamplesDashboardRouteImport.update({
+  id: "/dashboard",
+  path: "/dashboard",
+  getParentRoute: () => ExamplesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   "/": typeof IndexRoute
   "/dashboard": typeof DashboardRoute
+  "/examples": typeof ExamplesRouteWithChildren
+  "/examples/dashboard": typeof ExamplesDashboardRoute
+  "/examples/wrapped-sol": typeof ExamplesWrappedSolRoute
+  "/examples/": typeof ExamplesIndexRoute
 }
 export interface FileRoutesByTo {
   "/": typeof IndexRoute
   "/dashboard": typeof DashboardRoute
+  "/examples/dashboard": typeof ExamplesDashboardRoute
+  "/examples/wrapped-sol": typeof ExamplesWrappedSolRoute
+  "/examples": typeof ExamplesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   "/": typeof IndexRoute
   "/dashboard": typeof DashboardRoute
+  "/examples": typeof ExamplesRouteWithChildren
+  "/examples/dashboard": typeof ExamplesDashboardRoute
+  "/examples/wrapped-sol": typeof ExamplesWrappedSolRoute
+  "/examples/": typeof ExamplesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: "/" | "/dashboard"
+  fullPaths:
+    | "/"
+    | "/dashboard"
+    | "/examples"
+    | "/examples/dashboard"
+    | "/examples/wrapped-sol"
+    | "/examples/"
   fileRoutesByTo: FileRoutesByTo
-  to: "/" | "/dashboard"
-  id: "__root__" | "/" | "/dashboard"
+  to:
+    | "/"
+    | "/dashboard"
+    | "/examples/dashboard"
+    | "/examples/wrapped-sol"
+    | "/examples"
+  id:
+    | "__root__"
+    | "/"
+    | "/dashboard"
+    | "/examples"
+    | "/examples/dashboard"
+    | "/examples/wrapped-sol"
+    | "/examples/"
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRoute: typeof DashboardRoute
+  ExamplesRoute: typeof ExamplesRouteWithChildren
 }
 
 declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
+    "/examples": {
+      id: "/examples"
+      path: "/examples"
+      fullPath: "/examples"
+      preLoaderRoute: typeof ExamplesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     "/dashboard": {
       id: "/dashboard"
       path: "/dashboard"
@@ -65,12 +126,50 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    "/examples/": {
+      id: "/examples/"
+      path: "/"
+      fullPath: "/examples/"
+      preLoaderRoute: typeof ExamplesIndexRouteImport
+      parentRoute: typeof ExamplesRoute
+    }
+    "/examples/wrapped-sol": {
+      id: "/examples/wrapped-sol"
+      path: "/wrapped-sol"
+      fullPath: "/examples/wrapped-sol"
+      preLoaderRoute: typeof ExamplesWrappedSolRouteImport
+      parentRoute: typeof ExamplesRoute
+    }
+    "/examples/dashboard": {
+      id: "/examples/dashboard"
+      path: "/dashboard"
+      fullPath: "/examples/dashboard"
+      preLoaderRoute: typeof ExamplesDashboardRouteImport
+      parentRoute: typeof ExamplesRoute
+    }
   }
 }
+
+interface ExamplesRouteChildren {
+  ExamplesDashboardRoute: typeof ExamplesDashboardRoute
+  ExamplesWrappedSolRoute: typeof ExamplesWrappedSolRoute
+  ExamplesIndexRoute: typeof ExamplesIndexRoute
+}
+
+const ExamplesRouteChildren: ExamplesRouteChildren = {
+  ExamplesDashboardRoute: ExamplesDashboardRoute,
+  ExamplesWrappedSolRoute: ExamplesWrappedSolRoute,
+  ExamplesIndexRoute: ExamplesIndexRoute,
+}
+
+const ExamplesRouteWithChildren = ExamplesRoute._addFileChildren(
+  ExamplesRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRoute,
+  ExamplesRoute: ExamplesRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

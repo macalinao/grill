@@ -1,7 +1,6 @@
 import { WalletProvider } from "@macalinao/grill";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { install } from "@solana/webcrypto-ed25519-polyfill";
-import type { FC, ReactNode } from "react";
 import { useMemo } from "react";
 
 import { createWalletTransactionSendingSigner } from "./walletTransactionSendingSigner.js";
@@ -10,7 +9,7 @@ import { createWalletTransactionSendingSigner } from "./walletTransactionSending
 install();
 
 export interface WalletAdapterCompatProviderProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 /**
@@ -19,7 +18,7 @@ export interface WalletAdapterCompatProviderProps {
  *
  * This bridges the gap between @solana/wallet-adapter and @solana/kit.
  */
-export const WalletAdapterCompatProvider: FC<
+export const WalletAdapterCompatProvider: React.FC<
   WalletAdapterCompatProviderProps
 > = ({ children }) => {
   const { connection } = useConnection();
@@ -38,6 +37,8 @@ export const WalletAdapterCompatProvider: FC<
       return null;
     }
   }, [wallet, connection]);
+
+  console.log("signer", signer);
 
   return <WalletProvider signer={signer}>{children}</WalletProvider>;
 };

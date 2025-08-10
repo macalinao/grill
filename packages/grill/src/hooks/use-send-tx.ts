@@ -6,8 +6,8 @@ import type {
 } from "@solana/kit";
 import {
   compressTransactionMessageUsingAddressLookupTables,
-  getSignatureFromTransaction,
-  signTransactionMessageWithSigners,
+  getBase58Decoder,
+  signAndSendTransactionMessageWithSigners,
 } from "@solana/kit";
 import { createTransaction, getExplorerLink } from "gill";
 
@@ -54,15 +54,21 @@ export interface SendTXOptions {
   signers?: TransactionSigner[];
 }
 
+export type SendTXFunction = (
+  name: string,
+  ixs: readonly Instruction[],
+  options?: SendTXOptions,
+) => Promise<Signature>;
+
 /**
  * Hook that provides a function to send transactions using the modern @solana/kit API
  * while maintaining compatibility with the wallet adapter.
  */
-export const useSendTX = () => {
+export const useSendTX = (): SendTXFunction => {
   const { reloadAccounts, internal_onTransactionStatusEvent } =
     useGrillContext();
   const { signer } = useKitWallet();
-  const { rpc, sendAndConfirmTransaction } = useSolanaClient();
+  const { rpc } = useSolanaClient();
   return useCallback(
     async (
       name: string,
@@ -115,10 +121,11 @@ export const useSendTX = () => {
       });
 
       // Send transaction using wallet adapter
-      const signedTransaction = await signTransactionMessageWithSigners(
+      const sigBytes = await signAndSendTransactionMessageWithSigners(
         finalTransactionMessage,
       );
-      const sig = getSignatureFromTransaction(signedTransaction);
+      const decoder = getBase58Decoder();
+      const sig = decoder.decode(sigBytes) as Signature;
       const sentTxEvent = {
         ...baseEvent,
         sig,
@@ -137,7 +144,6 @@ export const useSendTX = () => {
           blockhash: latestBlockhash.blockhash,
           lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
         };
-        await sendAndConfirmTransaction(signedTransaction);
 
         // Poll for transaction confirmation
         let confirmed = false;
@@ -259,6 +265,6 @@ export const useSendTX = () => {
         throw error;
       }
     },
-    [],
+    [internal_onTransactionStatusEvent, reloadAccounts, rpc, signer],
   );
 };

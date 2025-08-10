@@ -39,9 +39,6 @@ Thumbs.db
 coverage/
 .nyc_output
 
-# Bun
-bun.lockb
-
 # Cache
 .eslintcache
 .cache/
@@ -51,4 +48,5 @@ bun.lockb
 *.temp
 
 .devenv.flake.nix
-.devenv/
+/nix
+/.devenv

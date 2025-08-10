@@ -44,8 +44,7 @@
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^24.2.1",
     "eslint": "catalog:",
-    "typescript": "catalog:",
-    "vitest": "catalog:"
+    "typescript": "catalog:"
   },
   "peerDependencies": {
     "@solana/kit": "catalog:"

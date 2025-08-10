@@ -5,12 +5,19 @@ import { tanstackRouter } from "@tanstack/router-plugin/vite";
 // @ts-expect-error something wrong with types here
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
-import { nodePolyfills } from "vite-plugin-node-polyfills";
+// import { nodePolyfills } from "vite-plugin-node-polyfills";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
+    // nodePolyfills({
+    //   globals: {
+    //     Buffer: true,
+    //     process: true,
+    //   },
+    //   protocolImports: true, // Polyfill node: protocol imports
+    // }),
     tsconfigPaths(),
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     react(),
@@ -23,7 +30,6 @@ export default defineConfig({
     }),
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     tailwindcss(),
-    nodePolyfills(),
   ],
   define: {
     "process.env": {},
