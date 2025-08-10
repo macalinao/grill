@@ -66,10 +66,10 @@ export async function getWrapSOLInstructions(
 }
 
 /**
- * Creates instructions to unwrap wSOL back to SOL
- * This closes the wSOL token account and returns the SOL
+ * Creates instructions to close a wSOL account and return all SOL to the owner
+ * This closes the wSOL token account, unwrapping any wSOL back to SOL and returning the rent
  */
-export async function getUnwrapSOLInstructions(
+export async function getCloseAccountInstructions(
   signer: TransactionSendingSigner,
 ) {
   const owner = signer.address;
@@ -82,7 +82,7 @@ export async function getUnwrapSOLInstructions(
   });
   const ataAddress = ataPda[0];
 
-  // Close account instruction - this returns all SOL to the owner
+  // Close account instruction - this returns all SOL (including wSOL balance and rent) to the owner
   const closeAccountInstruction = getCloseAccountInstruction({
     account: ataAddress,
     destination: owner,

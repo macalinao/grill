@@ -6,7 +6,7 @@ import {
 } from "@macalinao/grill";
 import { createFileRoute } from "@tanstack/react-router";
 import { getExplorerLink } from "gill";
-import { ArrowDownUp } from "lucide-react";
+import { ArrowDownUp, X } from "lucide-react";
 import { type FC, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -21,7 +21,7 @@ import { InputTokenAmount } from "@/components/ui/input-token-amount";
 import type { TokenInfo } from "@/types/token";
 import { formatTokenAmount } from "@/utils/format-token-amount";
 import {
-  getUnwrapSOLInstructions,
+  getCloseAccountInstructions,
   getWrapSOLInstructions,
   WSOL_MINT,
 } from "@/utils/wrap-sol";
@@ -33,11 +33,10 @@ const WrappedSOLPage: FC = () => {
     address: signer ? signer.address : null,
   });
 
-  // State for wrap/unwrap amounts
+  // State for wrap amount
   const [wrapAmount, setWrapAmount] = useState("");
-  const [unwrapAmount, setUnwrapAmount] = useState("");
   const [isWrapping, setIsWrapping] = useState(false);
-  const [isUnwrapping, setIsUnwrapping] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
 
   // Get the wSOL ATA address and account data using the combined hook
   const { data: wsolTokenAccount } = useAssociatedTokenAccount({
@@ -75,7 +74,6 @@ const WrappedSOLPage: FC = () => {
     if (!wsolTokenAccount) {
       return "0";
     }
-    console.log({ wsolTokenAccount });
     return formatTokenAmount(wsolTokenAccount.data.amount, 9);
   }, [wsolTokenAccount]);
 
@@ -115,29 +113,19 @@ const WrappedSOLPage: FC = () => {
     }
   };
 
-  // Handle unwrap wSOL action
-  const handleUnwrapSOL = async () => {
-    if (!(signer && unwrapAmount) || Number.parseFloat(unwrapAmount) <= 0) {
-      toast.error("Invalid unwrap amount");
+  // Handle close wSOL account action
+  const handleCloseAccount = async () => {
+    if (!signer) {
       return;
     }
 
-    const availableWSOL = Number.parseFloat(wsolBalance);
-    if (Number.parseFloat(unwrapAmount) > availableWSOL) {
-      toast.error("Insufficient wSOL balance");
-      return;
-    }
-
-    setIsUnwrapping(true);
+    setIsClosing(true);
     try {
-      // Get the unwrap instructions
-      const instructions = await getUnwrapSOLInstructions(signer);
+      // Get the close account instructions (this will also unwrap any remaining wSOL)
+      const instructions = await getCloseAccountInstructions(signer);
 
       // Send the transaction using useSendTX
-      const signature = await sendTX(
-        `Unwrap ${unwrapAmount} wSOL`,
-        instructions,
-      );
+      const signature = await sendTX("Close wSOL Account", instructions);
 
       // Show explorer link
       const explorerLink = getExplorerLink({
@@ -145,13 +133,11 @@ const WrappedSOLPage: FC = () => {
         cluster: "mainnet",
       });
       console.log("Transaction:", explorerLink);
-
-      setUnwrapAmount("");
     } catch (error) {
-      console.error("Error unwrapping wSOL:", error);
+      console.error("Error closing wSOL account:", error);
       // Error already handled by sendTX toast
     } finally {
-      setIsUnwrapping(false);
+      setIsClosing(false);
     }
   };
 
@@ -167,9 +153,9 @@ const WrappedSOLPage: FC = () => {
     return (
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-bold">Wrap & Unwrap SOL</h1>
+          <h1 className="text-2xl font-bold">Wrapped SOL</h1>
           <p className="text-muted-foreground">
-            Convert between native SOL and wrapped SOL (wSOL) tokens
+            Wrap SOL to wSOL tokens and manage your wrapped SOL account
           </p>
         </div>
 
@@ -177,7 +163,8 @@ const WrappedSOLPage: FC = () => {
           <CardHeader>
             <CardTitle>Wallet Not Connected</CardTitle>
             <CardDescription>
-              Please connect your wallet to wrap and unwrap SOL tokens
+              Please connect your wallet to wrap SOL and manage your wSOL
+              account
             </CardDescription>
           </CardHeader>
         </Card>
@@ -185,166 +172,162 @@ const WrappedSOLPage: FC = () => {
     );
   }
 
+  const hasWsolAccount = wsolTokenAccount && Number.parseFloat(wsolBalance) > 0;
+
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">Wrap & Unwrap SOL</h1>
+        <h1 className="text-2xl font-bold">Wrapped SOL</h1>
         <p className="text-muted-foreground">
-          Convert between native SOL and wrapped SOL (wSOL) tokens
+          Wrap SOL to wSOL tokens and manage your wrapped SOL account
         </p>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
-        {/* Wrap SOL Card */}
+      {/* Balance Overview */}
+      <div className="grid gap-4 md:grid-cols-2">
         <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <span>Wrap SOL</span>
-              <ArrowDownUp className="w-4 h-4" />
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Native SOL Balance
             </CardTitle>
-            <CardDescription>
-              Convert native SOL into wrapped SOL (wSOL) tokens
-            </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <div className="text-sm font-medium">From</div>
-              <InputTokenAmount
-                token={solToken}
-                value={wrapAmount}
-                onChange={setWrapAmount}
-                maxAmount={solBalance}
-                placeholder="0.00"
-              />
-              <div className="text-xs text-muted-foreground">
-                Available: {Number.parseFloat(solBalance).toFixed(4)} SOL
-              </div>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {Number.parseFloat(solBalance).toFixed(4)} SOL
             </div>
-
-            <div className="flex justify-center">
-              <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
-                <ArrowDownUp className="w-4 h-4" />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <div className="text-sm font-medium">To</div>
-              <div className="flex items-center justify-between p-3 rounded-md border bg-muted/30">
-                <div className="flex items-center space-x-2">
-                  {wsolToken.icon && (
-                    <img
-                      src={wsolToken.icon}
-                      alt={wsolToken.symbol}
-                      className="w-6 h-6 rounded-full"
-                      onError={(e) => {
-                        e.currentTarget.style.display = "none";
-                      }}
-                    />
-                  )}
-                  <span className="text-xl font-medium">
-                    {calculateReceiveAmount(wrapAmount)}
-                  </span>
-                </div>
-                <div className="text-right">
-                  <div className="text-sm font-medium">{wsolToken.symbol}</div>
-                  <div className="text-xs text-muted-foreground">
-                    {wsolToken.name}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <Button
-              onClick={() => void handleWrapSOL()}
-              disabled={
-                !wrapAmount ||
-                Number.parseFloat(wrapAmount) <= 0 ||
-                Number.parseFloat(wrapAmount) > Number.parseFloat(solBalance) ||
-                isWrapping
-              }
-              className="w-full"
-            >
-              {isWrapping ? "Wrapping..." : "Wrap SOL"}
-            </Button>
           </CardContent>
         </Card>
 
-        {/* Unwrap wSOL Card */}
         <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <span>Unwrap wSOL</span>
-              <ArrowDownUp className="w-4 h-4" />
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Wrapped SOL Balance
             </CardTitle>
-            <CardDescription>
-              Convert wrapped SOL (wSOL) tokens back to native SOL
-            </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <div className="text-sm font-medium">From</div>
-              <InputTokenAmount
-                token={wsolToken}
-                value={unwrapAmount}
-                onChange={setUnwrapAmount}
-                maxAmount={wsolBalance}
-                placeholder="0.00"
-              />
-              <div className="text-xs text-muted-foreground">
-                Available: {Number.parseFloat(wsolBalance).toFixed(4)} wSOL
-              </div>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {Number.parseFloat(wsolBalance).toFixed(4)} wSOL
             </div>
-
-            <div className="flex justify-center">
-              <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
-                <ArrowDownUp className="w-4 h-4" />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <div className="text-sm font-medium">To</div>
-              <div className="flex items-center justify-between p-3 rounded-md border bg-muted/30">
-                <div className="flex items-center space-x-2">
-                  {solToken.icon && (
-                    <img
-                      src={solToken.icon}
-                      alt={solToken.symbol}
-                      className="w-6 h-6 rounded-full"
-                      onError={(e) => {
-                        e.currentTarget.style.display = "none";
-                      }}
-                    />
-                  )}
-                  <span className="text-xl font-medium">
-                    {calculateReceiveAmount(unwrapAmount)}
-                  </span>
-                </div>
-                <div className="text-right">
-                  <div className="text-sm font-medium">{solToken.symbol}</div>
-                  <div className="text-xs text-muted-foreground">
-                    {solToken.name}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <Button
-              onClick={() => void handleUnwrapSOL()}
-              disabled={
-                !unwrapAmount ||
-                Number.parseFloat(unwrapAmount) <= 0 ||
-                Number.parseFloat(unwrapAmount) >
-                  Number.parseFloat(wsolBalance) ||
-                isUnwrapping
-              }
-              className="w-full"
-              variant="outline"
-            >
-              {isUnwrapping ? "Unwrapping..." : "Unwrap wSOL"}
-            </Button>
           </CardContent>
         </Card>
       </div>
+
+      {/* Wrap SOL Card */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center space-x-2">
+            <span>Wrap SOL</span>
+            <ArrowDownUp className="w-4 h-4" />
+          </CardTitle>
+          <CardDescription>
+            Convert native SOL into wrapped SOL (wSOL) tokens
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <div className="text-sm font-medium">From</div>
+            <InputTokenAmount
+              token={solToken}
+              value={wrapAmount}
+              onChange={setWrapAmount}
+              maxAmount={solBalance}
+              placeholder="0.00"
+            />
+            <div className="text-xs text-muted-foreground">
+              Available: {Number.parseFloat(solBalance).toFixed(4)} SOL
+            </div>
+          </div>
+
+          <div className="flex justify-center">
+            <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
+              <ArrowDownUp className="w-4 h-4" />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <div className="text-sm font-medium">To</div>
+            <div className="flex items-center justify-between p-3 rounded-md border bg-muted/30">
+              <div className="flex items-center space-x-2">
+                {wsolToken.icon && (
+                  <img
+                    src={wsolToken.icon}
+                    alt={wsolToken.symbol}
+                    className="w-6 h-6 rounded-full"
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none";
+                    }}
+                  />
+                )}
+                <span className="text-xl font-medium">
+                  {calculateReceiveAmount(wrapAmount)}
+                </span>
+              </div>
+              <div className="text-right">
+                <div className="text-sm font-medium">{wsolToken.symbol}</div>
+                <div className="text-xs text-muted-foreground">
+                  {wsolToken.name}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <Button
+            onClick={() => void handleWrapSOL()}
+            disabled={
+              !wrapAmount ||
+              Number.parseFloat(wrapAmount) <= 0 ||
+              Number.parseFloat(wrapAmount) > Number.parseFloat(solBalance) ||
+              isWrapping
+            }
+            className="w-full"
+          >
+            {isWrapping ? "Wrapping..." : "Wrap SOL"}
+          </Button>
+        </CardContent>
+      </Card>
+
+      {/* Close Account Card */}
+      {hasWsolAccount && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Close wSOL Account</CardTitle>
+            <CardDescription>
+              Unwrap all wSOL back to native SOL and close the token account
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="rounded-lg bg-muted p-4">
+                <div className="flex items-start space-x-2">
+                  <div className="flex-1">
+                    <p className="text-sm font-medium">
+                      What happens when you close?
+                    </p>
+                    <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+                      <li>
+                        • All {Number.parseFloat(wsolBalance).toFixed(4)} wSOL
+                        will be converted back to SOL
+                      </li>
+                      <li>• The token account will be closed</li>
+                      <li>• Account rent (~0.002 SOL) will be reclaimed</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <Button
+                onClick={() => void handleCloseAccount()}
+                disabled={isClosing}
+                variant="destructive"
+                className="w-full"
+              >
+                <X className="mr-2 h-4 w-4" />
+                {isClosing ? "Closing Account..." : "Close wSOL Account"}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Information Card */}
       <Card>
@@ -362,7 +345,7 @@ const WrappedSOLPage: FC = () => {
               <li>1 SOL = 1 wSOL (always 1:1 conversion)</li>
               <li>Wrapping creates a token account with your SOL</li>
               <li>
-                Unwrapping closes the token account and returns native SOL
+                Closing the account unwraps all wSOL and returns native SOL
               </li>
               <li>wSOL can be used in any SPL token compatible application</li>
             </ul>
