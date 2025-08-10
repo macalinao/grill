@@ -11,25 +11,25 @@ React provider for Solana account management with automatic batching and caching
 bun add @macalinao/grill gill-react gill
 ```
 
-### [@macalinao/mast](./packages/mast)
-Complete toolkit that exports wallet-adapter functionality and re-exports gill-react hooks.
+### [@macalinao/solana-batch-accounts-loader](./packages/solana-batch-accounts-loader)
+DataLoader implementation for batching Solana account fetches.
 
 ```bash
-bun add @macalinao/mast
+bun add @macalinao/solana-batch-accounts-loader
 ```
 
-### [@macalinao/mast-query](./packages/mast-query)
-Account caching and batched loading for React-based Solana applications, inspired by [@saberhq/sail](https://github.com/saber-hq/sail) but built for @solana/kit.
+### [@macalinao/wallet-adapter-compat](./packages/wallet-adapter-compat)
+Compatibility layer between @solana/wallet-adapter and @solana/kit.
 
 ```bash
-bun add @macalinao/mast-query
+bun add @macalinao/wallet-adapter-compat
 ```
 
-### [@macalinao/wallet-adapter](./packages/wallet-adapter)
-Solana wallet adapter integration for @solana/kit with modern transaction handling.
+### [@macalinao/dataloader-es](./packages/dataloader-es)
+ES module compatible DataLoader implementation.
 
 ```bash
-bun add @macalinao/wallet-adapter
+bun add @macalinao/dataloader-es
 ```
 
 ## Quick Start

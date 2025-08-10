@@ -32,7 +32,7 @@ const HomePage = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Link to="/dashboard">
+            <Link to="/examples/dashboard">
               <Button className="w-full">View Dashboard</Button>
             </Link>
           </CardContent>

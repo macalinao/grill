@@ -11,7 +11,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ThemeToggle } from "./theme-toggle";
 
 export function SimpleDashboard() {
   const { signer } = useKitWallet();
@@ -50,10 +49,7 @@ export function SimpleDashboard() {
       <div className="flex flex-col gap-6">
         <div className="flex justify-between items-center">
           <h1 className="text-4xl font-bold">Grill + Gill Example</h1>
-          <div className="flex items-center gap-4">
-            <ThemeToggle />
-            <WalletMultiButton />
-          </div>
+          <WalletMultiButton />
         </div>
 
         {signer && (
@@ -68,9 +64,9 @@ export function SimpleDashboard() {
                   <p className="text-lg">Loading balance...</p>
                 ) : accountQuery.error ? (
                   <p className="text-lg text-red-500">Error loading balance</p>
-                ) : accountQuery.account ? (
+                ) : accountQuery.data ? (
                   <p className="text-lg">
-                    Balance: {Number(accountQuery.account.lamports) / 1e9} SOL
+                    Balance: {Number(accountQuery.data.lamports) / 1e9} SOL
                   </p>
                 ) : (
                   <p className="text-lg">Balance: 0 SOL</p>

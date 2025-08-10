@@ -1,6 +1,7 @@
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { Link, Outlet } from "@tanstack/react-router";
 import type { FC } from "react";
+import { ThemeToggle } from "@/components/theme-toggle";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -41,8 +42,9 @@ export const MainLayout: FC<MainLayoutProps> = ({ className }) => {
             </NavigationMenu>
           </div>
 
-          {/* Wallet Connection */}
-          <div className="flex items-center">
+          {/* Theme Toggle and Wallet Connection */}
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
             <WalletMultiButton />
           </div>
         </div>

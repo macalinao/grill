@@ -157,7 +157,7 @@ The repository includes vendor documentation at `/docs/vendor/`:
 
 ## CI/CD
 
-GitHub Actions workflow runs on push/PR to master:
+GitHub Actions workflow runs on push/PR to main:
 - Installs dependencies with frozen lockfile
 - Builds all packages
 - Runs linting (biome + eslint)

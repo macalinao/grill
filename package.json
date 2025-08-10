@@ -36,7 +36,7 @@
     "changeset:version": "changeset version",
     "changeset:publish": "changeset publish",
     "ci:version": "changeset version && bun update",
-    "ci:publish": "for dir in packages/*; do (cd \"$dir\" && bun publish || true); done && changeset tag",
+    "ci:publish": "changeset publish",
     "prepare": "husky",
     "codegen": "turbo run codegen"
   },

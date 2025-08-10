@@ -10,7 +10,6 @@
 
 import { Route as rootRouteImport } from "./routes/__root.tsx"
 import { Route as ExamplesRouteImport } from "./routes/examples.tsx"
-import { Route as DashboardRouteImport } from "./routes/dashboard.tsx"
 import { Route as IndexRouteImport } from "./routes/index.tsx"
 import { Route as ExamplesIndexRouteImport } from "./routes/examples/index.tsx"
 import { Route as ExamplesWrappedSolRouteImport } from "./routes/examples/wrapped-sol.tsx"
@@ -19,11 +18,6 @@ import { Route as ExamplesDashboardRouteImport } from "./routes/examples/dashboa
 const ExamplesRoute = ExamplesRouteImport.update({
   id: "/examples",
   path: "/examples",
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DashboardRoute = DashboardRouteImport.update({
-  id: "/dashboard",
-  path: "/dashboard",
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -49,7 +43,6 @@ const ExamplesDashboardRoute = ExamplesDashboardRouteImport.update({
 
 export interface FileRoutesByFullPath {
   "/": typeof IndexRoute
-  "/dashboard": typeof DashboardRoute
   "/examples": typeof ExamplesRouteWithChildren
   "/examples/dashboard": typeof ExamplesDashboardRoute
   "/examples/wrapped-sol": typeof ExamplesWrappedSolRoute
@@ -57,7 +50,6 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   "/": typeof IndexRoute
-  "/dashboard": typeof DashboardRoute
   "/examples/dashboard": typeof ExamplesDashboardRoute
   "/examples/wrapped-sol": typeof ExamplesWrappedSolRoute
   "/examples": typeof ExamplesIndexRoute
@@ -65,7 +57,6 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   "/": typeof IndexRoute
-  "/dashboard": typeof DashboardRoute
   "/examples": typeof ExamplesRouteWithChildren
   "/examples/dashboard": typeof ExamplesDashboardRoute
   "/examples/wrapped-sol": typeof ExamplesWrappedSolRoute
@@ -75,22 +66,15 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | "/"
-    | "/dashboard"
     | "/examples"
     | "/examples/dashboard"
     | "/examples/wrapped-sol"
     | "/examples/"
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | "/"
-    | "/dashboard"
-    | "/examples/dashboard"
-    | "/examples/wrapped-sol"
-    | "/examples"
+  to: "/" | "/examples/dashboard" | "/examples/wrapped-sol" | "/examples"
   id:
     | "__root__"
     | "/"
-    | "/dashboard"
     | "/examples"
     | "/examples/dashboard"
     | "/examples/wrapped-sol"
@@ -99,7 +83,6 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DashboardRoute: typeof DashboardRoute
   ExamplesRoute: typeof ExamplesRouteWithChildren
 }
 
@@ -110,13 +93,6 @@ declare module "@tanstack/react-router" {
       path: "/examples"
       fullPath: "/examples"
       preLoaderRoute: typeof ExamplesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    "/dashboard": {
-      id: "/dashboard"
-      path: "/dashboard"
-      fullPath: "/dashboard"
-      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     "/": {
@@ -168,7 +144,6 @@ const ExamplesRouteWithChildren = ExamplesRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DashboardRoute: DashboardRoute,
   ExamplesRoute: ExamplesRouteWithChildren,
 }
 export const routeTree = rootRouteImport

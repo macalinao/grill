@@ -1,6 +1,6 @@
 {
   "name": "@macalinao/grill",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -14,6 +14,14 @@
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/macalinao/grill.git",
+    "directory": "packages/grill"
+  },
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
