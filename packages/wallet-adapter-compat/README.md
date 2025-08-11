@@ -25,10 +25,13 @@ npm install @macalinao/wallet-adapter-compat @macalinao/grill
 The easiest way to integrate is using `WalletAdapterCompatProvider`, which automatically creates a `TransactionSendingSigner` from your connected wallet:
 
 ```tsx
-import { WalletAdapterCompatProvider } from '@macalinao/wallet-adapter-compat';
-import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
-import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
-import { useKitWallet } from '@macalinao/grill';
+import { WalletAdapterCompatProvider } from "@macalinao/wallet-adapter-compat";
+import {
+  ConnectionProvider,
+  WalletProvider,
+} from "@solana/wallet-adapter-react";
+import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
+import { useKitWallet } from "@macalinao/grill";
 
 function App() {
   return (
@@ -47,11 +50,11 @@ function App() {
 function MyComponent() {
   // Now you can use Kit wallet hooks from grill
   const { signer, rpc } = useKitWallet();
-  
+
   if (!signer) {
     return <div>Please connect your wallet</div>;
   }
-  
+
   // Use signer for transactions with @solana/kit
 }
 ```
@@ -61,24 +64,20 @@ function MyComponent() {
 For more control, you can manually create a `TransactionSendingSigner`:
 
 ```tsx
-import { createWalletTransactionSendingSigner } from '@macalinao/wallet-adapter-compat';
-import { useWallet, useConnection } from '@solana/wallet-adapter-react';
-import { WalletProvider } from '@macalinao/grill';
+import { createWalletTransactionSendingSigner } from "@macalinao/wallet-adapter-compat";
+import { useWallet, useConnection } from "@solana/wallet-adapter-react";
+import { WalletProvider } from "@macalinao/grill";
 
 function MyProvider({ children }) {
   const wallet = useWallet();
   const { connection } = useConnection();
-  
+
   const signer = useMemo(() => {
     if (!wallet.connected || !wallet.publicKey) return null;
     return createWalletTransactionSendingSigner(wallet, connection);
   }, [wallet, connection]);
-  
-  return (
-    <WalletProvider signer={signer} rpcEndpoint={connection.rpcEndpoint}>
-      {children}
-    </WalletProvider>
-  );
+
+  return <WalletProvider signer={signer}>{children}</WalletProvider>;
 }
 ```
 
