@@ -68,6 +68,7 @@ jobs:
           commit: "chore: release packages"
           title: "chore: release packages"
         env:
+          NPM_CONFIG_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
