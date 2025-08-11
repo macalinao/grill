@@ -1,6 +1,20 @@
 {
   "name": "@macalinao/grill",
   "version": "0.1.0",
+  "description": "Modern Solana development kit for React applications with automatic account batching, caching, and transaction notifications",
+  "license": "Apache-2.0",
+  "author": "Ian Macalinao <me@ianm.com>",
+  "homepage": "https://grill.ianm.com",
+  "keywords": [
+    "solana",
+    "react",
+    "blockchain",
+    "web3",
+    "dataloader",
+    "batching",
+    "caching",
+    "gill"
+  ],
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",

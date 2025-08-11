@@ -1,5 +1,7 @@
 # @macalinao/wallet-adapter-compat
 
+[![npm version](https://img.shields.io/npm/v/@macalinao/wallet-adapter-compat.svg)](https://www.npmjs.com/package/@macalinao/wallet-adapter-compat)
+
 Compatibility layer that bridges @solana/wallet-adapter with @solana/kit and grill.
 
 ## Purpose

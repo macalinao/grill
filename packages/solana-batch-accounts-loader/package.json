@@ -4,8 +4,17 @@
   "description": "Efficient batch account loading for Solana using DataLoader and @solana/kit",
   "type": "module",
   "author": "Ian Macalinao <me@ianm.com>",
-  "homepage": "https://github.com/macalinao/grill",
+  "homepage": "https://grill.ianm.com",
   "license": "Apache-2.0",
+  "keywords": [
+    "solana",
+    "dataloader",
+    "batching",
+    "rpc",
+    "accounts",
+    "blockchain",
+    "web3"
+  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {

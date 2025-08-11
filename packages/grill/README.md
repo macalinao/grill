@@ -1,5 +1,7 @@
 # @macalinao/grill
 
+[![npm version](https://img.shields.io/npm/v/@macalinao/grill.svg)](https://www.npmjs.com/package/@macalinao/grill)
+
 Modern Solana development kit for React applications with automatic account batching, caching, and transaction notifications.
 
 ## Features
