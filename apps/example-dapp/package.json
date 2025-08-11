@@ -3,6 +3,14 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "description": "Example Solana dApp demonstrating Grill features",
+  "author": "Ian Macalinao <me@ianm.com>",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/macalinao/grill.git",
+    "directory": "apps/example-dapp"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

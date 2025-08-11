@@ -1,5 +1,7 @@
 # @macalinao/dataloader-es
 
+[![npm version](https://img.shields.io/npm/v/@macalinao/dataloader-es.svg)](https://www.npmjs.com/package/@macalinao/dataloader-es)
+
 A modern ESM-native TypeScript implementation of Facebook's [DataLoader](https://github.com/graphql/dataloader) pattern for efficient batching and caching of data loading operations.
 
 ## Description

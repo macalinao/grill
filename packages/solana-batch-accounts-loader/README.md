@@ -1,5 +1,7 @@
 # @macalinao/solana-batch-accounts-loader
 
+[![npm version](https://img.shields.io/npm/v/@macalinao/solana-batch-accounts-loader.svg)](https://www.npmjs.com/package/@macalinao/solana-batch-accounts-loader)
+
 Efficient batch account loading for Solana using DataLoader and [@solana/kit](https://github.com/solana-developers/solana-web3.js-v2).
 
 ## Installation

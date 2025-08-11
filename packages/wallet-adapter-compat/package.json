@@ -1,11 +1,20 @@
 {
   "name": "@macalinao/wallet-adapter-compat",
   "version": "0.1.0",
-  "description": "Solana wallet adapter compatibility layer for @solana/kit",
+  "description": "Compatibility layer that bridges @solana/wallet-adapter with @solana/kit and grill",
   "type": "module",
   "author": "Ian Macalinao <me@ianm.com>",
-  "homepage": "https://github.com/macalinao/grill",
+  "homepage": "https://grill.ianm.com",
   "license": "Apache-2.0",
+  "keywords": [
+    "solana",
+    "wallet",
+    "adapter",
+    "kit",
+    "blockchain",
+    "web3",
+    "compatibility"
+  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {

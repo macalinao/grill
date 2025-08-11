@@ -1,11 +1,20 @@
 {
   "name": "@macalinao/dataloader-es",
   "version": "0.1.0",
-  "description": "ESM-native DataLoader implementation for efficient batching and caching",
+  "description": "Modern ESM-native TypeScript implementation of Facebook's DataLoader pattern for efficient batching and caching",
   "type": "module",
   "author": "Ian Macalinao <me@ianm.com>",
-  "homepage": "https://github.com/macalinao/grill",
+  "homepage": "https://grill.ianm.com",
   "license": "MIT",
+  "keywords": [
+    "dataloader",
+    "batching",
+    "caching",
+    "graphql",
+    "esm",
+    "typescript",
+    "performance"
+  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {

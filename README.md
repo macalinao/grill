@@ -1,5 +1,7 @@
 # Grill - Modern Solana Development Kit
 
+[![npm version](https://img.shields.io/npm/v/@macalinao/grill.svg)](https://www.npmjs.com/package/@macalinao/grill)
+
 A comprehensive toolkit for building Solana applications with React, featuring automatic account batching and caching.
 
 ## Packages
@@ -128,4 +130,4 @@ Apache-2.0
 
 ## Author
 
-Ian Macalinao <ian@macalinao.com>
+Ian Macalinao <me@ianm.com>
