@@ -16,7 +16,7 @@
     },
     "apps/example-dapp": {
       "name": "example-dapp",
-      "version": "0.0.1",
+      "version": "0.0.2",
       "dependencies": {
         "@macalinao/grill": "workspace:*",
         "@macalinao/wallet-adapter-compat": "workspace:*",
@@ -71,7 +71,7 @@
     },
     "packages/dataloader-es": {
       "name": "@macalinao/dataloader-es",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "devDependencies": {
         "@macalinao/eslint-config": "catalog:",
         "@macalinao/tsconfig": "catalog:",
@@ -83,7 +83,7 @@
     },
     "packages/grill": {
       "name": "@macalinao/grill",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "dependencies": {
         "@macalinao/dataloader-es": "workspace:*",
         "@macalinao/solana-batch-accounts-loader": "workspace:*",
@@ -110,7 +110,7 @@
     },
     "packages/solana-batch-accounts-loader": {
       "name": "@macalinao/solana-batch-accounts-loader",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "dependencies": {
         "@macalinao/dataloader-es": "workspace:*",
         "lodash-es": "^4.17.21",
@@ -131,7 +131,7 @@
     },
     "packages/wallet-adapter-compat": {
       "name": "@macalinao/wallet-adapter-compat",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "dependencies": {
         "@macalinao/grill": "workspace:*",
         "@solana/webcrypto-ed25519-polyfill": "*",
