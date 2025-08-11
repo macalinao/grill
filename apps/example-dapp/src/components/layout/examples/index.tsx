@@ -1,6 +1,6 @@
 import { Link, Outlet, useLocation } from "@tanstack/react-router";
 import { Coins, LayoutDashboard } from "lucide-react";
-import type { FC } from "react";
+import type * as React from "react";
 import {
   Sidebar,
   SidebarContent,
@@ -40,7 +40,9 @@ const exampleNavItems: ExampleNavItem[] = [
   },
 ];
 
-export const ExamplesLayout: FC<ExamplesLayoutProps> = ({ className }) => {
+export const ExamplesLayout: React.FC<ExamplesLayoutProps> = ({
+  className,
+}) => {
   const location = useLocation();
 
   return (

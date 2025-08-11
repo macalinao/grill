@@ -37,7 +37,7 @@ const solanaClient = createSolanaClient({
   urlOrMoniker: "mainnet-beta", // or your RPC URL
 });
 
-export const App = () => {
+export const App: React.FC = () => {
   const wallets = useMemo(
     () => [new PhantomWalletAdapter(), new SolflareWalletAdapter()],
     []
@@ -45,21 +45,21 @@ export const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SolanaProvider client={solanaClient}>
-        <ConnectionProvider endpoint="https://api.mainnet-beta.solana.com">
-          <WalletAdapterProvider wallets={wallets} autoConnect>
-            <WalletModalProvider>
-              <WalletAdapterCompatProvider>
+      <ConnectionProvider endpoint="https://api.mainnet-beta.solana.com">
+        <WalletAdapterProvider wallets={wallets} autoConnect>
+          <WalletModalProvider>
+            <WalletAdapterCompatProvider>
+              <SolanaProvider client={solanaClient}>
                 <GrillProvider>
                   {/* Your app */}
                   <YourApp />
                   <Toaster position="bottom-right" />
                 </GrillProvider>
-              </WalletAdapterCompatProvider>
-            </WalletModalProvider>
-          </WalletAdapterProvider>
-        </ConnectionProvider>
-      </SolanaProvider>
+              </SolanaProvider>
+            </WalletAdapterCompatProvider>
+          </WalletModalProvider>
+        </WalletAdapterProvider>
+      </ConnectionProvider>
     </QueryClientProvider>
   );
 };
@@ -68,14 +68,14 @@ export const App = () => {
 ### Why This Order Matters
 
 1. **QueryClientProvider**: Provides React Query context for caching
-2. **SolanaProvider**: Provides the gill client for RPC operations
-3. **ConnectionProvider**: Legacy support for wallet-adapter
-4. **WalletAdapterProvider**: Manages wallet connections
-5. **WalletModalProvider**: UI for wallet selection
-6. **WalletAdapterCompatProvider**: Bridges wallet-adapter to @solana/kit
+2. **ConnectionProvider**: Legacy support for wallet-adapter
+3. **WalletAdapterProvider**: Manages wallet connections
+4. **WalletModalProvider**: UI for wallet selection
+5. **WalletAdapterCompatProvider**: Bridges wallet-adapter to @solana/kit and provides grill's WalletProvider
+6. **SolanaProvider**: Provides the gill client for RPC operations
 7. **GrillProvider**: Creates the DataLoader and provides Grill context
 
-Each layer builds on the previous. GrillProvider needs access to the wallet (for transactions) and the RPC client (for fetching), which is why it comes last.
+Each layer builds on the previous. WalletAdapterCompatProvider wraps its children with grill's WalletProvider, which provides the TransactionSendingSigner. GrillProvider needs access to both the wallet (for transactions) and the RPC client (for fetching), which is why it comes last.
 
 ## Incremental Migration from @solana/wallet-adapter
 
@@ -97,19 +97,19 @@ If you already have a wallet-adapter setup, just wrap it with the additional pro
 
 // Add Grill incrementally
 <QueryClientProvider client={queryClient}>
-  <SolanaProvider client={solanaClient}>
-    <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets} autoConnect>
-        <WalletModalProvider>
-          <WalletAdapterCompatProvider>
+  <ConnectionProvider endpoint={endpoint}>
+    <WalletProvider wallets={wallets} autoConnect>
+      <WalletModalProvider>
+        <WalletAdapterCompatProvider>
+          <SolanaProvider client={solanaClient}>
             <GrillProvider>
               {/* Your existing app - unchanged! */}
             </GrillProvider>
-          </WalletAdapterCompatProvider>
-        </WalletModalProvider>
-      </WalletProvider>
-    </ConnectionProvider>
-  </SolanaProvider>
+          </SolanaProvider>
+        </WalletAdapterCompatProvider>
+      </WalletModalProvider>
+    </WalletProvider>
+  </ConnectionProvider>
 </QueryClientProvider>
 ```
 
@@ -121,7 +121,7 @@ Start with read operations—they're the easiest and give immediate performance 
 
 ```tsx
 // Old way with wallet-adapter
-const MyComponent = () => {
+const MyComponent: React.FC = () => {
   const { connection } = useConnection();
   const [account, setAccount] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -138,7 +138,7 @@ const MyComponent = () => {
 };
 
 // New way with Grill
-const MyComponent = () => {
+const MyComponent: React.FC = () => {
   const { data: account, isLoading } = useAccount({
     address: someAddress,
   });
@@ -156,12 +156,17 @@ Token accounts are where Grill really shines:
 
 ```tsx
 // Old way - manual PDA derivation + fetch
-const TokenBalance = ({ mint, owner }) => {
+interface TokenBalanceProps {
+  mint: Address;
+  owner: Address;
+}
+
+const TokenBalance: React.FC<TokenBalanceProps> = ({ mint, owner }) => {
   const { connection } = useConnection();
   const [balance, setBalance] = useState(null);
 
   useEffect(() => {
-    const fetchBalance = async () => {
+    const fetchBalance = async (): Promise<void> => {
       const ata = await getAssociatedTokenAddress(mint, owner);
       const account = await connection.getAccountInfo(ata);
       if (account) {
@@ -176,7 +181,7 @@ const TokenBalance = ({ mint, owner }) => {
 };
 
 // New way with Grill
-const TokenBalance = ({ mint, owner }) => {
+const TokenBalance: React.FC<TokenBalanceProps> = ({ mint, owner }) => {
   const { data: tokenAccount } = useAssociatedTokenAccount({
     mint,
     owner,
@@ -194,12 +199,12 @@ Transactions benefit from Grill's automatic status management:
 
 ```tsx
 // Old way
-const SwapButton = () => {
+const SwapButton: React.FC = () => {
   const { connection } = useConnection();
   const { publicKey, sendTransaction } = useWallet();
   const [loading, setLoading] = useState(false);
 
-  const handleSwap = async () => {
+  const handleSwap = async (): Promise<void> => {
     try {
       setLoading(true);
       const tx = new Transaction().add(...instructions);
@@ -221,10 +226,10 @@ const SwapButton = () => {
 };
 
 // New way with Grill
-const SwapButton = () => {
+const SwapButton: React.FC = () => {
   const sendTX = useSendTX();
 
-  const handleSwap = async () => {
+  const handleSwap = async (): Promise<void> => {
     await sendTX("Swap tokens", instructions);
     // That's it. Status toasts are automatic.
   };
@@ -286,7 +291,7 @@ import { GrillHeadlessProvider } from "@macalinao/grill";
 ## Working with Multiple Clusters
 
 ```tsx
-const DevnetApp = () => {
+const DevnetApp: React.FC = () => {
   const devnetClient = createSolanaClient({
     urlOrMoniker: "devnet",
   });
@@ -298,7 +303,7 @@ const DevnetApp = () => {
   );
 };
 
-const MainnetApp = () => {
+const MainnetApp: React.FC = () => {
   const mainnetClient = createSolanaClient({
     urlOrMoniker: "https://your-rpc-provider.com",
   });

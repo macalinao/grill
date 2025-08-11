@@ -17,10 +17,10 @@ This is where Grill shines. One function, automatic status management:
 ```tsx
 import { useSendTX } from "@macalinao/grill";
 
-const SwapButton = () => {
+const SwapButton: React.FC = () => {
   const sendTX = useSendTX();
   
-  const handleSwap = async () => {
+  const handleSwap = async (): Promise<void> => {
     const instructions = buildSwapInstructions();
     const signature = await sendTX("Swap USDC for SOL", instructions);
     console.log("Transaction confirmed:", signature);
@@ -49,11 +49,11 @@ import {
   getTransferTokensInstruction 
 } from "@solana-program/token";
 
-const TransferPanel = () => {
+const TransferPanel: React.FC = () => {
   const { signer } = useKitWallet();
   const sendTX = useSendTX();
   
-  const handleTransferSOL = async (to: Address, amount: bigint) => {
+  const handleTransferSOL = async (to: Address, amount: bigint): Promise<void> => {
     const instruction = getTransferSolInstruction({
       source: signer,
       destination: to,
@@ -67,7 +67,7 @@ const TransferPanel = () => {
     mint: Address,
     to: Address,
     amount: bigint
-  ) => {
+  ): Promise<void> => {
     const instructions = [];
     
     // Create ATA if needed (idempotent)
@@ -108,6 +108,7 @@ import {
   getCreateAssociatedTokenIdempotentInstruction,
   getSyncNativeInstruction,
 } from "@solana-program/token";
+import { address } from "gill";
 
 const WSOL_MINT = address("So11111111111111111111111111111111111111112");
 
@@ -147,12 +148,12 @@ export async function getWrapSOLInstructions(
 }
 
 // Using it in a component
-const WrapSOLButton = () => {
+const WrapSOLButton: React.FC = () => {
   const { signer } = useKitWallet();
   const sendTX = useSendTX();
   const [amount, setAmount] = useState("");
   
-  const handleWrap = async () => {
+  const handleWrap = async (): Promise<void> => {
     if (!signer || !amount) return;
     
     const lamports = BigInt(Math.floor(parseFloat(amount) * 1e9));
@@ -180,20 +181,11 @@ The `sendTX` function accepts additional options:
 
 ```tsx
 const signature = await sendTX("Description", instructions, {
-  // Add priority fees
-  computeUnitPrice: 100_000n, // microlamports per compute unit
+  // Provide address lookup tables for versioned transactions
+  luts: addressLookupTables,
   
-  // Set compute unit limit
-  computeUnitLimit: 200_000,
-  
-  // Skip preflight checks (use with caution)
-  skipPreflight: false,
-  
-  // Custom confirmation strategy
-  confirmationStrategy: {
-    type: "blockhash",
-    commitment: "confirmed"
-  }
+  // Additional signers (for multi-sig operations)
+  signers: [additionalSigner]
 });
 ```
 
@@ -202,10 +194,10 @@ const signature = await sendTX("Description", instructions, {
 Grill provides automatic error handling with helpful toast notifications:
 
 ```tsx
-const RiskyButton = () => {
+const RiskyButton: React.FC = () => {
   const sendTX = useSendTX();
   
-  const handleRiskyOperation = async () => {
+  const handleRiskyOperation = async (): Promise<void> => {
     try {
       await sendTX("Risky operation", instructions);
       // Success - user sees success toast
@@ -234,7 +226,7 @@ Common errors are automatically shown to users:
 After a successful transaction, you often need to refetch accounts. Grill handles this:
 
 ```tsx
-const StakeButton = () => {
+const StakeButton: React.FC = () => {
   const sendTX = useSendTX();
   const { data: userAccount } = useAccount({
     address: userAddress
@@ -243,7 +235,7 @@ const StakeButton = () => {
     address: stakingAddress
   });
   
-  const handleStake = async () => {
+  const handleStake = async (): Promise<void> => {
     // Build staking instructions
     const instructions = buildStakeInstructions();
     
@@ -293,11 +285,11 @@ For custom UX, you can handle transaction status events:
 Real DeFi operations often require multiple steps:
 
 ```tsx
-const ComplexDeFiOperation = () => {
+const ComplexDeFiOperation: React.FC = () => {
   const { signer } = useKitWallet();
   const sendTX = useSendTX();
   
-  const executeDeFiStrategy = async () => {
+  const executeDeFiStrategy = async (): Promise<void> => {
     const instructions = [];
     
     // Step 1: Create necessary accounts
@@ -330,36 +322,16 @@ const ComplexDeFiOperation = () => {
 };
 ```
 
-## Priority Fees and MEV Protection
-
-For time-sensitive transactions:
-
-```tsx
-const ArbBot = () => {
-  const sendTX = useSendTX();
-  
-  const executeArbitrage = async () => {
-    // Calculate dynamic priority fee based on opportunity
-    const priorityFee = calculatePriorityFee(arbOpportunity);
-    
-    await sendTX("Arbitrage", instructions, {
-      computeUnitPrice: priorityFee,
-      computeUnitLimit: 300_000,
-      skipPreflight: true // Skip for speed
-    });
-  };
-};
-```
 
 ## Versioned Transactions
 
 For transactions that need lookup tables:
 
 ```tsx
-const VersionedTxExample = () => {
+const VersionedTxExample: React.FC = () => {
   const sendTX = useSendTX();
   
-  const handleVersionedTx = async () => {
+  const handleVersionedTx = async (): Promise<void> => {
     // Build instructions that reference lookup table
     const instructions = buildComplexInstructions();
     
@@ -371,21 +343,27 @@ const VersionedTxExample = () => {
 
 ## The Wallet Context
 
-Access the connected wallet for custom operations:
+The `useKitWallet` hook provides access to the connected wallet's signer:
 
 ```tsx
 import { useKitWallet } from "@macalinao/grill";
 
-const WalletInfo = () => {
-  const { signer, connected, isConnecting } = useKitWallet();
+const WalletInfo: React.FC = () => {
+  const { signer } = useKitWallet();
   
-  if (isConnecting) return <div>Connecting...</div>;
-  if (!connected) return <div>Not connected</div>;
+  // signer is null when wallet is not connected
+  if (!signer) return <div>Wallet not connected</div>;
   
+  // signer is a TransactionSendingSigner from @solana/kit
   return (
     <div>
       <p>Address: {signer.address}</p>
-      <button onClick={() => signer.signMessage(message)}>
+      <button onClick={async () => {
+        const signature = await signer.signMessage(
+          new TextEncoder().encode("Hello Solana!")
+        );
+        console.log("Signature:", signature);
+      }}>
         Sign Message
       </button>
     </div>
@@ -410,7 +388,7 @@ Users see these descriptions in their transaction history.
 ### 2. Validate Before Sending
 
 ```tsx
-const handleSwap = async () => {
+const handleSwap = async (): Promise<void> => {
   // Validate inputs
   if (!amount || amount <= 0) {
     toast.error("Invalid amount");
@@ -430,7 +408,7 @@ const handleSwap = async () => {
 ### 3. Use Simulation for Complex Operations
 
 ```tsx
-const handleComplexOperation = async () => {
+const handleComplexOperation = async (): Promise<void> => {
   try {
     // Simulate first
     const simulation = await rpc.simulateTransaction(transaction);
@@ -450,12 +428,12 @@ const handleComplexOperation = async () => {
 ### 4. Handle Wallet Not Connected
 
 ```tsx
-const ActionButton = () => {
-  const { connected } = useKitWallet();
+const ActionButton: React.FC = () => {
+  const { signer } = useKitWallet();
   const sendTX = useSendTX();
   
-  const handleAction = async () => {
-    if (!connected) {
+  const handleAction = async (): Promise<void> => {
+    if (!signer) {
       // Trigger wallet modal
       document.querySelector('[data-wallet-modal-button]')?.click();
       return;
@@ -468,4 +446,4 @@ const ActionButton = () => {
 
 ## Next Steps
 
-Now you know how to read accounts and send transactions. Let's explore [advanced patterns and best practices](./05-patterns.md) for building production Solana apps with Grill.
+You now have all the tools you need to build efficient Solana applications with Grill. The automatic account batching, type-safe decoding, and streamlined transaction management will help you create performant dApps with less boilerplate.

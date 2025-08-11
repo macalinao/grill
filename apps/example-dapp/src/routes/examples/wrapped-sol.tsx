@@ -7,7 +7,8 @@ import {
 import { createFileRoute } from "@tanstack/react-router";
 import { getExplorerLink } from "gill";
 import { ArrowDownUp, X } from "lucide-react";
-import { type FC, useMemo, useState } from "react";
+import type * as React from "react";
+import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,7 +27,7 @@ import {
   WSOL_MINT,
 } from "@/utils/wrap-sol";
 
-const WrappedSOLPage: FC = () => {
+const WrappedSOLPage: React.FC = () => {
   const { signer } = useKitWallet();
   const sendTX = useSendTX();
   const { data: userAccount } = useAccount({
@@ -78,7 +79,7 @@ const WrappedSOLPage: FC = () => {
   }, [wsolTokenAccount]);
 
   // Handle wrap SOL action
-  const handleWrapSOL = async () => {
+  const handleWrapSOL = async (): Promise<void> => {
     if (!(signer && wrapAmount) || Number.parseFloat(wrapAmount) <= 0) {
       toast.error("Invalid wrap amount");
       return;
@@ -114,7 +115,7 @@ const WrappedSOLPage: FC = () => {
   };
 
   // Handle close wSOL account action
-  const handleCloseAccount = async () => {
+  const handleCloseAccount = async (): Promise<void> => {
     if (!signer) {
       return;
     }
@@ -142,7 +143,7 @@ const WrappedSOLPage: FC = () => {
   };
 
   // Calculate what you'll receive (1:1 conversion)
-  const calculateReceiveAmount = (inputAmount: string) => {
+  const calculateReceiveAmount = (inputAmount: string): string => {
     if (!inputAmount || inputAmount === "0") {
       return "0.00";
     }

@@ -1,6 +1,7 @@
 import { useAccount, useKitWallet } from "@macalinao/grill";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useSolanaClient } from "gill-react";
+import type * as React from "react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -12,7 +13,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-export function SimpleDashboard() {
+export const SimpleDashboard: React.FC = () => {
   const { signer } = useKitWallet();
   const { rpc } = useSolanaClient();
   // Only fetch account if signer is available
@@ -20,7 +21,7 @@ export function SimpleDashboard() {
   const [slot, setSlot] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const handleRefreshBalance = () => {
+  const handleRefreshBalance = (): void => {
     if (!signer) {
       toast.error("Please connect your wallet first");
       return;
@@ -30,7 +31,7 @@ export function SimpleDashboard() {
     toast.success("Balance refreshed");
   };
 
-  const handleGetSlot = async () => {
+  const handleGetSlot = async (): Promise<void> => {
     setLoading(true);
     try {
       const currentSlot = await rpc.getSlot().send();
@@ -122,4 +123,4 @@ export function SimpleDashboard() {
       </div>
     </div>
   );
-}
+};

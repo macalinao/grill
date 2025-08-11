@@ -25,36 +25,45 @@ But Grill is more than just batching. It's a complete toolkit that makes Solana 
 If you've built GraphQL servers, you know about DataLoader. It's Facebook's solution to the N+1 query problem. Grill brings this same pattern to Solana.
 
 ```tsx
+import type { FC } from "react";
+import type { Address } from "gill";
+import { useQuery } from "@tanstack/react-query";
+import { useAccount } from "@macalinao/grill";
+
+interface ComponentProps {
+  address: Address;
+}
+
 // Without Grill: 3 separate RPC calls
-const Component1 = () => {
+const Component1: FC<ComponentProps> = ({ address }) => {
   const { data: account1 } = useQuery({
-    queryFn: () => connection.getAccountInfo(address1),
+    queryFn: () => connection.getAccountInfo(address),
   });
 };
 
-const Component2 = () => {
+const Component2: FC<ComponentProps> = ({ address }) => {
   const { data: account2 } = useQuery({
-    queryFn: () => connection.getAccountInfo(address2),
+    queryFn: () => connection.getAccountInfo(address),
   });
 };
 
-const Component3 = () => {
+const Component3: FC<ComponentProps> = ({ address }) => {
   const { data: account3 } = useQuery({
-    queryFn: () => connection.getAccountInfo(address3),
+    queryFn: () => connection.getAccountInfo(address),
   });
 };
 
 // With Grill: 1 batched RPC call
-const Component1 = () => {
-  const { data: account1 } = useAccount({ address: address1 });
+const Component1: FC<ComponentProps> = ({ address }) => {
+  const { data: account1 } = useAccount({ address });
 };
 
-const Component2 = () => {
-  const { data: account2 } = useAccount({ address: address2 });
+const Component2: FC<ComponentProps> = ({ address }) => {
+  const { data: account2 } = useAccount({ address });
 };
 
-const Component3 = () => {
-  const { data: account3 } = useAccount({ address: address3 });
+const Component3: FC<ComponentProps> = ({ address }) => {
+  const { data: account3 } = useAccount({ address });
 };
 ```
 
@@ -67,40 +76,93 @@ Grill isn't just about performance. It's about developer experience:
 ### 1. **Type-Safe Account Decoding**
 
 ```tsx
-const { data: tokenAccount } = useAccount({
-  address: tokenAccountAddress,
-  decoder: getTokenAccountDecoder(),
-});
-// tokenAccount is fully typed as TokenAccount
+import type { FC } from "react";
+import type { Address } from "gill";
+import { useAccount } from "@macalinao/grill";
+import { getTokenAccountDecoder } from "@solana-program/token";
+
+interface TokenAccountDisplayProps {
+  tokenAccountAddress: Address;
+}
+
+const TokenAccountDisplay: FC<TokenAccountDisplayProps> = ({ tokenAccountAddress }) => {
+  const { data: tokenAccount } = useAccount({
+    address: tokenAccountAddress,
+    decoder: getTokenAccountDecoder(),
+  });
+  // tokenAccount is fully typed as TokenAccount
+  
+  return <div>{/* Your component JSX */}</div>;
+};
 ```
 
 ### 2. **Automatic PDA Derivation**
 
 ```tsx
-const { data: ata } = useAssociatedTokenAccount({
-  mint: usdcMint,
-  owner: userAddress,
-});
-// Automatically derives the ATA address and fetches the account
+import type { FC } from "react";
+import type { Address } from "gill";
+import { useAssociatedTokenAccount } from "@macalinao/grill";
+
+interface ATADisplayProps {
+  usdcMint: Address;
+  userAddress: Address;
+}
+
+const ATADisplay: FC<ATADisplayProps> = ({ usdcMint, userAddress }) => {
+  const { data: ata } = useAssociatedTokenAccount({
+    mint: usdcMint,
+    owner: userAddress,
+  });
+  // Automatically derives the ATA address and fetches the account
+  
+  return <div>{/* Your component JSX */}</div>;
+};
 ```
 
 ### 3. **Transaction Management with Toast Notifications**
 
 ```tsx
-const sendTX = useSendTX();
+import type { FC } from "react";
+import type { TransactionInstruction } from "@solana/web3.js";
+import { useSendTX } from "@macalinao/grill";
 
-const handleSwap = async () => {
-  const instructions = buildSwapInstructions();
-  await sendTX("Swap USDC for SOL", instructions);
-  // Automatic toast notifications for each transaction stage
+interface SwapButtonProps {
+  buildSwapInstructions: () => TransactionInstruction[];
+}
+
+const SwapButton: FC<SwapButtonProps> = ({ buildSwapInstructions }) => {
+  const sendTX = useSendTX();
+
+  const handleSwap = async (): Promise<void> => {
+    const instructions = buildSwapInstructions();
+    await sendTX("Swap USDC for SOL", instructions);
+    // Automatic toast notifications for each transaction stage
+  };
+  
+  return <button onClick={handleSwap}>Swap</button>;
 };
 ```
 
 ### 4. **Kit Wallet Integration**
 
 ```tsx
-const { signer } = useKitWallet();
-// Works with any @solana/kit compatible wallet
+import type { FC } from "react";
+import { useKitWallet } from "@macalinao/grill";
+
+const WalletInfo: FC = () => {
+  const { signer } = useKitWallet();
+  // Works with any @solana/kit compatible wallet
+  
+  return (
+    <div>
+      {signer ? (
+        <p>Wallet connected: {signer.address}</p>
+      ) : (
+        <p>Wallet not connected</p>
+      )}
+    </div>
+  );
+};
 ```
 
 ## The Philosophy: Composition Over Configuration
@@ -108,7 +170,16 @@ const { signer } = useKitWallet();
 Grill follows React's philosophy of composition. Instead of a monolithic SDK with hundreds of methods, Grill provides focused hooks that compose together:
 
 ```tsx
-const MyDeFiApp = () => {
+import type { FC } from "react";
+import type { Address, TokenAccount, TransactionInstruction } from "gill";
+import { useKitWallet, useAssociatedTokenAccount, useAccount, useSendTX } from "@macalinao/grill";
+
+interface MyDeFiAppProps {
+  USDC_MINT: Address;
+  buildInstructions: (usdcAccount: TokenAccount) => TransactionInstruction[];
+}
+
+const MyDeFiApp: FC<MyDeFiAppProps> = ({ USDC_MINT, buildInstructions }) => {
   // Get the user's wallet
   const { signer } = useKitWallet();
 
@@ -126,12 +197,20 @@ const MyDeFiApp = () => {
   const sendTX = useSendTX();
 
   // Everything composes naturally
-  const handleAction = async () => {
+  const handleAction = async (): Promise<void> => {
     if (!signer || !usdcAccount) return;
 
-    const instructions = buildInstructions(usdcAccount);
+    const instructions = buildInstructions(usdcAccount.data);
     await sendTX("Perform DeFi Action", instructions);
   };
+  
+  return (
+    <div>
+      <button onClick={handleAction} disabled={!signer || !usdcAccount}>
+        Perform DeFi Action
+      </button>
+    </div>
+  );
 };
 ```
 

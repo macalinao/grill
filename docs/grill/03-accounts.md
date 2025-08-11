@@ -5,7 +5,7 @@
 Here's what happens when your app renders with Grill:
 
 ```tsx
-const Dashboard = () => {
+const Dashboard: React.FC = () => {
   return (
     <>
       <UserBalance />        {/* Requests user account */}
@@ -29,7 +29,11 @@ The `useAccount` hook is your workhorse:
 ```tsx
 import { useAccount } from "@macalinao/grill";
 
-const AccountInfo = ({ address }) => {
+interface AccountInfoProps {
+  address: Address;
+}
+
+const AccountInfo: React.FC<AccountInfoProps> = ({ address }) => {
   const { data: account, isLoading, error } = useAccount({
     address
   });
@@ -56,7 +60,11 @@ Raw account data is just bytes. Grill makes decoding type-safe and automatic:
 import { useAccount } from "@macalinao/grill";
 import { getTokenAccountDecoder } from "@solana-program/token";
 
-const TokenAccountInfo = ({ address }) => {
+interface TokenAccountInfoProps {
+  address: Address;
+}
+
+const TokenAccountInfo: React.FC<TokenAccountInfoProps> = ({ address }) => {
   const { data: account } = useAccount({
     address,
     decoder: getTokenAccountDecoder()
@@ -85,7 +93,11 @@ The most common pattern in Solana: fetching a user's token balance. Grill makes 
 ```tsx
 import { useAssociatedTokenAccount } from "@macalinao/grill";
 
-const USDCBalance = ({ userAddress }) => {
+interface USDCBalanceProps {
+  userAddress: Address;
+}
+
+const USDCBalance: React.FC<USDCBalanceProps> = ({ userAddress }) => {
   const { data: tokenAccount } = useAssociatedTokenAccount({
     mint: USDC_MINT,
     owner: userAddress
@@ -107,7 +119,7 @@ Compare this to the traditional approach:
 
 ```tsx
 // The old way - so much boilerplate!
-const USDCBalance = ({ userAddress }) => {
+const USDCBalance: React.FC<USDCBalanceProps> = ({ userAddress }) => {
   const { connection } = useConnection();
   const [balance, setBalance] = useState("0.00");
   
@@ -147,7 +159,12 @@ The Grill version is 80% less code and automatically batched with other requests
 Need to show all of a user's token balances? Use batching to your advantage:
 
 ```tsx
-const TokenPortfolio = ({ userAddress, mints }) => {
+interface TokenPortfolioProps {
+  userAddress: Address;
+  mints: Address[];
+}
+
+const TokenPortfolio: React.FC<TokenPortfolioProps> = ({ userAddress, mints }) => {
   // All of these will be batched into minimal RPC calls
   const tokenAccounts = mints.map(mint => ({
     mint,
@@ -185,7 +202,7 @@ const useMyProgramAccount = createDecodedAccountHook({
 });
 
 // Now use it anywhere
-const MyComponent = () => {
+const MyComponent: React.FC = () => {
   const { data: account } = useMyProgramAccount({
     address: someAddress
   });
@@ -200,18 +217,31 @@ Working with Program Derived Addresses? Create reusable hooks:
 
 ```tsx
 import { createPdaHook } from "@macalinao/grill";
+import { findProgramDerivedAddress } from "@solana/kit";
 
-// Define your PDA derivation
-const useUserStatsPDA = createPdaHook({
-  program: STATS_PROGRAM_ID,
-  seeds: (user: Address) => [
-    Buffer.from("user-stats"),
-    user.toBuffer()
-  ]
-});
+// Define your PDA derivation function
+const findUserStatsPda = async (user: Address) => {
+  return findProgramDerivedAddress({
+    programAddress: STATS_PROGRAM_ID,
+    seeds: [
+      new TextEncoder().encode("user-stats"),
+      user.toBytes()
+    ]
+  });
+};
+
+// Create a reusable hook
+const useUserStatsPDA = createPdaHook(
+  findUserStatsPda,
+  "userStatsPda"
+);
 
 // Use it in components
-const UserStats = ({ userAddress }) => {
+interface UserStatsProps {
+  userAddress: Address;
+}
+
+const UserStats: React.FC<UserStatsProps> = ({ userAddress }) => {
   const pda = useUserStatsPDA(userAddress);
   const { data: stats } = useAccount({
     address: pda,
@@ -227,7 +257,12 @@ const UserStats = ({ userAddress }) => {
 Only fetch when you need to:
 
 ```tsx
-const ConditionalAccount = ({ shouldFetch, address }) => {
+interface ConditionalAccountProps {
+  shouldFetch: boolean;
+  address: Address | null;
+}
+
+const ConditionalAccount: React.FC<ConditionalAccountProps> = ({ shouldFetch, address }) => {
   const { data: account } = useAccount({
     address: shouldFetch ? address : null
   });
@@ -242,7 +277,11 @@ const ConditionalAccount = ({ shouldFetch, address }) => {
 Grill integrates with React Query, giving you powerful cache controls:
 
 ```tsx
-const RefreshableBalance = ({ address }) => {
+interface RefreshableBalanceProps {
+  address: Address;
+}
+
+const RefreshableBalance: React.FC<RefreshableBalanceProps> = ({ address }) => {
   const { 
     data: account, 
     refetch,
@@ -275,11 +314,17 @@ After a transaction, you might want to optimistically update the cache:
 import { useQueryClient } from "@tanstack/react-query";
 import { createAccountQueryKey } from "@macalinao/grill";
 
-const TransferButton = ({ from, to, amount }) => {
+interface TransferButtonProps {
+  from: Address;
+  to: Address;
+  amount: bigint;
+}
+
+const TransferButton: React.FC<TransferButtonProps> = ({ from, to, amount }) => {
   const queryClient = useQueryClient();
   const sendTX = useSendTX();
   
-  const handleTransfer = async () => {
+  const handleTransfer = async (): Promise<void> => {
     // Send transaction
     await sendTX("Transfer SOL", transferInstructions);
     
@@ -318,7 +363,11 @@ const TransferButton = ({ from, to, amount }) => {
 ### Pattern 1: Prefetch Critical Data
 
 ```tsx
-const AppLayout = ({ children }) => {
+interface AppLayoutProps {
+  children: React.ReactNode;
+}
+
+const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   const { signer } = useKitWallet();
   
   // Prefetch user's main account and common token accounts
@@ -340,7 +389,11 @@ const AppLayout = ({ children }) => {
 ### Pattern 2: Batch Related Accounts
 
 ```tsx
-const LiquidityPool = ({ poolAddress }) => {
+interface LiquidityPoolProps {
+  poolAddress: Address;
+}
+
+const LiquidityPool: React.FC<LiquidityPoolProps> = ({ poolAddress }) => {
   const { data: pool } = useAccount({
     address: poolAddress,
     decoder: getPoolDecoder()
@@ -366,7 +419,11 @@ const LiquidityPool = ({ poolAddress }) => {
 ### Pattern 3: Lazy Load Non-Critical Data
 
 ```tsx
-const TokenDetails = ({ mint }) => {
+interface TokenDetailsProps {
+  mint: Address;
+}
+
+const TokenDetails: React.FC<TokenDetailsProps> = ({ mint }) => {
   const [showDetails, setShowDetails] = useState(false);
   
   // Only fetch when expanded

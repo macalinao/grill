@@ -1,8 +1,9 @@
 import { Moon, Sun } from "lucide-react";
+import type * as React from "react";
 import { useTheme } from "@/components/theme-provider";
 import { Button } from "@/components/ui/button";
 
-export function ThemeToggle() {
+export const ThemeToggle: React.FC = () => {
   const { theme, setTheme } = useTheme();
 
   return (
@@ -18,4 +19,4 @@ export function ThemeToggle() {
       <span className="sr-only">Toggle theme</span>
     </Button>
   );
-}
+};
