@@ -1,0 +1,14 @@
+# @macalinao/grill
+
+## 0.2.0
+
+### Minor Changes
+
+- 32cc1bb: Force republish
+- c85a7ca: Refactor transaction sending
+
+### Patch Changes
+
+- Updated dependencies [32cc1bb]
+  - @macalinao/dataloader-es@0.2.0
+  - @macalinao/solana-batch-accounts-loader@0.2.0
