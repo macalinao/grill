@@ -13,8 +13,7 @@ import { Route as ExamplesRouteImport } from "./routes/examples.tsx"
 import { Route as IndexRouteImport } from "./routes/index.tsx"
 import { Route as ExamplesIndexRouteImport } from "./routes/examples/index.tsx"
 import { Route as ExamplesWrappedSolRouteImport } from "./routes/examples/wrapped-sol.tsx"
-import { Route as ExamplesSendTokenRouteImport } from "./routes/examples/send-token.tsx"
-import { Route as ExamplesSendSolRouteImport } from "./routes/examples/send-sol.tsx"
+import { Route as ExamplesTransferSolRouteImport } from "./routes/examples/transfer-sol.tsx"
 import { Route as ExamplesDashboardRouteImport } from "./routes/examples/dashboard.tsx"
 
 const ExamplesRoute = ExamplesRouteImport.update({
@@ -37,14 +36,9 @@ const ExamplesWrappedSolRoute = ExamplesWrappedSolRouteImport.update({
   path: "/wrapped-sol",
   getParentRoute: () => ExamplesRoute,
 } as any)
-const ExamplesSendTokenRoute = ExamplesSendTokenRouteImport.update({
-  id: "/send-token",
-  path: "/send-token",
-  getParentRoute: () => ExamplesRoute,
-} as any)
-const ExamplesSendSolRoute = ExamplesSendSolRouteImport.update({
-  id: "/send-sol",
-  path: "/send-sol",
+const ExamplesTransferSolRoute = ExamplesTransferSolRouteImport.update({
+  id: "/transfer-sol",
+  path: "/transfer-sol",
   getParentRoute: () => ExamplesRoute,
 } as any)
 const ExamplesDashboardRoute = ExamplesDashboardRouteImport.update({
@@ -57,16 +51,14 @@ export interface FileRoutesByFullPath {
   "/": typeof IndexRoute
   "/examples": typeof ExamplesRouteWithChildren
   "/examples/dashboard": typeof ExamplesDashboardRoute
-  "/examples/send-sol": typeof ExamplesSendSolRoute
-  "/examples/send-token": typeof ExamplesSendTokenRoute
+  "/examples/transfer-sol": typeof ExamplesTransferSolRoute
   "/examples/wrapped-sol": typeof ExamplesWrappedSolRoute
   "/examples/": typeof ExamplesIndexRoute
 }
 export interface FileRoutesByTo {
   "/": typeof IndexRoute
   "/examples/dashboard": typeof ExamplesDashboardRoute
-  "/examples/send-sol": typeof ExamplesSendSolRoute
-  "/examples/send-token": typeof ExamplesSendTokenRoute
+  "/examples/transfer-sol": typeof ExamplesTransferSolRoute
   "/examples/wrapped-sol": typeof ExamplesWrappedSolRoute
   "/examples": typeof ExamplesIndexRoute
 }
@@ -75,8 +67,7 @@ export interface FileRoutesById {
   "/": typeof IndexRoute
   "/examples": typeof ExamplesRouteWithChildren
   "/examples/dashboard": typeof ExamplesDashboardRoute
-  "/examples/send-sol": typeof ExamplesSendSolRoute
-  "/examples/send-token": typeof ExamplesSendTokenRoute
+  "/examples/transfer-sol": typeof ExamplesTransferSolRoute
   "/examples/wrapped-sol": typeof ExamplesWrappedSolRoute
   "/examples/": typeof ExamplesIndexRoute
 }
@@ -86,16 +77,14 @@ export interface FileRouteTypes {
     | "/"
     | "/examples"
     | "/examples/dashboard"
-    | "/examples/send-sol"
-    | "/examples/send-token"
+    | "/examples/transfer-sol"
     | "/examples/wrapped-sol"
     | "/examples/"
   fileRoutesByTo: FileRoutesByTo
   to:
     | "/"
     | "/examples/dashboard"
-    | "/examples/send-sol"
-    | "/examples/send-token"
+    | "/examples/transfer-sol"
     | "/examples/wrapped-sol"
     | "/examples"
   id:
@@ -103,8 +92,7 @@ export interface FileRouteTypes {
     | "/"
     | "/examples"
     | "/examples/dashboard"
-    | "/examples/send-sol"
-    | "/examples/send-token"
+    | "/examples/transfer-sol"
     | "/examples/wrapped-sol"
     | "/examples/"
   fileRoutesById: FileRoutesById
@@ -144,18 +132,11 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof ExamplesWrappedSolRouteImport
       parentRoute: typeof ExamplesRoute
     }
-    "/examples/send-token": {
-      id: "/examples/send-token"
-      path: "/send-token"
-      fullPath: "/examples/send-token"
-      preLoaderRoute: typeof ExamplesSendTokenRouteImport
-      parentRoute: typeof ExamplesRoute
-    }
-    "/examples/send-sol": {
-      id: "/examples/send-sol"
-      path: "/send-sol"
-      fullPath: "/examples/send-sol"
-      preLoaderRoute: typeof ExamplesSendSolRouteImport
+    "/examples/transfer-sol": {
+      id: "/examples/transfer-sol"
+      path: "/transfer-sol"
+      fullPath: "/examples/transfer-sol"
+      preLoaderRoute: typeof ExamplesTransferSolRouteImport
       parentRoute: typeof ExamplesRoute
     }
     "/examples/dashboard": {
@@ -170,16 +151,14 @@ declare module "@tanstack/react-router" {
 
 interface ExamplesRouteChildren {
   ExamplesDashboardRoute: typeof ExamplesDashboardRoute
-  ExamplesSendSolRoute: typeof ExamplesSendSolRoute
-  ExamplesSendTokenRoute: typeof ExamplesSendTokenRoute
+  ExamplesTransferSolRoute: typeof ExamplesTransferSolRoute
   ExamplesWrappedSolRoute: typeof ExamplesWrappedSolRoute
   ExamplesIndexRoute: typeof ExamplesIndexRoute
 }
 
 const ExamplesRouteChildren: ExamplesRouteChildren = {
   ExamplesDashboardRoute: ExamplesDashboardRoute,
-  ExamplesSendSolRoute: ExamplesSendSolRoute,
-  ExamplesSendTokenRoute: ExamplesSendTokenRoute,
+  ExamplesTransferSolRoute: ExamplesTransferSolRoute,
   ExamplesWrappedSolRoute: ExamplesWrappedSolRoute,
   ExamplesIndexRoute: ExamplesIndexRoute,
 }
