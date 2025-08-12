@@ -1,5 +1,12 @@
 # @macalinao/grill
 
+## 0.2.2
+
+### Patch Changes
+
+- 0a3cfb6: Fix sonner peer dependency
+- 78e247a: Support custom explorers (Solscan example)
+
 ## 0.2.1
 
 ### Patch Changes

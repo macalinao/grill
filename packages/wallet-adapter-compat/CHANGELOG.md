@@ -1,5 +1,14 @@
 # @macalinao/wallet-adapter-compat
 
+## 0.2.2
+
+### Patch Changes
+
+- 62a5325: Remove debug logs from wallet-adapter-compat
+- Updated dependencies [0a3cfb6]
+- Updated dependencies [78e247a]
+  - @macalinao/grill@0.2.2
+
 ## 0.2.1
 
 ### Patch Changes
