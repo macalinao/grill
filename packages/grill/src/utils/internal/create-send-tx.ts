@@ -12,7 +12,8 @@ import {
   signAndSendTransactionMessageWithSigners,
 } from "@solana/kit";
 import type { SolanaClient } from "gill";
-import { createTransaction, getExplorerLink } from "gill";
+import { createTransaction } from "gill";
+import type { GetExplorerLinkFunction } from "../../contexts/grill-context.js";
 import type { TransactionStatusEvent } from "../../types.js";
 import { pollConfirmTransaction } from "../poll-confirm-transaction.js";
 
@@ -32,6 +33,7 @@ export interface CreateSendTXParams {
   rpc: SolanaClient["rpc"];
   refetchAccounts: (addresses: Address[]) => Promise<void>;
   onTransactionStatusEvent: (event: TransactionStatusEvent) => void;
+  getExplorerLink: GetExplorerLinkFunction;
 }
 
 /**
@@ -43,6 +45,7 @@ export const createSendTX = ({
   rpc,
   refetchAccounts,
   onTransactionStatusEvent,
+  getExplorerLink,
 }: CreateSendTXParams): SendTXFunction => {
   return async (
     name: string,
@@ -118,16 +121,18 @@ export const createSendTX = ({
         rpc,
       });
 
-      // Reload the accounts that were written to
-      const writableAccounts = result.transaction.message.accountKeys
-        .filter((key) => key.writable)
-        .map((k) => k.pubkey);
-      await refetchAccounts(writableAccounts);
-
       onTransactionStatusEvent({
         ...sentTxEvent,
         type: "confirmed",
       });
+
+      // Reload the accounts that were written to
+      const writableAccounts = result.transaction.message.accountKeys
+        .filter((key) => key.writable)
+        .map((k) => k.pubkey);
+      if (writableAccounts.length > 0) {
+        await refetchAccounts(writableAccounts);
+      }
 
       if (result.meta?.logMessages) {
         console.log(name, result.meta.logMessages.join("\n"));
