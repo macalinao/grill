@@ -13,7 +13,6 @@ import type * as React from "react";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -29,23 +28,11 @@ export const Route = createFileRoute("/examples/send-token")({
 });
 
 // Form validation schema using addressSchema from zod-solana
-const sendTokenSchema = z.object({
-  recipient: addressSchema,
-  amount: z
-    .string()
-    .min(1, "Amount is required")
-    .refine((val) => {
-      const num = Number.parseFloat(val);
-      return !Number.isNaN(num) && num > 0;
-    }, "Amount must be a positive number")
-    .refine((val) => {
-      const num = Number.parseFloat(val);
-      return num <= 10000; // Higher limit for tokens
-    }, "Amount must be less than 10000"),
-  tokenType: z.enum(["SOL", "USDC", "CUSTOM"]).default("SOL"),
-});
-
-type SendTokenFormData = z.infer<typeof sendTokenSchema>;
+interface SendTokenFormData {
+  recipient: string; // Will be validated and transformed to Address
+  amount: string;
+  tokenType: "SOL" | "USDC" | "CUSTOM";
+}
 
 const SendTokenPage: React.FC = () => {
   const { signer } = useKitWallet();
@@ -66,6 +53,7 @@ const SendTokenPage: React.FC = () => {
     defaultValues: {
       amount: "",
       tokenType: "SOL",
+      recipient: "",
     },
   });
 
@@ -81,7 +69,7 @@ const SendTokenPage: React.FC = () => {
   const estimatedFee = 0.000005; // ~5000 lamports
 
   const totalCost = useMemo(() => {
-    const amount = Number.parseFloat(watchedAmount) ?? 0;
+    const amount = Number.parseFloat(watchedAmount) || 0;
     return tokenType === "SOL" ? amount + estimatedFee : estimatedFee;
   }, [watchedAmount, tokenType]);
 
@@ -92,21 +80,41 @@ const SendTokenPage: React.FC = () => {
     }
 
     try {
+      // Validate recipient address using addressSchema
+      const recipientResult = addressSchema.safeParse(data.recipient);
+      if (!recipientResult.success) {
+        toast.error("Invalid Solana address");
+        return;
+      }
+      const recipientAddress = recipientResult.data;
+
       const amount = Number.parseFloat(data.amount);
+      if (Number.isNaN(amount) || amount <= 0) {
+        toast.error("Amount must be a positive number");
+        return;
+      }
 
       if (data.tokenType === "SOL") {
+        // Check balance
+        if (totalCost > availableBalance) {
+          toast.error("Insufficient balance for this transaction");
+          return;
+        }
+
         // Send native SOL
         const instruction = getTransferSolInstruction({
           source: signer,
-          destination: data.recipient,
+          destination: recipientAddress,
           amount: lamports(BigInt(Math.floor(amount * 1e9))),
         });
 
-        const signature = await sendTX(`Send ${amount.toString()} SOL`, [instruction]);
+        const signature = await sendTX(`Send ${amount.toString()} SOL`, [
+          instruction,
+        ]);
 
         if (signature) {
           toast.success("Transaction sent!", {
-            description: `Sent ${amount.toString()} SOL to ${data.recipient.slice(0, 8)}...`,
+            description: `Sent ${amount.toString()} SOL to ${recipientAddress.slice(0, 8)}...`,
             action: {
               label: "View",
               onClick: () => {
@@ -164,7 +172,13 @@ const SendTokenPage: React.FC = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                void handleSubmit(onSubmit)(e);
+              }}
+              className="space-y-6"
+            >
               <div className="space-y-2">
                 <label htmlFor="tokenType" className="text-sm font-medium">
                   Token Type
@@ -199,7 +213,7 @@ const SendTokenPage: React.FC = () => {
                 />
                 {errors.recipient && (
                   <p className="text-sm text-destructive">
-                    {errors.recipient.message || "Invalid Solana address"}
+                    {errors.recipient.message ?? "Invalid Solana address"}
                   </p>
                 )}
                 <p className="text-xs text-muted-foreground">
@@ -256,7 +270,7 @@ const SendTokenPage: React.FC = () => {
                     <span className="text-muted-foreground">
                       Amount to Send:
                     </span>
-                    <span>{Number.parseFloat(watchedAmount) ?? 0} SOL</span>
+                    <span>{Number.parseFloat(watchedAmount) || 0} SOL</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">
