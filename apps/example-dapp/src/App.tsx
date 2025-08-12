@@ -1,4 +1,4 @@
-import { GrillProvider } from "@macalinao/grill";
+import { GrillProvider, getSolscanExplorerLink } from "@macalinao/grill";
 import { WalletAdapterCompatProvider } from "@macalinao/wallet-adapter-compat";
 import {
   ConnectionProvider,
@@ -12,7 +12,7 @@ import {
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
-import { createSolanaClient } from "gill";
+import { createSolanaClient, getPublicSolanaRpcUrl } from "gill";
 import { SolanaProvider } from "gill-react";
 import type * as React from "react";
 import { useMemo } from "react";
@@ -33,12 +33,12 @@ declare module "@tanstack/react-router" {
 
 import "@solana/wallet-adapter-react-ui/styles.css";
 
-console.log(import.meta.env);
-console.log(import.meta.env.VITE_SOLANA_RPC_URL ?? "mainnet-beta");
+const endpoint =
+  import.meta.env.VITE_SOLANA_RPC_URL ?? getPublicSolanaRpcUrl("mainnet-beta");
 
 const queryClient = new QueryClient();
 const solanaClient = createSolanaClient({
-  urlOrMoniker: import.meta.env.VITE_SOLANA_RPC_URL ?? "mainnet-beta",
+  urlOrMoniker: endpoint,
 });
 
 export const App: React.FC = () => {
@@ -50,15 +50,15 @@ export const App: React.FC = () => {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="grill-theme">
       <QueryClientProvider client={queryClient}>
-        <ConnectionProvider endpoint={"https://api.mainnet-beta.solana.com"}>
+        <ConnectionProvider endpoint={endpoint}>
           <WalletAdapterProvider wallets={wallets} autoConnect>
             <WalletModalProvider>
               <WalletAdapterCompatProvider>
                 <SolanaProvider client={solanaClient}>
-                  <GrillProvider>
+                  <GrillProvider getExplorerLink={getSolscanExplorerLink}>
                     <div className="min-h-screen bg-background">
                       <RouterProvider router={router} />
-                      <Toaster position="bottom-right" />
+                      <Toaster richColors position="bottom-right" />
                       <ReactQueryDevtools initialIsOpen={false} />
                     </div>
                   </GrillProvider>

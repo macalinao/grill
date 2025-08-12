@@ -1,7 +1,10 @@
 import type { DataLoader } from "@macalinao/dataloader-es";
 import type { Address, EncodedAccount } from "@solana/kit";
+import type { GetExplorerLinkArgs } from "gill";
 import { createContext, useContext } from "react";
 import type { SendTXFunction } from "../utils/internal/create-send-tx.js";
+
+export type GetExplorerLinkFunction = (args?: GetExplorerLinkArgs) => string;
 
 /**
  * Context value interface for SolanaAccountProvider.
@@ -16,6 +19,11 @@ export interface GrillContextValue {
    * Function to send transactions with batching and confirmation
    */
   sendTX: SendTXFunction;
+
+  /**
+   * Function to get explorer link for a transaction signature
+   */
+  getExplorerLink: GetExplorerLinkFunction;
 }
 
 /**

@@ -4,10 +4,6 @@
   "type": "module",
   "license": "Apache-2.0",
   "author": "Ian Macalinao <me@ianm.com>",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/macalinao/grill.git"
-  },
   "workspaces": {
     "packages": [
       "packages/*",
@@ -25,7 +21,9 @@
       "@solana/wallet-adapter-base": "^0.9.27",
       "@solana/wallet-adapter-react": "^0.15.39",
       "react": "^19.1.0",
-      "react-dom": "^19.1.0"
+      "react-dom": "^19.1.0",
+      "gill": "^0.10.3",
+      "gill-react": "^0.5.0"
     }
   },
   "scripts": {
