@@ -12,7 +12,9 @@ import {
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
+import { createSolanaClient } from "gill";
 import { SolanaProvider } from "gill-react";
+import type * as React from "react";
 import { useMemo } from "react";
 import { Toaster } from "sonner";
 
@@ -30,7 +32,6 @@ declare module "@tanstack/react-router" {
 }
 
 import "@solana/wallet-adapter-react-ui/styles.css";
-import { createSolanaClient } from "gill";
 
 console.log(import.meta.env);
 console.log(import.meta.env.VITE_SOLANA_RPC_URL ?? "mainnet-beta");

@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -14,7 +14,7 @@ export interface InputTokenAmountProps {
   disabled?: boolean;
 }
 
-export const InputTokenAmount: FC<InputTokenAmountProps> = ({
+export const InputTokenAmount: React.FC<InputTokenAmountProps> = ({
   token,
   value,
   onChange,

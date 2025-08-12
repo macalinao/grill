@@ -38,7 +38,5 @@ export const WalletAdapterCompatProvider: React.FC<
     }
   }, [wallet, connection]);
 
-  console.log("signer", signer);
-
   return <WalletProvider signer={signer}>{children}</WalletProvider>;
 };

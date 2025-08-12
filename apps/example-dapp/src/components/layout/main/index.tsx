@@ -1,6 +1,6 @@
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { Link, Outlet } from "@tanstack/react-router";
-import type { FC } from "react";
+import type * as React from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import {
   NavigationMenu,
@@ -14,7 +14,7 @@ export interface MainLayoutProps {
   className?: string;
 }
 
-export const MainLayout: FC<MainLayoutProps> = ({ className }) => {
+export const MainLayout: React.FC<MainLayoutProps> = ({ className }) => {
   return (
     <div className={cn("flex min-h-screen flex-col bg-background", className)}>
       <header className="fixed top-0 z-50 flex h-16 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">

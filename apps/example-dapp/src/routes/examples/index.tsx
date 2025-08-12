@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import type * as React from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-const ExamplesIndexPage = () => {
+const ExamplesIndexPage: React.FC = () => {
   return (
     <div className="space-y-6">
       <div>
