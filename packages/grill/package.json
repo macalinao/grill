@@ -45,6 +45,7 @@
   "dependencies": {
     "@macalinao/dataloader-es": "workspace:*",
     "@macalinao/solana-batch-accounts-loader": "workspace:*",
+    "@macalinao/zod-solana": "workspace:*",
     "@solana-program/token": "^0.5.1",
     "@solana/kit": "catalog:",
     "@tanstack/react-query": "catalog:",

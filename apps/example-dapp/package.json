@@ -43,6 +43,7 @@
     "lucide-react": "^0.539.0",
     "react": "catalog:",
     "react-dom": "catalog:",
+    "react-hook-form": "^7.62.0",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.3.1"
   },

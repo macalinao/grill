@@ -1,0 +1,63 @@
+{
+  "name": "@macalinao/zod-solana",
+  "version": "0.0.1",
+  "description": "Zod schemas for Solana types with @solana/kit integration",
+  "type": "module",
+  "author": "Ian Macalinao <me@ianm.com>",
+  "homepage": "https://grill.ianm.com",
+  "license": "Apache-2.0",
+  "keywords": [
+    "solana",
+    "zod",
+    "validation",
+    "address",
+    "typescript",
+    "schema"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist/",
+    "src/"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/macalinao/grill.git",
+    "directory": "packages/zod-solana"
+  },
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -fr dist/",
+    "lint": "eslint . --cache",
+    "test": "bun test"
+  },
+  "peerDependencies": {
+    "@solana/kit": ">=1.0.0",
+    "zod": ">=3.0.0 || >=4.0.0"
+  },
+  "devDependencies": {
+    "@macalinao/eslint-config": "catalog:",
+    "@macalinao/tsconfig": "catalog:",
+    "@solana/kit": "catalog:",
+    "@types/bun": "^1.2.19",
+    "eslint": "catalog:",
+    "typescript": "catalog:",
+    "zod": "^4"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}": [
+      "biome check --write --no-errors-on-unmatched",
+      "eslint --fix --cache"
+    ],
+    "*.{json,jsonc,html}": "biome format --write --no-errors-on-unmatched"
+  }
+}
