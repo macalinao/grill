@@ -3,6 +3,13 @@ import type { UseQueryResult } from "@tanstack/react-query";
 import { useAccount } from "./use-account.js";
 
 /**
+ * A hook for fetching and decoding accounts.
+ */
+export type UseDecodedAccountHook<TData extends object> = (args: {
+  address: Address | null | undefined;
+}) => UseQueryResult<Account<TData> | null>;
+
+/**
  * Generic helper to create a hook for fetching and decoding accounts
  * @param decoder - The decoder to use for the account data
  * @returns A hook function that fetches and decodes the account

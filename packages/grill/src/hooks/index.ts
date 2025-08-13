@@ -5,5 +5,8 @@ export * from "./use-associated-token-account.js";
 export * from "./use-associated-token-pda.js";
 export { useConnectedWallet } from "./use-connected-wallet.js";
 export { useKitWallet } from "./use-kit-wallet.js";
+export * from "./use-mint-account.js";
 export * from "./use-send-tx.js";
 export * from "./use-token-account.js";
+export * from "./use-token-info.js";
+export * from "./use-token-metadata-account.js";

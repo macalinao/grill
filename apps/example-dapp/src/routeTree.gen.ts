@@ -8,93 +8,105 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from "./routes/__root.tsx"
-import { Route as ExamplesRouteImport } from "./routes/examples.tsx"
-import { Route as IndexRouteImport } from "./routes/index.tsx"
-import { Route as ExamplesIndexRouteImport } from "./routes/examples/index.tsx"
-import { Route as ExamplesWrappedSolRouteImport } from "./routes/examples/wrapped-sol.tsx"
-import { Route as ExamplesTransferSolRouteImport } from "./routes/examples/transfer-sol.tsx"
-import { Route as ExamplesDashboardRouteImport } from "./routes/examples/dashboard.tsx"
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as ExamplesRouteImport } from './routes/examples'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as ExamplesIndexRouteImport } from './routes/examples/index'
+import { Route as ExamplesWrappedSolRouteImport } from './routes/examples/wrapped-sol'
+import { Route as ExamplesTransferSolRouteImport } from './routes/examples/transfer-sol'
+import { Route as ExamplesTokensRouteImport } from './routes/examples/tokens'
+import { Route as ExamplesDashboardRouteImport } from './routes/examples/dashboard'
 
 const ExamplesRoute = ExamplesRouteImport.update({
-  id: "/examples",
-  path: "/examples",
+  id: '/examples',
+  path: '/examples',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ExamplesIndexRoute = ExamplesIndexRouteImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => ExamplesRoute,
 } as any)
 const ExamplesWrappedSolRoute = ExamplesWrappedSolRouteImport.update({
-  id: "/wrapped-sol",
-  path: "/wrapped-sol",
+  id: '/wrapped-sol',
+  path: '/wrapped-sol',
   getParentRoute: () => ExamplesRoute,
 } as any)
 const ExamplesTransferSolRoute = ExamplesTransferSolRouteImport.update({
-  id: "/transfer-sol",
-  path: "/transfer-sol",
+  id: '/transfer-sol',
+  path: '/transfer-sol',
+  getParentRoute: () => ExamplesRoute,
+} as any)
+const ExamplesTokensRoute = ExamplesTokensRouteImport.update({
+  id: '/tokens',
+  path: '/tokens',
   getParentRoute: () => ExamplesRoute,
 } as any)
 const ExamplesDashboardRoute = ExamplesDashboardRouteImport.update({
-  id: "/dashboard",
-  path: "/dashboard",
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => ExamplesRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  "/": typeof IndexRoute
-  "/examples": typeof ExamplesRouteWithChildren
-  "/examples/dashboard": typeof ExamplesDashboardRoute
-  "/examples/transfer-sol": typeof ExamplesTransferSolRoute
-  "/examples/wrapped-sol": typeof ExamplesWrappedSolRoute
-  "/examples/": typeof ExamplesIndexRoute
+  '/': typeof IndexRoute
+  '/examples': typeof ExamplesRouteWithChildren
+  '/examples/dashboard': typeof ExamplesDashboardRoute
+  '/examples/tokens': typeof ExamplesTokensRoute
+  '/examples/transfer-sol': typeof ExamplesTransferSolRoute
+  '/examples/wrapped-sol': typeof ExamplesWrappedSolRoute
+  '/examples/': typeof ExamplesIndexRoute
 }
 export interface FileRoutesByTo {
-  "/": typeof IndexRoute
-  "/examples/dashboard": typeof ExamplesDashboardRoute
-  "/examples/transfer-sol": typeof ExamplesTransferSolRoute
-  "/examples/wrapped-sol": typeof ExamplesWrappedSolRoute
-  "/examples": typeof ExamplesIndexRoute
+  '/': typeof IndexRoute
+  '/examples/dashboard': typeof ExamplesDashboardRoute
+  '/examples/tokens': typeof ExamplesTokensRoute
+  '/examples/transfer-sol': typeof ExamplesTransferSolRoute
+  '/examples/wrapped-sol': typeof ExamplesWrappedSolRoute
+  '/examples': typeof ExamplesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  "/": typeof IndexRoute
-  "/examples": typeof ExamplesRouteWithChildren
-  "/examples/dashboard": typeof ExamplesDashboardRoute
-  "/examples/transfer-sol": typeof ExamplesTransferSolRoute
-  "/examples/wrapped-sol": typeof ExamplesWrappedSolRoute
-  "/examples/": typeof ExamplesIndexRoute
+  '/': typeof IndexRoute
+  '/examples': typeof ExamplesRouteWithChildren
+  '/examples/dashboard': typeof ExamplesDashboardRoute
+  '/examples/tokens': typeof ExamplesTokensRoute
+  '/examples/transfer-sol': typeof ExamplesTransferSolRoute
+  '/examples/wrapped-sol': typeof ExamplesWrappedSolRoute
+  '/examples/': typeof ExamplesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | "/"
-    | "/examples"
-    | "/examples/dashboard"
-    | "/examples/transfer-sol"
-    | "/examples/wrapped-sol"
-    | "/examples/"
+    | '/'
+    | '/examples'
+    | '/examples/dashboard'
+    | '/examples/tokens'
+    | '/examples/transfer-sol'
+    | '/examples/wrapped-sol'
+    | '/examples/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | "/"
-    | "/examples/dashboard"
-    | "/examples/transfer-sol"
-    | "/examples/wrapped-sol"
-    | "/examples"
+    | '/'
+    | '/examples/dashboard'
+    | '/examples/tokens'
+    | '/examples/transfer-sol'
+    | '/examples/wrapped-sol'
+    | '/examples'
   id:
-    | "__root__"
-    | "/"
-    | "/examples"
-    | "/examples/dashboard"
-    | "/examples/transfer-sol"
-    | "/examples/wrapped-sol"
-    | "/examples/"
+    | '__root__'
+    | '/'
+    | '/examples'
+    | '/examples/dashboard'
+    | '/examples/tokens'
+    | '/examples/transfer-sol'
+    | '/examples/wrapped-sol'
+    | '/examples/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -102,47 +114,54 @@ export interface RootRouteChildren {
   ExamplesRoute: typeof ExamplesRouteWithChildren
 }
 
-declare module "@tanstack/react-router" {
+declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    "/examples": {
-      id: "/examples"
-      path: "/examples"
-      fullPath: "/examples"
+    '/examples': {
+      id: '/examples'
+      path: '/examples'
+      fullPath: '/examples'
       preLoaderRoute: typeof ExamplesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    "/": {
-      id: "/"
-      path: "/"
-      fullPath: "/"
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    "/examples/": {
-      id: "/examples/"
-      path: "/"
-      fullPath: "/examples/"
+    '/examples/': {
+      id: '/examples/'
+      path: '/'
+      fullPath: '/examples/'
       preLoaderRoute: typeof ExamplesIndexRouteImport
       parentRoute: typeof ExamplesRoute
     }
-    "/examples/wrapped-sol": {
-      id: "/examples/wrapped-sol"
-      path: "/wrapped-sol"
-      fullPath: "/examples/wrapped-sol"
+    '/examples/wrapped-sol': {
+      id: '/examples/wrapped-sol'
+      path: '/wrapped-sol'
+      fullPath: '/examples/wrapped-sol'
       preLoaderRoute: typeof ExamplesWrappedSolRouteImport
       parentRoute: typeof ExamplesRoute
     }
-    "/examples/transfer-sol": {
-      id: "/examples/transfer-sol"
-      path: "/transfer-sol"
-      fullPath: "/examples/transfer-sol"
+    '/examples/transfer-sol': {
+      id: '/examples/transfer-sol'
+      path: '/transfer-sol'
+      fullPath: '/examples/transfer-sol'
       preLoaderRoute: typeof ExamplesTransferSolRouteImport
       parentRoute: typeof ExamplesRoute
     }
-    "/examples/dashboard": {
-      id: "/examples/dashboard"
-      path: "/dashboard"
-      fullPath: "/examples/dashboard"
+    '/examples/tokens': {
+      id: '/examples/tokens'
+      path: '/tokens'
+      fullPath: '/examples/tokens'
+      preLoaderRoute: typeof ExamplesTokensRouteImport
+      parentRoute: typeof ExamplesRoute
+    }
+    '/examples/dashboard': {
+      id: '/examples/dashboard'
+      path: '/dashboard'
+      fullPath: '/examples/dashboard'
       preLoaderRoute: typeof ExamplesDashboardRouteImport
       parentRoute: typeof ExamplesRoute
     }
@@ -151,6 +170,7 @@ declare module "@tanstack/react-router" {
 
 interface ExamplesRouteChildren {
   ExamplesDashboardRoute: typeof ExamplesDashboardRoute
+  ExamplesTokensRoute: typeof ExamplesTokensRoute
   ExamplesTransferSolRoute: typeof ExamplesTransferSolRoute
   ExamplesWrappedSolRoute: typeof ExamplesWrappedSolRoute
   ExamplesIndexRoute: typeof ExamplesIndexRoute
@@ -158,6 +178,7 @@ interface ExamplesRouteChildren {
 
 const ExamplesRouteChildren: ExamplesRouteChildren = {
   ExamplesDashboardRoute: ExamplesDashboardRoute,
+  ExamplesTokensRoute: ExamplesTokensRoute,
   ExamplesTransferSolRoute: ExamplesTransferSolRoute,
   ExamplesWrappedSolRoute: ExamplesWrappedSolRoute,
   ExamplesIndexRoute: ExamplesIndexRoute,

@@ -41,7 +41,7 @@
     "clean": "rm -fr dist/",
     "lint": "eslint . --cache",
     "test": "bun test",
-    "codegen": "codama generate --idl ./idls/token_metadata.json --output ./src/generated"
+    "codegen": "grill generate --idl ./idls/token_metadata.json --output ./src/generated"
   },
   "peerDependencies": {
     "@solana/kit": "*"
