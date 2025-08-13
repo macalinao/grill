@@ -24,6 +24,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { InputTokenAmount } from "@/components/ui/input-token-amount";
+import type { TokenInfo } from "@/types/token";
 
 export const Route = createFileRoute("/examples/transfer-sol")({
   component: () => <TransferSolPage />,
@@ -58,6 +60,14 @@ const TransferSolPage: React.FC = () => {
   const { data: userAccount } = useAccount({
     address: signer?.address ?? null,
   });
+
+  // SOL token info
+  const solToken: TokenInfo = {
+    address: "11111111111111111111111111111111",
+    symbol: "SOL",
+    decimals: 9,
+    name: "Solana",
+  };
 
   const {
     register,
@@ -182,32 +192,18 @@ const TransferSolPage: React.FC = () => {
             </div>
 
             <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <label htmlFor="amount" className="text-sm font-medium">
-                  Amount (SOL)
-                </label>
-                <button
-                  type="button"
-                  onClick={() => {
-                    const maxAmount = Math.max(
-                      0,
-                      availableBalance - estimatedFee,
-                    );
-                    setValue("amount", maxAmount.toFixed(9));
-                  }}
-                  className="text-xs text-primary hover:underline"
-                  disabled={isSubmitting}
-                >
-                  MAX: {Math.max(0, availableBalance - estimatedFee).toFixed(4)}{" "}
-                  SOL
-                </button>
-              </div>
-              <Input
-                id="amount"
-                type="text"
-                placeholder="0.0"
-                {...register("amount")}
-                className={errors.amount ? "border-destructive" : ""}
+              <label htmlFor="amount" className="text-sm font-medium">
+                Amount to Send
+              </label>
+              <InputTokenAmount
+                token={solToken}
+                value={watch("amount")}
+                onChange={(value) => {
+                  setValue("amount", value);
+                }}
+                maxAmount={Math.max(0, availableBalance - estimatedFee).toFixed(
+                  9,
+                )}
                 disabled={isSubmitting}
               />
               {errors.amount && (
