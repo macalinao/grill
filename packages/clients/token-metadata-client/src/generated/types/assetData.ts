@@ -6,14 +6,18 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  Address,
+  Codec,
+  Decoder,
+  Encoder,
+  Option,
+  OptionOrNullable,
+} from "@solana/kit";
 import {
-  
   addDecoderSizePrefix,
   addEncoderSizePrefix,
-  
   combineCodec,
-  
-  
   getAddressDecoder,
   getAddressEncoder,
   getArrayDecoder,
@@ -29,18 +33,21 @@ import {
   getU32Decoder,
   getU32Encoder,
   getUtf8Decoder,
-  getUtf8Encoder
-  
-  
+  getUtf8Encoder,
 } from "@solana/kit";
-import type {Address, Codec, Decoder, Encoder, Option, OptionOrNullable} from "@solana/kit";
+import type {
+  Collection,
+  CollectionArgs,
+  CollectionDetails,
+  CollectionDetailsArgs,
+  Creator,
+  CreatorArgs,
+  TokenStandard,
+  TokenStandardArgs,
+  Uses,
+  UsesArgs,
+} from "./index.js";
 import {
-  
-  
-  
-  
-  
-  
   getCollectionDecoder,
   getCollectionDetailsDecoder,
   getCollectionDetailsEncoder,
@@ -50,13 +57,8 @@ import {
   getTokenStandardDecoder,
   getTokenStandardEncoder,
   getUsesDecoder,
-  getUsesEncoder
-  
-  
-  
-  
+  getUsesEncoder,
 } from "./index.js";
-import type {Collection, CollectionArgs, CollectionDetails, CollectionDetailsArgs, Creator, CreatorArgs, TokenStandard, TokenStandardArgs, Uses, UsesArgs} from "./index.js";
 
 export interface AssetData {
   name: string;

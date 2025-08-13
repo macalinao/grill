@@ -6,19 +6,22 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  FixedSizeCodec,
+  FixedSizeDecoder,
+  FixedSizeEncoder,
+} from "@solana/kit";
 import {
   combineCodec,
-  
-  
-  
   getStructDecoder,
   getStructEncoder,
   getU64Decoder,
-  getU64Encoder
+  getU64Encoder,
 } from "@solana/kit";
-import type {FixedSizeCodec, FixedSizeDecoder, FixedSizeEncoder} from "@solana/kit";
 
-export interface MintNewEditionFromMasterEditionViaTokenArgs { edition: bigint }
+export interface MintNewEditionFromMasterEditionViaTokenArgs {
+  edition: bigint;
+}
 
 export interface MintNewEditionFromMasterEditionViaTokenArgsArgs {
   edition: number | bigint;

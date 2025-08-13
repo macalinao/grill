@@ -6,43 +6,39 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  AccountMeta,
+  AccountSignerMeta,
+  Address,
+  Codec,
+  Decoder,
+  Encoder,
+  Instruction,
+  InstructionWithAccounts,
+  InstructionWithData,
+  ReadonlyAccount,
+  ReadonlySignerAccount,
+  ReadonlyUint8Array,
+  TransactionSigner,
+  WritableAccount,
+  WritableSignerAccount,
+} from "@solana/kit";
 import {
-  
-  
-  
-  
   combineCodec,
-  
-  
   getStructDecoder,
   getStructEncoder,
   getU8Decoder,
   getU8Encoder,
-  
-  
-  
-  
-  
-  
-  
-  transformEncoder
-  
-  
+  transformEncoder,
 } from "@solana/kit";
-import type {AccountMeta, AccountSignerMeta, Address, Codec, Decoder, Encoder, Instruction, InstructionWithAccounts, InstructionWithData, ReadonlyAccount, ReadonlySignerAccount, ReadonlyUint8Array, TransactionSigner, WritableAccount, WritableSignerAccount} from "@solana/kit";
 import { TOKEN_METADATA_PROGRAM_ADDRESS } from "../programs/index.js";
-import {
-  getAccountMetaFactory
-  
-} from "../shared/index.js";
-import type {ResolvedAccount} from "../shared/index.js";
+import type { ResolvedAccount } from "../shared/index.js";
+import { getAccountMetaFactory } from "../shared/index.js";
+import type { TransferArgs, TransferArgsArgs } from "../types/index.js";
 import {
   getTransferArgsDecoder,
-  getTransferArgsEncoder
-  
-  
+  getTransferArgsEncoder,
 } from "../types/index.js";
-import type {TransferArgs, TransferArgsArgs} from "../types/index.js";
 
 export const TRANSFER_DISCRIMINATOR = 49;
 
@@ -75,9 +71,7 @@ export type TransferInstruction<
   TAccountSplAtaProgram extends
     | string
     | AccountMeta = "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL",
-  TAccountAuthorizationRulesProgram extends
-    | string
-    | AccountMeta = string,
+  TAccountAuthorizationRulesProgram extends string | AccountMeta = string,
   TAccountAuthorizationRules extends string | AccountMeta = string,
   TRemainingAccounts extends readonly AccountMeta[] = [],
 > = Instruction<TProgram> &
@@ -146,7 +140,9 @@ export interface TransferInstructionData {
   transferArgs: TransferArgs;
 }
 
-export interface TransferInstructionDataArgs { transferArgs: TransferArgsArgs }
+export interface TransferInstructionDataArgs {
+  transferArgs: TransferArgsArgs;
+}
 
 export function getTransferInstructionDataEncoder(): Encoder<TransferInstructionDataArgs> {
   return transformEncoder(

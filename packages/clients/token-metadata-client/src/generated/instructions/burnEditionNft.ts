@@ -6,35 +6,33 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  AccountMeta,
+  AccountSignerMeta,
+  Address,
+  FixedSizeCodec,
+  FixedSizeDecoder,
+  FixedSizeEncoder,
+  Instruction,
+  InstructionWithAccounts,
+  InstructionWithData,
+  ReadonlyAccount,
+  ReadonlyUint8Array,
+  TransactionSigner,
+  WritableAccount,
+  WritableSignerAccount,
+} from "@solana/kit";
 import {
-  
-  
-  
   combineCodec,
-  
-  
-  
   getStructDecoder,
   getStructEncoder,
   getU8Decoder,
   getU8Encoder,
-  
-  
-  
-  
-  
-  
-  transformEncoder
-  
-  
+  transformEncoder,
 } from "@solana/kit";
-import type {AccountMeta, AccountSignerMeta, Address, FixedSizeCodec, FixedSizeDecoder, FixedSizeEncoder, Instruction, InstructionWithAccounts, InstructionWithData, ReadonlyAccount, ReadonlyUint8Array, TransactionSigner, WritableAccount, WritableSignerAccount} from "@solana/kit";
 import { TOKEN_METADATA_PROGRAM_ADDRESS } from "../programs/index.js";
-import {
-  getAccountMetaFactory
-  
-} from "../shared/index.js";
-import type {ResolvedAccount} from "../shared/index.js";
+import type { ResolvedAccount } from "../shared/index.js";
+import { getAccountMetaFactory } from "../shared/index.js";
 
 export const BURN_EDITION_NFT_DISCRIMINATOR = 37;
 
@@ -48,12 +46,8 @@ export type BurnEditionNftInstruction<
   TAccountOwner extends string | AccountMeta = string,
   TAccountPrintEditionMint extends string | AccountMeta = string,
   TAccountMasterEditionMint extends string | AccountMeta = string,
-  TAccountPrintEditionTokenAccount extends
-    | string
-    | AccountMeta = string,
-  TAccountMasterEditionTokenAccount extends
-    | string
-    | AccountMeta = string,
+  TAccountPrintEditionTokenAccount extends string | AccountMeta = string,
+  TAccountMasterEditionTokenAccount extends string | AccountMeta = string,
   TAccountMasterEditionAccount extends string | AccountMeta = string,
   TAccountPrintEditionAccount extends string | AccountMeta = string,
   TAccountEditionMarkerAccount extends string | AccountMeta = string,
@@ -100,7 +94,9 @@ export type BurnEditionNftInstruction<
     ]
   >;
 
-export interface BurnEditionNftInstructionData { discriminator: number }
+export interface BurnEditionNftInstructionData {
+  discriminator: number;
+}
 
 export interface BurnEditionNftInstructionDataArgs {}
 

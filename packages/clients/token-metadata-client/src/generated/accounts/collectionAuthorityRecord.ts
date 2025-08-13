@@ -6,19 +6,25 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  Account,
+  Address,
+  Codec,
+  Decoder,
+  EncodedAccount,
+  Encoder,
+  FetchAccountConfig,
+  FetchAccountsConfig,
+  MaybeAccount,
+  MaybeEncodedAccount,
+  Option,
+  OptionOrNullable,
+} from "@solana/kit";
 import {
-  
-  
   assertAccountExists,
   assertAccountsExist,
-  
   combineCodec,
-  
   decodeAccount,
-  
-  
-  
-  
   fetchEncodedAccount,
   fetchEncodedAccounts,
   getAddressDecoder,
@@ -28,20 +34,10 @@ import {
   getStructDecoder,
   getStructEncoder,
   getU8Decoder,
-  getU8Encoder
-  
-  
-  
-  
+  getU8Encoder,
 } from "@solana/kit";
-import type {Account, Address, Codec, Decoder, EncodedAccount, Encoder, FetchAccountConfig, FetchAccountsConfig, MaybeAccount, MaybeEncodedAccount, Option, OptionOrNullable} from "@solana/kit";
-import {
-  getKeyDecoder,
-  getKeyEncoder
-  
-  
-} from "../types/index.js";
-import type {Key, KeyArgs} from "../types/index.js";
+import type { Key, KeyArgs } from "../types/index.js";
+import { getKeyDecoder, getKeyEncoder } from "../types/index.js";
 
 export interface CollectionAuthorityRecord {
   key: Key;

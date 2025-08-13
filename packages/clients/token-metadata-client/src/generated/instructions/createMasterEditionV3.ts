@@ -6,14 +6,27 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  AccountMeta,
+  AccountSignerMeta,
+  Address,
+  Codec,
+  Decoder,
+  Encoder,
+  Instruction,
+  InstructionWithAccounts,
+  InstructionWithData,
+  Option,
+  OptionOrNullable,
+  ReadonlyAccount,
+  ReadonlySignerAccount,
+  ReadonlyUint8Array,
+  TransactionSigner,
+  WritableAccount,
+  WritableSignerAccount,
+} from "@solana/kit";
 import {
-  
-  
-  
-  
   combineCodec,
-  
-  
   getOptionDecoder,
   getOptionEncoder,
   getStructDecoder,
@@ -22,26 +35,11 @@ import {
   getU8Encoder,
   getU64Decoder,
   getU64Encoder,
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  transformEncoder
-  
-  
+  transformEncoder,
 } from "@solana/kit";
-import type {AccountMeta, AccountSignerMeta, Address, Codec, Decoder, Encoder, Instruction, InstructionWithAccounts, InstructionWithData, Option, OptionOrNullable, ReadonlyAccount, ReadonlySignerAccount, ReadonlyUint8Array, TransactionSigner, WritableAccount, WritableSignerAccount} from "@solana/kit";
 import { TOKEN_METADATA_PROGRAM_ADDRESS } from "../programs/index.js";
-import {
-  getAccountMetaFactory
-  
-} from "../shared/index.js";
-import type {ResolvedAccount} from "../shared/index.js";
+import type { ResolvedAccount } from "../shared/index.js";
+import { getAccountMetaFactory } from "../shared/index.js";
 
 export const CREATE_MASTER_EDITION_V3_DISCRIMINATOR = 17;
 
@@ -332,9 +330,7 @@ export function parseCreateMasterEditionV3Instruction<
   };
   let optionalAccountsRemaining = instruction.accounts.length - 8;
   const getNextOptionalAccount = () => {
-    if (optionalAccountsRemaining === 0) {
-      return undefined;
-    }
+    if (optionalAccountsRemaining === 0) return undefined;
     optionalAccountsRemaining -= 1;
     return getNextAccount();
   };

@@ -6,20 +6,17 @@
  * @see https://github.com/codama-idl/codama
  */
 
-import {
-  combineCodec,
-  
-  
-  
-  getEnumDecoder,
-  getEnumEncoder
+import type {
+  FixedSizeCodec,
+  FixedSizeDecoder,
+  FixedSizeEncoder,
 } from "@solana/kit";
-import type {FixedSizeCodec, FixedSizeDecoder, FixedSizeEncoder} from "@solana/kit";
+import { combineCodec, getEnumDecoder, getEnumEncoder } from "@solana/kit";
 
 export enum UseMethod {
-  Burn = 0,
-  Multiple = 1,
-  Single = 2,
+  Burn,
+  Multiple,
+  Single,
 }
 
 export type UseMethodArgs = UseMethod;

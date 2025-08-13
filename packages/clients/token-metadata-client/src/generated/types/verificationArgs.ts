@@ -6,19 +6,16 @@
  * @see https://github.com/codama-idl/codama
  */
 
-import {
-  combineCodec,
-  
-  
-  
-  getEnumDecoder,
-  getEnumEncoder
+import type {
+  FixedSizeCodec,
+  FixedSizeDecoder,
+  FixedSizeEncoder,
 } from "@solana/kit";
-import type {FixedSizeCodec, FixedSizeDecoder, FixedSizeEncoder} from "@solana/kit";
+import { combineCodec, getEnumDecoder, getEnumEncoder } from "@solana/kit";
 
 export enum VerificationArgs {
-  CreatorV1 = 0,
-  CollectionV1 = 1,
+  CreatorV1,
+  CollectionV1,
 }
 
 export type VerificationArgsArgs = VerificationArgs;

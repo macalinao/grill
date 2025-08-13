@@ -6,20 +6,17 @@
  * @see https://github.com/codama-idl/codama
  */
 
-import {
-  combineCodec,
-  
-  
-  
-  getEnumDecoder,
-  getEnumEncoder
+import type {
+  FixedSizeCodec,
+  FixedSizeDecoder,
+  FixedSizeEncoder,
 } from "@solana/kit";
-import type {FixedSizeCodec, FixedSizeDecoder, FixedSizeEncoder} from "@solana/kit";
+import { combineCodec, getEnumDecoder, getEnumEncoder } from "@solana/kit";
 
 export enum TokenState {
-  Unlocked = 0,
-  Locked = 1,
-  Listed = 2,
+  Unlocked,
+  Locked,
+  Listed,
 }
 
 export type TokenStateArgs = TokenState;

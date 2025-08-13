@@ -6,25 +6,32 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  FixedSizeCodec,
+  FixedSizeDecoder,
+  FixedSizeEncoder,
+  GetDiscriminatedUnionVariant,
+  GetDiscriminatedUnionVariantContent,
+} from "@solana/kit";
 import {
   combineCodec,
-  
-  
-  
-  
-  
   getDiscriminatedUnionDecoder,
   getDiscriminatedUnionEncoder,
   getStructDecoder,
   getStructEncoder,
   getU64Decoder,
-  getU64Encoder
+  getU64Encoder,
 } from "@solana/kit";
-import type {FixedSizeCodec, FixedSizeDecoder, FixedSizeEncoder, GetDiscriminatedUnionVariant, GetDiscriminatedUnionVariantContent} from "@solana/kit";
 
-export interface BurnArgs { __kind: "V1"; amount: bigint }
+export interface BurnArgs {
+  __kind: "V1";
+  amount: bigint;
+}
 
-export interface BurnArgsArgs { __kind: "V1"; amount: number | bigint }
+export interface BurnArgsArgs {
+  __kind: "V1";
+  amount: number | bigint;
+}
 
 export function getBurnArgsEncoder(): FixedSizeEncoder<BurnArgsArgs> {
   return getDiscriminatedUnionEncoder([

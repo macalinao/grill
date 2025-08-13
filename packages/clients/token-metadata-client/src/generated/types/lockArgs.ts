@@ -6,30 +6,29 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  Codec,
+  Decoder,
+  Encoder,
+  GetDiscriminatedUnionVariant,
+  GetDiscriminatedUnionVariantContent,
+  Option,
+  OptionOrNullable,
+} from "@solana/kit";
 import {
-  
   combineCodec,
-  
-  
-  
-  
   getDiscriminatedUnionDecoder,
   getDiscriminatedUnionEncoder,
   getOptionDecoder,
   getOptionEncoder,
   getStructDecoder,
-  getStructEncoder
-  
-  
+  getStructEncoder,
 } from "@solana/kit";
-import type {Codec, Decoder, Encoder, GetDiscriminatedUnionVariant, GetDiscriminatedUnionVariantContent, Option, OptionOrNullable} from "@solana/kit";
+import type { AuthorizationData, AuthorizationDataArgs } from "./index.js";
 import {
-  
-  
   getAuthorizationDataDecoder,
-  getAuthorizationDataEncoder
+  getAuthorizationDataEncoder,
 } from "./index.js";
-import type {AuthorizationData, AuthorizationDataArgs} from "./index.js";
 
 export interface LockArgs {
   __kind: "V1";

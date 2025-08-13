@@ -6,12 +6,14 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  Address,
+  FixedSizeCodec,
+  FixedSizeDecoder,
+  FixedSizeEncoder,
+} from "@solana/kit";
 import {
-  
   combineCodec,
-  
-  
-  
   getAddressDecoder,
   getAddressEncoder,
   getBooleanDecoder,
@@ -19,11 +21,14 @@ import {
   getStructDecoder,
   getStructEncoder,
   getU8Decoder,
-  getU8Encoder
+  getU8Encoder,
 } from "@solana/kit";
-import type {Address, FixedSizeCodec, FixedSizeDecoder, FixedSizeEncoder} from "@solana/kit";
 
-export interface Creator { address: Address; verified: boolean; share: number }
+export interface Creator {
+  address: Address;
+  verified: boolean;
+  share: number;
+}
 
 export type CreatorArgs = Creator;
 

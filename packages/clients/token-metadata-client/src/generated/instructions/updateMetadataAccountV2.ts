@@ -6,14 +6,25 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  AccountMeta,
+  AccountSignerMeta,
+  Address,
+  Codec,
+  Decoder,
+  Encoder,
+  Instruction,
+  InstructionWithAccounts,
+  InstructionWithData,
+  Option,
+  OptionOrNullable,
+  ReadonlySignerAccount,
+  ReadonlyUint8Array,
+  TransactionSigner,
+  WritableAccount,
+} from "@solana/kit";
 import {
-  
-  
-  
-  
   combineCodec,
-  
-  
   getAddressDecoder,
   getAddressEncoder,
   getBooleanDecoder,
@@ -24,31 +35,13 @@ import {
   getStructEncoder,
   getU8Decoder,
   getU8Encoder,
-  
-  
-  
-  
-  
-  
-  
-  
-  transformEncoder
-  
+  transformEncoder,
 } from "@solana/kit";
-import type {AccountMeta, AccountSignerMeta, Address, Codec, Decoder, Encoder, Instruction, InstructionWithAccounts, InstructionWithData, Option, OptionOrNullable, ReadonlySignerAccount, ReadonlyUint8Array, TransactionSigner, WritableAccount} from "@solana/kit";
 import { TOKEN_METADATA_PROGRAM_ADDRESS } from "../programs/index.js";
-import {
-  getAccountMetaFactory
-  
-} from "../shared/index.js";
-import type {ResolvedAccount} from "../shared/index.js";
-import {
-  
-  
-  getDataV2Decoder,
-  getDataV2Encoder
-} from "../types/index.js";
-import type {DataV2, DataV2Args} from "../types/index.js";
+import type { ResolvedAccount } from "../shared/index.js";
+import { getAccountMetaFactory } from "../shared/index.js";
+import type { DataV2, DataV2Args } from "../types/index.js";
+import { getDataV2Decoder, getDataV2Encoder } from "../types/index.js";
 
 export const UPDATE_METADATA_ACCOUNT_V2_DISCRIMINATOR = 15;
 

@@ -6,37 +6,35 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  AccountMeta,
+  AccountSignerMeta,
+  Address,
+  FixedSizeCodec,
+  FixedSizeDecoder,
+  FixedSizeEncoder,
+  Instruction,
+  InstructionWithAccounts,
+  InstructionWithData,
+  ReadonlyAccount,
+  ReadonlyUint8Array,
+  TransactionSigner,
+  WritableAccount,
+  WritableSignerAccount,
+} from "@solana/kit";
 import {
-  
-  
-  
   combineCodec,
-  
-  
-  
   getStructDecoder,
   getStructEncoder,
   getU8Decoder,
   getU8Encoder,
   getU64Decoder,
   getU64Encoder,
-  
-  
-  
-  
-  
-  
-  transformEncoder
-  
-  
+  transformEncoder,
 } from "@solana/kit";
-import type {AccountMeta, AccountSignerMeta, Address, FixedSizeCodec, FixedSizeDecoder, FixedSizeEncoder, Instruction, InstructionWithAccounts, InstructionWithData, ReadonlyAccount, ReadonlyUint8Array, TransactionSigner, WritableAccount, WritableSignerAccount} from "@solana/kit";
 import { TOKEN_METADATA_PROGRAM_ADDRESS } from "../programs/index.js";
-import {
-  getAccountMetaFactory
-  
-} from "../shared/index.js";
-import type {ResolvedAccount} from "../shared/index.js";
+import type { ResolvedAccount } from "../shared/index.js";
+import { getAccountMetaFactory } from "../shared/index.js";
 
 export const APPROVE_USE_AUTHORITY_DISCRIMINATOR = 20;
 
@@ -359,9 +357,7 @@ export function parseApproveUseAuthorityInstruction<
   };
   let optionalAccountsRemaining = instruction.accounts.length - 10;
   const getNextOptionalAccount = () => {
-    if (optionalAccountsRemaining === 0) {
-      return undefined;
-    }
+    if (optionalAccountsRemaining === 0) return undefined;
     optionalAccountsRemaining -= 1;
     return getNextAccount();
   };

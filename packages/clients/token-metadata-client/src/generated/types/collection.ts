@@ -6,22 +6,26 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  Address,
+  FixedSizeCodec,
+  FixedSizeDecoder,
+  FixedSizeEncoder,
+} from "@solana/kit";
 import {
-  
   combineCodec,
-  
-  
-  
   getAddressDecoder,
   getAddressEncoder,
   getBooleanDecoder,
   getBooleanEncoder,
   getStructDecoder,
-  getStructEncoder
+  getStructEncoder,
 } from "@solana/kit";
-import type {Address, FixedSizeCodec, FixedSizeDecoder, FixedSizeEncoder} from "@solana/kit";
 
-export interface Collection { verified: boolean; key: Address }
+export interface Collection {
+  verified: boolean;
+  key: Address;
+}
 
 export type CollectionArgs = Collection;
 

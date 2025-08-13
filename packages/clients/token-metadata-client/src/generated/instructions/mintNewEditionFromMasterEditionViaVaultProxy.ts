@@ -6,43 +6,42 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  AccountMeta,
+  AccountSignerMeta,
+  Address,
+  FixedSizeCodec,
+  FixedSizeDecoder,
+  FixedSizeEncoder,
+  Instruction,
+  InstructionWithAccounts,
+  InstructionWithData,
+  ReadonlyAccount,
+  ReadonlySignerAccount,
+  ReadonlyUint8Array,
+  TransactionSigner,
+  WritableAccount,
+  WritableSignerAccount,
+} from "@solana/kit";
 import {
-  
-  
-  
   combineCodec,
-  
-  
-  
   getStructDecoder,
   getStructEncoder,
   getU8Decoder,
   getU8Encoder,
-  
-  
-  
-  
-  
-  
-  
-  transformEncoder
-  
-  
+  transformEncoder,
 } from "@solana/kit";
-import type {AccountMeta, AccountSignerMeta, Address, FixedSizeCodec, FixedSizeDecoder, FixedSizeEncoder, Instruction, InstructionWithAccounts, InstructionWithData, ReadonlyAccount, ReadonlySignerAccount, ReadonlyUint8Array, TransactionSigner, WritableAccount, WritableSignerAccount} from "@solana/kit";
 import { TOKEN_METADATA_PROGRAM_ADDRESS } from "../programs/index.js";
-import {
-  getAccountMetaFactory
-  
-} from "../shared/index.js";
-import type {ResolvedAccount} from "../shared/index.js";
+import type { ResolvedAccount } from "../shared/index.js";
+import { getAccountMetaFactory } from "../shared/index.js";
+import type {
+  MintNewEditionFromMasterEditionViaTokenArgs,
+  MintNewEditionFromMasterEditionViaTokenArgsArgs,
+} from "../types/index.js";
 import {
   getMintNewEditionFromMasterEditionViaTokenArgsDecoder,
-  getMintNewEditionFromMasterEditionViaTokenArgsEncoder
-  
-  
+  getMintNewEditionFromMasterEditionViaTokenArgsEncoder,
 } from "../types/index.js";
-import type {MintNewEditionFromMasterEditionViaTokenArgs, MintNewEditionFromMasterEditionViaTokenArgsArgs} from "../types/index.js";
 
 export const MINT_NEW_EDITION_FROM_MASTER_EDITION_VIA_VAULT_PROXY_DISCRIMINATOR = 13;
 
@@ -65,9 +64,7 @@ export type MintNewEditionFromMasterEditionViaVaultProxyInstruction<
   TAccountSafetyDepositStore extends string | AccountMeta = string,
   TAccountSafetyDepositBox extends string | AccountMeta = string,
   TAccountVault extends string | AccountMeta = string,
-  TAccountNewMetadataUpdateAuthority extends
-    | string
-    | AccountMeta = string,
+  TAccountNewMetadataUpdateAuthority extends string | AccountMeta = string,
   TAccountMetadata extends string | AccountMeta = string,
   TAccountTokenProgram extends
     | string
@@ -479,9 +476,7 @@ export function parseMintNewEditionFromMasterEditionViaVaultProxyInstruction<
   };
   let optionalAccountsRemaining = instruction.accounts.length - 16;
   const getNextOptionalAccount = () => {
-    if (optionalAccountsRemaining === 0) {
-      return undefined;
-    }
+    if (optionalAccountsRemaining === 0) return undefined;
     optionalAccountsRemaining -= 1;
     return getNextAccount();
   };

@@ -6,35 +6,33 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  AccountMeta,
+  AccountSignerMeta,
+  Address,
+  FixedSizeCodec,
+  FixedSizeDecoder,
+  FixedSizeEncoder,
+  Instruction,
+  InstructionWithAccounts,
+  InstructionWithData,
+  ReadonlyAccount,
+  ReadonlyUint8Array,
+  TransactionSigner,
+  WritableAccount,
+  WritableSignerAccount,
+} from "@solana/kit";
 import {
-  
-  
-  
   combineCodec,
-  
-  
-  
   getStructDecoder,
   getStructEncoder,
   getU8Decoder,
   getU8Encoder,
-  
-  
-  
-  
-  
-  
-  transformEncoder
-  
-  
+  transformEncoder,
 } from "@solana/kit";
-import type {AccountMeta, AccountSignerMeta, Address, FixedSizeCodec, FixedSizeDecoder, FixedSizeEncoder, Instruction, InstructionWithAccounts, InstructionWithData, ReadonlyAccount, ReadonlyUint8Array, TransactionSigner, WritableAccount, WritableSignerAccount} from "@solana/kit";
 import { TOKEN_METADATA_PROGRAM_ADDRESS } from "../programs/index.js";
-import {
-  getAccountMetaFactory
-  
-} from "../shared/index.js";
-import type {ResolvedAccount} from "../shared/index.js";
+import type { ResolvedAccount } from "../shared/index.js";
+import { getAccountMetaFactory } from "../shared/index.js";
 
 export const APPROVE_COLLECTION_AUTHORITY_DISCRIMINATOR = 23;
 
@@ -44,9 +42,7 @@ export function getApproveCollectionAuthorityDiscriminatorBytes(): ReadonlyUint8
 
 export type ApproveCollectionAuthorityInstruction<
   TProgram extends string = typeof TOKEN_METADATA_PROGRAM_ADDRESS,
-  TAccountCollectionAuthorityRecord extends
-    | string
-    | AccountMeta = string,
+  TAccountCollectionAuthorityRecord extends string | AccountMeta = string,
   TAccountNewCollectionAuthority extends string | AccountMeta = string,
   TAccountUpdateAuthority extends string | AccountMeta = string,
   TAccountPayer extends string | AccountMeta = string,
@@ -293,9 +289,7 @@ export function parseApproveCollectionAuthorityInstruction<
   };
   let optionalAccountsRemaining = instruction.accounts.length - 7;
   const getNextOptionalAccount = () => {
-    if (optionalAccountsRemaining === 0) {
-      return undefined;
-    }
+    if (optionalAccountsRemaining === 0) return undefined;
     optionalAccountsRemaining -= 1;
     return getNextAccount();
   };

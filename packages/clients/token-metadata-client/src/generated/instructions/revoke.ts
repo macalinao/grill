@@ -6,43 +6,36 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  AccountMeta,
+  AccountSignerMeta,
+  Address,
+  FixedSizeCodec,
+  FixedSizeDecoder,
+  FixedSizeEncoder,
+  Instruction,
+  InstructionWithAccounts,
+  InstructionWithData,
+  ReadonlyAccount,
+  ReadonlySignerAccount,
+  ReadonlyUint8Array,
+  TransactionSigner,
+  WritableAccount,
+  WritableSignerAccount,
+} from "@solana/kit";
 import {
-  
-  
-  
   combineCodec,
-  
-  
-  
   getStructDecoder,
   getStructEncoder,
   getU8Decoder,
   getU8Encoder,
-  
-  
-  
-  
-  
-  
-  
-  transformEncoder
-  
-  
+  transformEncoder,
 } from "@solana/kit";
-import type {AccountMeta, AccountSignerMeta, Address, FixedSizeCodec, FixedSizeDecoder, FixedSizeEncoder, Instruction, InstructionWithAccounts, InstructionWithData, ReadonlyAccount, ReadonlySignerAccount, ReadonlyUint8Array, TransactionSigner, WritableAccount, WritableSignerAccount} from "@solana/kit";
 import { TOKEN_METADATA_PROGRAM_ADDRESS } from "../programs/index.js";
-import {
-  getAccountMetaFactory
-  
-} from "../shared/index.js";
-import type {ResolvedAccount} from "../shared/index.js";
-import {
-  getRevokeArgsDecoder,
-  getRevokeArgsEncoder
-  
-  
-} from "../types/index.js";
-import type {RevokeArgs, RevokeArgsArgs} from "../types/index.js";
+import type { ResolvedAccount } from "../shared/index.js";
+import { getAccountMetaFactory } from "../shared/index.js";
+import type { RevokeArgs, RevokeArgsArgs } from "../types/index.js";
+import { getRevokeArgsDecoder, getRevokeArgsEncoder } from "../types/index.js";
 
 export const REVOKE_DISCRIMINATOR = 45;
 
@@ -68,9 +61,7 @@ export type RevokeInstruction<
     | string
     | AccountMeta = "Sysvar1nstructions1111111111111111111111111",
   TAccountSplTokenProgram extends string | AccountMeta = string,
-  TAccountAuthorizationRulesProgram extends
-    | string
-    | AccountMeta = string,
+  TAccountAuthorizationRulesProgram extends string | AccountMeta = string,
   TAccountAuthorizationRules extends string | AccountMeta = string,
   TRemainingAccounts extends readonly AccountMeta[] = [],
 > = Instruction<TProgram> &
@@ -130,7 +121,9 @@ export interface RevokeInstructionData {
   revokeArgs: RevokeArgs;
 }
 
-export interface RevokeInstructionDataArgs { revokeArgs: RevokeArgsArgs }
+export interface RevokeInstructionDataArgs {
+  revokeArgs: RevokeArgsArgs;
+}
 
 export function getRevokeInstructionDataEncoder(): FixedSizeEncoder<RevokeInstructionDataArgs> {
   return transformEncoder(

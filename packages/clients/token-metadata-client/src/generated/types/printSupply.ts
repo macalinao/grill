@@ -6,13 +6,15 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  Codec,
+  Decoder,
+  Encoder,
+  GetDiscriminatedUnionVariant,
+  GetDiscriminatedUnionVariantContent,
+} from "@solana/kit";
 import {
-  
   combineCodec,
-  
-  
-  
-  
   getDiscriminatedUnionDecoder,
   getDiscriminatedUnionEncoder,
   getStructDecoder,
@@ -22,9 +24,8 @@ import {
   getU64Decoder,
   getU64Encoder,
   getUnitDecoder,
-  getUnitEncoder
+  getUnitEncoder,
 } from "@solana/kit";
-import type {Codec, Decoder, Encoder, GetDiscriminatedUnionVariant, GetDiscriminatedUnionVariantContent} from "@solana/kit";
 
 export type PrintSupply =
   | { __kind: "Zero" }

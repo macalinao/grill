@@ -6,19 +6,25 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  Account,
+  Address,
+  Codec,
+  Decoder,
+  EncodedAccount,
+  Encoder,
+  FetchAccountConfig,
+  FetchAccountsConfig,
+  MaybeAccount,
+  MaybeEncodedAccount,
+  Option,
+  OptionOrNullable,
+} from "@solana/kit";
 import {
-  
-  
   assertAccountExists,
   assertAccountsExist,
-  
   combineCodec,
-  
   decodeAccount,
-  
-  
-  
-  
   fetchEncodedAccount,
   fetchEncodedAccounts,
   getAddressDecoder,
@@ -30,24 +36,20 @@ import {
   getStructDecoder,
   getStructEncoder,
   getU64Decoder,
-  getU64Encoder
-  
-  
-  
-  
+  getU64Encoder,
 } from "@solana/kit";
-import type {Account, Address, Codec, Decoder, EncodedAccount, Encoder, FetchAccountConfig, FetchAccountsConfig, MaybeAccount, MaybeEncodedAccount, Option, OptionOrNullable} from "@solana/kit";
+import type {
+  Key,
+  KeyArgs,
+  Reservation,
+  ReservationArgs,
+} from "../types/index.js";
 import {
   getKeyDecoder,
   getKeyEncoder,
   getReservationDecoder,
-  getReservationEncoder
-  
-  
-  
-  
+  getReservationEncoder,
 } from "../types/index.js";
-import type {Key, KeyArgs, Reservation, ReservationArgs} from "../types/index.js";
 
 export interface ReservationListV2 {
   key: Key;

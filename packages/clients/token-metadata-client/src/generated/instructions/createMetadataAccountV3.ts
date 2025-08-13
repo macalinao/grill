@@ -6,14 +6,27 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  AccountMeta,
+  AccountSignerMeta,
+  Address,
+  Codec,
+  Decoder,
+  Encoder,
+  Instruction,
+  InstructionWithAccounts,
+  InstructionWithData,
+  Option,
+  OptionOrNullable,
+  ReadonlyAccount,
+  ReadonlySignerAccount,
+  ReadonlyUint8Array,
+  TransactionSigner,
+  WritableAccount,
+  WritableSignerAccount,
+} from "@solana/kit";
 import {
-  
-  
-  
-  
   combineCodec,
-  
-  
   getBooleanDecoder,
   getBooleanEncoder,
   getOptionDecoder,
@@ -22,37 +35,23 @@ import {
   getStructEncoder,
   getU8Decoder,
   getU8Encoder,
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  transformEncoder
-  
-  
+  transformEncoder,
 } from "@solana/kit";
-import type {AccountMeta, AccountSignerMeta, Address, Codec, Decoder, Encoder, Instruction, InstructionWithAccounts, InstructionWithData, Option, OptionOrNullable, ReadonlyAccount, ReadonlySignerAccount, ReadonlyUint8Array, TransactionSigner, WritableAccount, WritableSignerAccount} from "@solana/kit";
 import { TOKEN_METADATA_PROGRAM_ADDRESS } from "../programs/index.js";
+import type { ResolvedAccount } from "../shared/index.js";
+import { getAccountMetaFactory } from "../shared/index.js";
+import type {
+  CollectionDetails,
+  CollectionDetailsArgs,
+  DataV2,
+  DataV2Args,
+} from "../types/index.js";
 import {
-  getAccountMetaFactory
-  
-} from "../shared/index.js";
-import type {ResolvedAccount} from "../shared/index.js";
-import {
-  
-  
-  
-  
   getCollectionDetailsDecoder,
   getCollectionDetailsEncoder,
   getDataV2Decoder,
-  getDataV2Encoder
+  getDataV2Encoder,
 } from "../types/index.js";
-import type {CollectionDetails, CollectionDetailsArgs, DataV2, DataV2Args} from "../types/index.js";
 
 export const CREATE_METADATA_ACCOUNT_V3_DISCRIMINATOR = 33;
 
@@ -324,9 +323,7 @@ export function parseCreateMetadataAccountV3Instruction<
   };
   let optionalAccountsRemaining = instruction.accounts.length - 6;
   const getNextOptionalAccount = () => {
-    if (optionalAccountsRemaining === 0) {
-      return undefined;
-    }
+    if (optionalAccountsRemaining === 0) return undefined;
     optionalAccountsRemaining -= 1;
     return getNextAccount();
   };

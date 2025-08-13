@@ -6,15 +6,18 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  FixedSizeCodec,
+  FixedSizeDecoder,
+  FixedSizeEncoder,
+  GetDiscriminatedUnionVariant,
+  GetDiscriminatedUnionVariantContent,
+  ReadonlyUint8Array,
+} from "@solana/kit";
 import {
   combineCodec,
-  
-  
-  
   fixDecoderSize,
   fixEncoderSize,
-  
-  
   getBytesDecoder,
   getBytesEncoder,
   getDiscriminatedUnionDecoder,
@@ -22,10 +25,8 @@ import {
   getStructDecoder,
   getStructEncoder,
   getU64Decoder,
-  getU64Encoder
-  
+  getU64Encoder,
 } from "@solana/kit";
-import type {FixedSizeCodec, FixedSizeDecoder, FixedSizeEncoder, GetDiscriminatedUnionVariant, GetDiscriminatedUnionVariantContent, ReadonlyUint8Array} from "@solana/kit";
 
 export type CollectionDetails =
   | { __kind: "V1"; size: bigint }

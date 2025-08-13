@@ -6,42 +6,35 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  AccountMeta,
+  AccountSignerMeta,
+  Address,
+  Codec,
+  Decoder,
+  Encoder,
+  Instruction,
+  InstructionWithAccounts,
+  InstructionWithData,
+  ReadonlyAccount,
+  ReadonlySignerAccount,
+  ReadonlyUint8Array,
+  TransactionSigner,
+  WritableAccount,
+} from "@solana/kit";
 import {
-  
-  
-  
-  
   combineCodec,
-  
-  
   getStructDecoder,
   getStructEncoder,
   getU8Decoder,
   getU8Encoder,
-  
-  
-  
-  
-  
-  
-  
-  transformEncoder
-  
+  transformEncoder,
 } from "@solana/kit";
-import type {AccountMeta, AccountSignerMeta, Address, Codec, Decoder, Encoder, Instruction, InstructionWithAccounts, InstructionWithData, ReadonlyAccount, ReadonlySignerAccount, ReadonlyUint8Array, TransactionSigner, WritableAccount} from "@solana/kit";
 import { TOKEN_METADATA_PROGRAM_ADDRESS } from "../programs/index.js";
-import {
-  getAccountMetaFactory
-  
-} from "../shared/index.js";
-import type {ResolvedAccount} from "../shared/index.js";
-import {
-  getUseArgsDecoder,
-  getUseArgsEncoder
-  
-  
-} from "../types/index.js";
-import type {UseArgs, UseArgsArgs} from "../types/index.js";
+import type { ResolvedAccount } from "../shared/index.js";
+import { getAccountMetaFactory } from "../shared/index.js";
+import type { UseArgs, UseArgsArgs } from "../types/index.js";
+import { getUseArgsDecoder, getUseArgsEncoder } from "../types/index.js";
 
 export const USE_DISCRIMINATOR = 51;
 
@@ -65,9 +58,7 @@ export type UseInstruction<
     | string
     | AccountMeta = "Sysvar1nstructions1111111111111111111111111",
   TAccountSplTokenProgram extends string | AccountMeta = string,
-  TAccountAuthorizationRulesProgram extends
-    | string
-    | AccountMeta = string,
+  TAccountAuthorizationRulesProgram extends string | AccountMeta = string,
   TAccountAuthorizationRules extends string | AccountMeta = string,
   TRemainingAccounts extends readonly AccountMeta[] = [],
 > = Instruction<TProgram> &
@@ -116,9 +107,14 @@ export type UseInstruction<
     ]
   >;
 
-export interface UseInstructionData { discriminator: number; useArgs: UseArgs }
+export interface UseInstructionData {
+  discriminator: number;
+  useArgs: UseArgs;
+}
 
-export interface UseInstructionDataArgs { useArgs: UseArgsArgs }
+export interface UseInstructionDataArgs {
+  useArgs: UseArgsArgs;
+}
 
 export function getUseInstructionDataEncoder(): Encoder<UseInstructionDataArgs> {
   return transformEncoder(

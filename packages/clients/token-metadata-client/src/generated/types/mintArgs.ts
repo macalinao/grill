@@ -6,13 +6,17 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  Codec,
+  Decoder,
+  Encoder,
+  GetDiscriminatedUnionVariant,
+  GetDiscriminatedUnionVariantContent,
+  Option,
+  OptionOrNullable,
+} from "@solana/kit";
 import {
-  
   combineCodec,
-  
-  
-  
-  
   getDiscriminatedUnionDecoder,
   getDiscriminatedUnionEncoder,
   getOptionDecoder,
@@ -20,18 +24,13 @@ import {
   getStructDecoder,
   getStructEncoder,
   getU64Decoder,
-  getU64Encoder
-  
-  
+  getU64Encoder,
 } from "@solana/kit";
-import type {Codec, Decoder, Encoder, GetDiscriminatedUnionVariant, GetDiscriminatedUnionVariantContent, Option, OptionOrNullable} from "@solana/kit";
+import type { AuthorizationData, AuthorizationDataArgs } from "./index.js";
 import {
-  
-  
   getAuthorizationDataDecoder,
-  getAuthorizationDataEncoder
+  getAuthorizationDataEncoder,
 } from "./index.js";
-import type {AuthorizationData, AuthorizationDataArgs} from "./index.js";
 
 export interface MintArgs {
   __kind: "V1";

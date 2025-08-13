@@ -6,14 +6,18 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  Address,
+  Codec,
+  Decoder,
+  Encoder,
+  GetDiscriminatedUnionVariant,
+  GetDiscriminatedUnionVariantContent,
+  Option,
+  OptionOrNullable,
+} from "@solana/kit";
 import {
-  
-  
   combineCodec,
-  
-  
-  
-  
   getAddressDecoder,
   getAddressEncoder,
   getBooleanDecoder,
@@ -23,20 +27,25 @@ import {
   getOptionDecoder,
   getOptionEncoder,
   getStructDecoder,
-  getStructEncoder
-  
-  
+  getStructEncoder,
 } from "@solana/kit";
-import type {Address, Codec, Decoder, Encoder, GetDiscriminatedUnionVariant, GetDiscriminatedUnionVariantContent, Option, OptionOrNullable} from "@solana/kit";
+import type {
+  AuthorizationData,
+  AuthorizationDataArgs,
+  CollectionDetailsToggle,
+  CollectionDetailsToggleArgs,
+  CollectionToggle,
+  CollectionToggleArgs,
+  Data,
+  DataArgs,
+  RuleSetToggle,
+  RuleSetToggleArgs,
+  TokenStandard,
+  TokenStandardArgs,
+  UsesToggle,
+  UsesToggleArgs,
+} from "./index.js";
 import {
-  
-  
-  
-  
-  
-  
-  
-  
   getAuthorizationDataDecoder,
   getAuthorizationDataEncoder,
   getCollectionDetailsToggleDecoder,
@@ -50,15 +59,8 @@ import {
   getTokenStandardDecoder,
   getTokenStandardEncoder,
   getUsesToggleDecoder,
-  getUsesToggleEncoder
-  
-  
-  
-  
-  
-  
+  getUsesToggleEncoder,
 } from "./index.js";
-import type {AuthorizationData, AuthorizationDataArgs, CollectionDetailsToggle, CollectionDetailsToggleArgs, CollectionToggle, CollectionToggleArgs, Data, DataArgs, RuleSetToggle, RuleSetToggleArgs, TokenStandard, TokenStandardArgs, UsesToggle, UsesToggleArgs} from "./index.js";
 
 export type UpdateArgs =
   | {

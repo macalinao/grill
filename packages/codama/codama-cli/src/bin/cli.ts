@@ -4,9 +4,18 @@ import { resolve } from "node:path";
 import type { AnchorIdl } from "@codama/nodes-from-anchor";
 import { rootNodeFromAnchor } from "@codama/nodes-from-anchor";
 import { renderESMTypeScriptVisitor } from "@macalinao/codama-renderers-js-esm";
-import { createFromRoot, visit } from "codama";
+import { createFromRoot } from "codama";
 import { Command } from "commander";
 import type { CodamaConfig } from "../config.js";
+
+async function fileExists(path: string): Promise<boolean> {
+  try {
+    await access(path);
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 const program = new Command();
 
@@ -41,7 +50,7 @@ program
       const configPath = resolve(options.config);
 
       // Check if IDL file exists
-      if (!(await exists(idlPath))) {
+      if (!(await fileExists(idlPath))) {
         console.error(`Error: IDL file not found at ${idlPath}`);
         process.exit(1);
       }
@@ -58,7 +67,7 @@ program
       const codama = createFromRoot(root);
 
       // Load and apply config if it exists
-      if (await exists(configPath)) {
+      if (await fileExists(configPath)) {
         console.log(`Loading config from ${configPath}...`);
 
         // Dynamic import of the config file
@@ -83,8 +92,7 @@ program
 
       // Apply the ESM TypeScript visitor
       console.log(`Generating client to ${outputPath}...`);
-      const esmVisitor = renderESMTypeScriptVisitor(outputPath);
-      visit(root, esmVisitor);
+      codama.accept(renderESMTypeScriptVisitor(outputPath));
 
       console.log("✅ Client generated successfully!");
     } catch (error) {

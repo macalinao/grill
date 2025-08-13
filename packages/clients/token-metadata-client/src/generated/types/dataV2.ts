@@ -6,13 +6,17 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  Codec,
+  Decoder,
+  Encoder,
+  Option,
+  OptionOrNullable,
+} from "@solana/kit";
 import {
   addDecoderSizePrefix,
   addEncoderSizePrefix,
-  
   combineCodec,
-  
-  
   getArrayDecoder,
   getArrayEncoder,
   getOptionDecoder,
@@ -24,26 +28,24 @@ import {
   getU32Decoder,
   getU32Encoder,
   getUtf8Decoder,
-  getUtf8Encoder
-  
-  
+  getUtf8Encoder,
 } from "@solana/kit";
-import type {Codec, Decoder, Encoder, Option, OptionOrNullable} from "@solana/kit";
+import type {
+  Collection,
+  CollectionArgs,
+  Creator,
+  CreatorArgs,
+  Uses,
+  UsesArgs,
+} from "./index.js";
 import {
-  
-  
-  
-  
   getCollectionDecoder,
   getCollectionEncoder,
   getCreatorDecoder,
   getCreatorEncoder,
   getUsesDecoder,
-  getUsesEncoder
-  
-  
+  getUsesEncoder,
 } from "./index.js";
-import type {Collection, CollectionArgs, Creator, CreatorArgs, Uses, UsesArgs} from "./index.js";
 
 export interface DataV2 {
   name: string;

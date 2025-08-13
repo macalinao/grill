@@ -6,21 +6,26 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  FixedSizeCodec,
+  FixedSizeDecoder,
+  FixedSizeEncoder,
+} from "@solana/kit";
 import {
   combineCodec,
-  
-  
-  
   getStructDecoder,
   getStructEncoder,
   getU64Decoder,
-  getU64Encoder
+  getU64Encoder,
 } from "@solana/kit";
-import type {FixedSizeCodec, FixedSizeDecoder, FixedSizeEncoder} from "@solana/kit";
 
-export interface SetCollectionSizeArgs { size: bigint }
+export interface SetCollectionSizeArgs {
+  size: bigint;
+}
 
-export interface SetCollectionSizeArgsArgs { size: number | bigint }
+export interface SetCollectionSizeArgsArgs {
+  size: number | bigint;
+}
 
 export function getSetCollectionSizeArgsEncoder(): FixedSizeEncoder<SetCollectionSizeArgsArgs> {
   return getStructEncoder([["size", getU64Encoder()]]);

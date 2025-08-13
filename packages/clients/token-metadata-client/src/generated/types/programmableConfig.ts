@@ -6,14 +6,18 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  Address,
+  Codec,
+  Decoder,
+  Encoder,
+  GetDiscriminatedUnionVariant,
+  GetDiscriminatedUnionVariantContent,
+  Option,
+  OptionOrNullable,
+} from "@solana/kit";
 import {
-  
-  
   combineCodec,
-  
-  
-  
-  
   getAddressDecoder,
   getAddressEncoder,
   getDiscriminatedUnionDecoder,
@@ -21,13 +25,13 @@ import {
   getOptionDecoder,
   getOptionEncoder,
   getStructDecoder,
-  getStructEncoder
-  
-  
+  getStructEncoder,
 } from "@solana/kit";
-import type {Address, Codec, Decoder, Encoder, GetDiscriminatedUnionVariant, GetDiscriminatedUnionVariantContent, Option, OptionOrNullable} from "@solana/kit";
 
-export interface ProgrammableConfig { __kind: "V1"; ruleSet: Option<Address> }
+export interface ProgrammableConfig {
+  __kind: "V1";
+  ruleSet: Option<Address>;
+}
 
 export interface ProgrammableConfigArgs {
   __kind: "V1";

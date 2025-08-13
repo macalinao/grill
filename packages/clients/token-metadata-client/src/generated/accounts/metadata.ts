@@ -6,19 +6,25 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  Account,
+  Address,
+  Codec,
+  Decoder,
+  EncodedAccount,
+  Encoder,
+  FetchAccountConfig,
+  FetchAccountsConfig,
+  MaybeAccount,
+  MaybeEncodedAccount,
+  Option,
+  OptionOrNullable,
+} from "@solana/kit";
 import {
-  
-  
   assertAccountExists,
   assertAccountsExist,
-  
   combineCodec,
-  
   decodeAccount,
-  
-  
-  
-  
   fetchEncodedAccount,
   fetchEncodedAccounts,
   getAddressDecoder,
@@ -30,20 +36,25 @@ import {
   getStructDecoder,
   getStructEncoder,
   getU8Decoder,
-  getU8Encoder
-  
-  
-  
-  
+  getU8Encoder,
 } from "@solana/kit";
-import type {Account, Address, Codec, Decoder, EncodedAccount, Encoder, FetchAccountConfig, FetchAccountsConfig, MaybeAccount, MaybeEncodedAccount, Option, OptionOrNullable} from "@solana/kit";
+import type {
+  Collection,
+  CollectionArgs,
+  CollectionDetails,
+  CollectionDetailsArgs,
+  Data,
+  DataArgs,
+  Key,
+  KeyArgs,
+  ProgrammableConfig,
+  ProgrammableConfigArgs,
+  TokenStandard,
+  TokenStandardArgs,
+  Uses,
+  UsesArgs,
+} from "../types/index.js";
 import {
-  
-  
-  
-  
-  
-  
   getCollectionDecoder,
   getCollectionDetailsDecoder,
   getCollectionDetailsEncoder,
@@ -57,17 +68,8 @@ import {
   getTokenStandardDecoder,
   getTokenStandardEncoder,
   getUsesDecoder,
-  getUsesEncoder
-  
-  
-  
-  
-  
-  
-  
-  
+  getUsesEncoder,
 } from "../types/index.js";
-import type {Collection, CollectionArgs, CollectionDetails, CollectionDetailsArgs, Data, DataArgs, Key, KeyArgs, ProgrammableConfig, ProgrammableConfigArgs, TokenStandard, TokenStandardArgs, Uses, UsesArgs} from "../types/index.js";
 
 export interface Metadata {
   key: Key;

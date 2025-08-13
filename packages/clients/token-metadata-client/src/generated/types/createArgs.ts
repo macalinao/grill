@@ -6,13 +6,17 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  Codec,
+  Decoder,
+  Encoder,
+  GetDiscriminatedUnionVariant,
+  GetDiscriminatedUnionVariantContent,
+  Option,
+  OptionOrNullable,
+} from "@solana/kit";
 import {
-  
   combineCodec,
-  
-  
-  
-  
   getDiscriminatedUnionDecoder,
   getDiscriminatedUnionEncoder,
   getOptionDecoder,
@@ -20,22 +24,20 @@ import {
   getStructDecoder,
   getStructEncoder,
   getU8Decoder,
-  getU8Encoder
-  
-  
+  getU8Encoder,
 } from "@solana/kit";
-import type {Codec, Decoder, Encoder, GetDiscriminatedUnionVariant, GetDiscriminatedUnionVariantContent, Option, OptionOrNullable} from "@solana/kit";
+import type {
+  AssetData,
+  AssetDataArgs,
+  PrintSupply,
+  PrintSupplyArgs,
+} from "./index.js";
 import {
-  
-  
   getAssetDataDecoder,
   getAssetDataEncoder,
   getPrintSupplyDecoder,
-  getPrintSupplyEncoder
-  
-  
+  getPrintSupplyEncoder,
 } from "./index.js";
-import type {AssetData, AssetDataArgs, PrintSupply, PrintSupplyArgs} from "./index.js";
 
 export interface CreateArgs {
   __kind: "V1";

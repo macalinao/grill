@@ -6,43 +6,36 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  AccountMeta,
+  AccountSignerMeta,
+  Address,
+  Codec,
+  Decoder,
+  Encoder,
+  Instruction,
+  InstructionWithAccounts,
+  InstructionWithData,
+  ReadonlyAccount,
+  ReadonlySignerAccount,
+  ReadonlyUint8Array,
+  TransactionSigner,
+  WritableAccount,
+  WritableSignerAccount,
+} from "@solana/kit";
 import {
-  
-  
-  
-  
   combineCodec,
-  
-  
   getStructDecoder,
   getStructEncoder,
   getU8Decoder,
   getU8Encoder,
-  
-  
-  
-  
-  
-  
-  
-  transformEncoder
-  
-  
+  transformEncoder,
 } from "@solana/kit";
-import type {AccountMeta, AccountSignerMeta, Address, Codec, Decoder, Encoder, Instruction, InstructionWithAccounts, InstructionWithData, ReadonlyAccount, ReadonlySignerAccount, ReadonlyUint8Array, TransactionSigner, WritableAccount, WritableSignerAccount} from "@solana/kit";
 import { TOKEN_METADATA_PROGRAM_ADDRESS } from "../programs/index.js";
-import {
-  getAccountMetaFactory
-  
-} from "../shared/index.js";
-import type {ResolvedAccount} from "../shared/index.js";
-import {
-  getUpdateArgsDecoder,
-  getUpdateArgsEncoder
-  
-  
-} from "../types/index.js";
-import type {UpdateArgs, UpdateArgsArgs} from "../types/index.js";
+import type { ResolvedAccount } from "../shared/index.js";
+import { getAccountMetaFactory } from "../shared/index.js";
+import type { UpdateArgs, UpdateArgsArgs } from "../types/index.js";
+import { getUpdateArgsDecoder, getUpdateArgsEncoder } from "../types/index.js";
 
 export const UPDATE_DISCRIMINATOR = 50;
 
@@ -65,9 +58,7 @@ export type UpdateInstruction<
   TAccountSysvarInstructions extends
     | string
     | AccountMeta = "Sysvar1nstructions1111111111111111111111111",
-  TAccountAuthorizationRulesProgram extends
-    | string
-    | AccountMeta = string,
+  TAccountAuthorizationRulesProgram extends string | AccountMeta = string,
   TAccountAuthorizationRules extends string | AccountMeta = string,
   TRemainingAccounts extends readonly AccountMeta[] = [],
 > = Instruction<TProgram> &
@@ -118,7 +109,9 @@ export interface UpdateInstructionData {
   updateArgs: UpdateArgs;
 }
 
-export interface UpdateInstructionDataArgs { updateArgs: UpdateArgsArgs }
+export interface UpdateInstructionDataArgs {
+  updateArgs: UpdateArgsArgs;
+}
 
 export function getUpdateInstructionDataEncoder(): Encoder<UpdateInstructionDataArgs> {
   return transformEncoder(

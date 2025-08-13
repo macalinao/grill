@@ -6,43 +6,36 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  AccountMeta,
+  AccountSignerMeta,
+  Address,
+  Codec,
+  Decoder,
+  Encoder,
+  Instruction,
+  InstructionWithAccounts,
+  InstructionWithData,
+  ReadonlyAccount,
+  ReadonlySignerAccount,
+  ReadonlyUint8Array,
+  TransactionSigner,
+  WritableAccount,
+  WritableSignerAccount,
+} from "@solana/kit";
 import {
-  
-  
-  
-  
   combineCodec,
-  
-  
   getStructDecoder,
   getStructEncoder,
   getU8Decoder,
   getU8Encoder,
-  
-  
-  
-  
-  
-  
-  
-  transformEncoder
-  
-  
+  transformEncoder,
 } from "@solana/kit";
-import type {AccountMeta, AccountSignerMeta, Address, Codec, Decoder, Encoder, Instruction, InstructionWithAccounts, InstructionWithData, ReadonlyAccount, ReadonlySignerAccount, ReadonlyUint8Array, TransactionSigner, WritableAccount, WritableSignerAccount} from "@solana/kit";
 import { TOKEN_METADATA_PROGRAM_ADDRESS } from "../programs/index.js";
-import {
-  getAccountMetaFactory
-  
-} from "../shared/index.js";
-import type {ResolvedAccount} from "../shared/index.js";
-import {
-  getUnlockArgsDecoder,
-  getUnlockArgsEncoder
-  
-  
-} from "../types/index.js";
-import type {UnlockArgs, UnlockArgsArgs} from "../types/index.js";
+import type { ResolvedAccount } from "../shared/index.js";
+import { getAccountMetaFactory } from "../shared/index.js";
+import type { UnlockArgs, UnlockArgsArgs } from "../types/index.js";
+import { getUnlockArgsDecoder, getUnlockArgsEncoder } from "../types/index.js";
 
 export const UNLOCK_DISCRIMINATOR = 47;
 
@@ -67,9 +60,7 @@ export type UnlockInstruction<
     | string
     | AccountMeta = "Sysvar1nstructions1111111111111111111111111",
   TAccountSplTokenProgram extends string | AccountMeta = string,
-  TAccountAuthorizationRulesProgram extends
-    | string
-    | AccountMeta = string,
+  TAccountAuthorizationRulesProgram extends string | AccountMeta = string,
   TAccountAuthorizationRules extends string | AccountMeta = string,
   TRemainingAccounts extends readonly AccountMeta[] = [],
 > = Instruction<TProgram> &
@@ -126,7 +117,9 @@ export interface UnlockInstructionData {
   unlockArgs: UnlockArgs;
 }
 
-export interface UnlockInstructionDataArgs { unlockArgs: UnlockArgsArgs }
+export interface UnlockInstructionDataArgs {
+  unlockArgs: UnlockArgsArgs;
+}
 
 export function getUnlockInstructionDataEncoder(): Encoder<UnlockInstructionDataArgs> {
   return transformEncoder(

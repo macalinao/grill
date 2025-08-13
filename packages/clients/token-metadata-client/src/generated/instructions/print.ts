@@ -6,43 +6,36 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  AccountMeta,
+  AccountSignerMeta,
+  Address,
+  FixedSizeCodec,
+  FixedSizeDecoder,
+  FixedSizeEncoder,
+  Instruction,
+  InstructionWithAccounts,
+  InstructionWithData,
+  ReadonlyAccount,
+  ReadonlySignerAccount,
+  ReadonlyUint8Array,
+  TransactionSigner,
+  WritableAccount,
+  WritableSignerAccount,
+} from "@solana/kit";
 import {
-  
-  
-  
   combineCodec,
-  
-  
-  
   getStructDecoder,
   getStructEncoder,
   getU8Decoder,
   getU8Encoder,
-  
-  
-  
-  
-  
-  
-  
-  transformEncoder
-  
-  
+  transformEncoder,
 } from "@solana/kit";
-import type {AccountMeta, AccountSignerMeta, Address, FixedSizeCodec, FixedSizeDecoder, FixedSizeEncoder, Instruction, InstructionWithAccounts, InstructionWithData, ReadonlyAccount, ReadonlySignerAccount, ReadonlyUint8Array, TransactionSigner, WritableAccount, WritableSignerAccount} from "@solana/kit";
 import { TOKEN_METADATA_PROGRAM_ADDRESS } from "../programs/index.js";
-import {
-  getAccountMetaFactory
-  
-} from "../shared/index.js";
-import type {ResolvedAccount} from "../shared/index.js";
-import {
-  getPrintArgsDecoder,
-  getPrintArgsEncoder
-  
-  
-} from "../types/index.js";
-import type {PrintArgs, PrintArgsArgs} from "../types/index.js";
+import type { ResolvedAccount } from "../shared/index.js";
+import { getAccountMetaFactory } from "../shared/index.js";
+import type { PrintArgs, PrintArgsArgs } from "../types/index.js";
+import { getPrintArgsDecoder, getPrintArgsEncoder } from "../types/index.js";
 
 export const PRINT_DISCRIMINATOR = 55;
 
@@ -55,9 +48,7 @@ export type PrintInstruction<
   TAccountEditionMetadata extends string | AccountMeta = string,
   TAccountEdition extends string | AccountMeta = string,
   TAccountEditionMint extends string | AccountMeta = string,
-  TAccountEditionTokenAccountOwner extends
-    | string
-    | AccountMeta = string,
+  TAccountEditionTokenAccountOwner extends string | AccountMeta = string,
   TAccountEditionTokenAccount extends string | AccountMeta = string,
   TAccountEditionMintAuthority extends string | AccountMeta = string,
   TAccountEditionTokenRecord extends string | AccountMeta = string,
@@ -150,7 +141,9 @@ export interface PrintInstructionData {
   printArgs: PrintArgs;
 }
 
-export interface PrintInstructionDataArgs { printArgs: PrintArgsArgs }
+export interface PrintInstructionDataArgs {
+  printArgs: PrintArgsArgs;
+}
 
 export function getPrintInstructionDataEncoder(): FixedSizeEncoder<PrintInstructionDataArgs> {
   return transformEncoder(

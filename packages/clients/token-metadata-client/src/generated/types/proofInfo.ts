@@ -6,11 +6,9 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type { Codec, Decoder, Encoder, ReadonlyUint8Array } from "@solana/kit";
 import {
-  
   combineCodec,
-  
-  
   fixDecoderSize,
   fixEncoderSize,
   getArrayDecoder,
@@ -18,12 +16,12 @@ import {
   getBytesDecoder,
   getBytesEncoder,
   getStructDecoder,
-  getStructEncoder
-  
+  getStructEncoder,
 } from "@solana/kit";
-import type {Codec, Decoder, Encoder, ReadonlyUint8Array} from "@solana/kit";
 
-export interface ProofInfo { proof: ReadonlyUint8Array[] }
+export interface ProofInfo {
+  proof: ReadonlyUint8Array[];
+}
 
 export type ProofInfoArgs = ProofInfo;
 

@@ -6,22 +6,19 @@
  * @see https://github.com/codama-idl/codama
  */
 
-import {
-  combineCodec,
-  
-  
-  
-  getEnumDecoder,
-  getEnumEncoder
+import type {
+  FixedSizeCodec,
+  FixedSizeDecoder,
+  FixedSizeEncoder,
 } from "@solana/kit";
-import type {FixedSizeCodec, FixedSizeDecoder, FixedSizeEncoder} from "@solana/kit";
+import { combineCodec, getEnumDecoder, getEnumEncoder } from "@solana/kit";
 
 export enum AuthorityType {
-  None = 0,
-  Metadata = 1,
-  Holder = 2,
-  MetadataDelegate = 3,
-  TokenDelegate = 4,
+  None,
+  Metadata,
+  Holder,
+  MetadataDelegate,
+  TokenDelegate,
 }
 
 export type AuthorityTypeArgs = AuthorityType;

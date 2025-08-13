@@ -6,20 +6,21 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  Address,
+  FixedSizeCodec,
+  FixedSizeDecoder,
+  FixedSizeEncoder,
+} from "@solana/kit";
 import {
-  
   combineCodec,
-  
-  
-  
   getAddressDecoder,
   getAddressEncoder,
   getStructDecoder,
   getStructEncoder,
   getU8Decoder,
-  getU8Encoder
+  getU8Encoder,
 } from "@solana/kit";
-import type {Address, FixedSizeCodec, FixedSizeDecoder, FixedSizeEncoder} from "@solana/kit";
 
 export interface ReservationV1 {
   address: Address;

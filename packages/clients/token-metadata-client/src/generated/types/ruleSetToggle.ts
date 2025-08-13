@@ -6,14 +6,16 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  Address,
+  Codec,
+  Decoder,
+  Encoder,
+  GetDiscriminatedUnionVariant,
+  GetDiscriminatedUnionVariantContent,
+} from "@solana/kit";
 import {
-  
-  
   combineCodec,
-  
-  
-  
-  
   getAddressDecoder,
   getAddressEncoder,
   getDiscriminatedUnionDecoder,
@@ -23,9 +25,8 @@ import {
   getTupleDecoder,
   getTupleEncoder,
   getUnitDecoder,
-  getUnitEncoder
+  getUnitEncoder,
 } from "@solana/kit";
-import type {Address, Codec, Decoder, Encoder, GetDiscriminatedUnionVariant, GetDiscriminatedUnionVariantContent} from "@solana/kit";
 
 export type RuleSetToggle =
   | { __kind: "None" }

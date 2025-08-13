@@ -6,13 +6,12 @@
  * @see https://github.com/codama-idl/codama
  */
 
-import {
-  
-  isProgramError
-  
-  
+import type {
+  Address,
+  SOLANA_ERROR__INSTRUCTION_ERROR__CUSTOM,
+  SolanaError,
 } from "@solana/kit";
-import type {Address, SOLANA_ERROR__INSTRUCTION_ERROR__CUSTOM, SolanaError} from "@solana/kit";
+import { isProgramError } from "@solana/kit";
 import { TOKEN_METADATA_PROGRAM_ADDRESS } from "../programs/index.js";
 
 /** InstructionUnpackError */
@@ -630,340 +629,215 @@ export type TokenMetadataError =
 let tokenMetadataErrorMessages: Record<TokenMetadataError, string> | undefined;
 if (true) {
   tokenMetadataErrorMessages = {
-    [TOKEN_METADATA_ERROR__ACCOUNT_ALREADY_RESIZED]:
-      "Account has already been resized",
-    [TOKEN_METADATA_ERROR__ADDRESS_NOT_IN_RESERVATION]: "",
-    [TOKEN_METADATA_ERROR__ALREADY_INITIALIZED]: "Already initialized",
-    [TOKEN_METADATA_ERROR__ALREADY_UNVERIFIED]: "",
-    [TOKEN_METADATA_ERROR__ALREADY_VERIFIED]: "Item is already verified.",
-    [TOKEN_METADATA_ERROR__AMOUNT_MUST_BE_GREATER_THAN_ZERO]:
-      "Amount must be greater than zero",
-    [TOKEN_METADATA_ERROR__AUTHORIZATION_TOKEN_ACCOUNT_OWNER_MISMATCH]: "",
-    [TOKEN_METADATA_ERROR__BEYOND_ALOTTED_ADDRESS_SIZE]: "",
-    [TOKEN_METADATA_ERROR__BEYOND_MAX_ADDRESS_SIZE]: "",
-    [TOKEN_METADATA_ERROR__BORSH_DESERIALIZATION_ERROR]: "",
-    [TOKEN_METADATA_ERROR__BORSH_SERIALIZATION_ERROR]:
-      "Borsh Serialization Error",
-    [TOKEN_METADATA_ERROR__CANNOT_ADJUST_VERIFIED_CREATOR]: "",
-    [TOKEN_METADATA_ERROR__CANNOT_BURN_WITH_DELEGATE]:
-      "Cannot burn while persistent delegate is set",
-    [TOKEN_METADATA_ERROR__CANNOT_CHANGE_UPDATE_AUTHORITY_WITH_DELEGATE]:
-      "Cannot change the update authority with a delegate",
-    [TOKEN_METADATA_ERROR__CANNOT_CHANGE_USE_METHOD_AFTER_FIRST_USE]:
-      "Cannot Change Use Method after the first use",
-    [TOKEN_METADATA_ERROR__CANNOT_CHANGE_USES_AFTER_FIRST_USE]:
-      "Cannot Change Remaining or Available uses after the first use",
-    [TOKEN_METADATA_ERROR__CANNOT_REMOVE_VERIFIED_CREATOR]:
-      "Verified creators cannot be removed.",
-    [TOKEN_METADATA_ERROR__CANNOT_UNVERIFY_ANOTHER_CREATOR]:
-      "You cannot unilaterally unverify another creator",
-    [TOKEN_METADATA_ERROR__CANNOT_UPDATE_ASSET_WITH_DELEGATE]:
-      "Cannot update the rule set of a programmable asset that has a delegate",
-    [TOKEN_METADATA_ERROR__CANNOT_UPDATE_VERIFIED_COLLECTION]:
-      "Cannot update a verified collection in this command",
-    [TOKEN_METADATA_ERROR__CANNOT_VERIFY_ANOTHER_CREATOR]:
-      "You cannot unilaterally verify another creator, they must sign",
-    [TOKEN_METADATA_ERROR__CANNOT_WIPE_VERIFIED_CREATORS]: "",
-    [TOKEN_METADATA_ERROR__COLLECTION_AUTHORITY_DOES_NOT_EXIST]:
-      "This Collection Authority Record Does Not Exist.",
-    [TOKEN_METADATA_ERROR__COLLECTION_AUTHORITY_RECORD_ALREADY_EXISTS]:
-      "This Collection Authority Record Already Exists.",
-    [TOKEN_METADATA_ERROR__COLLECTION_CANNOT_BE_VERIFIED_IN_THIS_INSTRUCTION]:
-      "Collection cannot be verified in this instruction",
-    [TOKEN_METADATA_ERROR__COLLECTION_MASTER_EDITION_ACCOUNT_INVALID]:
-      "Edition account doesnt match collection ",
-    [TOKEN_METADATA_ERROR__COLLECTION_MUST_BE_A_UNIQUE_MASTER_EDITION]:
-      "Collection Must Be a Unique Master Edition v2",
-    [TOKEN_METADATA_ERROR__COLLECTION_NOT_FOUND]:
-      "Collection Not Found on Metadata",
-    [TOKEN_METADATA_ERROR__CONDITIONS_FOR_CLOSING_NOT_MET]:
-      "Conditions for closing not met",
-    [TOKEN_METADATA_ERROR__COULD_NOT_DETERMINE_TOKEN_STANDARD]:
-      "Could not determine a TokenStandard type.",
-    [TOKEN_METADATA_ERROR__CREATOR_NOT_FOUND]:
-      "This creator address was not found",
-    [TOKEN_METADATA_ERROR__CREATORS_MUST_BE_ATLEAST_ONE]:
-      "Creators must be at least one if set",
-    [TOKEN_METADATA_ERROR__CREATORS_TOO_LONG]: "Creators list too long",
-    [TOKEN_METADATA_ERROR__DATA_INCREMENT_LIMIT_EXCEEDED]:
-      "Exceeded account realloc increase limit",
-    [TOKEN_METADATA_ERROR__DATA_IS_EMPTY_OR_ZEROED]: "Data is empty or zeroed",
-    [TOKEN_METADATA_ERROR__DATA_IS_IMMUTABLE]: "Data is immutable",
-    [TOKEN_METADATA_ERROR__DATA_TYPE_MISMATCH]: "Data type mismatch",
-    [TOKEN_METADATA_ERROR__DELEGATE_ALREADY_EXISTS]: "Delegate already exists",
-    [TOKEN_METADATA_ERROR__DELEGATE_NOT_FOUND]: "Delegate not found",
-    [TOKEN_METADATA_ERROR__DERIVED_KEY_INVALID]: "Derived key invalid",
-    [TOKEN_METADATA_ERROR__DESTINATION_MINT_MISMATCH]: "",
-    [TOKEN_METADATA_ERROR__DISABLED]: "",
-    [TOKEN_METADATA_ERROR__DUPLICATE_CREATOR_ADDRESS]:
-      "No duplicate creator addresses",
-    [TOKEN_METADATA_ERROR__EDITION_ALREADY_MINTED]: "",
-    [TOKEN_METADATA_ERROR__EDITION_MINT_DECIMALS_SHOULD_BE_ZERO]:
-      "EditionMintDecimalsShouldBeZero",
-    [TOKEN_METADATA_ERROR__EDITION_NUMBER_GREATER_THAN_MAX_SUPPLY]:
-      "Edition Number greater than max supply",
-    [TOKEN_METADATA_ERROR__EDITION_OVERRIDE_CANNOT_BE_ZERO]:
-      "Edition override cannot be zero",
-    [TOKEN_METADATA_ERROR__EDITIONS_MUST_HAVE_EXACTLY_ONE_TOKEN]:
-      "Editions must have exactly one token",
-    [TOKEN_METADATA_ERROR__ESCROW_PARENT_HAS_DELEGATE]:
-      "Escrow parent cannot have a delegate",
-    [TOKEN_METADATA_ERROR__EXPECTED_UNINITIALIZED_ACCOUNT]:
-      "Expected account to be uninitialized",
-    [TOKEN_METADATA_ERROR__FEATURE_NOT_SUPPORTED]:
-      "Feature not supported currently",
-    [TOKEN_METADATA_ERROR__INCORRECT_OWNER]: "Incorrect account owner",
-    [TOKEN_METADATA_ERROR__INCORRECT_TOKEN_STATE]: "Incorrect token state",
-    [TOKEN_METADATA_ERROR__INSTRUCTION_NOT_SUPPORTED]:
-      "Instruction not supported for ProgrammableNonFungible assets",
-    [TOKEN_METADATA_ERROR__INSTRUCTION_PACK_ERROR]: "",
-    [TOKEN_METADATA_ERROR__INSTRUCTION_UNPACK_ERROR]: "",
-    [TOKEN_METADATA_ERROR__INSUFFICIENT_TOKEN_BALANCE]:
-      "Token account does not have enough tokens",
-    [TOKEN_METADATA_ERROR__INSUFFICIENT_TOKENS]:
-      "Insufficient tokens for transfer",
-    [TOKEN_METADATA_ERROR__INVALID_AMOUNT]:
-      "Invalid token amount for this operation or token standard",
-    [TOKEN_METADATA_ERROR__INVALID_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM]:
-      "Invalid Associated Token Account Program",
-    [TOKEN_METADATA_ERROR__INVALID_AUTHORITY_TYPE]: "Invalid authority type",
-    [TOKEN_METADATA_ERROR__INVALID_AUTHORIZATION_RULES]:
-      "Invalid authorization rules account",
-    [TOKEN_METADATA_ERROR__INVALID_BASIS_POINTS]:
-      "Basis points cannot be more than 10000",
-    [TOKEN_METADATA_ERROR__INVALID_BUBBLEGUM_SIGNER]:
-      "Invalid bubblegum signer",
-    [TOKEN_METADATA_ERROR__INVALID_CLOSE_AUTHORITY]:
-      "The close authority needs to be revoked by the Utility Delegate",
-    [TOKEN_METADATA_ERROR__INVALID_COLLECTION_AUTHORITY_RECORD]: "",
-    [TOKEN_METADATA_ERROR__INVALID_COLLECTION_SIZE_CHANGE]:
-      "Invalid collection size change",
-    [TOKEN_METADATA_ERROR__INVALID_COLLECTION_UPDATE_AUTHORITY]:
-      "Collection Update Authority is invalid",
-    [TOKEN_METADATA_ERROR__INVALID_DELEGATE]:
-      "All tokens in this account have not been delegated to this user.",
-    [TOKEN_METADATA_ERROR__INVALID_DELEGATE_ARGS]: "Invalid delegate args",
-    [TOKEN_METADATA_ERROR__INVALID_DELEGATE_ROLE]: "Invalid delegate role",
-    [TOKEN_METADATA_ERROR__INVALID_DELEGATE_ROLE_FOR_TRANSFER]:
-      "Invalid delegate role for transfer",
-    [TOKEN_METADATA_ERROR__INVALID_EDITION_ACCOUNT_LENGTH]:
-      "Edition account has an invalid length",
-    [TOKEN_METADATA_ERROR__INVALID_EDITION_INDEX]:
-      "You tried to insert one edition too many into an edition mark pda",
+    [TOKEN_METADATA_ERROR__ACCOUNT_ALREADY_RESIZED]: `Account has already been resized`,
+    [TOKEN_METADATA_ERROR__ADDRESS_NOT_IN_RESERVATION]: ``,
+    [TOKEN_METADATA_ERROR__ALREADY_INITIALIZED]: `Already initialized`,
+    [TOKEN_METADATA_ERROR__ALREADY_UNVERIFIED]: ``,
+    [TOKEN_METADATA_ERROR__ALREADY_VERIFIED]: `Item is already verified.`,
+    [TOKEN_METADATA_ERROR__AMOUNT_MUST_BE_GREATER_THAN_ZERO]: `Amount must be greater than zero`,
+    [TOKEN_METADATA_ERROR__AUTHORIZATION_TOKEN_ACCOUNT_OWNER_MISMATCH]: ``,
+    [TOKEN_METADATA_ERROR__BEYOND_ALOTTED_ADDRESS_SIZE]: ``,
+    [TOKEN_METADATA_ERROR__BEYOND_MAX_ADDRESS_SIZE]: ``,
+    [TOKEN_METADATA_ERROR__BORSH_DESERIALIZATION_ERROR]: ``,
+    [TOKEN_METADATA_ERROR__BORSH_SERIALIZATION_ERROR]: `Borsh Serialization Error`,
+    [TOKEN_METADATA_ERROR__CANNOT_ADJUST_VERIFIED_CREATOR]: ``,
+    [TOKEN_METADATA_ERROR__CANNOT_BURN_WITH_DELEGATE]: `Cannot burn while persistent delegate is set`,
+    [TOKEN_METADATA_ERROR__CANNOT_CHANGE_UPDATE_AUTHORITY_WITH_DELEGATE]: `Cannot change the update authority with a delegate`,
+    [TOKEN_METADATA_ERROR__CANNOT_CHANGE_USE_METHOD_AFTER_FIRST_USE]: `Cannot Change Use Method after the first use`,
+    [TOKEN_METADATA_ERROR__CANNOT_CHANGE_USES_AFTER_FIRST_USE]: `Cannot Change Remaining or Available uses after the first use`,
+    [TOKEN_METADATA_ERROR__CANNOT_REMOVE_VERIFIED_CREATOR]: `Verified creators cannot be removed.`,
+    [TOKEN_METADATA_ERROR__CANNOT_UNVERIFY_ANOTHER_CREATOR]: `You cannot unilaterally unverify another creator`,
+    [TOKEN_METADATA_ERROR__CANNOT_UPDATE_ASSET_WITH_DELEGATE]: `Cannot update the rule set of a programmable asset that has a delegate`,
+    [TOKEN_METADATA_ERROR__CANNOT_UPDATE_VERIFIED_COLLECTION]: `Cannot update a verified collection in this command`,
+    [TOKEN_METADATA_ERROR__CANNOT_VERIFY_ANOTHER_CREATOR]: `You cannot unilaterally verify another creator, they must sign`,
+    [TOKEN_METADATA_ERROR__CANNOT_WIPE_VERIFIED_CREATORS]: ``,
+    [TOKEN_METADATA_ERROR__COLLECTION_AUTHORITY_DOES_NOT_EXIST]: `This Collection Authority Record Does Not Exist.`,
+    [TOKEN_METADATA_ERROR__COLLECTION_AUTHORITY_RECORD_ALREADY_EXISTS]: `This Collection Authority Record Already Exists.`,
+    [TOKEN_METADATA_ERROR__COLLECTION_CANNOT_BE_VERIFIED_IN_THIS_INSTRUCTION]: `Collection cannot be verified in this instruction`,
+    [TOKEN_METADATA_ERROR__COLLECTION_MASTER_EDITION_ACCOUNT_INVALID]: `Edition account doesnt match collection `,
+    [TOKEN_METADATA_ERROR__COLLECTION_MUST_BE_A_UNIQUE_MASTER_EDITION]: `Collection Must Be a Unique Master Edition v2`,
+    [TOKEN_METADATA_ERROR__COLLECTION_NOT_FOUND]: `Collection Not Found on Metadata`,
+    [TOKEN_METADATA_ERROR__CONDITIONS_FOR_CLOSING_NOT_MET]: `Conditions for closing not met`,
+    [TOKEN_METADATA_ERROR__COULD_NOT_DETERMINE_TOKEN_STANDARD]: `Could not determine a TokenStandard type.`,
+    [TOKEN_METADATA_ERROR__CREATOR_NOT_FOUND]: `This creator address was not found`,
+    [TOKEN_METADATA_ERROR__CREATORS_MUST_BE_ATLEAST_ONE]: `Creators must be at least one if set`,
+    [TOKEN_METADATA_ERROR__CREATORS_TOO_LONG]: `Creators list too long`,
+    [TOKEN_METADATA_ERROR__DATA_INCREMENT_LIMIT_EXCEEDED]: `Exceeded account realloc increase limit`,
+    [TOKEN_METADATA_ERROR__DATA_IS_EMPTY_OR_ZEROED]: `Data is empty or zeroed`,
+    [TOKEN_METADATA_ERROR__DATA_IS_IMMUTABLE]: `Data is immutable`,
+    [TOKEN_METADATA_ERROR__DATA_TYPE_MISMATCH]: `Data type mismatch`,
+    [TOKEN_METADATA_ERROR__DELEGATE_ALREADY_EXISTS]: `Delegate already exists`,
+    [TOKEN_METADATA_ERROR__DELEGATE_NOT_FOUND]: `Delegate not found`,
+    [TOKEN_METADATA_ERROR__DERIVED_KEY_INVALID]: `Derived key invalid`,
+    [TOKEN_METADATA_ERROR__DESTINATION_MINT_MISMATCH]: ``,
+    [TOKEN_METADATA_ERROR__DISABLED]: ``,
+    [TOKEN_METADATA_ERROR__DUPLICATE_CREATOR_ADDRESS]: `No duplicate creator addresses`,
+    [TOKEN_METADATA_ERROR__EDITION_ALREADY_MINTED]: ``,
+    [TOKEN_METADATA_ERROR__EDITION_MINT_DECIMALS_SHOULD_BE_ZERO]: `EditionMintDecimalsShouldBeZero`,
+    [TOKEN_METADATA_ERROR__EDITION_NUMBER_GREATER_THAN_MAX_SUPPLY]: `Edition Number greater than max supply`,
+    [TOKEN_METADATA_ERROR__EDITION_OVERRIDE_CANNOT_BE_ZERO]: `Edition override cannot be zero`,
+    [TOKEN_METADATA_ERROR__EDITIONS_MUST_HAVE_EXACTLY_ONE_TOKEN]: `Editions must have exactly one token`,
+    [TOKEN_METADATA_ERROR__ESCROW_PARENT_HAS_DELEGATE]: `Escrow parent cannot have a delegate`,
+    [TOKEN_METADATA_ERROR__EXPECTED_UNINITIALIZED_ACCOUNT]: `Expected account to be uninitialized`,
+    [TOKEN_METADATA_ERROR__FEATURE_NOT_SUPPORTED]: `Feature not supported currently`,
+    [TOKEN_METADATA_ERROR__INCORRECT_OWNER]: `Incorrect account owner`,
+    [TOKEN_METADATA_ERROR__INCORRECT_TOKEN_STATE]: `Incorrect token state`,
+    [TOKEN_METADATA_ERROR__INSTRUCTION_NOT_SUPPORTED]: `Instruction not supported for ProgrammableNonFungible assets`,
+    [TOKEN_METADATA_ERROR__INSTRUCTION_PACK_ERROR]: ``,
+    [TOKEN_METADATA_ERROR__INSTRUCTION_UNPACK_ERROR]: ``,
+    [TOKEN_METADATA_ERROR__INSUFFICIENT_TOKEN_BALANCE]: `Token account does not have enough tokens`,
+    [TOKEN_METADATA_ERROR__INSUFFICIENT_TOKENS]: `Insufficient tokens for transfer`,
+    [TOKEN_METADATA_ERROR__INVALID_AMOUNT]: `Invalid token amount for this operation or token standard`,
+    [TOKEN_METADATA_ERROR__INVALID_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM]: `Invalid Associated Token Account Program`,
+    [TOKEN_METADATA_ERROR__INVALID_AUTHORITY_TYPE]: `Invalid authority type`,
+    [TOKEN_METADATA_ERROR__INVALID_AUTHORIZATION_RULES]: `Invalid authorization rules account`,
+    [TOKEN_METADATA_ERROR__INVALID_BASIS_POINTS]: `Basis points cannot be more than 10000`,
+    [TOKEN_METADATA_ERROR__INVALID_BUBBLEGUM_SIGNER]: `Invalid bubblegum signer`,
+    [TOKEN_METADATA_ERROR__INVALID_CLOSE_AUTHORITY]: `The close authority needs to be revoked by the Utility Delegate`,
+    [TOKEN_METADATA_ERROR__INVALID_COLLECTION_AUTHORITY_RECORD]: ``,
+    [TOKEN_METADATA_ERROR__INVALID_COLLECTION_SIZE_CHANGE]: `Invalid collection size change`,
+    [TOKEN_METADATA_ERROR__INVALID_COLLECTION_UPDATE_AUTHORITY]: `Collection Update Authority is invalid`,
+    [TOKEN_METADATA_ERROR__INVALID_DELEGATE]: `All tokens in this account have not been delegated to this user.`,
+    [TOKEN_METADATA_ERROR__INVALID_DELEGATE_ARGS]: `Invalid delegate args`,
+    [TOKEN_METADATA_ERROR__INVALID_DELEGATE_ROLE]: `Invalid delegate role`,
+    [TOKEN_METADATA_ERROR__INVALID_DELEGATE_ROLE_FOR_TRANSFER]: `Invalid delegate role for transfer`,
+    [TOKEN_METADATA_ERROR__INVALID_EDITION_ACCOUNT_LENGTH]: `Edition account has an invalid length`,
+    [TOKEN_METADATA_ERROR__INVALID_EDITION_INDEX]: `You tried to insert one edition too many into an edition mark pda`,
     [TOKEN_METADATA_ERROR__INVALID_EDITION_KEY]: `Edition's key must match seed of ['metadata', program id, name, 'edition'] provided`,
-    [TOKEN_METADATA_ERROR__INVALID_EDITION_MARKER]: "Invalid Edition Marker",
-    [TOKEN_METADATA_ERROR__INVALID_ESCROW_BUMP_SEED]:
-      "Invalid Escrow Account Bump Seed",
-    [TOKEN_METADATA_ERROR__INVALID_FEE_ACCOUNT]: "",
-    [TOKEN_METADATA_ERROR__INVALID_FREEZE_AUTHORITY]:
-      "Metadata does not match the freeze authority on the mint",
-    [TOKEN_METADATA_ERROR__INVALID_INSTRUCTION]:
-      "Invalid or removed instruction",
-    [TOKEN_METADATA_ERROR__INVALID_INSTRUCTIONS_SYSVAR]:
-      "Invalid InstructionsSysvar",
-    [TOKEN_METADATA_ERROR__INVALID_LOCKED_TRANSFER_ADDRESS]:
-      "Invalid destination address for locked transfer",
-    [TOKEN_METADATA_ERROR__INVALID_MASTER_EDITION]: "Invalid Master Edition",
-    [TOKEN_METADATA_ERROR__INVALID_MASTER_EDITION_ACCOUNT_LENGTH]:
-      "Master edition account has an invalid length",
-    [TOKEN_METADATA_ERROR__INVALID_METADATA_FLAGS]: "",
+    [TOKEN_METADATA_ERROR__INVALID_EDITION_MARKER]: `Invalid Edition Marker`,
+    [TOKEN_METADATA_ERROR__INVALID_ESCROW_BUMP_SEED]: `Invalid Escrow Account Bump Seed`,
+    [TOKEN_METADATA_ERROR__INVALID_FEE_ACCOUNT]: ``,
+    [TOKEN_METADATA_ERROR__INVALID_FREEZE_AUTHORITY]: `Metadata does not match the freeze authority on the mint`,
+    [TOKEN_METADATA_ERROR__INVALID_INSTRUCTION]: `Invalid or removed instruction`,
+    [TOKEN_METADATA_ERROR__INVALID_INSTRUCTIONS_SYSVAR]: `Invalid InstructionsSysvar`,
+    [TOKEN_METADATA_ERROR__INVALID_LOCKED_TRANSFER_ADDRESS]: `Invalid destination address for locked transfer`,
+    [TOKEN_METADATA_ERROR__INVALID_MASTER_EDITION]: `Invalid Master Edition`,
+    [TOKEN_METADATA_ERROR__INVALID_MASTER_EDITION_ACCOUNT_LENGTH]: `Master edition account has an invalid length`,
+    [TOKEN_METADATA_ERROR__INVALID_METADATA_FLAGS]: ``,
     [TOKEN_METADATA_ERROR__INVALID_METADATA_KEY]: ` Metadata's key must match seed of ['metadata', program id, mint] provided`,
-    [TOKEN_METADATA_ERROR__INVALID_METADATA_POINTER]:
-      "Invalid metadata pointer",
-    [TOKEN_METADATA_ERROR__INVALID_MINT_AUTHORITY]:
-      "Mint authority provided does not match the authority on the mint",
-    [TOKEN_METADATA_ERROR__INVALID_MINT_CLOSE_AUTHORITY]:
-      "Invalid mint close authority",
-    [TOKEN_METADATA_ERROR__INVALID_MINT_EXTENSION_TYPE]:
-      "Invalid mint extension type",
-    [TOKEN_METADATA_ERROR__INVALID_MINT_FOR_TOKEN_STANDARD]:
-      "Invalid mint account for specified token standard",
-    [TOKEN_METADATA_ERROR__INVALID_OPERATION]: "Invalid operation",
-    [TOKEN_METADATA_ERROR__INVALID_OWNER]: "Invalid Owner",
-    [TOKEN_METADATA_ERROR__INVALID_PARENT_ACCOUNTS]:
-      "Invalid or Unneeded parent accounts",
-    [TOKEN_METADATA_ERROR__INVALID_PRINT_EDITION]: "Invalid Print Edition",
-    [TOKEN_METADATA_ERROR__INVALID_PROGRAMMABLE_CONFIG]:
-      "Invalid programmable configuration",
-    [TOKEN_METADATA_ERROR__INVALID_SYSTEM_PROGRAM]: "Invalid System Program",
-    [TOKEN_METADATA_ERROR__INVALID_SYSTEM_WALLET]: "Invalid system wallet",
-    [TOKEN_METADATA_ERROR__INVALID_TOKEN_EXTENSION_TYPE]:
-      "Invalid token extension type",
-    [TOKEN_METADATA_ERROR__INVALID_TOKEN_PROGRAM]: "Invalid token program",
-    [TOKEN_METADATA_ERROR__INVALID_TOKEN_RECORD]:
-      "Invalid token record account",
-    [TOKEN_METADATA_ERROR__INVALID_TOKEN_STANDARD]: "Invalid token standard",
-    [TOKEN_METADATA_ERROR__INVALID_TRANSFER_AUTHORITY]:
-      "Invalid transfer authority",
-    [TOKEN_METADATA_ERROR__INVALID_UPDATE_ARGS]:
-      "Authority cannot apply all update args",
-    [TOKEN_METADATA_ERROR__INVALID_USE_AUTHORITY_RECORD]:
-      "This Use Authority Record is invalid.",
-    [TOKEN_METADATA_ERROR__INVALID_USE_METHOD]: "This use method is invalid",
-    [TOKEN_METADATA_ERROR__INVALID_USER]: "Invalid User",
-    [TOKEN_METADATA_ERROR__IS_MUTABLE_CAN_ONLY_BE_FLIPPED_TO_FALSE]:
-      "Is Mutable can only be flipped to false",
-    [TOKEN_METADATA_ERROR__KEY_MISMATCH]:
-      "Public key does not match expected value",
-    [TOKEN_METADATA_ERROR__LOCKED_TOKEN]: "Token is locked",
-    [TOKEN_METADATA_ERROR__MASTER_EDITION_HAS_PRINTS]:
-      "This Master Edition has existing prints",
-    [TOKEN_METADATA_ERROR__MASTER_RECORD_MISMATCH]: "",
-    [TOKEN_METADATA_ERROR__MAX_EDITIONS_MINTED_ALREADY]: "",
-    [TOKEN_METADATA_ERROR__MINT_IS_NOT_SIGNER]:
-      "Mint needs to be signer to initialize the account",
-    [TOKEN_METADATA_ERROR__MINT_MISMATCH]:
-      "Mint given does not match mint on Metadata",
-    [TOKEN_METADATA_ERROR__MINT_SUPPLY_MUST_BE_ZERO]:
-      "Mint supply must be zero for programmable assets",
-    [TOKEN_METADATA_ERROR__MISSING_ACCOUNT_IN_BUILDER]:
-      "Required account not set in instruction builder",
-    [TOKEN_METADATA_ERROR__MISSING_ARGUMENT_IN_BUILDER]:
-      "Required argument not set in instruction builder",
-    [TOKEN_METADATA_ERROR__MISSING_AUTHORIZATION_RULES]:
-      "Missing authorization rules account",
-    [TOKEN_METADATA_ERROR__MISSING_AUTHORIZATION_RULES_PROGRAM]:
-      "Missing authorization rules program",
-    [TOKEN_METADATA_ERROR__MISSING_COLLECTION_MASTER_EDITION]:
-      "Missing collection master edition account",
-    [TOKEN_METADATA_ERROR__MISSING_COLLECTION_METADATA]:
-      "Missing collection metadata account",
-    [TOKEN_METADATA_ERROR__MISSING_COLLECTION_MINT]:
-      "Missing collection account",
-    [TOKEN_METADATA_ERROR__MISSING_DELEGATE_RECORD]: "Missing delegate record",
-    [TOKEN_METADATA_ERROR__MISSING_DELEGATE_ROLE]: "Missing delegate role",
-    [TOKEN_METADATA_ERROR__MISSING_EDITION]: "Missing edition account",
-    [TOKEN_METADATA_ERROR__MISSING_EDITION_ACCOUNT]:
-      "This mint account has an edition but none was provided.",
-    [TOKEN_METADATA_ERROR__MISSING_EDITION_MARKER_ACCOUNT]:
-      "Missing edition marker account",
-    [TOKEN_METADATA_ERROR__MISSING_IMMUTABLE_OWNER_EXTENSION]:
-      "Missing immutable owner extension",
-    [TOKEN_METADATA_ERROR__MISSING_LOCKED_TRANSFER_ADDRESS]:
-      "Missing address for locked transfer",
-    [TOKEN_METADATA_ERROR__MISSING_MASTER_EDITION_ACCOUNT]:
-      "Missing master edition account",
-    [TOKEN_METADATA_ERROR__MISSING_MASTER_EDITION_MINT_ACCOUNT]:
-      "Missing master edition mint account",
-    [TOKEN_METADATA_ERROR__MISSING_MASTER_EDITION_TOKEN_ACCOUNT]:
-      "Missing master edition token account",
-    [TOKEN_METADATA_ERROR__MISSING_PRINT_SUPPLY]:
-      "Print supply is required for non-fungibles",
-    [TOKEN_METADATA_ERROR__MISSING_PROGRAMMABLE_CONFIG]:
-      "Missing programmable configuration",
-    [TOKEN_METADATA_ERROR__MISSING_SPL_TOKEN_PROGRAM]:
-      "Missing SPL token program",
-    [TOKEN_METADATA_ERROR__MISSING_TOKEN_ACCOUNT]: "Missing token account",
-    [TOKEN_METADATA_ERROR__MISSING_TOKEN_OWNER_ACCOUNT]: "Missing token owner",
-    [TOKEN_METADATA_ERROR__MISSING_TOKEN_RECORD]:
-      "Missing token record account",
-    [TOKEN_METADATA_ERROR__MUST_BE_BURNED]: "",
-    [TOKEN_METADATA_ERROR__MUST_BE_ESCROW_AUTHORITY]: "Must Escrow Authority",
-    [TOKEN_METADATA_ERROR__MUST_BE_NON_FUNGIBLE]:
-      "Must be a Non Fungible Token",
-    [TOKEN_METADATA_ERROR__MUST_BE_ONE_OF_CREATORS]: "",
-    [TOKEN_METADATA_ERROR__MUST_UNVERIFY]:
-      "Must unverify before migrating collections.",
-    [TOKEN_METADATA_ERROR__NAME_TOO_LONG]: "Name too long",
-    [TOKEN_METADATA_ERROR__NO_BALANCE_IN_ACCOUNT_FOR_AUTHORIZATION]:
-      "This account has no tokens to be used for authorization",
-    [TOKEN_METADATA_ERROR__NO_CREATORS_PRESENT_ON_METADATA]:
-      "This metadata does not have creators",
-    [TOKEN_METADATA_ERROR__NO_FREEZE_AUTHORITY_SET]:
-      "Cannot create NFT with no Freeze Authority.",
-    [TOKEN_METADATA_ERROR__NOT_A_COLLECTION_PARENT]:
-      "This NFT is not a collection parent NFT.",
-    [TOKEN_METADATA_ERROR__NOT_ALLOWED_TO_CHANGE_SELLER_FEE_BASIS_POINTS]: "",
-    [TOKEN_METADATA_ERROR__NOT_A_MASTER_EDITION]:
-      "This edition is not a Master Edition",
-    [TOKEN_METADATA_ERROR__NOT_A_MEMBER_OF_COLLECTION]:
-      "This NFT is not a member of the specified collection.",
-    [TOKEN_METADATA_ERROR__NOT_A_PRINT_EDITION]:
-      "This edition is not a Print Edition",
-    [TOKEN_METADATA_ERROR__NOT_ENOUGH_TOKENS]:
-      "Not enough tokens to mint a limited edition",
-    [TOKEN_METADATA_ERROR__NOT_ENOUGH_USES]:
-      "There are not enough Uses left on this token.",
-    [TOKEN_METADATA_ERROR__NOT_MINT_AUTHORITY]:
-      "You must be the mint authority and signer on this transaction",
-    [TOKEN_METADATA_ERROR__NOT_RENT_EXEMPT]:
-      "Lamport balance below rent-exempt threshold",
-    [TOKEN_METADATA_ERROR__NOT_VERIFIED_MEMBER_OF_COLLECTION]:
-      "This NFT is not a verified member of the specified collection.",
-    [TOKEN_METADATA_ERROR__NUMERICAL_OVERFLOW_ERROR]: "NumericalOverflowError",
-    [TOKEN_METADATA_ERROR__ONE_TIME_AUTH_MINT_SUPPLY_MUST_BE_ZERO_FOR_CONVERSION]:
-      "One Time Auth mint supply must be zero for conversion",
-    [TOKEN_METADATA_ERROR__ONE_TIME_PRINTING_AUTH_MINT_MISMATCH]:
-      "The One Time Printing Auth mint does not match that on the master edition!",
-    [TOKEN_METADATA_ERROR__ONE_TIME_PRINTING_AUTHORIZATION_MINT_DECIMALS_SHOULD_BE_ZERO]:
-      "",
-    [TOKEN_METADATA_ERROR__ONLY_SALE_DELEGATE_CAN_TRANSFER]:
-      "Only the sale delegate can transfer while its set",
-    [TOKEN_METADATA_ERROR__OWNER_MISMATCH]:
-      "Owner does not match that on the account given",
-    [TOKEN_METADATA_ERROR__PRIMARY_SALE_CAN_ONLY_BE_FLIPPED_TO_TRUE]:
-      "Primary sale can only be flipped to true and is immutable",
-    [TOKEN_METADATA_ERROR__PRINT_EDITION_DOES_NOT_MATCH_MASTER_EDITION]:
-      "Print Edition does not match Master Edition",
-    [TOKEN_METADATA_ERROR__PRINTING_MINT_AUTHORIZATION_ACCOUNT_MISMATCH]: "",
-    [TOKEN_METADATA_ERROR__PRINTING_MINT_DECIMALS_SHOULD_BE_ZERO]: "",
-    [TOKEN_METADATA_ERROR__PRINTING_MINT_MISMATCH]:
-      "The Printing mint does not match that on the master edition!",
-    [TOKEN_METADATA_ERROR__PRINTING_MINT_SUPPLY_MUST_BE_ZERO_FOR_CONVERSION]:
-      "Printing mint supply must be zero for conversion",
-    [TOKEN_METADATA_ERROR__PRINTING_WOULD_BREACH_MAXIMUM_SUPPLY]: "",
-    [TOKEN_METADATA_ERROR__REMOVED]:
-      "This instruction was deprecated in a previous release and is now removed",
-    [TOKEN_METADATA_ERROR__RESERVATION_ALREADY_MADE]: "",
-    [TOKEN_METADATA_ERROR__RESERVATION_ARRAY_SHOULD_BE_SIZE_ONE]: "",
-    [TOKEN_METADATA_ERROR__RESERVATION_BREACHES_MAXIMUM_SUPPLY]: "",
-    [TOKEN_METADATA_ERROR__RESERVATION_DOES_NOT_EXIST]: "",
-    [TOKEN_METADATA_ERROR__RESERVATION_EXISTS]: "",
-    [TOKEN_METADATA_ERROR__RESERVATION_LIST_DEPRECATED]:
-      "Reservation List is Deprecated",
-    [TOKEN_METADATA_ERROR__RESERVATION_NOT_COMPLETE]: "",
-    [TOKEN_METADATA_ERROR__RESERVATION_NOT_SET]: "",
-    [TOKEN_METADATA_ERROR__RESERVATION_SPOTS_REMAINING_SHOULD_MATCH_TOTAL_SPOTS_AT_START]:
-      "",
-    [TOKEN_METADATA_ERROR__REVOKE_COLLECTION_AUTHORITY_SIGNER_INCORRECT]:
-      "Revoke Collection Authority signer is incorrect",
-    [TOKEN_METADATA_ERROR__SHARE_TOTAL_MUST_BE100]:
-      "Share total must equal 100 for creator array",
+    [TOKEN_METADATA_ERROR__INVALID_METADATA_POINTER]: `Invalid metadata pointer`,
+    [TOKEN_METADATA_ERROR__INVALID_MINT_AUTHORITY]: `Mint authority provided does not match the authority on the mint`,
+    [TOKEN_METADATA_ERROR__INVALID_MINT_CLOSE_AUTHORITY]: `Invalid mint close authority`,
+    [TOKEN_METADATA_ERROR__INVALID_MINT_EXTENSION_TYPE]: `Invalid mint extension type`,
+    [TOKEN_METADATA_ERROR__INVALID_MINT_FOR_TOKEN_STANDARD]: `Invalid mint account for specified token standard`,
+    [TOKEN_METADATA_ERROR__INVALID_OPERATION]: `Invalid operation`,
+    [TOKEN_METADATA_ERROR__INVALID_OWNER]: `Invalid Owner`,
+    [TOKEN_METADATA_ERROR__INVALID_PARENT_ACCOUNTS]: `Invalid or Unneeded parent accounts`,
+    [TOKEN_METADATA_ERROR__INVALID_PRINT_EDITION]: `Invalid Print Edition`,
+    [TOKEN_METADATA_ERROR__INVALID_PROGRAMMABLE_CONFIG]: `Invalid programmable configuration`,
+    [TOKEN_METADATA_ERROR__INVALID_SYSTEM_PROGRAM]: `Invalid System Program`,
+    [TOKEN_METADATA_ERROR__INVALID_SYSTEM_WALLET]: `Invalid system wallet`,
+    [TOKEN_METADATA_ERROR__INVALID_TOKEN_EXTENSION_TYPE]: `Invalid token extension type`,
+    [TOKEN_METADATA_ERROR__INVALID_TOKEN_PROGRAM]: `Invalid token program`,
+    [TOKEN_METADATA_ERROR__INVALID_TOKEN_RECORD]: `Invalid token record account`,
+    [TOKEN_METADATA_ERROR__INVALID_TOKEN_STANDARD]: `Invalid token standard`,
+    [TOKEN_METADATA_ERROR__INVALID_TRANSFER_AUTHORITY]: `Invalid transfer authority`,
+    [TOKEN_METADATA_ERROR__INVALID_UPDATE_ARGS]: `Authority cannot apply all update args`,
+    [TOKEN_METADATA_ERROR__INVALID_USE_AUTHORITY_RECORD]: `This Use Authority Record is invalid.`,
+    [TOKEN_METADATA_ERROR__INVALID_USE_METHOD]: `This use method is invalid`,
+    [TOKEN_METADATA_ERROR__INVALID_USER]: `Invalid User`,
+    [TOKEN_METADATA_ERROR__IS_MUTABLE_CAN_ONLY_BE_FLIPPED_TO_FALSE]: `Is Mutable can only be flipped to false`,
+    [TOKEN_METADATA_ERROR__KEY_MISMATCH]: `Public key does not match expected value`,
+    [TOKEN_METADATA_ERROR__LOCKED_TOKEN]: `Token is locked`,
+    [TOKEN_METADATA_ERROR__MASTER_EDITION_HAS_PRINTS]: `This Master Edition has existing prints`,
+    [TOKEN_METADATA_ERROR__MASTER_RECORD_MISMATCH]: ``,
+    [TOKEN_METADATA_ERROR__MAX_EDITIONS_MINTED_ALREADY]: ``,
+    [TOKEN_METADATA_ERROR__MINT_IS_NOT_SIGNER]: `Mint needs to be signer to initialize the account`,
+    [TOKEN_METADATA_ERROR__MINT_MISMATCH]: `Mint given does not match mint on Metadata`,
+    [TOKEN_METADATA_ERROR__MINT_SUPPLY_MUST_BE_ZERO]: `Mint supply must be zero for programmable assets`,
+    [TOKEN_METADATA_ERROR__MISSING_ACCOUNT_IN_BUILDER]: `Required account not set in instruction builder`,
+    [TOKEN_METADATA_ERROR__MISSING_ARGUMENT_IN_BUILDER]: `Required argument not set in instruction builder`,
+    [TOKEN_METADATA_ERROR__MISSING_AUTHORIZATION_RULES]: `Missing authorization rules account`,
+    [TOKEN_METADATA_ERROR__MISSING_AUTHORIZATION_RULES_PROGRAM]: `Missing authorization rules program`,
+    [TOKEN_METADATA_ERROR__MISSING_COLLECTION_MASTER_EDITION]: `Missing collection master edition account`,
+    [TOKEN_METADATA_ERROR__MISSING_COLLECTION_METADATA]: `Missing collection metadata account`,
+    [TOKEN_METADATA_ERROR__MISSING_COLLECTION_MINT]: `Missing collection account`,
+    [TOKEN_METADATA_ERROR__MISSING_DELEGATE_RECORD]: `Missing delegate record`,
+    [TOKEN_METADATA_ERROR__MISSING_DELEGATE_ROLE]: `Missing delegate role`,
+    [TOKEN_METADATA_ERROR__MISSING_EDITION]: `Missing edition account`,
+    [TOKEN_METADATA_ERROR__MISSING_EDITION_ACCOUNT]: `This mint account has an edition but none was provided.`,
+    [TOKEN_METADATA_ERROR__MISSING_EDITION_MARKER_ACCOUNT]: `Missing edition marker account`,
+    [TOKEN_METADATA_ERROR__MISSING_IMMUTABLE_OWNER_EXTENSION]: `Missing immutable owner extension`,
+    [TOKEN_METADATA_ERROR__MISSING_LOCKED_TRANSFER_ADDRESS]: `Missing address for locked transfer`,
+    [TOKEN_METADATA_ERROR__MISSING_MASTER_EDITION_ACCOUNT]: `Missing master edition account`,
+    [TOKEN_METADATA_ERROR__MISSING_MASTER_EDITION_MINT_ACCOUNT]: `Missing master edition mint account`,
+    [TOKEN_METADATA_ERROR__MISSING_MASTER_EDITION_TOKEN_ACCOUNT]: `Missing master edition token account`,
+    [TOKEN_METADATA_ERROR__MISSING_PRINT_SUPPLY]: `Print supply is required for non-fungibles`,
+    [TOKEN_METADATA_ERROR__MISSING_PROGRAMMABLE_CONFIG]: `Missing programmable configuration`,
+    [TOKEN_METADATA_ERROR__MISSING_SPL_TOKEN_PROGRAM]: `Missing SPL token program`,
+    [TOKEN_METADATA_ERROR__MISSING_TOKEN_ACCOUNT]: `Missing token account`,
+    [TOKEN_METADATA_ERROR__MISSING_TOKEN_OWNER_ACCOUNT]: `Missing token owner`,
+    [TOKEN_METADATA_ERROR__MISSING_TOKEN_RECORD]: `Missing token record account`,
+    [TOKEN_METADATA_ERROR__MUST_BE_BURNED]: ``,
+    [TOKEN_METADATA_ERROR__MUST_BE_ESCROW_AUTHORITY]: `Must Escrow Authority`,
+    [TOKEN_METADATA_ERROR__MUST_BE_NON_FUNGIBLE]: `Must be a Non Fungible Token`,
+    [TOKEN_METADATA_ERROR__MUST_BE_ONE_OF_CREATORS]: ``,
+    [TOKEN_METADATA_ERROR__MUST_UNVERIFY]: `Must unverify before migrating collections.`,
+    [TOKEN_METADATA_ERROR__NAME_TOO_LONG]: `Name too long`,
+    [TOKEN_METADATA_ERROR__NO_BALANCE_IN_ACCOUNT_FOR_AUTHORIZATION]: `This account has no tokens to be used for authorization`,
+    [TOKEN_METADATA_ERROR__NO_CREATORS_PRESENT_ON_METADATA]: `This metadata does not have creators`,
+    [TOKEN_METADATA_ERROR__NO_FREEZE_AUTHORITY_SET]: `Cannot create NFT with no Freeze Authority.`,
+    [TOKEN_METADATA_ERROR__NOT_A_COLLECTION_PARENT]: `This NFT is not a collection parent NFT.`,
+    [TOKEN_METADATA_ERROR__NOT_ALLOWED_TO_CHANGE_SELLER_FEE_BASIS_POINTS]: ``,
+    [TOKEN_METADATA_ERROR__NOT_A_MASTER_EDITION]: `This edition is not a Master Edition`,
+    [TOKEN_METADATA_ERROR__NOT_A_MEMBER_OF_COLLECTION]: `This NFT is not a member of the specified collection.`,
+    [TOKEN_METADATA_ERROR__NOT_A_PRINT_EDITION]: `This edition is not a Print Edition`,
+    [TOKEN_METADATA_ERROR__NOT_ENOUGH_TOKENS]: `Not enough tokens to mint a limited edition`,
+    [TOKEN_METADATA_ERROR__NOT_ENOUGH_USES]: `There are not enough Uses left on this token.`,
+    [TOKEN_METADATA_ERROR__NOT_MINT_AUTHORITY]: `You must be the mint authority and signer on this transaction`,
+    [TOKEN_METADATA_ERROR__NOT_RENT_EXEMPT]: `Lamport balance below rent-exempt threshold`,
+    [TOKEN_METADATA_ERROR__NOT_VERIFIED_MEMBER_OF_COLLECTION]: `This NFT is not a verified member of the specified collection.`,
+    [TOKEN_METADATA_ERROR__NUMERICAL_OVERFLOW_ERROR]: `NumericalOverflowError`,
+    [TOKEN_METADATA_ERROR__ONE_TIME_AUTH_MINT_SUPPLY_MUST_BE_ZERO_FOR_CONVERSION]: `One Time Auth mint supply must be zero for conversion`,
+    [TOKEN_METADATA_ERROR__ONE_TIME_PRINTING_AUTH_MINT_MISMATCH]: `The One Time Printing Auth mint does not match that on the master edition!`,
+    [TOKEN_METADATA_ERROR__ONE_TIME_PRINTING_AUTHORIZATION_MINT_DECIMALS_SHOULD_BE_ZERO]: ``,
+    [TOKEN_METADATA_ERROR__ONLY_SALE_DELEGATE_CAN_TRANSFER]: `Only the sale delegate can transfer while its set`,
+    [TOKEN_METADATA_ERROR__OWNER_MISMATCH]: `Owner does not match that on the account given`,
+    [TOKEN_METADATA_ERROR__PRIMARY_SALE_CAN_ONLY_BE_FLIPPED_TO_TRUE]: `Primary sale can only be flipped to true and is immutable`,
+    [TOKEN_METADATA_ERROR__PRINT_EDITION_DOES_NOT_MATCH_MASTER_EDITION]: `Print Edition does not match Master Edition`,
+    [TOKEN_METADATA_ERROR__PRINTING_MINT_AUTHORIZATION_ACCOUNT_MISMATCH]: ``,
+    [TOKEN_METADATA_ERROR__PRINTING_MINT_DECIMALS_SHOULD_BE_ZERO]: ``,
+    [TOKEN_METADATA_ERROR__PRINTING_MINT_MISMATCH]: `The Printing mint does not match that on the master edition!`,
+    [TOKEN_METADATA_ERROR__PRINTING_MINT_SUPPLY_MUST_BE_ZERO_FOR_CONVERSION]: `Printing mint supply must be zero for conversion`,
+    [TOKEN_METADATA_ERROR__PRINTING_WOULD_BREACH_MAXIMUM_SUPPLY]: ``,
+    [TOKEN_METADATA_ERROR__REMOVED]: `This instruction was deprecated in a previous release and is now removed`,
+    [TOKEN_METADATA_ERROR__RESERVATION_ALREADY_MADE]: ``,
+    [TOKEN_METADATA_ERROR__RESERVATION_ARRAY_SHOULD_BE_SIZE_ONE]: ``,
+    [TOKEN_METADATA_ERROR__RESERVATION_BREACHES_MAXIMUM_SUPPLY]: ``,
+    [TOKEN_METADATA_ERROR__RESERVATION_DOES_NOT_EXIST]: ``,
+    [TOKEN_METADATA_ERROR__RESERVATION_EXISTS]: ``,
+    [TOKEN_METADATA_ERROR__RESERVATION_LIST_DEPRECATED]: `Reservation List is Deprecated`,
+    [TOKEN_METADATA_ERROR__RESERVATION_NOT_COMPLETE]: ``,
+    [TOKEN_METADATA_ERROR__RESERVATION_NOT_SET]: ``,
+    [TOKEN_METADATA_ERROR__RESERVATION_SPOTS_REMAINING_SHOULD_MATCH_TOTAL_SPOTS_AT_START]: ``,
+    [TOKEN_METADATA_ERROR__REVOKE_COLLECTION_AUTHORITY_SIGNER_INCORRECT]: `Revoke Collection Authority signer is incorrect`,
+    [TOKEN_METADATA_ERROR__SHARE_TOTAL_MUST_BE100]: `Share total must equal 100 for creator array`,
     [TOKEN_METADATA_ERROR__SIZED_COLLECTION]: `Can't use this function on a sized collection`,
-    [TOKEN_METADATA_ERROR__SPOT_MISMATCH]: "",
-    [TOKEN_METADATA_ERROR__SYMBOL_TOO_LONG]: "Symbol too long",
-    [TOKEN_METADATA_ERROR__TOKEN_ACCOUNT_MINT_MISMATCH]:
-      "The mint of the token account does not match the Printing mint!",
-    [TOKEN_METADATA_ERROR__TOKEN_ACCOUNT_MINT_MISMATCH_V2]:
-      "The mint of the token account does not match the master metadata mint!",
-    [TOKEN_METADATA_ERROR__TOKEN_ACCOUNT_ONE_TIME_AUTH_MINT_MISMATCH]: "",
-    [TOKEN_METADATA_ERROR__TOKEN_BURN_FAILED]: "",
-    [TOKEN_METADATA_ERROR__TOKEN_CLOSE_FAILED]: "",
-    [TOKEN_METADATA_ERROR__TOKEN_MINT_TO_FAILED]: "",
-    [TOKEN_METADATA_ERROR__TRIED_TO_REPLACE_AN_EXISTING_RESERVATION]: "",
-    [TOKEN_METADATA_ERROR__UNINITIALIZED]: "Uninitialized",
-    [TOKEN_METADATA_ERROR__UNLOCKED_TOKEN]: "Token is unlocked",
+    [TOKEN_METADATA_ERROR__SPOT_MISMATCH]: ``,
+    [TOKEN_METADATA_ERROR__SYMBOL_TOO_LONG]: `Symbol too long`,
+    [TOKEN_METADATA_ERROR__TOKEN_ACCOUNT_MINT_MISMATCH]: `The mint of the token account does not match the Printing mint!`,
+    [TOKEN_METADATA_ERROR__TOKEN_ACCOUNT_MINT_MISMATCH_V2]: `The mint of the token account does not match the master metadata mint!`,
+    [TOKEN_METADATA_ERROR__TOKEN_ACCOUNT_ONE_TIME_AUTH_MINT_MISMATCH]: ``,
+    [TOKEN_METADATA_ERROR__TOKEN_BURN_FAILED]: ``,
+    [TOKEN_METADATA_ERROR__TOKEN_CLOSE_FAILED]: ``,
+    [TOKEN_METADATA_ERROR__TOKEN_MINT_TO_FAILED]: ``,
+    [TOKEN_METADATA_ERROR__TRIED_TO_REPLACE_AN_EXISTING_RESERVATION]: ``,
+    [TOKEN_METADATA_ERROR__UNINITIALIZED]: `Uninitialized`,
+    [TOKEN_METADATA_ERROR__UNLOCKED_TOKEN]: `Token is unlocked`,
     [TOKEN_METADATA_ERROR__UNSIZED_COLLECTION]: `Can't use this function on unsized collection`,
-    [TOKEN_METADATA_ERROR__UNUSABLE]: "This token has no uses",
-    [TOKEN_METADATA_ERROR__UPDATE_AUTHORITY_INCORRECT]:
-      "Update Authority given does not match",
-    [TOKEN_METADATA_ERROR__UPDATE_AUTHORITY_IS_NOT_SIGNER]:
-      "Update Authority needs to be signer to update metadata",
-    [TOKEN_METADATA_ERROR__UPDATE_AUTHORITY_MUST_BE_EQUAL_TO_METADATA_AUTHORITY_AND_SIGNER]:
-      "",
-    [TOKEN_METADATA_ERROR__URI_TOO_LONG]: "URI too long",
-    [TOKEN_METADATA_ERROR__USE_AUTHORITY_RECORD_ALREADY_EXISTS]:
-      "The Use Authority Record Already Exists, to modify it Revoke, then Approve",
-    [TOKEN_METADATA_ERROR__USE_AUTHORITY_RECORD_ALREADY_REVOKED]:
-      "The Use Authority Record is empty or already revoked",
+    [TOKEN_METADATA_ERROR__UNUSABLE]: `This token has no uses`,
+    [TOKEN_METADATA_ERROR__UPDATE_AUTHORITY_INCORRECT]: `Update Authority given does not match`,
+    [TOKEN_METADATA_ERROR__UPDATE_AUTHORITY_IS_NOT_SIGNER]: `Update Authority needs to be signer to update metadata`,
+    [TOKEN_METADATA_ERROR__UPDATE_AUTHORITY_MUST_BE_EQUAL_TO_METADATA_AUTHORITY_AND_SIGNER]: ``,
+    [TOKEN_METADATA_ERROR__URI_TOO_LONG]: `URI too long`,
+    [TOKEN_METADATA_ERROR__USE_AUTHORITY_RECORD_ALREADY_EXISTS]: `The Use Authority Record Already Exists, to modify it Revoke, then Approve`,
+    [TOKEN_METADATA_ERROR__USE_AUTHORITY_RECORD_ALREADY_REVOKED]: `The Use Authority Record is empty or already revoked`,
   };
 }
 
 export function getTokenMetadataErrorMessage(code: TokenMetadataError): string {
   if (true) {
-    return (tokenMetadataErrorMessages!)[
-      code
-    ];
+    return tokenMetadataErrorMessages![code];
   }
 
   return "Error message not available in production bundles.";

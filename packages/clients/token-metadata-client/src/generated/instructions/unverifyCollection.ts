@@ -6,35 +6,33 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  AccountMeta,
+  AccountSignerMeta,
+  Address,
+  FixedSizeCodec,
+  FixedSizeDecoder,
+  FixedSizeEncoder,
+  Instruction,
+  InstructionWithAccounts,
+  InstructionWithData,
+  ReadonlyAccount,
+  ReadonlyUint8Array,
+  TransactionSigner,
+  WritableAccount,
+  WritableSignerAccount,
+} from "@solana/kit";
 import {
-  
-  
-  
   combineCodec,
-  
-  
-  
   getStructDecoder,
   getStructEncoder,
   getU8Decoder,
   getU8Encoder,
-  
-  
-  
-  
-  
-  
-  transformEncoder
-  
-  
+  transformEncoder,
 } from "@solana/kit";
-import type {AccountMeta, AccountSignerMeta, Address, FixedSizeCodec, FixedSizeDecoder, FixedSizeEncoder, Instruction, InstructionWithAccounts, InstructionWithData, ReadonlyAccount, ReadonlyUint8Array, TransactionSigner, WritableAccount, WritableSignerAccount} from "@solana/kit";
 import { TOKEN_METADATA_PROGRAM_ADDRESS } from "../programs/index.js";
-import {
-  getAccountMetaFactory
-  
-} from "../shared/index.js";
-import type {ResolvedAccount} from "../shared/index.js";
+import type { ResolvedAccount } from "../shared/index.js";
+import { getAccountMetaFactory } from "../shared/index.js";
 
 export const UNVERIFY_COLLECTION_DISCRIMINATOR = 22;
 
@@ -48,9 +46,7 @@ export type UnverifyCollectionInstruction<
   TAccountCollectionAuthority extends string | AccountMeta = string,
   TAccountCollectionMint extends string | AccountMeta = string,
   TAccountCollection extends string | AccountMeta = string,
-  TAccountCollectionMasterEditionAccount extends
-    | string
-    | AccountMeta = string,
+  TAccountCollectionMasterEditionAccount extends string | AccountMeta = string,
   TAccountCollectionAuthorityRecord extends
     | string
     | AccountMeta
@@ -87,7 +83,9 @@ export type UnverifyCollectionInstruction<
     ]
   >;
 
-export interface UnverifyCollectionInstructionData { discriminator: number }
+export interface UnverifyCollectionInstructionData {
+  discriminator: number;
+}
 
 export interface UnverifyCollectionInstructionDataArgs {}
 
@@ -255,9 +253,7 @@ export function parseUnverifyCollectionInstruction<
   };
   let optionalAccountsRemaining = instruction.accounts.length - 5;
   const getNextOptionalAccount = () => {
-    if (optionalAccountsRemaining === 0) {
-      return undefined;
-    }
+    if (optionalAccountsRemaining === 0) return undefined;
     optionalAccountsRemaining -= 1;
     return getNextAccount();
   };

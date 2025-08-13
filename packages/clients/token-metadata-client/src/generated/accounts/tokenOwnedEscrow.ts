@@ -6,19 +6,23 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  Account,
+  Address,
+  Codec,
+  Decoder,
+  EncodedAccount,
+  Encoder,
+  FetchAccountConfig,
+  FetchAccountsConfig,
+  MaybeAccount,
+  MaybeEncodedAccount,
+} from "@solana/kit";
 import {
-  
-  
   assertAccountExists,
   assertAccountsExist,
-  
   combineCodec,
-  
   decodeAccount,
-  
-  
-  
-  
   fetchEncodedAccount,
   fetchEncodedAccounts,
   getAddressDecoder,
@@ -26,22 +30,20 @@ import {
   getStructDecoder,
   getStructEncoder,
   getU8Decoder,
-  getU8Encoder
-  
-  
+  getU8Encoder,
 } from "@solana/kit";
-import type {Account, Address, Codec, Decoder, EncodedAccount, Encoder, FetchAccountConfig, FetchAccountsConfig, MaybeAccount, MaybeEncodedAccount} from "@solana/kit";
+import type {
+  EscrowAuthority,
+  EscrowAuthorityArgs,
+  Key,
+  KeyArgs,
+} from "../types/index.js";
 import {
-  
-  
   getEscrowAuthorityDecoder,
   getEscrowAuthorityEncoder,
   getKeyDecoder,
-  getKeyEncoder
-  
-  
+  getKeyEncoder,
 } from "../types/index.js";
-import type {EscrowAuthority, EscrowAuthorityArgs, Key, KeyArgs} from "../types/index.js";
 
 export interface TokenOwnedEscrow {
   key: Key;

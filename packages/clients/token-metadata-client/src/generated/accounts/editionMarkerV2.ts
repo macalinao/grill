@@ -6,21 +6,26 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  Account,
+  Address,
+  Codec,
+  Decoder,
+  EncodedAccount,
+  Encoder,
+  FetchAccountConfig,
+  FetchAccountsConfig,
+  MaybeAccount,
+  MaybeEncodedAccount,
+  ReadonlyUint8Array,
+} from "@solana/kit";
 import {
-  
-  
   addDecoderSizePrefix,
   addEncoderSizePrefix,
   assertAccountExists,
   assertAccountsExist,
-  
   combineCodec,
-  
   decodeAccount,
-  
-  
-  
-  
   fetchEncodedAccount,
   fetchEncodedAccounts,
   getBytesDecoder,
@@ -28,23 +33,20 @@ import {
   getStructDecoder,
   getStructEncoder,
   getU32Decoder,
-  getU32Encoder
-  
-  
-  
+  getU32Encoder,
 } from "@solana/kit";
-import type {Account, Address, Codec, Decoder, EncodedAccount, Encoder, FetchAccountConfig, FetchAccountsConfig, MaybeAccount, MaybeEncodedAccount, ReadonlyUint8Array} from "@solana/kit";
-import {
-  getKeyDecoder,
-  getKeyEncoder
-  
-  
-} from "../types/index.js";
-import type {Key, KeyArgs} from "../types/index.js";
+import type { Key, KeyArgs } from "../types/index.js";
+import { getKeyDecoder, getKeyEncoder } from "../types/index.js";
 
-export interface EditionMarkerV2 { key: Key; ledger: ReadonlyUint8Array }
+export interface EditionMarkerV2 {
+  key: Key;
+  ledger: ReadonlyUint8Array;
+}
 
-export interface EditionMarkerV2Args { key: KeyArgs; ledger: ReadonlyUint8Array }
+export interface EditionMarkerV2Args {
+  key: KeyArgs;
+  ledger: ReadonlyUint8Array;
+}
 
 export function getEditionMarkerV2Encoder(): Encoder<EditionMarkerV2Args> {
   return getStructEncoder([

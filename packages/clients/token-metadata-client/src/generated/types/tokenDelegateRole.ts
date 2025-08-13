@@ -6,24 +6,21 @@
  * @see https://github.com/codama-idl/codama
  */
 
-import {
-  combineCodec,
-  
-  
-  
-  getEnumDecoder,
-  getEnumEncoder
+import type {
+  FixedSizeCodec,
+  FixedSizeDecoder,
+  FixedSizeEncoder,
 } from "@solana/kit";
-import type {FixedSizeCodec, FixedSizeDecoder, FixedSizeEncoder} from "@solana/kit";
+import { combineCodec, getEnumDecoder, getEnumEncoder } from "@solana/kit";
 
 export enum TokenDelegateRole {
-  Sale = 0,
-  Transfer = 1,
-  Utility = 2,
-  Staking = 3,
-  Standard = 4,
-  LockedTransfer = 5,
-  Migration = 6,
+  Sale,
+  Transfer,
+  Utility,
+  Staking,
+  Standard,
+  LockedTransfer,
+  Migration,
 }
 
 export type TokenDelegateRoleArgs = TokenDelegateRole;

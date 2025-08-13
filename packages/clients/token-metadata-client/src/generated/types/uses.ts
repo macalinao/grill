@@ -6,26 +6,26 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  FixedSizeCodec,
+  FixedSizeDecoder,
+  FixedSizeEncoder,
+} from "@solana/kit";
 import {
   combineCodec,
-  
-  
-  
   getStructDecoder,
   getStructEncoder,
   getU64Decoder,
-  getU64Encoder
+  getU64Encoder,
 } from "@solana/kit";
-import type {FixedSizeCodec, FixedSizeDecoder, FixedSizeEncoder} from "@solana/kit";
-import {
-  getUseMethodDecoder,
-  getUseMethodEncoder
-  
-  
-} from "./index.js";
-import type {UseMethod, UseMethodArgs} from "./index.js";
+import type { UseMethod, UseMethodArgs } from "./index.js";
+import { getUseMethodDecoder, getUseMethodEncoder } from "./index.js";
 
-export interface Uses { useMethod: UseMethod; remaining: bigint; total: bigint }
+export interface Uses {
+  useMethod: UseMethod;
+  remaining: bigint;
+  total: bigint;
+}
 
 export interface UsesArgs {
   useMethod: UseMethodArgs;

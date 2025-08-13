@@ -6,43 +6,36 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  AccountMeta,
+  AccountSignerMeta,
+  Address,
+  Codec,
+  Decoder,
+  Encoder,
+  Instruction,
+  InstructionWithAccounts,
+  InstructionWithData,
+  ReadonlyAccount,
+  ReadonlySignerAccount,
+  ReadonlyUint8Array,
+  TransactionSigner,
+  WritableAccount,
+  WritableSignerAccount,
+} from "@solana/kit";
 import {
-  
-  
-  
-  
   combineCodec,
-  
-  
   getStructDecoder,
   getStructEncoder,
   getU8Decoder,
   getU8Encoder,
-  
-  
-  
-  
-  
-  
-  
-  transformEncoder
-  
-  
+  transformEncoder,
 } from "@solana/kit";
-import type {AccountMeta, AccountSignerMeta, Address, Codec, Decoder, Encoder, Instruction, InstructionWithAccounts, InstructionWithData, ReadonlyAccount, ReadonlySignerAccount, ReadonlyUint8Array, TransactionSigner, WritableAccount, WritableSignerAccount} from "@solana/kit";
 import { TOKEN_METADATA_PROGRAM_ADDRESS } from "../programs/index.js";
-import {
-  getAccountMetaFactory
-  
-} from "../shared/index.js";
-import type {ResolvedAccount} from "../shared/index.js";
-import {
-  getLockArgsDecoder,
-  getLockArgsEncoder
-  
-  
-} from "../types/index.js";
-import type {LockArgs, LockArgsArgs} from "../types/index.js";
+import type { ResolvedAccount } from "../shared/index.js";
+import { getAccountMetaFactory } from "../shared/index.js";
+import type { LockArgs, LockArgsArgs } from "../types/index.js";
+import { getLockArgsDecoder, getLockArgsEncoder } from "../types/index.js";
 
 export const LOCK_DISCRIMINATOR = 46;
 
@@ -67,9 +60,7 @@ export type LockInstruction<
     | string
     | AccountMeta = "Sysvar1nstructions1111111111111111111111111",
   TAccountSplTokenProgram extends string | AccountMeta = string,
-  TAccountAuthorizationRulesProgram extends
-    | string
-    | AccountMeta = string,
+  TAccountAuthorizationRulesProgram extends string | AccountMeta = string,
   TAccountAuthorizationRules extends string | AccountMeta = string,
   TRemainingAccounts extends readonly AccountMeta[] = [],
 > = Instruction<TProgram> &
@@ -121,9 +112,14 @@ export type LockInstruction<
     ]
   >;
 
-export interface LockInstructionData { discriminator: number; lockArgs: LockArgs }
+export interface LockInstructionData {
+  discriminator: number;
+  lockArgs: LockArgs;
+}
 
-export interface LockInstructionDataArgs { lockArgs: LockArgsArgs }
+export interface LockInstructionDataArgs {
+  lockArgs: LockArgsArgs;
+}
 
 export function getLockInstructionDataEncoder(): Encoder<LockInstructionDataArgs> {
   return transformEncoder(

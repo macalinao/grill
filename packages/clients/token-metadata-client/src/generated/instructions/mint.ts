@@ -6,43 +6,36 @@
  * @see https://github.com/codama-idl/codama
  */
 
+import type {
+  AccountMeta,
+  AccountSignerMeta,
+  Address,
+  Codec,
+  Decoder,
+  Encoder,
+  Instruction,
+  InstructionWithAccounts,
+  InstructionWithData,
+  ReadonlyAccount,
+  ReadonlySignerAccount,
+  ReadonlyUint8Array,
+  TransactionSigner,
+  WritableAccount,
+  WritableSignerAccount,
+} from "@solana/kit";
 import {
-  
-  
-  
-  
   combineCodec,
-  
-  
   getStructDecoder,
   getStructEncoder,
   getU8Decoder,
   getU8Encoder,
-  
-  
-  
-  
-  
-  
-  
-  transformEncoder
-  
-  
+  transformEncoder,
 } from "@solana/kit";
-import type {AccountMeta, AccountSignerMeta, Address, Codec, Decoder, Encoder, Instruction, InstructionWithAccounts, InstructionWithData, ReadonlyAccount, ReadonlySignerAccount, ReadonlyUint8Array, TransactionSigner, WritableAccount, WritableSignerAccount} from "@solana/kit";
 import { TOKEN_METADATA_PROGRAM_ADDRESS } from "../programs/index.js";
-import {
-  getAccountMetaFactory
-  
-} from "../shared/index.js";
-import type {ResolvedAccount} from "../shared/index.js";
-import {
-  getMintArgsDecoder,
-  getMintArgsEncoder
-  
-  
-} from "../types/index.js";
-import type {MintArgs, MintArgsArgs} from "../types/index.js";
+import type { ResolvedAccount } from "../shared/index.js";
+import { getAccountMetaFactory } from "../shared/index.js";
+import type { MintArgs, MintArgsArgs } from "../types/index.js";
+import { getMintArgsDecoder, getMintArgsEncoder } from "../types/index.js";
 
 export const MINT_DISCRIMINATOR = 43;
 
@@ -73,9 +66,7 @@ export type MintInstruction<
   TAccountSplAtaProgram extends
     | string
     | AccountMeta = "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL",
-  TAccountAuthorizationRulesProgram extends
-    | string
-    | AccountMeta = string,
+  TAccountAuthorizationRulesProgram extends string | AccountMeta = string,
   TAccountAuthorizationRules extends string | AccountMeta = string,
   TRemainingAccounts extends readonly AccountMeta[] = [],
 > = Instruction<TProgram> &
@@ -133,9 +124,14 @@ export type MintInstruction<
     ]
   >;
 
-export interface MintInstructionData { discriminator: number; mintArgs: MintArgs }
+export interface MintInstructionData {
+  discriminator: number;
+  mintArgs: MintArgs;
+}
 
-export interface MintInstructionDataArgs { mintArgs: MintArgsArgs }
+export interface MintInstructionDataArgs {
+  mintArgs: MintArgsArgs;
+}
 
 export function getMintInstructionDataEncoder(): Encoder<MintInstructionDataArgs> {
   return transformEncoder(
