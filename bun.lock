@@ -16,7 +16,7 @@
     },
     "apps/example-dapp": {
       "name": "example-dapp",
-      "version": "0.0.3",
+      "version": "0.0.4",
       "dependencies": {
         "@hookform/resolvers": "^5.2.1",
         "@macalinao/grill": "workspace:*",
@@ -74,7 +74,7 @@
     },
     "packages/codama-instruction-accounts-dedupe-visitor": {
       "name": "@macalinao/codama-instruction-accounts-dedupe-visitor",
-      "version": "0.0.1",
+      "version": "0.1.0",
       "dependencies": {
         "@codama/nodes-from-anchor": "*",
         "codama": "*",
@@ -90,7 +90,7 @@
     },
     "packages/codama-renderers-js-esm": {
       "name": "@macalinao/codama-renderers-js-esm",
-      "version": "0.0.1",
+      "version": "0.1.0",
       "dependencies": {
         "@codama/renderers-core": "*",
         "@codama/renderers-js": "*",
@@ -119,7 +119,7 @@
     },
     "packages/grill": {
       "name": "@macalinao/grill",
-      "version": "0.2.2",
+      "version": "0.2.3",
       "dependencies": {
         "@macalinao/dataloader-es": "workspace:*",
         "@macalinao/solana-batch-accounts-loader": "workspace:*",
@@ -147,7 +147,7 @@
     },
     "packages/grill-cli": {
       "name": "@macalinao/grill-cli",
-      "version": "0.0.1",
+      "version": "0.1.0",
       "bin": {
         "grill": "./dist/bin/cli.js",
       },
@@ -189,7 +189,7 @@
     },
     "packages/token-metadata-client": {
       "name": "@macalinao/token-metadata-client",
-      "version": "0.0.1",
+      "version": "0.1.0",
       "devDependencies": {
         "@macalinao/eslint-config": "catalog:",
         "@macalinao/grill-cli": "workspace:*",
@@ -205,7 +205,7 @@
     },
     "packages/wallet-adapter-compat": {
       "name": "@macalinao/wallet-adapter-compat",
-      "version": "0.2.2",
+      "version": "0.2.3",
       "dependencies": {
         "@macalinao/grill": "workspace:*",
         "@solana/webcrypto-ed25519-polyfill": "*",
@@ -233,7 +233,7 @@
     },
     "packages/zod-solana": {
       "name": "@macalinao/zod-solana",
-      "version": "0.0.1",
+      "version": "0.0.2",
       "devDependencies": {
         "@macalinao/eslint-config": "catalog:",
         "@macalinao/tsconfig": "catalog:",
