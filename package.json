@@ -7,6 +7,7 @@
   "workspaces": {
     "packages": [
       "packages/*",
+      "packages/codama/*",
       "apps/*"
     ],
     "catalog": {
@@ -28,8 +29,9 @@
   },
   "scripts": {
     "build": "turbo build",
+    "build:packages": "turbo build --filter='./packages/**'",
     "build:watch": "turbo watch build",
-    "build:watch:packages": "turbo watch build --filter='./packages/*'",
+    "build:watch:packages": "turbo watch build --filter='./packages/**'",
     "lint": "biome check && turbo run lint",
     "lint:fix": "biome check --write --no-errors-on-unmatched --unsafe && turbo run lint -- --fix",
     "clean": "turbo run clean",
