@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation } from "@tanstack/react-router";
-import { Coins, LayoutDashboard } from "lucide-react";
+import { ArrowRight, Coins, LayoutDashboard } from "lucide-react";
 import type * as React from "react";
 import {
   Sidebar,
@@ -32,6 +32,11 @@ const exampleNavItems: ExampleNavItem[] = [
     title: "Dashboard",
     href: "/examples/dashboard",
     icon: LayoutDashboard,
+  },
+  {
+    title: "Transfer SOL",
+    href: "/examples/transfer-sol",
+    icon: ArrowRight,
   },
   {
     title: "Wrapped SOL",
