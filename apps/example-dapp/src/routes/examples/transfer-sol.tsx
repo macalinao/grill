@@ -1,3 +1,4 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   addressSchema,
   useAccount,
@@ -14,6 +15,7 @@ import type * as React from "react";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -28,10 +30,27 @@ export const Route = createFileRoute("/examples/transfer-sol")({
   component: () => <TransferSolPage />,
 });
 
-interface TransferSolFormData {
-  recipient: string;
-  amount: string;
-}
+// Define the form schema using zod with addressSchema directly
+const transferSolSchema = z.object({
+  recipient: addressSchema,
+  amount: z
+    .string()
+    .min(1, "Amount is required")
+    .refine(
+      (val) => {
+        const num = Number.parseFloat(val);
+        return !Number.isNaN(num) && num > 0;
+      },
+      { message: "Amount must be a positive number" },
+    )
+    .refine(
+      (val) => {
+        const num = Number.parseFloat(val);
+        return num <= 1000;
+      },
+      { message: "Amount must be less than 1000 SOL" },
+    ),
+});
 
 const TransferSolPage: React.FC = () => {
   const { signer } = useKitWallet();
@@ -47,8 +66,9 @@ const TransferSolPage: React.FC = () => {
     formState: { errors, isSubmitting },
     watch,
     setValue,
-    setError,
-  } = useForm<TransferSolFormData>({
+    reset,
+  } = useForm({
+    resolver: zodResolver(transferSolSchema),
     defaultValues: {
       amount: "",
       recipient: "",
@@ -71,31 +91,16 @@ const TransferSolPage: React.FC = () => {
     return amount + estimatedFee;
   }, [watchedAmount]);
 
-  const onSubmit = async (data: TransferSolFormData) => {
+  const onSubmit = async (data: z.infer<typeof transferSolSchema>) => {
     if (!signer) {
       toast.error("Please connect your wallet first");
       return;
     }
 
     try {
-      // Validate recipient address using addressSchema
-      const recipientResult = addressSchema.safeParse(data.recipient);
-      if (!recipientResult.success) {
-        setError("recipient", { message: "Invalid Solana address" });
-        return;
-      }
-      const recipientAddress: Address = recipientResult.data;
-
-      // Validate amount
+      // The recipient is already an Address type from the zod schema
+      const recipientAddress: Address = data.recipient;
       const amount = Number.parseFloat(data.amount);
-      if (Number.isNaN(amount) || amount <= 0) {
-        setError("amount", { message: "Amount must be a positive number" });
-        return;
-      }
-      if (amount > 1000) {
-        setError("amount", { message: "Amount must be less than 1000 SOL" });
-        return;
-      }
 
       // Check balance
       if (totalCost > availableBalance) {
@@ -130,8 +135,7 @@ const TransferSolPage: React.FC = () => {
         });
 
         // Clear form
-        setValue("recipient", "");
-        setValue("amount", "");
+        reset();
       }
     } catch (error) {
       console.error("Transfer error:", error);
@@ -166,8 +170,9 @@ const TransferSolPage: React.FC = () => {
         <CardHeader>
           <CardTitle>Transfer SOL</CardTitle>
           <CardDescription>
-            Send native SOL to another Solana address. Recipient addresses are
-            validated using @macalinao/zod-solana.
+            Send native SOL to another Solana address. Form validation is
+            handled by Zod schema with @macalinao/zod-solana for address
+            validation.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -185,9 +190,7 @@ const TransferSolPage: React.FC = () => {
               <Input
                 id="recipient"
                 placeholder="Enter Solana address (e.g., 11111111111111111111111111111111)"
-                {...register("recipient", {
-                  required: "Recipient is required",
-                })}
+                {...register("recipient")}
                 className={errors.recipient ? "border-destructive" : ""}
                 disabled={isSubmitting}
               />
@@ -197,7 +200,7 @@ const TransferSolPage: React.FC = () => {
                 </p>
               )}
               <p className="text-xs text-muted-foreground">
-                Address validation powered by @macalinao/zod-solana
+                Address validation using @macalinao/zod-solana with zodResolver
               </p>
             </div>
 
@@ -226,7 +229,7 @@ const TransferSolPage: React.FC = () => {
                 id="amount"
                 type="text"
                 placeholder="0.0"
-                {...register("amount", { required: "Amount is required" })}
+                {...register("amount")}
                 className={errors.amount ? "border-destructive" : ""}
                 disabled={isSubmitting}
               />
