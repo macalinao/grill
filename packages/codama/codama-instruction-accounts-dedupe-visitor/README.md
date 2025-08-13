@@ -11,6 +11,8 @@ Anchor IDL supports nested account structures where accounts can be grouped toge
 3. **Updates PDA Seeds**: Properly adjusts PDA seed references when accounts are flattened
 4. **Maintains Type Safety**: Ensures all account references remain valid after flattening
 
+See: https://github.com/codama-idl/codama/issues/754 for the active issue in Codama on this topic.
+
 ## Installation
 
 ```bash
@@ -47,6 +49,7 @@ The visitor transforms nested account structures by:
 ### Example Transformation
 
 **Before (Nested Structure)**:
+
 ```typescript
 {
   name: "mintAccounts",
@@ -58,6 +61,7 @@ The visitor transforms nested account structures by:
 ```
 
 **After (Flattened Structure)**:
+
 ```typescript
 [
   { name: "mintAccounts_mint", ... },

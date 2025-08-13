@@ -56,6 +56,11 @@ export function renderESMTypeScriptVisitor(
           "const accountMeta = instruction.accounts![accountIndex]!;",
           "const accountMeta = (instruction.accounts as TAccountMetas)[accountIndex]!;",
         )
+        // Add return type annotations for functions that return simple types
+        .replace(
+          /export function (get\w+DiscriminatorBytes)\(\)\s*{/g,
+          "export function $1(): ReadonlyUint8Array {",
+        )
         .replace(
           /(export\s+\*\s+from\s+['"])(\.\/[^'"]+?)(?<!\.(js|ts|mjs|cjs|json))(['"])/g,
           (_, prefix, path) => `${prefix as string}${path as string}.js'`,

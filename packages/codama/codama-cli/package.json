@@ -1,20 +1,24 @@
 {
-  "name": "@macalinao/codama-client-gen",
+  "name": "@macalinao/codama-cli",
   "version": "0.0.1",
-  "description": "Client generation utilities for Codama Solana programs",
+  "description": "Zero-config CLI for generating clients for Solana programs",
   "type": "module",
   "sideEffects": false,
   "author": "Ian Macalinao <me@ianm.com>",
   "homepage": "https://grill.ianm.com",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "keywords": [
     "codama",
     "solana",
+    "cli",
     "client",
     "code-generation",
     "esm",
     "typescript"
   ],
+  "bin": {
+    "codama": "./dist/bin/cli.js"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
@@ -33,7 +37,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/macalinao/grill.git",
-    "directory": "packages/codama/codama-client-gen"
+    "directory": "packages/codama/codama-cli"
   },
   "scripts": {
     "build": "tsc",
@@ -42,7 +46,10 @@
     "test": "bun test"
   },
   "dependencies": {
-    "@macalinao/codama-renderers-js-esm": "workspace:*"
+    "@codama/nodes-from-anchor": "*",
+    "@macalinao/codama-renderers-js-esm": "workspace:*",
+    "codama": "*",
+    "commander": "^12.1.0"
   },
   "devDependencies": {
     "@macalinao/eslint-config": "catalog:",
