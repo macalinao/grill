@@ -9,7 +9,6 @@ import type { Address } from "@solana/kit";
 import { lamports } from "@solana/kit";
 import { getTransferSolInstruction } from "@solana-program/system";
 import { createFileRoute } from "@tanstack/react-router";
-import { getExplorerLink } from "gill";
 import { ArrowRight, Wallet } from "lucide-react";
 import type * as React from "react";
 import { useMemo } from "react";
@@ -97,52 +96,30 @@ const TransferSolPage: React.FC = () => {
       return;
     }
 
-    try {
-      // The recipient is already an Address type from the zod schema
-      const recipientAddress: Address = data.recipient;
-      const amount = Number.parseFloat(data.amount);
+    // The recipient is already an Address type from the zod schema
+    const recipientAddress: Address = data.recipient;
+    const amount = Number.parseFloat(data.amount);
 
-      // Check balance
-      if (totalCost > availableBalance) {
-        toast.error("Insufficient balance for this transaction");
-        return;
-      }
+    // Check balance
+    if (totalCost > availableBalance) {
+      toast.error("Insufficient balance for this transaction");
+      return;
+    }
 
-      // Send native SOL
-      const instruction = getTransferSolInstruction({
-        source: signer,
-        destination: recipientAddress,
-        amount: lamports(BigInt(Math.floor(amount * 1e9))),
-      });
+    // Send native SOL
+    const instruction = getTransferSolInstruction({
+      source: signer,
+      destination: recipientAddress,
+      amount: lamports(BigInt(Math.floor(amount * 1e9))),
+    });
 
-      const signature = await sendTX(`Transfer ${amount.toString()} SOL`, [
-        instruction,
-      ]);
+    const signature = await sendTX(`Transfer ${amount.toString()} SOL`, [
+      instruction,
+    ]);
 
-      if (signature) {
-        toast.success("Transaction sent!", {
-          description: `Transferred ${amount.toString()} SOL to ${recipientAddress.slice(0, 8)}...`,
-          action: {
-            label: "View on Explorer",
-            onClick: () => {
-              const explorerUrl = getExplorerLink({
-                transaction: signature,
-                cluster: "mainnet",
-              });
-              window.open(explorerUrl, "_blank");
-            },
-          },
-        });
-
-        // Clear form
-        reset();
-      }
-    } catch (error) {
-      console.error("Transfer error:", error);
-      toast.error("Transaction failed", {
-        description:
-          error instanceof Error ? error.message : "An unknown error occurred",
-      });
+    if (signature) {
+      // Clear form after successful transaction
+      reset();
     }
   };
 

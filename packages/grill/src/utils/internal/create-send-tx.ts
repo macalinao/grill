@@ -8,13 +8,13 @@ import type {
 } from "@solana/kit";
 import {
   compressTransactionMessageUsingAddressLookupTables,
-  getBase58Decoder,
   signAndSendTransactionMessageWithSigners,
 } from "@solana/kit";
 import type { SolanaClient } from "gill";
 import { createTransaction } from "gill";
 import type { GetExplorerLinkFunction } from "../../contexts/grill-context.js";
 import type { TransactionStatusEvent } from "../../types.js";
+import { getSignatureFromBytes } from "../get-signature-from-bytes.js";
 import { pollConfirmTransaction } from "../poll-confirm-transaction.js";
 
 export interface SendTXOptions {
@@ -101,8 +101,7 @@ export const createSendTX = ({
     const sigBytes = await signAndSendTransactionMessageWithSigners(
       finalTransactionMessage,
     );
-    const decoder = getBase58Decoder();
-    const sig = decoder.decode(sigBytes) as Signature;
+    const sig = getSignatureFromBytes(sigBytes);
     const sentTxEvent = {
       ...baseEvent,
       sig,
