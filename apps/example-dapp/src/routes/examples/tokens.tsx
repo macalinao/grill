@@ -19,51 +19,25 @@ export const Route = createFileRoute("/examples/tokens")({
 
 // Define token mint addresses
 const TOKENS = [
-  {
-    mint: address("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"),
-    name: "USD Coin",
-    symbol: "USDC",
-  },
-  {
-    mint: address("So11111111111111111111111111111111111111112"),
-    name: "Wrapped SOL",
-    symbol: "SOL",
-  },
-  {
-    mint: address("JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN"),
-    name: "Jupiter",
-    symbol: "JUP",
-  },
-  {
-    mint: address("METAewgxyPbgwsseH8T16a39CQ5VyVxZi9zXiDPY18m"),
-    name: "Metaplex",
-    symbol: "META",
-  },
-  {
-    mint: address("DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263"),
-    name: "Bonk",
-    symbol: "BONK",
-  },
+  address("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"), // USDC
+  address("So11111111111111111111111111111111111111112"), // Wrapped SOL
+  address("JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN"), // Jupiter
+  address("METAewgxyPbgwsseH8T16a39CQ5VyVxZi9zXiDPY18m"), // META
+  address("DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263"), // Bonk
 ];
 
 interface TokenCardProps {
   mint: Address;
-  fallbackName: string;
-  fallbackSymbol: string;
 }
 
-const TokenCard: React.FC<TokenCardProps> = ({
-  mint,
-  fallbackName,
-  fallbackSymbol,
-}) => {
+const TokenCard: React.FC<TokenCardProps> = ({ mint }) => {
   const { data: mintAccount, isLoading: mintLoading } = useMintAccount({
     address: mint,
   });
   const { data: tokenInfo, isLoading: infoLoading } = useTokenInfo({ mint });
 
-  const name = tokenInfo?.name ?? fallbackName;
-  const symbol = tokenInfo?.symbol ?? fallbackSymbol;
+  const name = tokenInfo?.name;
+  const symbol = tokenInfo?.symbol;
   const decimals = tokenInfo?.decimals ?? mintAccount?.data.decimals ?? 0;
   const supply = mintAccount?.data.supply;
 
@@ -121,10 +95,18 @@ const TokenCard: React.FC<TokenCardProps> = ({
             )}
             <div>
               <CardTitle className="text-lg">
-                {infoLoading ? <Skeleton className="h-5 w-24" /> : name}
+                {infoLoading ? (
+                  <Skeleton className="h-5 w-24" />
+                ) : (
+                  (name ?? "Unknown Token")
+                )}
               </CardTitle>
               <CardDescription className="text-sm">
-                {infoLoading ? <Skeleton className="h-4 w-12" /> : symbol}
+                {infoLoading ? (
+                  <Skeleton className="h-4 w-12" />
+                ) : (
+                  (symbol ?? "—")
+                )}
               </CardDescription>
             </div>
           </div>
@@ -170,13 +152,8 @@ function TokensPage() {
       </div>
 
       <div className="flex flex-col gap-4">
-        {TOKENS.map((token) => (
-          <TokenCard
-            key={token.mint}
-            mint={token.mint}
-            fallbackName={token.name}
-            fallbackSymbol={token.symbol}
-          />
+        {TOKENS.map((mint) => (
+          <TokenCard key={mint} mint={mint} />
         ))}
       </div>
     </div>
