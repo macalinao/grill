@@ -1,9 +1,6 @@
 import { useGrillContext } from "../contexts/grill-context.js";
 
-export type {
-  SendTXFunction,
-  SendTXOptions,
-} from "../utils/internal/create-send-tx.js";
+export type { SendTXFunction, SendTXOptions } from "../utils/types.js";
 
 /**
  * Hook that provides a function to send transactions using the modern @solana/kit API
