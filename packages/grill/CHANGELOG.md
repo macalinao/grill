@@ -1,5 +1,13 @@
 # @macalinao/grill
 
+## 0.2.3
+
+### Patch Changes
+
+- 26af4d0: Add address validator for Zod
+- Updated dependencies [26af4d0]
+  - @macalinao/zod-solana@0.0.2
+
 ## 0.2.2
 
 ### Patch Changes

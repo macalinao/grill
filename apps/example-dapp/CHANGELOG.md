@@ -1,5 +1,14 @@
 # example-dapp
 
+## 0.0.4
+
+### Patch Changes
+
+- 26af4d0: Add address validator for Zod
+- Updated dependencies [26af4d0]
+  - @macalinao/grill@0.2.3
+  - @macalinao/wallet-adapter-compat@0.2.3
+
 ## 0.0.3
 
 ### Patch Changes
