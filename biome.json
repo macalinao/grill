@@ -73,7 +73,7 @@
       "**",
       "!**/bun.lock",
       "!apps/example-dapp/src/routeTree.gen.ts",
-      "!packages/clients/*/src/generated/**"
+      "!packages/*-client/src/generated/**"
     ]
   },
   "assist": {
