@@ -2,6 +2,7 @@ import type {
   Address,
   Instruction,
   Signature,
+  SignatureBytes,
   TransactionSendingSigner,
 } from "@solana/kit";
 import {
@@ -91,9 +92,22 @@ export const createSendTX = ({
     });
 
     // Send transaction using wallet adapter
-    const sigBytes = await signAndSendTransactionMessageWithSigners(
-      finalTransactionMessage,
-    );
+    let sigBytes: SignatureBytes;
+    try {
+      sigBytes = await signAndSendTransactionMessageWithSigners(
+        finalTransactionMessage,
+      );
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Failed to send transaction";
+      onTransactionStatusEvent({
+        ...baseEvent,
+        type: "error-transaction-send-failed",
+        errorMessage,
+      });
+      throw error;
+    }
+
     const sig = getSignatureFromBytes(sigBytes);
     const sentTxEvent = {
       ...baseEvent,
@@ -123,7 +137,15 @@ export const createSendTX = ({
         .filter((key) => key.writable)
         .map((k) => k.pubkey);
       if (writableAccounts.length > 0) {
-        await refetchAccounts(writableAccounts);
+        const waitForAccountRefetch = options.waitForAccountRefetch ?? true;
+        if (waitForAccountRefetch) {
+          await refetchAccounts(writableAccounts);
+        } else {
+          // Refetch in background without waiting
+          refetchAccounts(writableAccounts).catch((error: unknown) => {
+            console.warn("Failed to refetch accounts in background:", error);
+          });
+        }
       }
 
       if (result.meta?.logMessages) {

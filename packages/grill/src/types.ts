@@ -16,6 +16,10 @@ export type TransactionStatusEvent = {
       type: "awaiting-wallet-signature";
     }
   | {
+      type: "error-transaction-send-failed";
+      errorMessage: string;
+    }
+  | {
       type: "waiting-for-confirmation";
       sig: Signature;
       explorerLink: string;

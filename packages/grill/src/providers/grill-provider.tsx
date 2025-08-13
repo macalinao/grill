@@ -80,6 +80,29 @@ export const GrillProvider: FC<GrillProviderProps> = ({
           break;
         }
 
+        case "error-transaction-send-failed": {
+          console.error("Error sending transaction", event);
+          const description = event.errorMessage;
+
+          if (existingToastId) {
+            // Update existing toast to error
+            toast.error(event.title, {
+              id: existingToastId,
+              description,
+              duration: errorToastDuration,
+            });
+          } else {
+            // Create new error toast if somehow we don't have one
+            toast.error(event.title, {
+              description,
+              duration: errorToastDuration,
+            });
+          }
+          // Clean up toast ID after error
+          toastIds.current.delete(txId);
+          break;
+        }
+
         case "preparing": {
           // Clean up any existing toast for this transaction
           if (existingToastId) {
@@ -160,6 +183,7 @@ export const GrillProvider: FC<GrillProviderProps> = ({
         }
 
         case "error-transaction-failed": {
+          console.error("Transaction failed", event);
           const description = event.errorMessage;
           const action = createExplorerAction(event.explorerLink);
 
