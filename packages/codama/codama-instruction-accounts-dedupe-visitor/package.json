@@ -1,0 +1,63 @@
+{
+  "name": "@macalinao/codama-instruction-accounts-dedupe-visitor",
+  "version": "0.0.1",
+  "description": "Codama visitor for deduplicating instruction accounts from Anchor IDL",
+  "type": "module",
+  "sideEffects": false,
+  "author": "Ian Macalinao <me@ianm.com>",
+  "homepage": "https://grill.ianm.com",
+  "license": "MIT",
+  "keywords": [
+    "codama",
+    "solana",
+    "anchor",
+    "idl",
+    "esm",
+    "typescript"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist/",
+    "src/"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/macalinao/grill.git",
+    "directory": "packages/codama/codama-instruction-accounts-dedupe-visitor"
+  },
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -fr dist/",
+    "lint": "eslint . --cache",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@codama/nodes-from-anchor": "*",
+    "codama": "*"
+  },
+  "devDependencies": {
+    "@macalinao/eslint-config": "catalog:",
+    "@macalinao/tsconfig": "catalog:",
+    "@types/bun": "^1.2.19",
+    "@types/node": "^24.2.1",
+    "eslint": "catalog:",
+    "typescript": "catalog:"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}": [
+      "biome check --write --no-errors-on-unmatched",
+      "eslint --fix --cache"
+    ],
+    "*.{json,jsonc,html}": "biome format --write --no-errors-on-unmatched"
+  }
+}

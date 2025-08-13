@@ -72,7 +72,8 @@
     "includes": [
       "**",
       "!**/bun.lock",
-      "!apps/example-dapp/src/routeTree.gen.ts"
+      "!apps/example-dapp/src/routeTree.gen.ts",
+      "!packages/clients/*/src/generated/**"
     ]
   },
   "assist": {
