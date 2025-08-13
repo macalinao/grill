@@ -69,44 +69,7 @@
         "vite-tsconfig-paths": "^5.1.4",
       },
     },
-    "packages/clients/token-metadata-client": {
-      "name": "@macalinao/token-metadata-client",
-      "version": "0.0.1",
-      "devDependencies": {
-        "@macalinao/codama-cli": "workspace:*",
-        "@macalinao/eslint-config": "catalog:",
-        "@macalinao/tsconfig": "catalog:",
-        "@solana/kit": "*",
-        "codama": "*",
-        "eslint": "catalog:",
-        "typescript": "catalog:",
-      },
-      "peerDependencies": {
-        "@solana/kit": "*",
-      },
-    },
-    "packages/codama/codama-cli": {
-      "name": "@macalinao/codama-cli",
-      "version": "0.0.1",
-      "bin": {
-        "codama": "./dist/bin/cli.js",
-      },
-      "dependencies": {
-        "@codama/nodes-from-anchor": "*",
-        "@macalinao/codama-renderers-js-esm": "workspace:*",
-        "codama": "*",
-        "commander": "^12.1.0",
-      },
-      "devDependencies": {
-        "@macalinao/eslint-config": "catalog:",
-        "@macalinao/tsconfig": "catalog:",
-        "@types/bun": "^1.2.19",
-        "@types/node": "^24.2.1",
-        "eslint": "catalog:",
-        "typescript": "catalog:",
-      },
-    },
-    "packages/codama/codama-instruction-accounts-dedupe-visitor": {
+    "packages/codama-instruction-accounts-dedupe-visitor": {
       "name": "@macalinao/codama-instruction-accounts-dedupe-visitor",
       "version": "0.0.1",
       "dependencies": {
@@ -122,7 +85,7 @@
         "typescript": "catalog:",
       },
     },
-    "packages/codama/codama-renderers-js-esm": {
+    "packages/codama-renderers-js-esm": {
       "name": "@macalinao/codama-renderers-js-esm",
       "version": "0.0.1",
       "dependencies": {
@@ -178,6 +141,27 @@
         "sonner": "^2",
       },
     },
+    "packages/grill-cli": {
+      "name": "@macalinao/grill-cli",
+      "version": "0.0.1",
+      "bin": {
+        "grill": "./dist/bin/cli.js",
+      },
+      "dependencies": {
+        "@codama/nodes-from-anchor": "*",
+        "@macalinao/codama-renderers-js-esm": "workspace:*",
+        "codama": "*",
+        "commander": "^12.1.0",
+      },
+      "devDependencies": {
+        "@macalinao/eslint-config": "catalog:",
+        "@macalinao/tsconfig": "catalog:",
+        "@types/bun": "^1.2.19",
+        "@types/node": "^24.2.1",
+        "eslint": "catalog:",
+        "typescript": "catalog:",
+      },
+    },
     "packages/solana-batch-accounts-loader": {
       "name": "@macalinao/solana-batch-accounts-loader",
       "version": "0.2.1",
@@ -197,6 +181,22 @@
       },
       "peerDependencies": {
         "@solana/kit": "catalog:",
+      },
+    },
+    "packages/token-metadata-client": {
+      "name": "@macalinao/token-metadata-client",
+      "version": "0.0.1",
+      "devDependencies": {
+        "@macalinao/eslint-config": "catalog:",
+        "@macalinao/grill-cli": "workspace:*",
+        "@macalinao/tsconfig": "catalog:",
+        "@solana/kit": "*",
+        "codama": "*",
+        "eslint": "catalog:",
+        "typescript": "catalog:",
+      },
+      "peerDependencies": {
+        "@solana/kit": "*",
       },
     },
     "packages/wallet-adapter-compat": {
@@ -581,11 +581,9 @@
 
     "@lit/reactive-element": ["@lit/reactive-element@2.1.1", "", { "dependencies": { "@lit-labs/ssr-dom-shim": "^1.4.0" } }, "sha512-N+dm5PAYdQ8e6UlywyyrgI2t++wFGXfHx+dSJ1oBrg6FAxUj40jId++EaRm80MKX5JnlH1sBsyZ5h0bcZKemCg=="],
 
-    "@macalinao/codama-cli": ["@macalinao/codama-cli@workspace:packages/codama/codama-cli"],
+    "@macalinao/codama-instruction-accounts-dedupe-visitor": ["@macalinao/codama-instruction-accounts-dedupe-visitor@workspace:packages/codama-instruction-accounts-dedupe-visitor"],
 
-    "@macalinao/codama-instruction-accounts-dedupe-visitor": ["@macalinao/codama-instruction-accounts-dedupe-visitor@workspace:packages/codama/codama-instruction-accounts-dedupe-visitor"],
-
-    "@macalinao/codama-renderers-js-esm": ["@macalinao/codama-renderers-js-esm@workspace:packages/codama/codama-renderers-js-esm"],
+    "@macalinao/codama-renderers-js-esm": ["@macalinao/codama-renderers-js-esm@workspace:packages/codama-renderers-js-esm"],
 
     "@macalinao/dataloader-es": ["@macalinao/dataloader-es@workspace:packages/dataloader-es"],
 
@@ -595,9 +593,11 @@
 
     "@macalinao/grill": ["@macalinao/grill@workspace:packages/grill"],
 
+    "@macalinao/grill-cli": ["@macalinao/grill-cli@workspace:packages/grill-cli"],
+
     "@macalinao/solana-batch-accounts-loader": ["@macalinao/solana-batch-accounts-loader@workspace:packages/solana-batch-accounts-loader"],
 
-    "@macalinao/token-metadata-client": ["@macalinao/token-metadata-client@workspace:packages/clients/token-metadata-client"],
+    "@macalinao/token-metadata-client": ["@macalinao/token-metadata-client@workspace:packages/token-metadata-client"],
 
     "@macalinao/tsconfig": ["@macalinao/tsconfig@3.2.2", "", {}, "sha512-pw+l4EiyGQXwffxMQxqvJghLEm5fKGXZ3BAUYyitmkrtyD0D517RwwooSBrjCXP+sl3oefpHzUnZjowYTQd8wg=="],
 
