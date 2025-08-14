@@ -1,6 +1,7 @@
 import {
   formatTokenAmount,
   NATIVE_SOL,
+  parseTokenAmount,
   type TokenInfo,
   useAccount,
   useAssociatedTokenAccount,
@@ -68,8 +69,13 @@ const WrappedSOLPage: React.FC = () => {
     if (!wsolTokenAccount) {
       return "0";
     }
-    return formatTokenAmount(wsolTokenAccount.data.amount, wsolToken);
-  }, [wsolTokenAccount]);
+    // Convert the bigint amount to a TokenAmount
+    const tokenAmount = {
+      token: wsolToken,
+      amount: [wsolTokenAccount.data.amount, wsolToken.decimals] as const,
+    };
+    return formatTokenAmount(tokenAmount);
+  }, [wsolTokenAccount, wsolToken]);
 
   // Handle wrap SOL action
   const handleWrapSOL = async (): Promise<void> => {
@@ -80,10 +86,9 @@ const WrappedSOLPage: React.FC = () => {
 
     setIsWrapping(true);
     try {
-      // Convert amount to lamports (1 SOL = 1e9 lamports)
-      const lamportAmount = BigInt(
-        Math.floor(Number.parseFloat(wrapAmount) * 1e9),
-      );
+      // Parse the amount using parseTokenAmount
+      const parsedAmount = parseTokenAmount(wsolToken, wrapAmount);
+      const lamportAmount = parsedAmount.amount[0];
 
       // Get the wrap instructions
       const instructions = await getWrapSOLInstructions(signer, lamportAmount);

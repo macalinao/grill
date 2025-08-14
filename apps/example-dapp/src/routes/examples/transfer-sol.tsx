@@ -1,7 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   addressSchema,
+  formatTokenAmount,
   NATIVE_SOL,
+  parseTokenAmount,
   useAccount,
   useKitWallet,
   useSendTX,
@@ -85,6 +87,17 @@ const TransferSolPage: React.FC = () => {
     return Number(userAccount.lamports) / 1e9;
   }, [userAccount]);
 
+  const availableBalanceFormatted = useMemo(() => {
+    if (!userAccount) {
+      return "0";
+    }
+    const tokenAmount = {
+      token: NATIVE_SOL,
+      amount: [userAccount.lamports, NATIVE_SOL.decimals] as const,
+    };
+    return formatTokenAmount(tokenAmount, { symbol: true });
+  }, [userAccount]);
+
   const estimatedFee = 0.000005; // ~5000 lamports
 
   const totalCost = useMemo(() => {
@@ -100,6 +113,9 @@ const TransferSolPage: React.FC = () => {
 
     // The recipient is already an Address type from the zod schema
     const recipientAddress: Address = data.recipient;
+
+    // Parse the amount using parseTokenAmount
+    const parsedAmount = parseTokenAmount(NATIVE_SOL, data.amount);
     const amount = Number.parseFloat(data.amount);
 
     // Check balance
@@ -112,7 +128,7 @@ const TransferSolPage: React.FC = () => {
     const instruction = getTransferSolInstruction({
       source: signer,
       destination: recipientAddress,
-      amount: lamports(BigInt(Math.floor(amount * 1e9))),
+      amount: lamports(parsedAmount.amount[0]),
     });
 
     const signature = await sendTX(`Transfer ${amount.toString()} SOL`, [
@@ -211,9 +227,7 @@ const TransferSolPage: React.FC = () => {
                   <span className="text-muted-foreground">
                     Available Balance:
                   </span>
-                  <span className="font-mono">
-                    {availableBalance.toFixed(9)} SOL
-                  </span>
+                  <span className="font-mono">{availableBalanceFormatted}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Amount to Send:</span>

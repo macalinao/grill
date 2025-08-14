@@ -23,14 +23,16 @@ describe("parseTokenAmount", () => {
     decimals: 6,
   };
 
-  // Test token with 0 decimals (NFT-like)
-  const nftToken: TokenInfo<"NFT1111111111111111111111111111111111111112", 0> =
-    {
-      mint: address("NFT1111111111111111111111111111111111111112"),
-      name: "NFT Token",
-      symbol: "NFT",
-      decimals: 0,
-    };
+  // Test token with 0 decimals
+  const zeroDecimalToken: TokenInfo<
+    "So11111111111111111111111111111111111111113",
+    0
+  > = {
+    mint: address("So11111111111111111111111111111111111111113"),
+    name: "Zero Decimal Token",
+    symbol: "ZERO",
+    decimals: 0,
+  };
 
   describe("with string inputs", () => {
     it("should parse whole numbers correctly", () => {
@@ -136,15 +138,15 @@ describe("parseTokenAmount", () => {
       expect(result.amount[1]).toBe(6);
     });
 
-    it("should work with 0 decimal token (NFT)", () => {
-      const result = parseTokenAmount(nftToken, "5");
-      expect(result.token).toBe(nftToken);
+    it("should work with 0 decimal token", () => {
+      const result = parseTokenAmount(zeroDecimalToken, "5");
+      expect(result.token).toBe(zeroDecimalToken);
       expect(result.amount[0]).toBe(5n);
       expect(result.amount[1]).toBe(0);
     });
 
     it("should round decimals for 0 decimal token", () => {
-      const result = parseTokenAmount(nftToken, "5.7");
+      const result = parseTokenAmount(zeroDecimalToken, "5.7");
       // Should round down to 5
       expect(result.amount[0]).toBe(5n);
       expect(result.amount[1]).toBe(0);
@@ -229,7 +231,7 @@ describe("parseTokenAmount", () => {
     });
 
     it("should handle very long decimal strings", () => {
-      const longDecimal = "1." + "1".repeat(20);
+      const longDecimal = `1.${"1".repeat(20)}`;
       const result = parseTokenAmount(solToken, longDecimal);
       // Should be 1.111111111 (9 decimal places)
       expect(result.amount[0]).toBe(1111111111n);
