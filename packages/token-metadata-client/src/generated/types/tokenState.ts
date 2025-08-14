@@ -14,9 +14,9 @@ import type {
 import { combineCodec, getEnumDecoder, getEnumEncoder } from "@solana/kit";
 
 export enum TokenState {
-  Unlocked = 0,
-  Locked = 1,
-  Listed = 2,
+  Unlocked,
+  Locked,
+  Listed,
 }
 
 export type TokenStateArgs = TokenState;

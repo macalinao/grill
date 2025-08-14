@@ -67,7 +67,7 @@ export function expectProgramDerivedAddress<T extends string = string>(
     | null
     | undefined,
 ): ProgramDerivedAddress<T> {
-  if (!(value && Array.isArray(value) && isProgramDerivedAddress(value))) {
+  if (!value || !Array.isArray(value) || !isProgramDerivedAddress(value)) {
     throw new Error("Expected a ProgramDerivedAddress.");
   }
   return value;
@@ -85,7 +85,7 @@ export function expectTransactionSigner<T extends string = string>(
     | null
     | undefined,
 ): TransactionSigner<T> {
-  if (!(value && isTransactionSigner(value))) {
+  if (!value || !isTransactionSigner(value)) {
     throw new Error("Expected a TransactionSigner.");
   }
   return value;
@@ -131,9 +131,7 @@ export function getAccountMetaFactory(
     account: ResolvedAccount,
   ): AccountMeta | AccountSignerMeta | undefined => {
     if (!account.value) {
-      if (optionalAccountStrategy === "omitted") {
-        return;
-      }
+      if (optionalAccountStrategy === "omitted") return;
       return Object.freeze({
         address: programAddress,
         role: AccountRole.READONLY,

@@ -14,8 +14,8 @@ import type {
 import { combineCodec, getEnumDecoder, getEnumEncoder } from "@solana/kit";
 
 export enum MigrationType {
-  CollectionV1 = 0,
-  ProgrammableV1 = 1,
+  CollectionV1,
+  ProgrammableV1,
 }
 
 export type MigrationTypeArgs = MigrationType;

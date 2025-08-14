@@ -28,5 +28,7 @@ const addCustomPDAsVisitor = addPdasVisitor({
 });
 
 export default defineConfig({
+  idlPath: "./idls/token_metadata.json",
+  outputDir: "./src/generated",
   visitors: [addCustomPDAsVisitor],
 });

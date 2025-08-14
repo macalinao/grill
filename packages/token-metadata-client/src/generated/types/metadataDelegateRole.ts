@@ -14,14 +14,14 @@ import type {
 import { combineCodec, getEnumDecoder, getEnumEncoder } from "@solana/kit";
 
 export enum MetadataDelegateRole {
-  AuthorityItem = 0,
-  Collection = 1,
-  Use = 2,
-  Data = 3,
-  ProgrammableConfig = 4,
-  DataItem = 5,
-  CollectionItem = 6,
-  ProgrammableConfigItem = 7,
+  AuthorityItem,
+  Collection,
+  Use,
+  Data,
+  ProgrammableConfig,
+  DataItem,
+  CollectionItem,
+  ProgrammableConfigItem,
 }
 
 export type MetadataDelegateRoleArgs = MetadataDelegateRole;

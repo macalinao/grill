@@ -14,16 +14,16 @@ import type {
 import { combineCodec, getEnumDecoder, getEnumEncoder } from "@solana/kit";
 
 export enum PayloadKey {
-  Amount = 0,
-  Authority = 1,
-  AuthoritySeeds = 2,
-  Delegate = 3,
-  DelegateSeeds = 4,
-  Destination = 5,
-  DestinationSeeds = 6,
-  Holder = 7,
-  Source = 8,
-  SourceSeeds = 9,
+  Amount,
+  Authority,
+  AuthoritySeeds,
+  Delegate,
+  DelegateSeeds,
+  Destination,
+  DestinationSeeds,
+  Holder,
+  Source,
+  SourceSeeds,
 }
 
 export type PayloadKeyArgs = PayloadKey;
