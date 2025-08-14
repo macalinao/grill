@@ -48,13 +48,16 @@ const WrappedSOLPage: React.FC = () => {
   });
 
   // Token info definitions
-  const wsolToken: TokenInfo = {
-    mint: WSOL_MINT, // wSOL mint address
-    symbol: "wSOL",
-    decimals: 9,
-    name: "Wrapped SOL",
-    iconURL: "https://cryptologos.cc/logos/solana-sol-logo.png", // Same icon as SOL
-  };
+  const wsolToken: TokenInfo = useMemo(
+    () => ({
+      mint: WSOL_MINT, // wSOL mint address
+      symbol: "wSOL",
+      decimals: 9,
+      name: "Wrapped SOL",
+      iconURL: "https://cryptologos.cc/logos/solana-sol-logo.png", // Same icon as SOL
+    }),
+    [],
+  );
 
   // Calculate available balances
   const solBalance = useMemo(() => {
