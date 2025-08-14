@@ -1,10 +1,9 @@
 import type {
   Address,
-  AddressesByLookupTableAddress,
   Instruction,
   Signature,
+  SignatureBytes,
   TransactionSendingSigner,
-  TransactionSigner,
 } from "@solana/kit";
 import {
   compressTransactionMessageUsingAddressLookupTables,
@@ -16,17 +15,7 @@ import type { GetExplorerLinkFunction } from "../../contexts/grill-context.js";
 import type { TransactionStatusEvent } from "../../types.js";
 import { getSignatureFromBytes } from "../get-signature-from-bytes.js";
 import { pollConfirmTransaction } from "../poll-confirm-transaction.js";
-
-export interface SendTXOptions {
-  luts?: AddressesByLookupTableAddress;
-  signers?: TransactionSigner[];
-}
-
-export type SendTXFunction = (
-  name: string,
-  ixs: readonly Instruction[],
-  options?: SendTXOptions,
-) => Promise<Signature>;
+import type { SendTXFunction, SendTXOptions } from "../types.js";
 
 export interface CreateSendTXParams {
   signer: TransactionSendingSigner | null;
@@ -77,13 +66,18 @@ export const createSendTX = ({
       instructions: [...ixs],
       latestBlockhash,
       // the compute budget values are HIGHLY recommend to be set in order to maximize your transaction landing rate
-      // TODO(igm): make this configurable and/or dynamic based on the instructions
-      computeUnitLimit: 1_400_000,
-      computeUnitPrice: 100_000n,
+      computeUnitLimit:
+        options.computeUnitLimit === null
+          ? undefined
+          : (options.computeUnitLimit ?? 1_400_000),
+      computeUnitPrice:
+        options.computeUnitPrice === null
+          ? undefined
+          : (options.computeUnitPrice ?? 100_000n),
     });
 
     // Apply address lookup tables if provided to compress the transaction
-    const addressLookupTables = options.luts ?? {};
+    const addressLookupTables = options.lookupTables ?? {};
     const finalTransactionMessage =
       Object.keys(addressLookupTables).length > 0
         ? compressTransactionMessageUsingAddressLookupTables(
@@ -98,9 +92,22 @@ export const createSendTX = ({
     });
 
     // Send transaction using wallet adapter
-    const sigBytes = await signAndSendTransactionMessageWithSigners(
-      finalTransactionMessage,
-    );
+    let sigBytes: SignatureBytes;
+    try {
+      sigBytes = await signAndSendTransactionMessageWithSigners(
+        finalTransactionMessage,
+      );
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Failed to send transaction";
+      onTransactionStatusEvent({
+        ...baseEvent,
+        type: "error-transaction-send-failed",
+        errorMessage,
+      });
+      throw error;
+    }
+
     const sig = getSignatureFromBytes(sigBytes);
     const sentTxEvent = {
       ...baseEvent,
@@ -130,7 +137,15 @@ export const createSendTX = ({
         .filter((key) => key.writable)
         .map((k) => k.pubkey);
       if (writableAccounts.length > 0) {
-        await refetchAccounts(writableAccounts);
+        const waitForAccountRefetch = options.waitForAccountRefetch ?? true;
+        if (waitForAccountRefetch) {
+          await refetchAccounts(writableAccounts);
+        } else {
+          // Refetch in background without waiting
+          refetchAccounts(writableAccounts).catch((error: unknown) => {
+            console.warn("Failed to refetch accounts in background:", error);
+          });
+        }
       }
 
       if (result.meta?.logMessages) {

@@ -7,7 +7,7 @@ import { z } from "zod";
  * Validates that a string is a valid Solana address and transforms it to an Address type.
  * Compatible with both Zod v3 and v4.
  */
-export const addressSchema: z.ZodType<Address> = z
+export const addressSchema: z.ZodType<Address, string> = z
   .string()
   .transform((val, ctx) => {
     try {
