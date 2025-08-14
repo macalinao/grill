@@ -14,6 +14,20 @@ export interface VisitorContext {
  */
 export interface GrillConfig {
   /**
+   * Path to the Anchor IDL file.
+   * Overrides the --idl command line option.
+   * @default "./target/idl/program.json"
+   */
+  idlPath?: string;
+
+  /**
+   * Output directory for the generated client.
+   * Overrides the --output command line option.
+   * @default "./src/generated"
+   */
+  outputDir?: string;
+
+  /**
    * Additional root node visitors to apply to the Codama nodes before generating code.
    * These visitors are applied in order after the initial Anchor IDL parsing.
    * Can be either an array of visitors or a function that returns an array of visitors.
