@@ -1,5 +1,13 @@
 # @macalinao/solana-batch-accounts-loader
 
+## 0.2.2
+
+### Patch Changes
+
+- c7eb4a2: Add sideEffects: false to pacakges
+- Updated dependencies [c7eb4a2]
+  - @macalinao/dataloader-es@0.2.2
+
 ## 0.2.1
 
 ### Patch Changes
