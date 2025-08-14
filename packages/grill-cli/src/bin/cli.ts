@@ -45,9 +45,24 @@ program
   )
   .action(async (options: { idl: string; output: string; config: string }) => {
     try {
-      const idlPath = resolve(options.idl);
-      const outputPath = resolve(options.output);
       const configPath = resolve(options.config);
+
+      // Load config first if it exists
+      let config: GrillConfig = {};
+      if (await fileExists(configPath)) {
+        console.log(`Loading config from ${configPath}...`);
+
+        // Dynamic import of the config file
+        const configUrl = new URL(`file://${configPath}`);
+        const configModule = (await import(configUrl.href)) as {
+          default: GrillConfig;
+        };
+        config = configModule.default;
+      }
+
+      // Use config values if provided, otherwise fall back to command line options
+      const idlPath = resolve(config.idlPath ?? options.idl);
+      const outputPath = resolve(config.outputDir ?? options.output);
 
       // Check if IDL file exists
       if (!(await fileExists(idlPath))) {
@@ -66,28 +81,22 @@ program
       const root = rootNodeFromAnchor(idl);
       const codama = createFromRoot(root);
 
-      // Load and apply config if it exists
-      if (await fileExists(configPath)) {
-        console.log(`Loading config from ${configPath}...`);
+      // Apply additional visitors from config
+      if (config.visitors) {
+        // Resolve visitors - either array or function
+        const visitors =
+          typeof config.visitors === "function"
+            ? config.visitors({ idl })
+            : config.visitors;
 
-        // Dynamic import of the config file
-        const configUrl = new URL(`file://${configPath}`);
-        const configModule = (await import(configUrl.href)) as {
-          default: GrillConfig;
-        };
-        const config = configModule.default;
-
-        // Apply additional visitors from config
-        if (config.visitors && config.visitors.length > 0) {
+        if (visitors.length > 0) {
           console.log(
-            `Applying ${config.visitors.length.toLocaleString()} custom visitor(s)...`,
+            `Applying ${visitors.length.toLocaleString()} custom visitor(s)...`,
           );
-          for (const visitor of config.visitors) {
+          for (const visitor of visitors) {
             codama.update(visitor);
           }
         }
-      } else {
-        console.log("No config file found, using defaults...");
       }
 
       // Apply the ESM TypeScript visitor
@@ -124,19 +133,23 @@ program
  * @type {import('@macalinao/grill-cli').GrillConfig}
  */
 export default {
-  // Optional: Add custom visitors to transform the Codama tree
-  visitors: [
-    // Example: Add a custom visitor
-    // (node) => {
-    //   // Transform the node
-    //   return node;
-    // }
-  ],
+  // Optional: Path to the Anchor IDL file (overrides --idl option)
+  // idlPath: "./target/idl/program.json",
   
-  // Optional: Configure the output
-  output: {
-    // Add any output configuration here
-  }
+  // Optional: Output directory for generated client (overrides --output option)
+  // outputDir: "./src/generated",
+  
+  // Optional: Add custom visitors to transform the Codama tree
+  // Can be an array of visitors or a function that returns visitors
+  // visitors: [
+  //   // Example: Add a custom visitor
+  //   someVisitor(),
+  // ],
+  
+  // Example using a function to access the IDL:
+  // visitors: ({ idl }) => [
+  //   customVisitor(idl),
+  // ],
 };
 `;
 

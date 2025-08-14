@@ -14,8 +14,8 @@ import type {
 import { combineCodec, getEnumDecoder, getEnumEncoder } from "@solana/kit";
 
 export enum VerificationArgs {
-  CreatorV1 = 0,
-  CollectionV1 = 1,
+  CreatorV1,
+  CollectionV1,
 }
 
 export type VerificationArgsArgs = VerificationArgs;

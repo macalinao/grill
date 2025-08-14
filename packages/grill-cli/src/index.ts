@@ -3,5 +3,5 @@ export {
   ESM_DEPENDENCY_MAP,
   renderESMTypeScriptVisitor,
 } from "@macalinao/codama-renderers-js-esm";
-export type { GrillConfig } from "./config.js";
+export type { GrillConfig, VisitorContext } from "./config.js";
 export { defineConfig } from "./config.js";

@@ -14,9 +14,9 @@ import type {
 import { combineCodec, getEnumDecoder, getEnumEncoder } from "@solana/kit";
 
 export enum UseMethod {
-  Burn = 0,
-  Multiple = 1,
-  Single = 2,
+  Burn,
+  Multiple,
+  Single,
 }
 
 export type UseMethodArgs = UseMethod;

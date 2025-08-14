@@ -14,21 +14,21 @@ import type {
 import { combineCodec, getEnumDecoder, getEnumEncoder } from "@solana/kit";
 
 export enum Key {
-  Uninitialized = 0,
-  EditionV1 = 1,
-  MasterEditionV1 = 2,
-  ReservationListV1 = 3,
-  MetadataV1 = 4,
-  ReservationListV2 = 5,
-  MasterEditionV2 = 6,
-  EditionMarker = 7,
-  UseAuthorityRecord = 8,
-  CollectionAuthorityRecord = 9,
-  TokenOwnedEscrow = 10,
-  TokenRecord = 11,
-  MetadataDelegate = 12,
-  EditionMarkerV2 = 13,
-  HolderDelegate = 14,
+  Uninitialized,
+  EditionV1,
+  MasterEditionV1,
+  ReservationListV1,
+  MetadataV1,
+  ReservationListV2,
+  MasterEditionV2,
+  EditionMarker,
+  UseAuthorityRecord,
+  CollectionAuthorityRecord,
+  TokenOwnedEscrow,
+  TokenRecord,
+  MetadataDelegate,
+  EditionMarkerV2,
+  HolderDelegate,
 }
 
 export type KeyArgs = Key;

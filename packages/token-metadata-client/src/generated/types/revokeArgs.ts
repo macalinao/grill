@@ -14,21 +14,21 @@ import type {
 import { combineCodec, getEnumDecoder, getEnumEncoder } from "@solana/kit";
 
 export enum RevokeArgs {
-  CollectionV1 = 0,
-  SaleV1 = 1,
-  TransferV1 = 2,
-  DataV1 = 3,
-  UtilityV1 = 4,
-  StakingV1 = 5,
-  StandardV1 = 6,
-  LockedTransferV1 = 7,
-  ProgrammableConfigV1 = 8,
-  MigrationV1 = 9,
-  AuthorityItemV1 = 10,
-  DataItemV1 = 11,
-  CollectionItemV1 = 12,
-  ProgrammableConfigItemV1 = 13,
-  PrintDelegateV1 = 14,
+  CollectionV1,
+  SaleV1,
+  TransferV1,
+  DataV1,
+  UtilityV1,
+  StakingV1,
+  StandardV1,
+  LockedTransferV1,
+  ProgrammableConfigV1,
+  MigrationV1,
+  AuthorityItemV1,
+  DataItemV1,
+  CollectionItemV1,
+  ProgrammableConfigItemV1,
+  PrintDelegateV1,
 }
 
 export type RevokeArgsArgs = RevokeArgs;

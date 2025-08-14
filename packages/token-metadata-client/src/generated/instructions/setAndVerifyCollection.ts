@@ -290,9 +290,7 @@ export function parseSetAndVerifyCollectionInstruction<
   };
   let optionalAccountsRemaining = instruction.accounts.length - 7;
   const getNextOptionalAccount = () => {
-    if (optionalAccountsRemaining === 0) {
-      return undefined;
-    }
+    if (optionalAccountsRemaining === 0) return undefined;
     optionalAccountsRemaining -= 1;
     return getNextAccount();
   };
