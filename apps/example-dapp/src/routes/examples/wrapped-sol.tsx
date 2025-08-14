@@ -1,4 +1,8 @@
 import {
+  formatTokenAmount,
+  NATIVE_SOL,
+  parseTokenAmount,
+  type TokenInfo,
   useAccount,
   useAssociatedTokenAccount,
   useKitWallet,
@@ -19,8 +23,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { InputTokenAmount } from "@/components/ui/input-token-amount";
-import type { TokenInfo } from "@/types/token";
-import { formatTokenAmount } from "@/utils/format-token-amount";
 import {
   getCloseAccountInstructions,
   getWrapSOLInstructions,
@@ -46,21 +48,16 @@ const WrappedSOLPage: React.FC = () => {
   });
 
   // Token info definitions
-  const solToken: TokenInfo = {
-    address: "11111111111111111111111111111111", // Native SOL program ID
-    symbol: "SOL",
-    decimals: 9,
-    name: "Solana",
-    icon: "https://cryptologos.cc/logos/solana-sol-logo.png", // Using a CDN icon
-  };
-
-  const wsolToken: TokenInfo = {
-    address: "So11111111111111111111111111111111111111112", // wSOL mint address
-    symbol: "wSOL",
-    decimals: 9,
-    name: "Wrapped SOL",
-    icon: "https://cryptologos.cc/logos/solana-sol-logo.png", // Same icon as SOL
-  };
+  const wsolToken: TokenInfo = useMemo(
+    () => ({
+      mint: WSOL_MINT, // wSOL mint address
+      symbol: "wSOL",
+      decimals: 9,
+      name: "Wrapped SOL",
+      iconURL: "https://cryptologos.cc/logos/solana-sol-logo.png", // Same icon as SOL
+    }),
+    [],
+  );
 
   // Calculate available balances
   const solBalance = useMemo(() => {
@@ -75,8 +72,13 @@ const WrappedSOLPage: React.FC = () => {
     if (!wsolTokenAccount) {
       return "0";
     }
-    return formatTokenAmount(wsolTokenAccount.data.amount, 9);
-  }, [wsolTokenAccount]);
+    // Convert the bigint amount to a TokenAmount
+    const tokenAmount = {
+      token: wsolToken,
+      amount: [wsolTokenAccount.data.amount, wsolToken.decimals] as const,
+    };
+    return formatTokenAmount(tokenAmount);
+  }, [wsolTokenAccount, wsolToken]);
 
   // Handle wrap SOL action
   const handleWrapSOL = async (): Promise<void> => {
@@ -87,10 +89,9 @@ const WrappedSOLPage: React.FC = () => {
 
     setIsWrapping(true);
     try {
-      // Convert amount to lamports (1 SOL = 1e9 lamports)
-      const lamportAmount = BigInt(
-        Math.floor(Number.parseFloat(wrapAmount) * 1e9),
-      );
+      // Parse the amount using parseTokenAmount
+      const parsedAmount = parseTokenAmount(wsolToken, wrapAmount);
+      const lamportAmount = parsedAmount.amount[0];
 
       // Get the wrap instructions
       const instructions = await getWrapSOLInstructions(signer, lamportAmount);
@@ -228,7 +229,7 @@ const WrappedSOLPage: React.FC = () => {
           <div className="space-y-2">
             <div className="text-sm font-medium">From</div>
             <InputTokenAmount
-              token={solToken}
+              token={NATIVE_SOL}
               value={wrapAmount}
               onChange={setWrapAmount}
               maxAmount={solBalance}
@@ -249,9 +250,9 @@ const WrappedSOLPage: React.FC = () => {
             <div className="text-sm font-medium">To</div>
             <div className="flex items-center justify-between p-3 rounded-md border bg-muted/30">
               <div className="flex items-center space-x-2">
-                {wsolToken.icon && (
+                {wsolToken.iconURL && (
                   <img
-                    src={wsolToken.icon}
+                    src={wsolToken.iconURL}
                     alt={wsolToken.symbol}
                     className="w-6 h-6 rounded-full"
                     onError={(e) => {

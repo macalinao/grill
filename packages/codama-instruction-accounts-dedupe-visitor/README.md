@@ -1,5 +1,7 @@
 # @macalinao/codama-instruction-accounts-dedupe-visitor
 
+[![npm version](https://img.shields.io/npm/v/@macalinao/codama-instruction-accounts-dedupe-visitor.svg)](https://www.npmjs.com/package/@macalinao/codama-instruction-accounts-dedupe-visitor)
+
 Codama visitor for deduplicating and flattening instruction accounts from Anchor IDL. This package helps handle nested account structures in Anchor programs by flattening them into a single-level structure with properly prefixed names.
 
 ## Why This Package Exists

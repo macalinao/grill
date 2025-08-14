@@ -3,6 +3,7 @@
   "version": "0.0.3",
   "description": "Zod schemas for Solana types with @solana/kit integration",
   "type": "module",
+  "sideEffects": false,
   "author": "Ian Macalinao <me@ianm.com>",
   "homepage": "https://grill.ianm.com",
   "license": "Apache-2.0",

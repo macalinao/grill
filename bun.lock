@@ -3,6 +3,9 @@
   "workspaces": {
     "": {
       "name": "@macalinao/grill-monorepo",
+      "dependencies": {
+        "dnum": "^2.15.0",
+      },
       "devDependencies": {
         "@biomejs/biome": "^2.1.4",
         "@changesets/cli": "^2.29.5",
@@ -124,6 +127,7 @@
         "@macalinao/dataloader-es": "workspace:*",
         "@macalinao/solana-batch-accounts-loader": "workspace:*",
         "@macalinao/token-metadata-client": "workspace:*",
+        "@macalinao/token-utils": "workspace:*",
         "@macalinao/zod-solana": "workspace:*",
         "@solana-program/token": "^0.5.1",
         "@solana/kit": "catalog:",
@@ -202,6 +206,23 @@
       },
       "peerDependencies": {
         "@solana/kit": "*",
+      },
+    },
+    "packages/token-utils": {
+      "name": "@macalinao/token-utils",
+      "version": "0.1.0",
+      "dependencies": {
+        "dnum": "^2.15.0",
+      },
+      "devDependencies": {
+        "@macalinao/eslint-config": "catalog:",
+        "@macalinao/tsconfig": "catalog:",
+        "@solana/kit": "catalog:",
+        "@types/bun": "^1.2.19",
+        "typescript": "catalog:",
+      },
+      "peerDependencies": {
+        "@solana/kit": "catalog:",
       },
     },
     "packages/wallet-adapter-compat": {
@@ -622,6 +643,8 @@
     "@macalinao/solana-batch-accounts-loader": ["@macalinao/solana-batch-accounts-loader@workspace:packages/solana-batch-accounts-loader"],
 
     "@macalinao/token-metadata-client": ["@macalinao/token-metadata-client@workspace:packages/token-metadata-client"],
+
+    "@macalinao/token-utils": ["@macalinao/token-utils@workspace:packages/token-utils"],
 
     "@macalinao/tsconfig": ["@macalinao/tsconfig@3.2.2", "", {}, "sha512-pw+l4EiyGQXwffxMQxqvJghLEm5fKGXZ3BAUYyitmkrtyD0D517RwwooSBrjCXP+sl3oefpHzUnZjowYTQd8wg=="],
 
@@ -1711,6 +1734,8 @@
 
     "dir-glob": ["dir-glob@3.0.1", "", { "dependencies": { "path-type": "^4.0.0" } }, "sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA=="],
 
+    "dnum": ["dnum@2.15.0", "", { "dependencies": { "from-exponential": "^1.1.1" } }, "sha512-7wyYHrTq32laVKSQSuWsUysCY8kMjFjfgbZmcVECROyeT3yvwF9oaSDFWL1s1s8nAfhhERC04LdtFVbmx8xRWQ=="],
+
     "doctrine": ["doctrine@2.1.0", "", { "dependencies": { "esutils": "^2.0.2" } }, "sha512-35mSku4ZXK0vfCuHEDAwt55dg2jNajHZ1odvF+8SSr82EsZY4QmXfuWso8oEd8zRhVObSN18aM0CjSdoBX7zIw=="],
 
     "dom-accessibility-api": ["dom-accessibility-api@0.5.16", "", {}, "sha512-X7BJ2yElsnOJ30pZF4uIIDfBEVgF4XEBxL9Bxhy6dnrm5hkzqmsWHGTiHqRiITNhMyFLyAiWndIJP7Z1NTteDg=="],
@@ -1912,6 +1937,8 @@
     "form-data": ["form-data@4.0.4", "", { "dependencies": { "asynckit": "^0.4.0", "combined-stream": "^1.0.8", "es-set-tostringtag": "^2.1.0", "hasown": "^2.0.2", "mime-types": "^2.1.12" } }, "sha512-KrGhL9Q4zjj0kiUt5OO4Mr/A/jlI2jDYs5eHBpYHPcBEVSiipAvn2Ko2HnPe20rmcuuvMHNdZFp+4IlGTMF0Ow=="],
 
     "fresh": ["fresh@0.5.2", "", {}, "sha512-zJ2mQYM18rEFOudeV4GShTGIQ7RbzA7ozbU9I/XBpm7kqgMywgmylMwXHxZJmkVoYkna9d2pVXVXPdYTP9ej8Q=="],
+
+    "from-exponential": ["from-exponential@1.1.1", "", {}, "sha512-VBE7f5OVnYwdgB3LHa+Qo29h8qVpxhVO9Trlc+AWm+/XNAgks1tAwMFHb33mjeiof77GglsJzeYF7OqXrROP/A=="],
 
     "fs-extra": ["fs-extra@7.0.1", "", { "dependencies": { "graceful-fs": "^4.1.2", "jsonfile": "^4.0.0", "universalify": "^0.1.0" } }, "sha512-YJDaCJZEnBmcbw13fvdAM9AwNOJwOzrE4pqMqBq5nFiEqXUqHwlK4B+3pUw6JNvfSPtX05xFHtYy/1ni01eGCw=="],
 
