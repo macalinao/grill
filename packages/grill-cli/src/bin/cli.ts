@@ -78,12 +78,20 @@ program
         const config = configModule.default;
 
         // Apply additional visitors from config
-        if (config.visitors && config.visitors.length > 0) {
-          console.log(
-            `Applying ${config.visitors.length.toLocaleString()} custom visitor(s)...`,
-          );
-          for (const visitor of config.visitors) {
-            codama.update(visitor);
+        if (config.visitors) {
+          // Resolve visitors - either array or function
+          const visitors =
+            typeof config.visitors === "function"
+              ? config.visitors({ idl })
+              : config.visitors;
+
+          if (visitors.length > 0) {
+            console.log(
+              `Applying ${visitors.length.toLocaleString()} custom visitor(s)...`,
+            );
+            for (const visitor of visitors) {
+              codama.update(visitor);
+            }
           }
         }
       } else {
