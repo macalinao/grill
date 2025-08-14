@@ -1,5 +1,6 @@
 import {
   formatTokenAmount,
+  NATIVE_SOL,
   type TokenInfo,
   useAccount,
   useAssociatedTokenAccount,
@@ -46,14 +47,6 @@ const WrappedSOLPage: React.FC = () => {
   });
 
   // Token info definitions
-  const solToken: TokenInfo = {
-    mint: WSOL_MINT, // Using the native SOL mint for consistency
-    symbol: "SOL",
-    decimals: 9,
-    name: "Solana",
-    iconURL: "https://cryptologos.cc/logos/solana-sol-logo.png", // Using a CDN icon
-  };
-
   const wsolToken: TokenInfo = {
     mint: WSOL_MINT, // wSOL mint address
     symbol: "wSOL",
@@ -228,7 +221,7 @@ const WrappedSOLPage: React.FC = () => {
           <div className="space-y-2">
             <div className="text-sm font-medium">From</div>
             <InputTokenAmount
-              token={solToken}
+              token={NATIVE_SOL}
               value={wrapAmount}
               onChange={setWrapAmount}
               maxAmount={solBalance}

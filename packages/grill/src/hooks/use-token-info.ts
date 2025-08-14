@@ -3,7 +3,7 @@ import type { Address } from "@solana/kit";
 import type { UseQueryResult } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { GRILL_HOOK_CLIENT_KEY } from "../constants.js";
-import type { TokenInfo } from "../token.js";
+import type { TokenInfo } from "../utils/token/types.js";
 import { useMintAccount } from "./use-mint-account.js";
 import { useTokenMetadataAccount } from "./use-token-metadata-account.js";
 

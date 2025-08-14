@@ -1,0 +1,13 @@
+import { address } from "@solana/kit";
+import type { TokenInfo } from "./types.js";
+
+/**
+ * TokenInfo for native SOL
+ */
+export const NATIVE_SOL: TokenInfo = {
+  mint: address("11111111111111111111111111111111"),
+  name: "Solana",
+  symbol: "SOL",
+  decimals: 9,
+  iconURL: "https://cryptologos.cc/logos/solana-sol-logo.png",
+};

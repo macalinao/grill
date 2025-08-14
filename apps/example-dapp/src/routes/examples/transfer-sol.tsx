@@ -1,13 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   addressSchema,
-  type TokenInfo,
+  NATIVE_SOL,
   useAccount,
   useKitWallet,
   useSendTX,
 } from "@macalinao/grill";
 import type { Address } from "@solana/kit";
-import { address, lamports } from "@solana/kit";
+import { lamports } from "@solana/kit";
 import { getTransferSolInstruction } from "@solana-program/system";
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, Wallet } from "lucide-react";
@@ -60,14 +60,6 @@ const TransferSolPage: React.FC = () => {
   const { data: userAccount } = useAccount({
     address: signer?.address ?? null,
   });
-
-  // SOL token info
-  const solToken: TokenInfo = {
-    mint: address("11111111111111111111111111111111"),
-    symbol: "SOL",
-    decimals: 9,
-    name: "Solana",
-  };
 
   const {
     register,
@@ -196,7 +188,7 @@ const TransferSolPage: React.FC = () => {
                 Amount to Send
               </label>
               <InputTokenAmount
-                token={solToken}
+                token={NATIVE_SOL}
                 value={watch("amount")}
                 onChange={(value) => {
                   setValue("amount", value);
