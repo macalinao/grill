@@ -127,11 +127,11 @@
         "@macalinao/dataloader-es": "workspace:*",
         "@macalinao/solana-batch-accounts-loader": "workspace:*",
         "@macalinao/token-metadata-client": "workspace:*",
+        "@macalinao/token-utils": "workspace:*",
         "@macalinao/zod-solana": "workspace:*",
         "@solana-program/token": "^0.5.1",
         "@solana/kit": "catalog:",
         "@tanstack/react-query": "catalog:",
-        "dnum": "^2.15.0",
         "gill": "catalog:",
         "gill-react": "catalog:",
         "react": "catalog:",
@@ -206,6 +206,23 @@
       },
       "peerDependencies": {
         "@solana/kit": "*",
+      },
+    },
+    "packages/token-utils": {
+      "name": "@macalinao/token-utils",
+      "version": "0.1.0",
+      "dependencies": {
+        "dnum": "^2.15.0",
+      },
+      "devDependencies": {
+        "@macalinao/eslint-config": "catalog:",
+        "@macalinao/tsconfig": "catalog:",
+        "@solana/kit": "catalog:",
+        "@types/bun": "^1.2.19",
+        "typescript": "catalog:",
+      },
+      "peerDependencies": {
+        "@solana/kit": "catalog:",
       },
     },
     "packages/wallet-adapter-compat": {
@@ -626,6 +643,8 @@
     "@macalinao/solana-batch-accounts-loader": ["@macalinao/solana-batch-accounts-loader@workspace:packages/solana-batch-accounts-loader"],
 
     "@macalinao/token-metadata-client": ["@macalinao/token-metadata-client@workspace:packages/token-metadata-client"],
+
+    "@macalinao/token-utils": ["@macalinao/token-utils@workspace:packages/token-utils"],
 
     "@macalinao/tsconfig": ["@macalinao/tsconfig@3.2.2", "", {}, "sha512-pw+l4EiyGQXwffxMQxqvJghLEm5fKGXZ3BAUYyitmkrtyD0D517RwwooSBrjCXP+sl3oefpHzUnZjowYTQd8wg=="],
 
