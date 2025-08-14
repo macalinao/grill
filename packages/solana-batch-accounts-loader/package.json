@@ -3,6 +3,7 @@
   "version": "0.2.1",
   "description": "Efficient batch account loading for Solana using DataLoader and @solana/kit",
   "type": "module",
+  "sideEffects": false,
   "author": "Ian Macalinao <me@ianm.com>",
   "homepage": "https://grill.ianm.com",
   "license": "Apache-2.0",

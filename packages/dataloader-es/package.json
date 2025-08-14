@@ -3,6 +3,7 @@
   "version": "0.2.1",
   "description": "Modern ESM-native TypeScript implementation of Facebook's DataLoader pattern for efficient batching and caching",
   "type": "module",
+  "sideEffects": false,
   "author": "Ian Macalinao <me@ianm.com>",
   "homepage": "https://grill.ianm.com",
   "license": "MIT",
