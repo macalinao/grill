@@ -4,7 +4,7 @@ import type { TokenInfo } from "./types.js";
 /**
  * TokenInfo for native SOL
  */
-export const NATIVE_SOL: TokenInfo = {
+export const NATIVE_SOL: TokenInfo<"11111111111111111111111111111111", 9> = {
   mint: address("11111111111111111111111111111111"),
   name: "Solana",
   symbol: "SOL",
