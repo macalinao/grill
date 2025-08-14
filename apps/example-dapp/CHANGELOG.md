@@ -1,5 +1,14 @@
 # example-dapp
 
+## 0.0.6
+
+### Patch Changes
+
+- c7eb4a2: Add sideEffects: false to pacakges
+- Updated dependencies [c7eb4a2]
+  - @macalinao/wallet-adapter-compat@0.2.5
+  - @macalinao/grill@0.3.1
+
 ## 0.0.5
 
 ### Patch Changes

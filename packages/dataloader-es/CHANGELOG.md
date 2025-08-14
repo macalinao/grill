@@ -1,5 +1,11 @@
 # @macalinao/dataloader-es
 
+## 0.2.2
+
+### Patch Changes
+
+- c7eb4a2: Add sideEffects: false to pacakges
+
 ## 0.2.1
 
 ### Patch Changes

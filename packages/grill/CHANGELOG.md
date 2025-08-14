@@ -1,5 +1,16 @@
 # @macalinao/grill
 
+## 0.3.1
+
+### Patch Changes
+
+- c7eb4a2: Add sideEffects: false to pacakges
+- Updated dependencies [c7eb4a2]
+  - @macalinao/solana-batch-accounts-loader@0.2.2
+  - @macalinao/dataloader-es@0.2.2
+  - @macalinao/token-utils@0.1.1
+  - @macalinao/zod-solana@0.0.4
+
 ## 0.3.0
 
 ### Minor Changes

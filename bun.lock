@@ -19,7 +19,7 @@
     },
     "apps/example-dapp": {
       "name": "example-dapp",
-      "version": "0.0.5",
+      "version": "0.0.6",
       "dependencies": {
         "@hookform/resolvers": "^5.2.1",
         "@macalinao/grill": "workspace:*",
@@ -110,7 +110,7 @@
     },
     "packages/dataloader-es": {
       "name": "@macalinao/dataloader-es",
-      "version": "0.2.1",
+      "version": "0.2.2",
       "devDependencies": {
         "@macalinao/eslint-config": "catalog:",
         "@macalinao/tsconfig": "catalog:",
@@ -122,7 +122,7 @@
     },
     "packages/grill": {
       "name": "@macalinao/grill",
-      "version": "0.3.0",
+      "version": "0.3.1",
       "dependencies": {
         "@macalinao/dataloader-es": "workspace:*",
         "@macalinao/solana-batch-accounts-loader": "workspace:*",
@@ -173,7 +173,7 @@
     },
     "packages/solana-batch-accounts-loader": {
       "name": "@macalinao/solana-batch-accounts-loader",
-      "version": "0.2.1",
+      "version": "0.2.2",
       "dependencies": {
         "@macalinao/dataloader-es": "workspace:*",
         "lodash-es": "^4.17.21",
@@ -210,7 +210,7 @@
     },
     "packages/token-utils": {
       "name": "@macalinao/token-utils",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "dependencies": {
         "dnum": "^2.15.0",
       },
@@ -227,7 +227,7 @@
     },
     "packages/wallet-adapter-compat": {
       "name": "@macalinao/wallet-adapter-compat",
-      "version": "0.2.4",
+      "version": "0.2.5",
       "dependencies": {
         "@macalinao/grill": "workspace:*",
         "@solana/webcrypto-ed25519-polyfill": "*",
@@ -255,7 +255,7 @@
     },
     "packages/zod-solana": {
       "name": "@macalinao/zod-solana",
-      "version": "0.0.3",
+      "version": "0.0.4",
       "devDependencies": {
         "@macalinao/eslint-config": "catalog:",
         "@macalinao/tsconfig": "catalog:",
