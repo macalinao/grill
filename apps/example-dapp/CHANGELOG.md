@@ -1,5 +1,15 @@
 # example-dapp
 
+## 0.0.5
+
+### Patch Changes
+
+- 0d09839: Regenerate token metadata client
+- Updated dependencies [49c1d2c]
+- Updated dependencies [87c6415]
+  - @macalinao/grill@0.3.0
+  - @macalinao/wallet-adapter-compat@0.2.4
+
 ## 0.0.4
 
 ### Patch Changes

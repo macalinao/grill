@@ -1,5 +1,20 @@
 # @macalinao/grill
 
+## 0.3.0
+
+### Minor Changes
+
+- 49c1d2c: Restructure sendTX types, add error toasts for transaction signing rejected
+
+### Patch Changes
+
+- 87c6415: Add support for token metadata fetching
+- Updated dependencies [0d09839]
+- Updated dependencies [5555546]
+- Updated dependencies [87c6415]
+  - @macalinao/token-metadata-client@0.1.1
+  - @macalinao/zod-solana@0.0.3
+
 ## 0.2.3
 
 ### Patch Changes
