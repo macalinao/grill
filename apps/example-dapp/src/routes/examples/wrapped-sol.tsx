@@ -1,4 +1,6 @@
 import {
+  formatTokenAmount,
+  type TokenInfo,
   useAccount,
   useAssociatedTokenAccount,
   useKitWallet,
@@ -19,8 +21,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { InputTokenAmount } from "@/components/ui/input-token-amount";
-import type { TokenInfo } from "@/types/token";
-import { formatTokenAmount } from "@/utils/format-token-amount";
 import {
   getCloseAccountInstructions,
   getWrapSOLInstructions,
@@ -47,19 +47,19 @@ const WrappedSOLPage: React.FC = () => {
 
   // Token info definitions
   const solToken: TokenInfo = {
-    address: "11111111111111111111111111111111", // Native SOL program ID
+    mint: WSOL_MINT, // Using the native SOL mint for consistency
     symbol: "SOL",
     decimals: 9,
     name: "Solana",
-    icon: "https://cryptologos.cc/logos/solana-sol-logo.png", // Using a CDN icon
+    iconURL: "https://cryptologos.cc/logos/solana-sol-logo.png", // Using a CDN icon
   };
 
   const wsolToken: TokenInfo = {
-    address: "So11111111111111111111111111111111111111112", // wSOL mint address
+    mint: WSOL_MINT, // wSOL mint address
     symbol: "wSOL",
     decimals: 9,
     name: "Wrapped SOL",
-    icon: "https://cryptologos.cc/logos/solana-sol-logo.png", // Same icon as SOL
+    iconURL: "https://cryptologos.cc/logos/solana-sol-logo.png", // Same icon as SOL
   };
 
   // Calculate available balances
@@ -75,7 +75,7 @@ const WrappedSOLPage: React.FC = () => {
     if (!wsolTokenAccount) {
       return "0";
     }
-    return formatTokenAmount(wsolTokenAccount.data.amount, 9);
+    return formatTokenAmount(wsolTokenAccount.data.amount, wsolToken);
   }, [wsolTokenAccount]);
 
   // Handle wrap SOL action
@@ -249,9 +249,9 @@ const WrappedSOLPage: React.FC = () => {
             <div className="text-sm font-medium">To</div>
             <div className="flex items-center justify-between p-3 rounded-md border bg-muted/30">
               <div className="flex items-center space-x-2">
-                {wsolToken.icon && (
+                {wsolToken.iconURL && (
                   <img
-                    src={wsolToken.icon}
+                    src={wsolToken.iconURL}
                     alt={wsolToken.symbol}
                     className="w-6 h-6 rounded-full"
                     onError={(e) => {

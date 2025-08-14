@@ -1,12 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   addressSchema,
+  type TokenInfo,
   useAccount,
   useKitWallet,
   useSendTX,
 } from "@macalinao/grill";
 import type { Address } from "@solana/kit";
-import { lamports } from "@solana/kit";
+import { address, lamports } from "@solana/kit";
 import { getTransferSolInstruction } from "@solana-program/system";
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, Wallet } from "lucide-react";
@@ -25,7 +26,6 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { InputTokenAmount } from "@/components/ui/input-token-amount";
-import type { TokenInfo } from "@/types/token";
 
 export const Route = createFileRoute("/examples/transfer-sol")({
   component: () => <TransferSolPage />,
@@ -63,7 +63,7 @@ const TransferSolPage: React.FC = () => {
 
   // SOL token info
   const solToken: TokenInfo = {
-    address: "11111111111111111111111111111111",
+    mint: address("11111111111111111111111111111111"),
     symbol: "SOL",
     decimals: 9,
     name: "Solana",

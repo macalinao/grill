@@ -50,6 +50,7 @@
     "@solana-program/token": "^0.5.1",
     "@solana/kit": "catalog:",
     "@tanstack/react-query": "catalog:",
+    "dnum": "^2.15.0",
     "gill": "catalog:",
     "gill-react": "catalog:",
     "react": "catalog:"

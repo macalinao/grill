@@ -16,7 +16,7 @@ export type UseDecodedAccountHook<TData extends object> = (args: {
  */
 export function createDecodedAccountHook<TData extends object>(
   decoder: Decoder<TData>,
-) {
+): UseDecodedAccountHook<TData> {
   return function useDecodedAccount({
     address,
   }: {
