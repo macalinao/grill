@@ -22,7 +22,8 @@
     "includes": [
       "**",
       "!**/bun.lock",
-      "!apps/example-dapp/src/routeTree.gen.ts"
+      "!apps/example-dapp/src/routeTree.gen.ts",
+      "!docs/**"
     ]
   },
   "linter": {
@@ -73,7 +74,8 @@
       "**",
       "!**/bun.lock",
       "!apps/example-dapp/src/routeTree.gen.ts",
-      "!packages/*-client/src/generated/**"
+      "!packages/*-client/src/generated/**",
+      "!docs/**"
     ]
   },
   "assist": {
@@ -85,7 +87,8 @@
     "includes": [
       "**",
       "!**/bun.lock",
-      "!apps/example-dapp/src/routeTree.gen.ts"
+      "!apps/example-dapp/src/routeTree.gen.ts",
+      "!docs/**"
     ]
   },
   "javascript": {

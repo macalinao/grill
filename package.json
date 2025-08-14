@@ -44,7 +44,9 @@
     "ci:version": "changeset version && bun update",
     "ci:publish": "./scripts/ci-publish.sh",
     "prepare": "husky",
-    "codegen": "turbo run codegen"
+    "codegen": "turbo run codegen",
+    "docs:build": "typedoc",
+    "docs:watch": "typedoc --watch"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.1.4",
@@ -54,6 +56,7 @@
     "lint-staged": "^16.1.5",
     "prettier": "^3.6.2",
     "turbo": "^2.5.5",
+    "typedoc": "^0.28.10",
     "typescript": "^5.9.2"
   },
   "packageManager": "bun@1.2.19",

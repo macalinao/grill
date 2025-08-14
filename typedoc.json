@@ -1,0 +1,37 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPointStrategy": "packages",
+  "entryPoints": ["packages/*"],
+  "out": "docs",
+  "exclude": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "apps/**",
+    "**/tests/**",
+    "**/*.test.*"
+  ],
+  "packageOptions": {
+    "entryPoints": ["src/index.ts"]
+  },
+  "name": "@macalinao/grill",
+  "includeVersion": true,
+  "plugin": [],
+  "theme": "default",
+  "githubPages": false,
+  "navigation": {
+    "includeCategories": true,
+    "includeGroups": true,
+    "includeFolders": true
+  },
+  "navigationLinks": {
+    "GitHub": "https://github.com/macalinao/grill",
+    "NPM": "https://www.npmjs.com/org/macalinao"
+  },
+  "sort": ["kind", "instance-first", "alphabetical-ignoring-documents"],
+  "validation": {
+    "notExported": true,
+    "invalidLink": true,
+    "rewrittenLink": false,
+    "notDocumented": false
+  }
+}
