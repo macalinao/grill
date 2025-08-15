@@ -1,5 +1,15 @@
 # @macalinao/solana-batch-accounts-loader
 
+## 0.2.3
+
+### Patch Changes
+
+- 4e5efaa: Clean up dependencies and peer dependencies
+- 2cd4a4b: Move @types/bun into catalog
+- Updated dependencies [4e5efaa]
+- Updated dependencies [2cd4a4b]
+  - @macalinao/dataloader-es@0.2.3
+
 ## 0.2.2
 
 ### Patch Changes

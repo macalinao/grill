@@ -19,7 +19,7 @@
     },
     "apps/example-dapp": {
       "name": "example-dapp",
-      "version": "0.0.6",
+      "version": "0.0.7",
       "dependencies": {
         "@hookform/resolvers": "^5.2.1",
         "@macalinao/grill": "workspace:*",
@@ -77,7 +77,7 @@
     },
     "packages/codama-instruction-accounts-dedupe-visitor": {
       "name": "@macalinao/codama-instruction-accounts-dedupe-visitor",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "dependencies": {
         "@codama/nodes-from-anchor": "*",
         "codama": "*",
@@ -91,7 +91,7 @@
     },
     "packages/codama-renderers-js-esm": {
       "name": "@macalinao/codama-renderers-js-esm",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "dependencies": {
         "@codama/renderers-core": "*",
         "@codama/renderers-js": "*",
@@ -106,7 +106,7 @@
     },
     "packages/dataloader-es": {
       "name": "@macalinao/dataloader-es",
-      "version": "0.2.2",
+      "version": "0.2.3",
       "devDependencies": {
         "@macalinao/eslint-config": "catalog:",
         "@macalinao/tsconfig": "catalog:",
@@ -117,7 +117,7 @@
     },
     "packages/grill": {
       "name": "@macalinao/grill",
-      "version": "0.3.1",
+      "version": "0.3.2",
       "dependencies": {
         "@macalinao/dataloader-es": "workspace:*",
         "@macalinao/solana-batch-accounts-loader": "workspace:*",
@@ -148,7 +148,7 @@
     },
     "packages/grill-cli": {
       "name": "@macalinao/grill-cli",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "bin": {
         "grill": "./dist/bin/cli.js",
       },
@@ -169,7 +169,7 @@
     },
     "packages/solana-batch-accounts-loader": {
       "name": "@macalinao/solana-batch-accounts-loader",
-      "version": "0.2.2",
+      "version": "0.2.3",
       "dependencies": {
         "@macalinao/dataloader-es": "workspace:*",
         "lodash-es": "^4.17.21",
@@ -189,7 +189,7 @@
     },
     "packages/token-metadata-client": {
       "name": "@macalinao/token-metadata-client",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "devDependencies": {
         "@macalinao/eslint-config": "catalog:",
         "@macalinao/grill-cli": "workspace:*",
@@ -205,7 +205,7 @@
     },
     "packages/token-utils": {
       "name": "@macalinao/token-utils",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "dependencies": {
         "dnum": "^2.15.0",
       },
@@ -222,7 +222,7 @@
     },
     "packages/wallet-adapter-compat": {
       "name": "@macalinao/wallet-adapter-compat",
-      "version": "0.2.5",
+      "version": "0.2.6",
       "dependencies": {
         "@solana/webcrypto-ed25519-polyfill": "*",
         "tslib": "catalog:",
@@ -250,7 +250,7 @@
     },
     "packages/zod-solana": {
       "name": "@macalinao/zod-solana",
-      "version": "0.0.4",
+      "version": "0.0.5",
       "devDependencies": {
         "@macalinao/eslint-config": "catalog:",
         "@macalinao/tsconfig": "catalog:",

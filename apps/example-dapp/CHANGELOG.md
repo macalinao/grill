@@ -1,5 +1,17 @@
 # example-dapp
 
+## 0.0.7
+
+### Patch Changes
+
+- 4e5efaa: Clean up dependencies and peer dependencies
+- 2cd4a4b: Move @types/bun into catalog
+- Updated dependencies [64b4a18]
+- Updated dependencies [4e5efaa]
+- Updated dependencies [2cd4a4b]
+  - @macalinao/grill@0.3.2
+  - @macalinao/wallet-adapter-compat@0.2.6
+
 ## 0.0.6
 
 ### Patch Changes

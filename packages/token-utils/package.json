@@ -1,6 +1,6 @@
 {
   "name": "@macalinao/token-utils",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Token utility functions for Solana development",
   "license": "Apache-2.0",
   "author": "Ian Macalinao <me@ianm.com>",
