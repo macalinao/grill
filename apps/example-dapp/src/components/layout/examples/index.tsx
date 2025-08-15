@@ -58,7 +58,7 @@ export const ExamplesLayout: React.FC<ExamplesLayoutProps> = ({
   return (
     <SidebarProvider defaultOpen={true}>
       <div className={cn("flex h-full w-full", className)}>
-        <Sidebar variant="sidebar" collapsible="icon" topOffset={64}>
+        <Sidebar variant="sidebar" collapsible="icon" className="top-16">
           <SidebarHeader>
             <div className="px-3 py-2">
               <h2 className="text-lg font-semibold">Examples</h2>

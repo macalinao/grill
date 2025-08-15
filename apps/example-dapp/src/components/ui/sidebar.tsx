@@ -23,6 +23,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
+const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
 const SIDEBAR_WIDTH = "16rem";
 const SIDEBAR_WIDTH_MOBILE = "18rem";
 const SIDEBAR_WIDTH_ICON = "3rem";
@@ -67,14 +68,7 @@ function SidebarProvider({
 
   // This is the internal state of the sidebar.
   // We use openProp and setOpenProp for control from outside the component.
-  const [_open, _setOpen] = React.useState(() => {
-    try {
-      const stored = localStorage.getItem(SIDEBAR_COOKIE_NAME);
-      return stored !== null ? stored === "true" : defaultOpen;
-    } catch {
-      return defaultOpen;
-    }
-  });
+  const [_open, _setOpen] = React.useState(defaultOpen);
   const open = openProp ?? _open;
   const setOpen = React.useCallback(
     (value: boolean | ((value: boolean) => boolean)) => {
@@ -85,12 +79,9 @@ function SidebarProvider({
         _setOpen(openState);
       }
 
-      // Store the sidebar state in localStorage for persistence
-      try {
-        localStorage.setItem(SIDEBAR_COOKIE_NAME, String(openState));
-      } catch {
-        // Ignore localStorage errors (e.g., in private browsing mode)
-      }
+      // This sets the cookie to keep the sidebar state.
+      // biome-ignore lint/suspicious/noDocumentCookie: shadcn
+      document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState.toString()}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE.toString()}`;
     },
     [setOpenProp, open],
   );
@@ -168,7 +159,6 @@ function Sidebar({
   side = "left",
   variant = "sidebar",
   collapsible = "offcanvas",
-  topOffset = 0,
   className,
   children,
   ...props
@@ -176,7 +166,6 @@ function Sidebar({
   side?: "left" | "right";
   variant?: "sidebar" | "floating" | "inset";
   collapsible?: "offcanvas" | "icon" | "none";
-  topOffset?: number;
 }) {
   const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
 
@@ -244,7 +233,7 @@ function Sidebar({
       <div
         data-slot="sidebar-container"
         className={cn(
-          "fixed z-10 hidden w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear md:flex",
+          "fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear md:flex",
           side === "left"
             ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
             : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
@@ -254,10 +243,6 @@ function Sidebar({
             : "group-data-[collapsible=icon]:w-(--sidebar-width-icon) group-data-[side=left]:border-r group-data-[side=right]:border-l",
           className,
         )}
-        style={{
-          top: `${topOffset.toString()}px`,
-          height: `calc(100vh - ${topOffset.toString()}px)`,
-        }}
         {...props}
       >
         <div
@@ -627,7 +612,7 @@ function SidebarMenuSkeleton({
 }) {
   // Random width between 50 to 90%.
   const width = React.useMemo(() => {
-    return `${String(Math.floor(Math.random() * 40) + 50)}%`;
+    return `${(Math.floor(Math.random() * 40) + 50).toString()}%`;
   }, []);
 
   return (
@@ -741,4 +726,6 @@ export {
   SidebarRail,
   SidebarSeparator,
   SidebarTrigger,
+  // eslint-disable-next-line react-refresh/only-export-components
+  useSidebar,
 };
