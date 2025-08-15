@@ -42,26 +42,26 @@
     "lint": "eslint . --cache"
   },
   "dependencies": {
-    "@macalinao/grill": "workspace:*",
     "@solana/webcrypto-ed25519-polyfill": "*",
     "tslib": "catalog:"
   },
   "devDependencies": {
+    "@macalinao/grill": "workspace:*",
     "@macalinao/eslint-config": "catalog:",
     "@macalinao/eslint-config-react": "^3.1.2",
     "@macalinao/tsconfig": "catalog:",
     "@solana/web3.js": "^1.98.4",
-    "@types/node": "^24.2.1",
-    "@types/react": "^19.1.9",
-    "@types/react-dom": "^19.1.7",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
     "eslint": "catalog:",
     "typescript": "catalog:"
   },
   "peerDependencies": {
+    "@macalinao/grill": "workspace:*",
+    "@solana/web3.js": "^1.98.4",
     "@solana/kit": "catalog:",
     "@solana/wallet-adapter-base": "catalog:",
     "@solana/wallet-adapter-react": "catalog:",
-    "@tanstack/react-query": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:"
   },

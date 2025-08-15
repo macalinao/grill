@@ -50,9 +50,8 @@
   "devDependencies": {
     "@macalinao/eslint-config": "catalog:",
     "@macalinao/tsconfig": "catalog:",
-    "@types/bun": "^1.2.19",
+    "@types/bun": "catalog:",
     "@types/lodash-es": "^4.17.12",
-    "@types/node": "^24.2.1",
     "eslint": "catalog:",
     "typescript": "catalog:"
   },

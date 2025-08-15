@@ -45,8 +45,7 @@
   "devDependencies": {
     "@macalinao/eslint-config": "catalog:",
     "@macalinao/tsconfig": "catalog:",
-    "@types/bun": "^1.2.19",
-    "@types/node": "^24.2.1",
+    "@types/bun": "catalog:",
     "eslint": "catalog:",
     "typescript": "catalog:"
   },
