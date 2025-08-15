@@ -222,7 +222,6 @@
         "@solana/wallet-adapter-base": "catalog:",
         "@solana/wallet-adapter-react": "catalog:",
         "@solana/web3.js": "^1.98.4",
-        "@tanstack/react-query": "catalog:",
         "react": "catalog:",
         "react-dom": "catalog:",
       },

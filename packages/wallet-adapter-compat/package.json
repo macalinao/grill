@@ -60,7 +60,6 @@
     "@solana/kit": "catalog:",
     "@solana/wallet-adapter-base": "catalog:",
     "@solana/wallet-adapter-react": "catalog:",
-    "@tanstack/react-query": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:"
   },
