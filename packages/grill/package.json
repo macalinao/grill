@@ -62,7 +62,7 @@
     "@macalinao/tsconfig": "catalog:",
     "@tanstack/react-query": "catalog:",
     "@testing-library/react": "^16.3.0",
-    "@types/bun": "^1.2.20",
+    "@types/bun": "catalog:",
     "@types/react": "^19.1.10",
     "typescript": "catalog:"
   },

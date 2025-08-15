@@ -45,10 +45,10 @@
     "dnum": "^2.15.0"
   },
   "devDependencies": {
-    "@solana/kit": "catalog:",
     "@macalinao/eslint-config": "catalog:",
     "@macalinao/tsconfig": "catalog:",
-    "@types/bun": "^1.2.19",
+    "@solana/kit": "catalog:",
+    "@types/bun": "catalog:",
     "typescript": "catalog:"
   },
   "peerDependencies": {

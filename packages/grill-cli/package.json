@@ -50,12 +50,12 @@
     "@codama/nodes-from-anchor": "*",
     "@macalinao/codama-renderers-js-esm": "workspace:*",
     "codama": "*",
-    "commander": "^12.1.0"
+    "commander": "^14.0.0"
   },
   "devDependencies": {
     "@macalinao/eslint-config": "catalog:",
     "@macalinao/tsconfig": "catalog:",
-    "@types/bun": "^1.2.20",
+    "@types/bun": "catalog:",
     "@types/node": "^24.2.1",
     "eslint": "catalog:",
     "typescript": "catalog:"

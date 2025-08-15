@@ -49,7 +49,7 @@
     "@macalinao/eslint-config": "catalog:",
     "@macalinao/tsconfig": "catalog:",
     "@solana/kit": "catalog:",
-    "@types/bun": "^1.2.20",
+    "@types/bun": "catalog:",
     "eslint": "catalog:",
     "typescript": "catalog:",
     "zod": "^4.0.17"
