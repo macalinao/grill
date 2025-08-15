@@ -1,5 +1,11 @@
 # @macalinao/token-utils
 
+## 0.1.2
+
+### Patch Changes
+
+- 2cd4a4b: Move @types/bun into catalog
+
 ## 0.1.1
 
 ### Patch Changes

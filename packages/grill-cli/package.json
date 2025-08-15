@@ -1,6 +1,6 @@
 {
   "name": "@macalinao/grill-cli",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Zero-config CLI for generating clients for Solana programs",
   "type": "module",
   "sideEffects": false,

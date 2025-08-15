@@ -1,5 +1,12 @@
 # @macalinao/dataloader-es
 
+## 0.2.3
+
+### Patch Changes
+
+- 4e5efaa: Clean up dependencies and peer dependencies
+- 2cd4a4b: Move @types/bun into catalog
+
 ## 0.2.2
 
 ### Patch Changes

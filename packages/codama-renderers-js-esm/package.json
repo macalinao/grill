@@ -1,6 +1,6 @@
 {
   "name": "@macalinao/codama-renderers-js-esm",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "ESM-native TypeScript renderer for Codama JavaScript code generation",
   "type": "module",
   "sideEffects": false,

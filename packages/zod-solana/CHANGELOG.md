@@ -1,5 +1,12 @@
 # @macalinao/zod-solana
 
+## 0.0.5
+
+### Patch Changes
+
+- 4e5efaa: Clean up dependencies and peer dependencies
+- 2cd4a4b: Move @types/bun into catalog
+
 ## 0.0.4
 
 ### Patch Changes

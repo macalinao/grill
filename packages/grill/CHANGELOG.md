@@ -1,5 +1,20 @@
 # @macalinao/grill
 
+## 0.3.2
+
+### Patch Changes
+
+- 64b4a18: Fix src/ directory not being included in Grill
+- 4e5efaa: Clean up dependencies and peer dependencies
+- 2cd4a4b: Move @types/bun into catalog
+- Updated dependencies [4e5efaa]
+- Updated dependencies [2cd4a4b]
+  - @macalinao/solana-batch-accounts-loader@0.2.3
+  - @macalinao/token-metadata-client@0.1.2
+  - @macalinao/dataloader-es@0.2.3
+  - @macalinao/zod-solana@0.0.5
+  - @macalinao/token-utils@0.1.2
+
 ## 0.3.1
 
 ### Patch Changes

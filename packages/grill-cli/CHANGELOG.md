@@ -1,5 +1,15 @@
 # @macalinao/grill-cli
 
+## 0.1.2
+
+### Patch Changes
+
+- 4e5efaa: Clean up dependencies and peer dependencies
+- 2cd4a4b: Move @types/bun into catalog
+- Updated dependencies [4e5efaa]
+- Updated dependencies [2cd4a4b]
+  - @macalinao/codama-renderers-js-esm@0.1.1
+
 ## 0.1.1
 
 ### Patch Changes
