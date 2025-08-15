@@ -47,8 +47,8 @@
     "@solana/kit": "*"
   },
   "devDependencies": {
-    "@macalinao/grill-cli": "workspace:*",
     "@macalinao/eslint-config": "catalog:",
+    "@macalinao/grill-cli": "workspace:*",
     "@macalinao/tsconfig": "catalog:",
     "@solana/kit": "*",
     "codama": "*",

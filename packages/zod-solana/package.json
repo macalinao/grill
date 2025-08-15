@@ -48,10 +48,10 @@
     "@macalinao/eslint-config": "catalog:",
     "@macalinao/tsconfig": "catalog:",
     "@solana/kit": "catalog:",
-    "@types/bun": "^1.2.19",
+    "@types/bun": "^1.2.20",
     "eslint": "catalog:",
     "typescript": "catalog:",
-    "zod": "^4"
+    "zod": "^4.0.17"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}": [
