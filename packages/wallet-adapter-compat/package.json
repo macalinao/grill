@@ -46,6 +46,7 @@
     "tslib": "catalog:"
   },
   "devDependencies": {
+    "@macalinao/grill": "workspace:*",
     "@macalinao/eslint-config": "catalog:",
     "@macalinao/eslint-config-react": "^3.1.2",
     "@macalinao/tsconfig": "catalog:",

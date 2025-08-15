@@ -211,14 +211,12 @@
       },
       "devDependencies": {
         "@macalinao/eslint-config": "catalog:",
-        "@macalinao/grill": "workspace:*",
         "@macalinao/tsconfig": "catalog:",
         "@solana/kit": "catalog:",
         "@types/bun": "catalog:",
         "typescript": "catalog:",
       },
       "peerDependencies": {
-        "@macalinao/grill": "workspace:*",
         "@solana/kit": "catalog:",
       },
     },
@@ -232,6 +230,7 @@
       "devDependencies": {
         "@macalinao/eslint-config": "catalog:",
         "@macalinao/eslint-config-react": "^3.1.2",
+        "@macalinao/grill": "workspace:*",
         "@macalinao/tsconfig": "catalog:",
         "@solana/web3.js": "^1.98.4",
         "@types/react": "catalog:",
