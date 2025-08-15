@@ -211,12 +211,14 @@
       },
       "devDependencies": {
         "@macalinao/eslint-config": "catalog:",
+        "@macalinao/grill": "workspace:*",
         "@macalinao/tsconfig": "catalog:",
         "@solana/kit": "catalog:",
         "@types/bun": "catalog:",
         "typescript": "catalog:",
       },
       "peerDependencies": {
+        "@macalinao/grill": "workspace:*",
         "@solana/kit": "catalog:",
       },
     },

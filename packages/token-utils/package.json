@@ -45,6 +45,7 @@
     "dnum": "^2.15.0"
   },
   "devDependencies": {
+    "@macalinao/grill": "workspace:*",
     "@macalinao/eslint-config": "catalog:",
     "@macalinao/tsconfig": "catalog:",
     "@solana/kit": "catalog:",
@@ -52,6 +53,7 @@
     "typescript": "catalog:"
   },
   "peerDependencies": {
+    "@macalinao/grill": "workspace:*",
     "@solana/kit": "catalog:"
   },
   "lint-staged": {
