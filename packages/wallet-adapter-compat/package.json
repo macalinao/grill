@@ -1,8 +1,9 @@
 {
   "name": "@macalinao/wallet-adapter-compat",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Compatibility layer that bridges @solana/wallet-adapter with @solana/kit and grill",
   "type": "module",
+  "sideEffects": false,
   "author": "Ian Macalinao <me@ianm.com>",
   "homepage": "https://grill.ianm.com",
   "license": "Apache-2.0",

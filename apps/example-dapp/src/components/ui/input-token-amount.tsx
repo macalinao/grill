@@ -1,8 +1,8 @@
+import type { TokenInfo } from "@macalinao/grill";
 import type * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import type { TokenInfo } from "@/types/token";
 
 export interface InputTokenAmountProps {
   token: TokenInfo;
@@ -56,9 +56,9 @@ export const InputTokenAmount: React.FC<InputTokenAmountProps> = ({
     <div className={cn("relative", className)}>
       <div className="flex items-center space-x-3 rounded-md border border-input bg-transparent p-3 shadow-sm transition-colors focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]">
         <div className="flex items-center space-x-2 min-w-0 flex-1">
-          {token.icon && (
+          {token.iconURL && (
             <img
-              src={token.icon}
+              src={token.iconURL}
               alt={token.symbol}
               className="w-6 h-6 rounded-full flex-shrink-0"
               onError={(e) => {

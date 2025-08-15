@@ -1,32 +1,30 @@
 {
-  "name": "@macalinao/solana-batch-accounts-loader",
-  "version": "0.2.2",
-  "description": "Efficient batch account loading for Solana using DataLoader and @solana/kit",
-  "type": "module",
-  "sideEffects": false,
+  "name": "@macalinao/token-utils",
+  "version": "0.1.1",
+  "description": "Token utility functions for Solana development",
+  "license": "Apache-2.0",
   "author": "Ian Macalinao <me@ianm.com>",
   "homepage": "https://grill.ianm.com",
-  "license": "Apache-2.0",
   "keywords": [
     "solana",
-    "dataloader",
-    "batching",
-    "rpc",
-    "accounts",
-    "blockchain",
-    "web3"
+    "token",
+    "utilities",
+    "dnum",
+    "formatting"
   ],
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
     }
   },
   "files": [
-    "dist/",
-    "src/"
+    "dist"
   ],
   "publishConfig": {
     "access": "public"
@@ -34,25 +32,23 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/macalinao/grill.git",
-    "directory": "packages/solana-batch-accounts-loader"
+    "directory": "packages/token-utils"
   },
   "scripts": {
     "build": "tsc",
-    "clean": "rm -fr dist/",
-    "lint": "eslint . --cache",
-    "test": "bun test src/"
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test"
   },
   "dependencies": {
-    "@macalinao/dataloader-es": "workspace:*",
-    "lodash-es": "^4.17.21",
-    "tslib": "catalog:"
+    "dnum": "^2.15.0"
   },
   "devDependencies": {
+    "@solana/kit": "catalog:",
     "@macalinao/eslint-config": "catalog:",
     "@macalinao/tsconfig": "catalog:",
-    "@types/bun": "^1.2.20",
-    "@types/lodash-es": "^4.17.12",
-    "eslint": "catalog:",
+    "@types/bun": "^1.2.19",
     "typescript": "catalog:"
   },
   "peerDependencies": {

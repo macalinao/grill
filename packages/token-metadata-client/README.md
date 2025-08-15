@@ -1,5 +1,7 @@
 # @macalinao/token-metadata-client
 
+[![npm version](https://img.shields.io/npm/v/@macalinao/token-metadata-client.svg)](https://www.npmjs.com/package/@macalinao/token-metadata-client)
+
 TypeScript client for the Metaplex Token Metadata program, generated using Codama with full ESM support.
 
 ## Installation

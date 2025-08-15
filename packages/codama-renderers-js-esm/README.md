@@ -1,5 +1,7 @@
 # @macalinao/codama-renderers-js-esm
 
+[![npm version](https://img.shields.io/npm/v/@macalinao/codama-renderers-js-esm.svg)](https://www.npmjs.com/package/@macalinao/codama-renderers-js-esm)
+
 ESM-native TypeScript renderer for [Codama](https://github.com/codama-idl/codama) JavaScript code generation. This package extends `@codama/renderers-js` to produce fully ESM-compatible TypeScript/JavaScript code.
 
 ## Why This Package Exists

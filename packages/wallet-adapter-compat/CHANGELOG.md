@@ -1,5 +1,13 @@
 # @macalinao/wallet-adapter-compat
 
+## 0.2.5
+
+### Patch Changes
+
+- c7eb4a2: Add sideEffects: false to pacakges
+- Updated dependencies [c7eb4a2]
+  - @macalinao/grill@0.3.1
+
 ## 0.2.4
 
 ### Patch Changes

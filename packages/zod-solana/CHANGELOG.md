@@ -1,5 +1,11 @@
 # @macalinao/zod-solana
 
+## 0.0.4
+
+### Patch Changes
+
+- c7eb4a2: Add sideEffects: false to pacakges
+
 ## 0.0.3
 
 ### Patch Changes

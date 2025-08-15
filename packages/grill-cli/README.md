@@ -1,5 +1,7 @@
 # @macalinao/grill-cli
 
+[![npm version](https://img.shields.io/npm/v/@macalinao/grill-cli.svg)](https://www.npmjs.com/package/@macalinao/grill-cli)
+
 Generate TypeScript clients for Solana programs from Anchor IDLs. Zero config, ESM-native, with automatic account batching support.
 
 ## Installation

@@ -1,5 +1,7 @@
 # @macalinao/zod-solana
 
+[![npm version](https://img.shields.io/npm/v/@macalinao/zod-solana.svg)](https://www.npmjs.com/package/@macalinao/zod-solana)
+
 Zod schemas for Solana types with @solana/kit integration. Provides type-safe validation and transformation for Solana addresses.
 
 ## Installation

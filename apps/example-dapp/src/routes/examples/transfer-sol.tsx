@@ -1,6 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   addressSchema,
+  formatTokenAmount,
+  NATIVE_SOL,
+  parseTokenAmount,
   useAccount,
   useKitWallet,
   useSendTX,
@@ -25,7 +28,6 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { InputTokenAmount } from "@/components/ui/input-token-amount";
-import type { TokenInfo } from "@/types/token";
 
 export const Route = createFileRoute("/examples/transfer-sol")({
   component: () => <TransferSolPage />,
@@ -61,14 +63,6 @@ const TransferSolPage: React.FC = () => {
     address: signer?.address ?? null,
   });
 
-  // SOL token info
-  const solToken: TokenInfo = {
-    address: "11111111111111111111111111111111",
-    symbol: "SOL",
-    decimals: 9,
-    name: "Solana",
-  };
-
   const {
     register,
     handleSubmit,
@@ -93,6 +87,17 @@ const TransferSolPage: React.FC = () => {
     return Number(userAccount.lamports) / 1e9;
   }, [userAccount]);
 
+  const availableBalanceFormatted = useMemo(() => {
+    if (!userAccount) {
+      return "0";
+    }
+    const tokenAmount = {
+      token: NATIVE_SOL,
+      amount: [userAccount.lamports, NATIVE_SOL.decimals] as const,
+    };
+    return formatTokenAmount(tokenAmount, { symbol: true });
+  }, [userAccount]);
+
   const estimatedFee = 0.000005; // ~5000 lamports
 
   const totalCost = useMemo(() => {
@@ -108,6 +113,9 @@ const TransferSolPage: React.FC = () => {
 
     // The recipient is already an Address type from the zod schema
     const recipientAddress: Address = data.recipient;
+
+    // Parse the amount using parseTokenAmount
+    const parsedAmount = parseTokenAmount(NATIVE_SOL, data.amount);
     const amount = Number.parseFloat(data.amount);
 
     // Check balance
@@ -120,7 +128,7 @@ const TransferSolPage: React.FC = () => {
     const instruction = getTransferSolInstruction({
       source: signer,
       destination: recipientAddress,
-      amount: lamports(BigInt(Math.floor(amount * 1e9))),
+      amount: lamports(parsedAmount.amount[0]),
     });
 
     const signature = await sendTX(`Transfer ${amount.toString()} SOL`, [
@@ -196,7 +204,7 @@ const TransferSolPage: React.FC = () => {
                 Amount to Send
               </label>
               <InputTokenAmount
-                token={solToken}
+                token={NATIVE_SOL}
                 value={watch("amount")}
                 onChange={(value) => {
                   setValue("amount", value);
@@ -219,9 +227,7 @@ const TransferSolPage: React.FC = () => {
                   <span className="text-muted-foreground">
                     Available Balance:
                   </span>
-                  <span className="font-mono">
-                    {availableBalance.toFixed(9)} SOL
-                  </span>
+                  <span className="font-mono">{availableBalanceFormatted}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Amount to Send:</span>
