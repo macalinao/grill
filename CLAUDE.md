@@ -40,6 +40,9 @@ bun test                    # Run tests directly
 bun run changeset           # Create changeset for version bumps
 bun run ci:publish          # Publish packages to npm
 
+# Coda (Code generation)
+coda generate               # Generate type-safe clients from Anchor IDLs (run directly, no npx/bunx)
+
 # Example App Development
 cd apps/example-dapp
 bun run dev                 # Start Vite dev server
