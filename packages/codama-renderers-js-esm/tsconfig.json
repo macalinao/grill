@@ -1,6 +1,0 @@
-{
-  "extends": "@macalinao/tsconfig/tsconfig.dom.json",
-  "compilerOptions": {
-    "types": ["bun-types"]
-  }
-}

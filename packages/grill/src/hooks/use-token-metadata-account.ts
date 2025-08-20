@@ -1,8 +1,8 @@
-import type { Metadata } from "@macalinao/token-metadata-client";
+import type { Metadata } from "@macalinao/clients-token-metadata";
 import {
   findMetadataPda,
   getMetadataDecoder,
-} from "@macalinao/token-metadata-client";
+} from "@macalinao/clients-token-metadata";
 import type { Account, Address } from "@solana/kit";
 import type { UseQueryResult } from "@tanstack/react-query";
 import { createPdaHook } from "./create-pda-hook.js";
