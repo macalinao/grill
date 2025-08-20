@@ -1,5 +1,11 @@
 # @macalinao/grill
 
+## 0.4.0
+
+### Minor Changes
+
+- 35a7d46: Use @macalinao/clients-token-metadata instead
+
 ## 0.3.2
 
 ### Patch Changes
