@@ -1,6 +1,6 @@
+import { describe, expect, test } from "bun:test";
 import { createKeyPairFromPrivateKeyBytes } from "@solana/keys";
 import { createKeyPairSignerFromPrivateKeyBytes } from "@solana/kit";
-import { describe, expect, test } from "vitest";
 import { jsonUint8ArraySchema, uint8ArraySchema } from "./uint8array-schema.js";
 
 describe("uint8ArraySchema", () => {
@@ -227,9 +227,7 @@ describe("integration with createKeyPairFromPrivateKeyBytes", () => {
 
     // Check arrays are identical
     expect(fromArray.length).toBe(fromJson.length);
-    for (let i = 0; i < fromArray.length; i++) {
-      expect(fromArray[i]).toBe(fromJson[i]);
-    }
+    expect(Array.from(fromArray)).toEqual(Array.from(fromJson));
 
     // Create keypairs and verify they're the same
     const keypair1 = await createKeyPairFromPrivateKeyBytes(fromArray);
@@ -244,11 +242,11 @@ describe("integration with createKeyPairFromPrivateKeyBytes", () => {
     // Too short
     expect(() => uint8ArraySchema.parse([1, 2, 3])).not.toThrow();
     const shortArray = uint8ArraySchema.parse([1, 2, 3]);
-    void expect(createKeyPairFromPrivateKeyBytes(shortArray)).rejects.toThrow();
+    expect(createKeyPairFromPrivateKeyBytes(shortArray)).rejects.toThrow();
 
     // Too long
     const longArray = uint8ArraySchema.parse(Array(65).fill(0));
-    void expect(createKeyPairFromPrivateKeyBytes(longArray)).rejects.toThrow();
+    expect(createKeyPairFromPrivateKeyBytes(longArray)).rejects.toThrow();
   });
 
   test("handles real-world use case with environment variable", async () => {
@@ -317,9 +315,7 @@ describe("integration with createKeyPairSignerFromBytes", () => {
     // Verify both schemas produce identical arrays for same data
     const fromArray = uint8ArraySchema.parse(fake64ByteArray);
     expect(fromArray.length).toBe(uint8Array.length);
-    for (let i = 0; i < fromArray.length; i++) {
-      expect(fromArray[i]).toBe(uint8Array[i]);
-    }
+    expect(Array.from(fromArray)).toEqual(Array.from(uint8Array));
   });
 
   test("schema validates different array sizes for keypair use cases", () => {
