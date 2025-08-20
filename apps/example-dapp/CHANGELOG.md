@@ -1,5 +1,12 @@
 # example-dapp
 
+## 0.0.9
+
+### Patch Changes
+
+- @macalinao/grill@0.4.1
+- @macalinao/wallet-adapter-compat@1.0.1
+
 ## 0.0.8
 
 ### Patch Changes

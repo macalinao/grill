@@ -1,5 +1,13 @@
 # @macalinao/grill
 
+## 0.4.1
+
+### Patch Changes
+
+- Updated dependencies [912b622]
+- Updated dependencies [5c893a9]
+  - @macalinao/zod-solana@0.1.0
+
 ## 0.4.0
 
 ### Minor Changes
