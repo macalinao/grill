@@ -188,6 +188,7 @@
       "devDependencies": {
         "@macalinao/eslint-config": "catalog:",
         "@macalinao/tsconfig": "catalog:",
+        "@solana/keys": "^2.0.0",
         "@solana/kit": "catalog:",
         "@types/bun": "catalog:",
         "eslint": "catalog:",
