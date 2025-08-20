@@ -9,3 +9,4 @@ export { u16Schema } from "./u16-schema.js";
 export { u32Schema } from "./u32-schema.js";
 export { u64Schema } from "./u64-schema.js";
 export { u64StringSchema } from "./u64-string-schema.js";
+export { jsonUint8ArraySchema, uint8ArraySchema } from "./uint8array-schema.js";
