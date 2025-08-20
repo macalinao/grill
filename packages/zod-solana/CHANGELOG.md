@@ -1,5 +1,12 @@
 # @macalinao/zod-solana
 
+## 0.1.0
+
+### Minor Changes
+
+- 912b622: Add uint8array support
+- 5c893a9: Add unsigned int schemas
+
 ## 0.0.5
 
 ### Patch Changes
