@@ -11,11 +11,7 @@
       "dependsOn": ["^build"]
     },
     "test": {
-      "dependsOn": ["build"],
-      "cache": false
-    },
-    "test:run": {
-      "dependsOn": ["build"],
+      "dependsOn": ["^build"],
       "cache": false
     }
   }
