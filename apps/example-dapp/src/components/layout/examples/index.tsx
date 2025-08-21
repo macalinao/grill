@@ -1,5 +1,11 @@
 import { Link, Outlet, useLocation } from "@tanstack/react-router";
-import { ArrowRight, Coins, Database, LayoutDashboard } from "lucide-react";
+import {
+  ArrowRight,
+  Coins,
+  Database,
+  LayoutDashboard,
+  Zap,
+} from "lucide-react";
 import type * as React from "react";
 import {
   Sidebar,
@@ -47,6 +53,11 @@ const exampleNavItems: ExampleNavItem[] = [
     title: "Token Information",
     href: "/examples/tokens",
     icon: Database,
+  },
+  {
+    title: "Batch Accounts",
+    href: "/examples/batch-accounts",
+    icon: Zap,
   },
 ];
 
