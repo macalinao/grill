@@ -1,5 +1,14 @@
 # @macalinao/grill
 
+## 0.4.2
+
+### Patch Changes
+
+- 6ca32bc: Fix src/ not being included in packages
+- Updated dependencies [6ca32bc]
+- Updated dependencies [6eb3aa0]
+  - @macalinao/token-utils@0.1.3
+
 ## 0.4.1
 
 ### Patch Changes
