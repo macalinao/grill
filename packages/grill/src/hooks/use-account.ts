@@ -1,4 +1,4 @@
-import type { QueryKey, UseQueryResult } from "@tanstack/react-query";
+import type { UseQueryResult } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 import type {
   Account,
@@ -7,9 +7,11 @@ import type {
   FetchAccountConfig,
   Simplify,
 } from "gill";
-import { decodeAccount } from "gill";
-import { GRILL_HOOK_CLIENT_KEY } from "../constants.js";
 import { useGrillContext } from "../contexts/grill-context.js";
+import {
+  createAccountQueryKey,
+  fetchAndDecodeAccount,
+} from "../utils/account-helpers.js";
 import type { GillUseRpcHook } from "./types.js";
 
 type RpcConfig = Simplify<Omit<FetchAccountConfig, "abortSignal">>;
@@ -31,16 +33,7 @@ type UseAccountInput<
 };
 
 /**
- * Create a query key for the account query
- * @param address - The address of the account
- * @returns The query key
- */
-export const createAccountQueryKey = (address: Address): QueryKey =>
-  [GRILL_HOOK_CLIENT_KEY, "account", address] as const;
-
-/**
- * Get the account info for an address using the Solana RPC method of
- * [`getAccountInfo`](https://solana.com/docs/rpc/http/getaccountinfo)
+ * Get the account info for an address. Concurrent queries are batched using a DataLoader.
  */
 export function useAccount<
   TConfig extends RpcConfig = RpcConfig,
@@ -61,19 +54,7 @@ export function useAccount<
     ...options,
     // eslint-disable-next-line @tanstack/query/exhaustive-deps
     queryKey: address ? createAccountQueryKey(address) : [null],
-    queryFn: async (): Promise<Account<TDecodedData> | null> => {
-      if (!address) {
-        return null;
-      }
-      const account = await accountLoader.load(address);
-      if (!account) {
-        return null;
-      }
-      if (decoder) {
-        return decodeAccount(account, decoder);
-      }
-      return account as Account<TDecodedData>;
-    },
+    queryFn: () => fetchAndDecodeAccount(address, accountLoader, decoder),
     enabled: !!address,
   }) as UseQueryResult<Account<TDecodedData> | null>;
 }

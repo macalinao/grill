@@ -1,6 +1,7 @@
 export * from "./create-decoded-account-hook.js";
 export * from "./create-pda-hook.js";
 export * from "./use-account.js";
+export * from "./use-accounts.js";
 export * from "./use-associated-token-account.js";
 export * from "./use-associated-token-pda.js";
 export { useConnectedWallet } from "./use-connected-wallet.js";
