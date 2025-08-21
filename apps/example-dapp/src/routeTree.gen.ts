@@ -16,6 +16,7 @@ import { Route as ExamplesWrappedSolRouteImport } from "./routes/examples/wrappe
 import { Route as ExamplesTransferSolRouteImport } from "./routes/examples/transfer-sol.tsx"
 import { Route as ExamplesTokensRouteImport } from "./routes/examples/tokens.tsx"
 import { Route as ExamplesDashboardRouteImport } from "./routes/examples/dashboard.tsx"
+import { Route as ExamplesBatchAccountsRouteImport } from "./routes/examples/batch-accounts.tsx"
 
 const ExamplesRoute = ExamplesRouteImport.update({
   id: "/examples",
@@ -52,10 +53,16 @@ const ExamplesDashboardRoute = ExamplesDashboardRouteImport.update({
   path: "/dashboard",
   getParentRoute: () => ExamplesRoute,
 } as any)
+const ExamplesBatchAccountsRoute = ExamplesBatchAccountsRouteImport.update({
+  id: "/batch-accounts",
+  path: "/batch-accounts",
+  getParentRoute: () => ExamplesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   "/": typeof IndexRoute
   "/examples": typeof ExamplesRouteWithChildren
+  "/examples/batch-accounts": typeof ExamplesBatchAccountsRoute
   "/examples/dashboard": typeof ExamplesDashboardRoute
   "/examples/tokens": typeof ExamplesTokensRoute
   "/examples/transfer-sol": typeof ExamplesTransferSolRoute
@@ -64,6 +71,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   "/": typeof IndexRoute
+  "/examples/batch-accounts": typeof ExamplesBatchAccountsRoute
   "/examples/dashboard": typeof ExamplesDashboardRoute
   "/examples/tokens": typeof ExamplesTokensRoute
   "/examples/transfer-sol": typeof ExamplesTransferSolRoute
@@ -74,6 +82,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   "/": typeof IndexRoute
   "/examples": typeof ExamplesRouteWithChildren
+  "/examples/batch-accounts": typeof ExamplesBatchAccountsRoute
   "/examples/dashboard": typeof ExamplesDashboardRoute
   "/examples/tokens": typeof ExamplesTokensRoute
   "/examples/transfer-sol": typeof ExamplesTransferSolRoute
@@ -85,6 +94,7 @@ export interface FileRouteTypes {
   fullPaths:
     | "/"
     | "/examples"
+    | "/examples/batch-accounts"
     | "/examples/dashboard"
     | "/examples/tokens"
     | "/examples/transfer-sol"
@@ -93,6 +103,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | "/"
+    | "/examples/batch-accounts"
     | "/examples/dashboard"
     | "/examples/tokens"
     | "/examples/transfer-sol"
@@ -102,6 +113,7 @@ export interface FileRouteTypes {
     | "__root__"
     | "/"
     | "/examples"
+    | "/examples/batch-accounts"
     | "/examples/dashboard"
     | "/examples/tokens"
     | "/examples/transfer-sol"
@@ -165,10 +177,18 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof ExamplesDashboardRouteImport
       parentRoute: typeof ExamplesRoute
     }
+    "/examples/batch-accounts": {
+      id: "/examples/batch-accounts"
+      path: "/batch-accounts"
+      fullPath: "/examples/batch-accounts"
+      preLoaderRoute: typeof ExamplesBatchAccountsRouteImport
+      parentRoute: typeof ExamplesRoute
+    }
   }
 }
 
 interface ExamplesRouteChildren {
+  ExamplesBatchAccountsRoute: typeof ExamplesBatchAccountsRoute
   ExamplesDashboardRoute: typeof ExamplesDashboardRoute
   ExamplesTokensRoute: typeof ExamplesTokensRoute
   ExamplesTransferSolRoute: typeof ExamplesTransferSolRoute
@@ -177,6 +197,7 @@ interface ExamplesRouteChildren {
 }
 
 const ExamplesRouteChildren: ExamplesRouteChildren = {
+  ExamplesBatchAccountsRoute: ExamplesBatchAccountsRoute,
   ExamplesDashboardRoute: ExamplesDashboardRoute,
   ExamplesTokensRoute: ExamplesTokensRoute,
   ExamplesTransferSolRoute: ExamplesTransferSolRoute,

@@ -2,6 +2,17 @@ import { useQuery } from "@tanstack/react-query";
 import { GRILL_HOOK_CLIENT_KEY } from "../constants.js";
 
 /**
+ * A function that computes a PDA from some arguments.
+ */
+export type PdaFn<TArgs, TResult> = (
+  args: TArgs,
+) => Promise<readonly [TResult, number]>;
+
+export type PdaHook<TArgs, TResult> = (
+  args: TArgs | null | undefined,
+) => TResult | null | undefined;
+
+/**
  * Creates a hook for computing PDAs (Program Derived Addresses) with caching
  *
  * @param pdaFn - A function that computes a PDA from some arguments
@@ -26,9 +37,9 @@ import { GRILL_HOOK_CLIENT_KEY } from "../constants.js";
  * ```
  */
 export function createPdaHook<TArgs, TResult>(
-  pdaFn: (args: TArgs) => Promise<readonly [TResult, number]>,
+  pdaFn: PdaFn<TArgs, TResult>,
   queryKeyPrefix: string,
-) {
+): PdaHook<TArgs, TResult> {
   return function usePda(
     args: TArgs | null | undefined,
   ): TResult | null | undefined {
