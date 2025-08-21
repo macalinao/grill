@@ -1,7 +1,7 @@
-import { useAccount, useAccounts, useConnectedWallet } from "@macalinao/grill";
+import { useAccount, useAccounts } from "@macalinao/grill";
 import { address } from "@solana/kit";
 import { createFileRoute } from "@tanstack/react-router";
-import { AlertCircle, Coins, Loader2, Zap } from "lucide-react";
+import { Coins, Loader2, Zap } from "lucide-react";
 import { useMemo } from "react";
 import {
   Card,
@@ -187,8 +187,7 @@ const BatchAccountsComparison: React.FC = () => {
 };
 
 const IndividualFetching: React.FC = () => {
-  // For comparison, show what it would look like with individual hooks
-  // (Note: This would result in multiple RPC calls without batching)
+  // Multiple useAccount hooks also benefit from automatic batching
   const token1 = useAccount({
     address: COMMON_TOKENS[0]?.mint,
   });
@@ -203,13 +202,14 @@ const IndividualFetching: React.FC = () => {
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle>Individual Fetching (useAccount)</CardTitle>
+          <CardTitle>Multiple useAccount Hooks</CardTitle>
           <div className="rounded-md border px-2 py-1 text-xs font-medium">
-            3+ RPC Calls (without batching)
+            Also batched automatically!
           </div>
         </div>
         <CardDescription>
-          Using individual useAccount hooks - less efficient without batching
+          Using individual useAccount hooks - these are also automatically
+          batched
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -275,95 +275,78 @@ const IndividualFetching: React.FC = () => {
 };
 
 function BatchAccountsPage() {
-  const { address: walletAddress } = useConnectedWallet();
-
   return (
     <div className="container mx-auto py-6">
       <div className="mb-6">
         <h1 className="text-3xl font-bold">Batch Account Fetching</h1>
         <p className="text-muted-foreground mt-2">
-          Demonstrates the power of useAccounts hook for fetching multiple
-          accounts efficiently with automatic batching via DataLoader.
+          Demonstrates how both useAccounts and useAccount hooks automatically
+          batch multiple account requests via DataLoader for improved
+          performance.
         </p>
       </div>
 
-      {!walletAddress ? (
-        <Card className="border-yellow-200 bg-yellow-50">
+      <div className="space-y-6">
+        <Card className="border-blue-200 bg-blue-50">
           <CardHeader>
-            <div className="flex items-center gap-2">
-              <AlertCircle className="h-5 w-5 text-yellow-600" />
-              <CardTitle className="text-lg">Connect Your Wallet</CardTitle>
-            </div>
+            <CardTitle className="text-lg">How it works</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">
-              Please connect your wallet to see batch account fetching in
-              action. The example will check for common token accounts in your
-              wallet.
+            <p className="text-sm">
+              Both <code className="font-mono text-sm">useAccounts</code> and{" "}
+              <code className="font-mono text-sm">useAccount</code> hooks
+              automatically batch multiple account requests into a single RPC
+              call using DataLoader. When multiple components use these hooks
+              concurrently, all requests are coalesced into efficient batched
+              RPC calls.
             </p>
           </CardContent>
         </Card>
-      ) : (
-        <div className="space-y-6">
-          <Card className="border-blue-200 bg-blue-50">
-            <CardHeader>
-              <CardTitle className="text-lg">How it works</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm">
-                The <code className="font-mono text-sm">useAccounts</code> hook
-                automatically batches multiple account requests into a single
-                RPC call using DataLoader. This significantly improves
-                performance when fetching many accounts at once.
-              </p>
-            </CardContent>
-          </Card>
 
-          <div className="grid gap-6 lg:grid-cols-2">
-            <BatchAccountsComparison />
-            <IndividualFetching />
-          </div>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Performance Benefits</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-2 text-sm">
-                <li className="flex items-start gap-2">
-                  <span className="text-primary">•</span>
-                  <span>
-                    <strong>Automatic Batching:</strong> All{" "}
-                    {COMMON_TOKENS.length} account requests are combined into a
-                    single RPC call
-                  </span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-primary">•</span>
-                  <span>
-                    <strong>Reduced Latency:</strong> One network round-trip
-                    instead of {COMMON_TOKENS.length}
-                  </span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-primary">•</span>
-                  <span>
-                    <strong>Better UX:</strong> Faster loading times and
-                    smoother user experience
-                  </span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-primary">•</span>
-                  <span>
-                    <strong>Shared Cache:</strong> Results are cached and shared
-                    across all components
-                  </span>
-                </li>
-              </ul>
-            </CardContent>
-          </Card>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <BatchAccountsComparison />
+          <IndividualFetching />
         </div>
-      )}
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Performance Benefits</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul className="space-y-2 text-sm">
+              <li className="flex items-start gap-2">
+                <span className="text-primary">•</span>
+                <span>
+                  <strong>Automatic Batching:</strong> All{" "}
+                  {COMMON_TOKENS.length} account requests are combined into
+                  efficient batched RPC calls
+                </span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary">•</span>
+                <span>
+                  <strong>Reduced Latency:</strong> Fewer network round-trips
+                  through intelligent request coalescing
+                </span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary">•</span>
+                <span>
+                  <strong>Better UX:</strong> Faster loading times and smoother
+                  user experience
+                </span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary">•</span>
+                <span>
+                  <strong>Shared Cache:</strong> Results are cached and shared
+                  across all components
+                </span>
+              </li>
+            </ul>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
