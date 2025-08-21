@@ -1,5 +1,12 @@
 # @macalinao/token-utils
 
+## 0.1.3
+
+### Patch Changes
+
+- 6ca32bc: Fix src/ not being included in packages
+- 6eb3aa0: Add createTokenAmount function
+
 ## 0.1.2
 
 ### Patch Changes
