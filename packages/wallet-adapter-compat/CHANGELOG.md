@@ -1,5 +1,12 @@
 # @macalinao/wallet-adapter-compat
 
+## 1.0.3
+
+### Patch Changes
+
+- Updated dependencies [28b6a62]
+  - @macalinao/grill@0.4.3
+
 ## 1.0.2
 
 ### Patch Changes

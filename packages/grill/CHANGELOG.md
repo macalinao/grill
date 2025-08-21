@@ -1,5 +1,11 @@
 # @macalinao/grill
 
+## 0.4.3
+
+### Patch Changes
+
+- 28b6a62: Add useAccounts hook for fetching multiple accounts
+
 ## 0.4.2
 
 ### Patch Changes
