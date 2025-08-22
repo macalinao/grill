@@ -5,6 +5,7 @@ A modern Solana application demonstrating the Grill toolkit's capabilities for e
 ## Overview
 
 This example showcases how to build a Solana dApp using:
+
 - **Grill** - React provider for automatic account batching with DataLoader
 - **Gill** - Modern Solana client library
 - **React Query** - Powerful data fetching and caching
@@ -22,6 +23,7 @@ This example showcases how to build a Solana dApp using:
 ## Getting Started
 
 ### Prerequisites
+
 - [Bun](https://bun.sh) v1.2.19 or higher
 - Node.js 18+ (for compatibility)
 
@@ -57,10 +59,13 @@ QueryClientProvider         // React Query for caching
 ### Key Components
 
 #### GrillProvider
+
 Creates a DataLoader instance for batching account fetches. When multiple components request account data simultaneously, these requests are automatically batched into efficient RPC calls.
 
 #### SimpleDashboard
+
 Demonstrates core functionality:
+
 - Wallet connection and balance display
 - Account data fetching with automatic batching
 - Direct RPC calls using the gill client
@@ -76,10 +81,10 @@ import { useAccount } from "@macalinao/grill";
 function MyComponent() {
   // Automatically batched with other account requests
   const { data: account, isLoading, refetch } = useAccount(publicKey);
-  
+
   if (isLoading) return <div>Loading...</div>;
   if (!account) return <div>Account not found</div>;
-  
+
   return (
     <div>
       <p>Balance: {Number(account.lamports) / 1e9} SOL</p>
@@ -96,11 +101,11 @@ import { useKitWallet } from "@macalinao/grill";
 
 function WalletInfo() {
   const { signer, rpc } = useKitWallet();
-  
+
   if (!signer) {
     return <div>Please connect your wallet</div>;
   }
-  
+
   return <div>Connected: {signer.address}</div>;
 }
 ```
@@ -112,12 +117,12 @@ import { useSolanaClient } from "gill-react";
 
 function SlotDisplay() {
   const { rpc } = useSolanaClient();
-  
+
   const fetchSlot = async () => {
     const slot = await rpc.getSlot().send();
     console.log("Current slot:", slot);
   };
-  
+
   return <button onClick={fetchSlot}>Get Slot</button>;
 }
 ```
@@ -186,4 +191,4 @@ This is an example application demonstrating Grill's capabilities. Feel free to 
 
 ## License
 
-Apache-2.0
+Copyright (c) 2025 Ian Macalinao. Licensed under the Apache-2.0 License.

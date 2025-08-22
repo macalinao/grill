@@ -10,7 +10,8 @@
     "token",
     "utilities",
     "dnum",
-    "formatting"
+    "formatting",
+    "ian-macalinao"
   ],
   "type": "module",
   "sideEffects": false,

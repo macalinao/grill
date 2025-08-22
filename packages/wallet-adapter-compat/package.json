@@ -14,7 +14,8 @@
     "kit",
     "blockchain",
     "web3",
-    "compatibility"
+    "compatibility",
+    "ian-macalinao"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

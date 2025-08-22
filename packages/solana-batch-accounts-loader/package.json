@@ -14,7 +14,8 @@
     "rpc",
     "accounts",
     "blockchain",
-    "web3"
+    "web3",
+    "ian-macalinao"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -202,10 +202,6 @@ This significantly reduces RPC calls and improves performance, especially in dat
 - @tanstack/react-query v5
 - sonner (for toast notifications)
 
-## License
-
-Apache-2.0 © Ian Macalinao
-
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
@@ -213,3 +209,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## Support
 
 For issues and questions, please visit our [GitHub Issues](https://github.com/macalinao/grill/issues).
+
+## License
+
+Copyright (c) 2025 Ian Macalinao. Licensed under the Apache-2.0 License.

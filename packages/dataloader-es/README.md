@@ -79,10 +79,10 @@ Creates a new DataLoader instance.
 - `clearAll()`: Clear all cached values
 - `prime(key, value)`: Prime the cache with a specific key/value pair
 
-## License
-
-This package is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
 ## Credits
 
 This is a TypeScript port of Facebook's [DataLoader](https://github.com/graphql/dataloader). The original implementation and API design are credited to the GraphQL Foundation and Facebook.
+
+## License
+
+Copyright (c) 2025 Ian Macalinao. Licensed under the MIT License.

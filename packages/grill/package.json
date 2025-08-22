@@ -13,7 +13,8 @@
     "dataloader",
     "batching",
     "caching",
-    "gill"
+    "gill",
+    "ian-macalinao"
   ],
   "type": "module",
   "sideEffects": false,

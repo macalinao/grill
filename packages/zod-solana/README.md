@@ -17,6 +17,7 @@ bun add @macalinao/zod-solana
 ### Peer Dependencies
 
 This package requires the following peer dependencies:
+
 - `@solana/kit` (>=1.0.0)
 - `zod` (>=3.0.0 or >=4.0.0)
 
@@ -70,10 +71,10 @@ function SendTokenForm() {
     <form onSubmit={handleSubmit(onSubmit)}>
       <input {...register("recipient")} placeholder="Recipient address" />
       {errors.recipient && <span>{errors.recipient.message}</span>}
-      
+
       <input {...register("amount", { valueAsNumber: true })} placeholder="Amount" />
       {errors.amount && <span>{errors.amount.message}</span>}
-      
+
       <button type="submit">Send</button>
     </form>
   );
@@ -147,7 +148,10 @@ const multisig = multiSigSchema.parse({
 const customAddressSchema = addressSchema.describe("Wallet address");
 
 // Or with Zod's built-in error customization
-const recipientSchema = z.string().pipe(addressSchema).describe("Recipient wallet address");
+const recipientSchema = z
+  .string()
+  .pipe(addressSchema)
+  .describe("Recipient wallet address");
 ```
 
 ## Development
@@ -179,3 +183,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 - [@macalinao/grill](https://github.com/macalinao/grill) - Modern Solana development kit for React applications
 - [@solana/kit](https://github.com/solana-developers/solana-kit) - Solana development toolkit
 - [zod](https://github.com/colinhacks/zod) - TypeScript-first schema validation
+
+## License
+
+Copyright (c) 2025 Ian Macalinao. Licensed under the Apache-2.0 License.

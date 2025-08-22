@@ -11,6 +11,13 @@
     "url": "git+https://github.com/macalinao/grill.git",
     "directory": "apps/example-dapp"
   },
+  "keywords": [
+    "solana",
+    "dapp",
+    "example",
+    "grill",
+    "ian-macalinao"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
