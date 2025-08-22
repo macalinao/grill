@@ -1,5 +1,11 @@
 # @macalinao/zod-solana
 
+## 0.1.1
+
+### Patch Changes
+
+- b3c1751: Dependency bumps
+
 ## 0.1.0
 
 ### Minor Changes

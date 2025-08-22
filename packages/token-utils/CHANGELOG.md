@@ -1,5 +1,12 @@
 # @macalinao/token-utils
 
+## 0.1.4
+
+### Patch Changes
+
+- 9bc5c90: Breaking: Simplify useAccounts return type
+- b3c1751: Dependency bumps
+
 ## 0.1.3
 
 ### Patch Changes
