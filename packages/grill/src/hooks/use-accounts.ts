@@ -1,4 +1,3 @@
-import type { QueriesResults } from "@tanstack/react-query";
 import { useQueries } from "@tanstack/react-query";
 import type {
   Account,
@@ -16,7 +15,7 @@ import type { GillUseRpcHook } from "./types.js";
 
 type RpcConfig = Simplify<Omit<FetchAccountConfig, "abortSignal">>;
 
-type UseAccountsInput<
+export type UseAccountsInput<
   TConfig extends RpcConfig = RpcConfig,
   TDecodedData extends object = Uint8Array,
 > = GillUseRpcHook<TConfig> & {
@@ -31,6 +30,16 @@ type UseAccountsInput<
    */
   decoder?: Decoder<TDecodedData>;
 };
+
+export type UseAccountsResult<TDecodedData extends object> =
+  | {
+      isLoading: true;
+      data: (Account<TDecodedData> | null | undefined)[];
+    }
+  | {
+      isLoading: false;
+      data: (Account<TDecodedData> | null)[];
+    };
 
 /**
  * Get account info for multiple addresses with automatic batching via DataLoader.
@@ -58,19 +67,34 @@ export function useAccounts<
   options,
   addresses,
   decoder,
-}: UseAccountsInput<TConfig, TDecodedData>): QueriesResults<
-  (Account<TDecodedData> | null)[]
-> {
+}: UseAccountsInput<TConfig, TDecodedData>): UseAccountsResult<TDecodedData> {
   const { accountLoader } = useGrillContext();
-
   return useQueries({
     queries: addresses.map((address) => ({
       networkMode: "offlineFirst" as const,
       ...options,
       // eslint-disable-next-line @tanstack/query/exhaustive-deps
       queryKey: address ? createAccountQueryKey(address) : [null],
-      queryFn: () => fetchAndDecodeAccount(address, accountLoader, decoder),
+      queryFn: (): Promise<Account<TDecodedData> | null> =>
+        fetchAndDecodeAccount(address, accountLoader, decoder),
       enabled: !!address,
     })),
+    combine: (results) => {
+      const isLoading = results.some(
+        (result) => result.isLoading || result.data === undefined,
+      );
+      if (isLoading) {
+        return {
+          isLoading: true,
+          data: results.map((result) => result.data),
+        };
+      }
+      return {
+        isLoading: false,
+        data: results
+          .map((result) => result.data)
+          .filter((r) => r !== undefined),
+      };
+    },
   });
 }

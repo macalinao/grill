@@ -1,5 +1,5 @@
-import type { Account, Address, Decoder } from "@solana/kit";
-import type { QueriesResults } from "@tanstack/react-query";
+import type { Address, Decoder } from "@solana/kit";
+import type { UseAccountsResult } from "./use-accounts.js";
 import { useAccounts } from "./use-accounts.js";
 
 /**
@@ -7,7 +7,7 @@ import { useAccounts } from "./use-accounts.js";
  */
 export type UseDecodedAccountsHook<TData extends object> = (args: {
   addresses: (Address | null | undefined)[];
-}) => QueriesResults<(Account<TData> | null)[]>;
+}) => UseAccountsResult<TData>;
 
 /**
  * Generic helper to create a hook for fetching and decoding multiple accounts
@@ -21,7 +21,7 @@ export function createDecodedAccountsHook<TData extends object>(
     addresses,
   }: {
     addresses: (Address | null | undefined)[];
-  }): QueriesResults<(Account<TData> | null)[]> {
+  }): UseAccountsResult<TData> {
     return useAccounts({
       addresses,
       decoder,
