@@ -81,29 +81,37 @@ const formatted = formatSOL(solAmount);
 ### Types
 
 #### `TokenInfo<TMint, TDecimals>`
+
 Basic information about a token including mint address, name, symbol, decimals, and optional icon URL.
 
 #### `TokenAmount<TMint, TDecimals>`
+
 A token amount represented as a dnum with associated token information.
 
 ### Functions
 
 #### `parseTokenAmount(token, amountHuman)`
+
 Parse a string or number amount into a TokenAmount with proper decimal handling.
 
 #### `formatTokenAmount(tokenAmount, options?)`
+
 Format a TokenAmount for display with optional formatting options.
 
 #### `tokenAmountToBigInt(tokenAmount)`
+
 Convert a TokenAmount to a bigint representing the raw token amount.
 
 #### `nativeSOL()`
+
 Get the token information for native SOL.
 
 #### `parseSOL(amountHuman)`
+
 Shorthand for parsing SOL amounts.
 
 #### `formatSOL(amount, options?)`
+
 Shorthand for formatting SOL amounts.
 
 ## Examples
@@ -132,16 +140,26 @@ const display = formatTokenAmount(amount); // "100.25"
 
 ```typescript
 // Token with 0 decimals (like some NFTs)
-const nftToken = { mint: address("..."), symbol: "NFT", decimals: 0, name: "NFT" };
+const nftToken = {
+  mint: address("..."),
+  symbol: "NFT",
+  decimals: 0,
+  name: "NFT",
+};
 const nftAmount = parseTokenAmount(nftToken, "5");
 const nftRaw = tokenAmountToBigInt(nftAmount); // 5n
 
 // Token with 18 decimals (Ethereum-style)
-const ethToken = { mint: address("..."), symbol: "ETH", decimals: 18, name: "Ethereum" };
+const ethToken = {
+  mint: address("..."),
+  symbol: "ETH",
+  decimals: 18,
+  name: "Ethereum",
+};
 const ethAmount = parseTokenAmount(ethToken, "0.000000000000000001");
 const ethRaw = tokenAmountToBigInt(ethAmount); // 1n
 ```
 
 ## License
 
-Apache-2.0
+Copyright (c) 2025 Ian Macalinao. Licensed under the Apache-2.0 License.

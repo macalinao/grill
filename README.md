@@ -7,6 +7,7 @@ A comprehensive toolkit for building Solana applications with React, featuring a
 ## Packages
 
 ### [@macalinao/grill](./packages/grill)
+
 React provider for Solana account management with automatic batching and caching, built on top of gill-react.
 
 ```bash
@@ -14,6 +15,7 @@ bun add @macalinao/grill gill-react gill
 ```
 
 ### [@macalinao/solana-batch-accounts-loader](./packages/solana-batch-accounts-loader)
+
 DataLoader implementation for batching Solana account fetches.
 
 ```bash
@@ -21,6 +23,7 @@ bun add @macalinao/solana-batch-accounts-loader
 ```
 
 ### [@macalinao/wallet-adapter-compat](./packages/wallet-adapter-compat)
+
 Compatibility layer between @solana/wallet-adapter and @solana/kit.
 
 ```bash
@@ -28,6 +31,7 @@ bun add @macalinao/wallet-adapter-compat
 ```
 
 ### [@macalinao/dataloader-es](./packages/dataloader-es)
+
 ES module compatible DataLoader implementation.
 
 ```bash
@@ -41,7 +45,10 @@ import { GrillProvider } from "@macalinao/grill";
 import { WalletAdapterCompatProvider } from "@macalinao/wallet-adapter-compat";
 import { createSolanaClient } from "gill";
 import { SolanaProvider } from "gill-react";
-import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";
+import {
+  ConnectionProvider,
+  WalletProvider,
+} from "@solana/wallet-adapter-react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "sonner";
@@ -87,17 +94,17 @@ import { useAccount, useAssociatedTokenAccount } from "@macalinao/grill";
 
 function Dashboard() {
   // All these requests are batched into 1 RPC call!
-  const { data: userAccount } = useAccount({ 
-    address: userAddress 
+  const { data: userAccount } = useAccount({
+    address: userAddress,
   });
-  
+
   const { data: usdcAccount } = useAssociatedTokenAccount({
     mint: USDC_MINT,
-    owner: userAddress
+    owner: userAddress,
   });
-  
-  const { data: solAccount } = useAccount({ 
-    address: poolAddress 
+
+  const { data: solAccount } = useAccount({
+    address: poolAddress,
   });
 }
 ```
@@ -112,13 +119,13 @@ import { useSendTX, useKitWallet } from "@macalinao/grill";
 function SwapButton() {
   const { signer } = useKitWallet();
   const sendTX = useSendTX();
-  
+
   const handleSwap = async () => {
     const instructions = buildSwapInstructions();
     await sendTX("Swap USDC for SOL", instructions);
     // Automatic toast notifications for each stage!
   };
-  
+
   return <button onClick={handleSwap}>Swap</button>;
 }
 ```
@@ -132,9 +139,9 @@ import { getTokenAccountDecoder } from "@solana-program/token";
 function TokenBalance({ tokenAccountAddress }) {
   const { data: account } = useAccount({
     address: tokenAccountAddress,
-    decoder: getTokenAccountDecoder()
+    decoder: getTokenAccountDecoder(),
   });
-  
+
   // account.data is fully typed as TokenAccount!
   return <div>Balance: {account?.data.amount.toString()}</div>;
 }
@@ -163,6 +170,7 @@ Traditional Solana development suffers from the N+1 query problem. Every compone
 Grill pairs perfectly with **Coda**, our automated client generation tool for Solana programs. While Grill handles efficient account fetching and transaction management, Coda generates type-safe TypeScript clients from your Anchor IDLs automatically.
 
 Together they provide:
+
 - **Zero boilerplate**: Coda generates the program clients, Grill batches the account fetches
 - **End-to-end type safety**: From IDL to UI components
 - **Automatic synchronization**: Keep your clients in sync with on-chain programs
@@ -215,8 +223,4 @@ bun run lint
 
 ## License
 
-Apache-2.0
-
-## Author
-
-Ian Macalinao <me@ianm.com>
+Copyright (c) 2025 Ian Macalinao. Licensed under the Apache-2.0 License.
