@@ -1,5 +1,19 @@
 # @macalinao/grill
 
+## 0.5.0
+
+### Minor Changes
+
+- 9bc5c90: Breaking: Simplify useAccounts return type
+
+### Patch Changes
+
+- b3c1751: Dependency bumps
+- Updated dependencies [9bc5c90]
+- Updated dependencies [b3c1751]
+  - @macalinao/token-utils@0.1.4
+  - @macalinao/zod-solana@0.1.1
+
 ## 0.4.3
 
 ### Patch Changes

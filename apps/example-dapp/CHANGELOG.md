@@ -1,5 +1,16 @@
 # example-dapp
 
+## 0.0.12
+
+### Patch Changes
+
+- 9bc5c90: Breaking: Simplify useAccounts return type
+- b3c1751: Dependency bumps
+- Updated dependencies [9bc5c90]
+- Updated dependencies [b3c1751]
+  - @macalinao/grill@0.5.0
+  - @macalinao/wallet-adapter-compat@2.0.0
+
 ## 0.0.11
 
 ### Patch Changes
