@@ -80,25 +80,25 @@ const BatchAccountsComparison: React.FC = () => {
 
   // Count how many are loading, have data, or errored
   const stats = useMemo(() => {
-    let loading = 0;
     let found = 0;
     let notFound = 0;
-    let errors = 0;
+    const errors = 0;
 
-    batchResults.forEach((result) => {
-      if (result.isLoading) {
-        loading++;
-      } else if (result.error) {
-        errors++;
-      } else if (result.data) {
+    if (batchResults.isLoading) {
+      const loading = tokenAccountAddresses.length;
+      return { loading, found, notFound, errors };
+    }
+
+    batchResults.data.forEach((account) => {
+      if (account) {
         found++;
       } else {
         notFound++;
       }
     });
 
-    return { loading, found, notFound, errors };
-  }, [batchResults]);
+    return { loading: 0, found, notFound, errors };
+  }, [batchResults, tokenAccountAddresses.length]);
 
   return (
     <Card>
@@ -148,7 +148,8 @@ const BatchAccountsComparison: React.FC = () => {
             </p>
             <div className="grid grid-cols-2 gap-2">
               {COMMON_TOKENS.map((token, index) => {
-                const result = batchResults[index];
+                const account = batchResults.data[index];
+                const isLoading = batchResults.isLoading;
                 return (
                   <div
                     key={token.mint}
@@ -160,13 +161,9 @@ const BatchAccountsComparison: React.FC = () => {
                         {token.symbol}
                       </span>
                     </div>
-                    {result?.isLoading ? (
+                    {isLoading ? (
                       <Loader2 className="h-4 w-4 animate-spin" />
-                    ) : result?.error ? (
-                      <span className="text-xs font-medium text-red-600">
-                        Error
-                      </span>
-                    ) : result?.data ? (
+                    ) : account ? (
                       <span className="text-xs font-medium text-green-600">
                         Found
                       </span>
