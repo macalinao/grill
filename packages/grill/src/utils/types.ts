@@ -1,4 +1,5 @@
 import type {
+  Account,
   AddressesByLookupTableAddress,
   Instruction,
   Signature,
@@ -34,3 +35,12 @@ export type SendTXFunction = (
   ixs: readonly Instruction[],
   options?: SendTXOptions,
 ) => Promise<Signature>;
+
+/**
+ * Simplified account type that only includes data and address.
+ * Useful for functions that don't need the full account type.
+ */
+export type AccountInfo<TData extends Uint8Array | object> = Pick<
+  Account<TData>,
+  "data" | "address"
+>;
