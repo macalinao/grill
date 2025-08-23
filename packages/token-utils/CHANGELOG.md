@@ -1,5 +1,11 @@
 # @macalinao/token-utils
 
+## 0.1.5
+
+### Patch Changes
+
+- 57adf4b: README license updates
+
 ## 0.1.4
 
 ### Patch Changes

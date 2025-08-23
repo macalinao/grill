@@ -1,6 +1,6 @@
 {
   "name": "@macalinao/dataloader-es",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Modern ESM-native TypeScript implementation of Facebook's DataLoader pattern for efficient batching and caching",
   "type": "module",
   "sideEffects": false,
