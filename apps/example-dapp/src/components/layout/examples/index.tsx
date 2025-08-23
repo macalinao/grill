@@ -3,6 +3,7 @@ import {
   ArrowRight,
   Coins,
   Database,
+  Grid3x3,
   LayoutDashboard,
   Zap,
 } from "lucide-react";
@@ -53,6 +54,11 @@ const exampleNavItems: ExampleNavItem[] = [
     title: "Token Information",
     href: "/examples/tokens",
     icon: Database,
+  },
+  {
+    title: "Multiple Tokens",
+    href: "/examples/multiple-tokens",
+    icon: Grid3x3,
   },
   {
     title: "Batch Accounts",

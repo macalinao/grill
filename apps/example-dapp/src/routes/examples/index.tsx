@@ -48,6 +48,34 @@ const ExamplesIndexPage: React.FC = () => {
             </Link>
           </CardContent>
         </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Multiple Tokens</CardTitle>
+            <CardDescription>
+              Load 15 different token infos at once with automatic batching
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Link to="/examples/multiple-tokens">
+              <Button className="w-full">View Example</Button>
+            </Link>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Token Information</CardTitle>
+            <CardDescription>
+              Display detailed token metadata and information
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Link to="/examples/tokens">
+              <Button className="w-full">View Example</Button>
+            </Link>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

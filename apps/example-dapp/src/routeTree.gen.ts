@@ -15,6 +15,7 @@ import { Route as ExamplesIndexRouteImport } from "./routes/examples/index.tsx"
 import { Route as ExamplesWrappedSolRouteImport } from "./routes/examples/wrapped-sol.tsx"
 import { Route as ExamplesTransferSolRouteImport } from "./routes/examples/transfer-sol.tsx"
 import { Route as ExamplesTokensRouteImport } from "./routes/examples/tokens.tsx"
+import { Route as ExamplesMultipleTokensRouteImport } from "./routes/examples/multiple-tokens.tsx"
 import { Route as ExamplesDashboardRouteImport } from "./routes/examples/dashboard.tsx"
 import { Route as ExamplesBatchAccountsRouteImport } from "./routes/examples/batch-accounts.tsx"
 
@@ -48,6 +49,11 @@ const ExamplesTokensRoute = ExamplesTokensRouteImport.update({
   path: "/tokens",
   getParentRoute: () => ExamplesRoute,
 } as any)
+const ExamplesMultipleTokensRoute = ExamplesMultipleTokensRouteImport.update({
+  id: "/multiple-tokens",
+  path: "/multiple-tokens",
+  getParentRoute: () => ExamplesRoute,
+} as any)
 const ExamplesDashboardRoute = ExamplesDashboardRouteImport.update({
   id: "/dashboard",
   path: "/dashboard",
@@ -64,6 +70,7 @@ export interface FileRoutesByFullPath {
   "/examples": typeof ExamplesRouteWithChildren
   "/examples/batch-accounts": typeof ExamplesBatchAccountsRoute
   "/examples/dashboard": typeof ExamplesDashboardRoute
+  "/examples/multiple-tokens": typeof ExamplesMultipleTokensRoute
   "/examples/tokens": typeof ExamplesTokensRoute
   "/examples/transfer-sol": typeof ExamplesTransferSolRoute
   "/examples/wrapped-sol": typeof ExamplesWrappedSolRoute
@@ -73,6 +80,7 @@ export interface FileRoutesByTo {
   "/": typeof IndexRoute
   "/examples/batch-accounts": typeof ExamplesBatchAccountsRoute
   "/examples/dashboard": typeof ExamplesDashboardRoute
+  "/examples/multiple-tokens": typeof ExamplesMultipleTokensRoute
   "/examples/tokens": typeof ExamplesTokensRoute
   "/examples/transfer-sol": typeof ExamplesTransferSolRoute
   "/examples/wrapped-sol": typeof ExamplesWrappedSolRoute
@@ -84,6 +92,7 @@ export interface FileRoutesById {
   "/examples": typeof ExamplesRouteWithChildren
   "/examples/batch-accounts": typeof ExamplesBatchAccountsRoute
   "/examples/dashboard": typeof ExamplesDashboardRoute
+  "/examples/multiple-tokens": typeof ExamplesMultipleTokensRoute
   "/examples/tokens": typeof ExamplesTokensRoute
   "/examples/transfer-sol": typeof ExamplesTransferSolRoute
   "/examples/wrapped-sol": typeof ExamplesWrappedSolRoute
@@ -96,6 +105,7 @@ export interface FileRouteTypes {
     | "/examples"
     | "/examples/batch-accounts"
     | "/examples/dashboard"
+    | "/examples/multiple-tokens"
     | "/examples/tokens"
     | "/examples/transfer-sol"
     | "/examples/wrapped-sol"
@@ -105,6 +115,7 @@ export interface FileRouteTypes {
     | "/"
     | "/examples/batch-accounts"
     | "/examples/dashboard"
+    | "/examples/multiple-tokens"
     | "/examples/tokens"
     | "/examples/transfer-sol"
     | "/examples/wrapped-sol"
@@ -115,6 +126,7 @@ export interface FileRouteTypes {
     | "/examples"
     | "/examples/batch-accounts"
     | "/examples/dashboard"
+    | "/examples/multiple-tokens"
     | "/examples/tokens"
     | "/examples/transfer-sol"
     | "/examples/wrapped-sol"
@@ -170,6 +182,13 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof ExamplesTokensRouteImport
       parentRoute: typeof ExamplesRoute
     }
+    "/examples/multiple-tokens": {
+      id: "/examples/multiple-tokens"
+      path: "/multiple-tokens"
+      fullPath: "/examples/multiple-tokens"
+      preLoaderRoute: typeof ExamplesMultipleTokensRouteImport
+      parentRoute: typeof ExamplesRoute
+    }
     "/examples/dashboard": {
       id: "/examples/dashboard"
       path: "/dashboard"
@@ -190,6 +209,7 @@ declare module "@tanstack/react-router" {
 interface ExamplesRouteChildren {
   ExamplesBatchAccountsRoute: typeof ExamplesBatchAccountsRoute
   ExamplesDashboardRoute: typeof ExamplesDashboardRoute
+  ExamplesMultipleTokensRoute: typeof ExamplesMultipleTokensRoute
   ExamplesTokensRoute: typeof ExamplesTokensRoute
   ExamplesTransferSolRoute: typeof ExamplesTransferSolRoute
   ExamplesWrappedSolRoute: typeof ExamplesWrappedSolRoute
@@ -199,6 +219,7 @@ interface ExamplesRouteChildren {
 const ExamplesRouteChildren: ExamplesRouteChildren = {
   ExamplesBatchAccountsRoute: ExamplesBatchAccountsRoute,
   ExamplesDashboardRoute: ExamplesDashboardRoute,
+  ExamplesMultipleTokensRoute: ExamplesMultipleTokensRoute,
   ExamplesTokensRoute: ExamplesTokensRoute,
   ExamplesTransferSolRoute: ExamplesTransferSolRoute,
   ExamplesWrappedSolRoute: ExamplesWrappedSolRoute,

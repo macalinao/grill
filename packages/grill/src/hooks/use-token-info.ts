@@ -1,19 +1,53 @@
 import type { TokenInfo } from "@macalinao/token-utils";
-import { createTokenInfo } from "@macalinao/token-utils";
-import { tokenMetadataSchema } from "@macalinao/zod-solana";
 import type { Address } from "@solana/kit";
 import type { UseQueryResult } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
-import { GRILL_HOOK_CLIENT_KEY } from "../constants.js";
+import {
+  createPlaceholderTokenInfo,
+  createTokenInfoQueryKey,
+  fetchTokenInfo,
+} from "../utils/token-info-helpers.js";
 import { useMintAccount } from "./use-mint-account.js";
 import { useTokenMetadataAccount } from "./use-token-metadata-account.js";
 
+/**
+ * Hook for fetching comprehensive token information for a single mint
+ *
+ * This hook combines data from multiple sources to provide complete token information:
+ * - Mint account data (decimals, supply, authorities)
+ * - Token metadata account (name, symbol, URI)
+ * - Off-chain metadata from URI (image, extended metadata)
+ *
+ * The hook provides placeholder data immediately from on-chain sources (name, symbol, decimals)
+ * while fetching the complete metadata including images from the URI in the background.
+ *
+ * @param mint - The mint address to fetch token info for
+ * @returns UseQueryResult containing TokenInfo or null
+ *
+ * @example
+ * ```tsx
+ * function TokenDisplay({ mint }: { mint: Address }) {
+ *   const { data: tokenInfo, isLoading } = useTokenInfo({ mint });
+ *
+ *   if (isLoading) return <div>Loading token info...</div>;
+ *   if (!tokenInfo) return <div>Token not found</div>;
+ *
+ *   return (
+ *     <div>
+ *       <img src={tokenInfo.logoURI} alt={tokenInfo.name} />
+ *       <h2>{tokenInfo.name} ({tokenInfo.symbol})</h2>
+ *       <p>Decimals: {tokenInfo.decimals}</p>
+ *     </div>
+ *   );
+ * }
+ * ```
+ */
 export function useTokenInfo({
   mint,
 }: {
   mint: Address | null | undefined;
 }): UseQueryResult<TokenInfo | null> {
-  const { data: metadataAccount } = useTokenMetadataAccount({ mint });
+  const { data: metadataAccount, pda } = useTokenMetadataAccount({ mint });
   const { data: mintAccount } = useMintAccount({ address: mint });
 
   const uri = metadataAccount?.data.data.uri;
@@ -23,55 +57,22 @@ export function useTokenInfo({
 
   return useQuery<TokenInfo | null>({
     // eslint-disable-next-line @tanstack/query/exhaustive-deps
-    queryKey: [GRILL_HOOK_CLIENT_KEY, "tokenInfo", mint] as const,
-    queryFn: async () => {
-      if (!mint || decimals === undefined) {
-        return null;
-      }
-
-      // Prepare metadata account data
-      let metadataAccountData: { name: string; symbol: string } | null =
-        onChainName && onChainSymbol
-          ? { name: onChainName, symbol: onChainSymbol }
-          : null;
-
-      // Prepare metadata URI JSON data
-      let metadataUriJson: { image: string } | null = null;
-
-      // Try to fetch metadata from URI if available
-      if (uri && metadataAccountData) {
-        try {
-          const response = await fetch(uri);
-          if (response.ok) {
-            const json = (await response.json()) as unknown;
-            const result = tokenMetadataSchema.safeParse(json);
-
-            if (result.success) {
-              // Override with data from URI JSON
-              metadataAccountData = {
-                name: result.data.name,
-                symbol: result.data.symbol,
-              };
-              if (result.data.image) {
-                metadataUriJson = { image: result.data.image };
-              }
-            } else {
-              console.error("Invalid token metadata:", result.error);
-            }
-          }
-        } catch (error) {
-          console.error("Error fetching token info:", error);
-        }
-      }
-
-      // Create token info with all collected data
-      return createTokenInfo({
+    queryKey: createTokenInfoQueryKey(mint, pda),
+    queryFn: () =>
+      fetchTokenInfo({
         mint,
-        mintAccount: { decimals },
-        metadataAccount: metadataAccountData,
-        metadataUriJson,
-      });
-    },
+        decimals,
+        uri,
+        onChainName,
+        onChainSymbol,
+      }),
+    placeholderData: () =>
+      createPlaceholderTokenInfo({
+        mint,
+        decimals,
+        onChainName,
+        onChainSymbol,
+      }),
     enabled:
       !!mint && mintAccount !== undefined && metadataAccount !== undefined,
     staleTime: 5 * 60 * 1000, // Cache for 5 minutes
