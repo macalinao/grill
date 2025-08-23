@@ -172,6 +172,18 @@ describe("parseTokenAmount", () => {
       expect(result.amount[1]).toBe(9);
     });
 
+    it("should handle string with commas", () => {
+      const result = parseTokenAmount(solToken, "1,000,000");
+      expect(result.amount[0]).toBe(1000000000000000n);
+      expect(result.amount[1]).toBe(9);
+    });
+
+    it("should handle string with commas and decimals", () => {
+      const result = parseTokenAmount(solToken, "1,234.567");
+      expect(result.amount[0]).toBe(1234567000000n);
+      expect(result.amount[1]).toBe(9);
+    });
+
     it("should handle NaN as zero", () => {
       const result = parseTokenAmount(solToken, Number.NaN);
       expect(result.amount[0]).toBe(0n);

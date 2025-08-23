@@ -28,6 +28,9 @@ export function parseTokenAmount<
 
     // Remove underscores (common in large numbers)
     cleanedAmount = cleanedAmount.replace(/_/g, "");
+
+    // Remove commas (common in formatted numbers)
+    cleanedAmount = cleanedAmount.replace(/,/g, "");
   } else if (typeof amountHuman === "number") {
     // Handle NaN
     if (Number.isNaN(amountHuman)) {
