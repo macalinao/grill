@@ -1,5 +1,11 @@
 # @macalinao/zod-solana
 
+## 0.1.2
+
+### Patch Changes
+
+- 57adf4b: README license updates
+
 ## 0.1.1
 
 ### Patch Changes

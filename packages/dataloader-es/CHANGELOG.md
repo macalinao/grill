@@ -1,5 +1,11 @@
 # @macalinao/dataloader-es
 
+## 0.2.4
+
+### Patch Changes
+
+- 57adf4b: README license updates
+
 ## 0.2.3
 
 ### Patch Changes

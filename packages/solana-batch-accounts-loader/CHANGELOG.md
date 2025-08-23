@@ -1,5 +1,13 @@
 # @macalinao/solana-batch-accounts-loader
 
+## 0.2.4
+
+### Patch Changes
+
+- 57adf4b: README license updates
+- Updated dependencies [57adf4b]
+  - @macalinao/dataloader-es@0.2.4
+
 ## 0.2.3
 
 ### Patch Changes

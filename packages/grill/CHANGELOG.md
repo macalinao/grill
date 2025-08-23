@@ -1,5 +1,18 @@
 # @macalinao/grill
 
+## 0.5.1
+
+### Patch Changes
+
+- 57adf4b: README license updates
+- 04169c9: Add AccountInfo helper type
+- e882c7d: Add transaction message encoder helpers
+- Updated dependencies [57adf4b]
+  - @macalinao/solana-batch-accounts-loader@0.2.4
+  - @macalinao/dataloader-es@0.2.4
+  - @macalinao/token-utils@0.1.5
+  - @macalinao/zod-solana@0.1.2
+
 ## 0.5.0
 
 ### Minor Changes
