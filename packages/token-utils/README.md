@@ -17,6 +17,7 @@ bun add @macalinao/token-utils
 - **Formatting utilities**: Format token amounts for display with proper decimal handling
 - **BigInt conversion**: Convert token amounts to raw bigint values for on-chain operations
 - **Native SOL support**: Built-in support for SOL token operations
+- **Token math operations**: Arithmetic and comparison operations for token amounts via `tmath`
 - **dnum integration**: Uses the dnum library for precise decimal arithmetic
 
 ## Usage
@@ -76,6 +77,51 @@ const formatted = formatSOL(solAmount);
 // Result: "2.5"
 ```
 
+### Token Math Operations (tmath)
+
+```typescript
+import { tmath } from "@macalinao/token-utils";
+
+const tokenA = parseTokenAmount(solToken, "5.0");
+const tokenB = parseTokenAmount(solToken, "3.0");
+
+// Arithmetic operations
+const sum = tmath.add(tokenA, tokenB); // 8.0 SOL
+const diff = tmath.sub(tokenA, tokenB); // 2.0 SOL
+const product = tmath.mul(tokenA, tokenB); // 15.0 SOL
+const quotient = tmath.div(tokenA, tokenB); // ~1.667 SOL
+
+// Comparison operations
+tmath.gt(tokenA, tokenB); // true (5 > 3)
+tmath.gte(tokenA, tokenB); // true (5 >= 3)
+tmath.lt(tokenA, tokenB); // false (5 < 3)
+tmath.lte(tokenA, tokenB); // false (5 <= 3)
+
+// Math utilities
+const absolute = tmath.abs(negativeAmount); // Returns positive
+const minimum = tmath.min(tokenA, tokenB); // 3.0 SOL
+const maximum = tmath.max(tokenA, tokenB); // 5.0 SOL
+
+// Convert to raw bigint
+const raw = tmath.toRaw(tokenA); // 5000000000n
+
+// Create token info from mint
+import { createTokenInfoFromMint, createTestTokenInfo } from "@macalinao/token-utils";
+
+const mintData = {
+  address: address("TokenMint1111111111111111111111111111111111"),
+  data: { decimals: 9 }
+};
+const tokenInfo = createTokenInfoFromMint(mintData);
+// Creates token with symbol "Toke" and name "Token Toke"
+
+// Test helper for creating token info
+const testToken = createTestTokenInfo(
+  "TestToken11111111111111111111111111111111111",
+  6
+);
+```
+
 ## API Reference
 
 ### Types
@@ -113,6 +159,39 @@ Shorthand for parsing SOL amounts.
 #### `formatSOL(amount, options?)`
 
 Shorthand for formatting SOL amounts.
+
+### Token Math Operations (tmath)
+
+#### Arithmetic Operations
+
+- `tmath.add(a, b)` - Add two token amounts (must be same token)
+- `tmath.sub(a, b)` - Subtract two token amounts (must be same token)
+- `tmath.mul(a, b)` - Multiply two token amounts (must be same token)
+- `tmath.div(a, b)` - Divide two token amounts (must be same token)
+
+#### Comparison Operations
+
+- `tmath.gt(a, b)` - Check if a > b (must be same token)
+- `tmath.gte(a, b)` - Check if a >= b (must be same token)
+- `tmath.lt(a, b)` - Check if a < b (must be same token)
+- `tmath.lte(a, b)` - Check if a <= b (must be same token)
+
+#### Math Utilities
+
+- `tmath.abs(amount)` - Get absolute value of token amount
+- `tmath.min(a, b)` - Get minimum of two token amounts (must be same token)
+- `tmath.max(a, b)` - Get maximum of two token amounts (must be same token)
+- `tmath.toRaw(amount)` - Convert TokenAmount to raw bigint (alias for tokenAmountToBigInt)
+
+### Token Creation Helpers
+
+#### `createTokenInfoFromMint(mint)`
+
+Create TokenInfo from mint with auto-generated symbol/name based on first 4 characters of the address.
+
+#### `createTestTokenInfo(address, decimals)`
+
+Create test TokenInfo for unit tests. This is a convenience wrapper around createTokenInfoFromMint.
 
 ## Examples
 
