@@ -4,6 +4,7 @@ import {
   Coins,
   Database,
   LayoutDashboard,
+  Wallet,
   Zap,
 } from "lucide-react";
 import type * as React from "react";
@@ -53,6 +54,11 @@ const exampleNavItems: ExampleNavItem[] = [
     title: "Token Information",
     href: "/examples/tokens",
     icon: Database,
+  },
+  {
+    title: "Token Balances",
+    href: "/examples/token-balances",
+    icon: Wallet,
   },
   {
     title: "Batch Accounts",
