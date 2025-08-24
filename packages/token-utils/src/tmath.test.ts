@@ -305,6 +305,367 @@ describe("tmath", () => {
     });
   });
 
+  describe("gt", () => {
+    it("should return true when a > b", () => {
+      const a: TokenAmount = {
+        token: mockTokenA,
+        amount: [5000000000n, 9],
+      };
+      const b: TokenAmount = {
+        token: mockTokenA,
+        amount: [3000000000n, 9],
+      };
+
+      expect(tmath.gt(a, b)).toBe(true);
+    });
+
+    it("should return false when a < b", () => {
+      const a: TokenAmount = {
+        token: mockTokenA,
+        amount: [3000000000n, 9],
+      };
+      const b: TokenAmount = {
+        token: mockTokenA,
+        amount: [5000000000n, 9],
+      };
+
+      expect(tmath.gt(a, b)).toBe(false);
+    });
+
+    it("should return false when a === b", () => {
+      const a: TokenAmount = {
+        token: mockTokenA,
+        amount: [3000000000n, 9],
+      };
+      const b: TokenAmount = {
+        token: mockTokenA,
+        amount: [3000000000n, 9],
+      };
+
+      expect(tmath.gt(a, b)).toBe(false);
+    });
+
+    it("should throw error when comparing different tokens", () => {
+      const a: TokenAmount = {
+        token: mockTokenA,
+        amount: [5000000000n, 9],
+      };
+      const b: TokenAmount = {
+        token: mockTokenB,
+        amount: [3000000n, 6],
+      };
+
+      expect(() => tmath.gt(a, b)).toThrow(
+        "Token mint mismatch: TokenA1111111111111111111111111111111111111 !== TokenB2222222222222222222222222222222222222",
+      );
+    });
+  });
+
+  describe("gte", () => {
+    it("should return true when a > b", () => {
+      const a: TokenAmount = {
+        token: mockTokenA,
+        amount: [5000000000n, 9],
+      };
+      const b: TokenAmount = {
+        token: mockTokenA,
+        amount: [3000000000n, 9],
+      };
+
+      expect(tmath.gte(a, b)).toBe(true);
+    });
+
+    it("should return false when a < b", () => {
+      const a: TokenAmount = {
+        token: mockTokenA,
+        amount: [3000000000n, 9],
+      };
+      const b: TokenAmount = {
+        token: mockTokenA,
+        amount: [5000000000n, 9],
+      };
+
+      expect(tmath.gte(a, b)).toBe(false);
+    });
+
+    it("should return true when a === b", () => {
+      const a: TokenAmount = {
+        token: mockTokenA,
+        amount: [3000000000n, 9],
+      };
+      const b: TokenAmount = {
+        token: mockTokenA,
+        amount: [3000000000n, 9],
+      };
+
+      expect(tmath.gte(a, b)).toBe(true);
+    });
+  });
+
+  describe("lt", () => {
+    it("should return false when a > b", () => {
+      const a: TokenAmount = {
+        token: mockTokenA,
+        amount: [5000000000n, 9],
+      };
+      const b: TokenAmount = {
+        token: mockTokenA,
+        amount: [3000000000n, 9],
+      };
+
+      expect(tmath.lt(a, b)).toBe(false);
+    });
+
+    it("should return true when a < b", () => {
+      const a: TokenAmount = {
+        token: mockTokenA,
+        amount: [3000000000n, 9],
+      };
+      const b: TokenAmount = {
+        token: mockTokenA,
+        amount: [5000000000n, 9],
+      };
+
+      expect(tmath.lt(a, b)).toBe(true);
+    });
+
+    it("should return false when a === b", () => {
+      const a: TokenAmount = {
+        token: mockTokenA,
+        amount: [3000000000n, 9],
+      };
+      const b: TokenAmount = {
+        token: mockTokenA,
+        amount: [3000000000n, 9],
+      };
+
+      expect(tmath.lt(a, b)).toBe(false);
+    });
+  });
+
+  describe("lte", () => {
+    it("should return false when a > b", () => {
+      const a: TokenAmount = {
+        token: mockTokenA,
+        amount: [5000000000n, 9],
+      };
+      const b: TokenAmount = {
+        token: mockTokenA,
+        amount: [3000000000n, 9],
+      };
+
+      expect(tmath.lte(a, b)).toBe(false);
+    });
+
+    it("should return true when a < b", () => {
+      const a: TokenAmount = {
+        token: mockTokenA,
+        amount: [3000000000n, 9],
+      };
+      const b: TokenAmount = {
+        token: mockTokenA,
+        amount: [5000000000n, 9],
+      };
+
+      expect(tmath.lte(a, b)).toBe(true);
+    });
+
+    it("should return true when a === b", () => {
+      const a: TokenAmount = {
+        token: mockTokenA,
+        amount: [3000000000n, 9],
+      };
+      const b: TokenAmount = {
+        token: mockTokenA,
+        amount: [3000000000n, 9],
+      };
+
+      expect(tmath.lte(a, b)).toBe(true);
+    });
+  });
+
+  describe("abs", () => {
+    it("should return positive value when already positive", () => {
+      const amount: TokenAmount = {
+        token: mockTokenA,
+        amount: [5000000000n, 9],
+      };
+
+      const result = tmath.abs(amount);
+
+      expect(result.amount[0]).toBe(5000000000n);
+      expect(result.token).toBe(mockTokenA);
+    });
+
+    it("should return positive value when negative", () => {
+      const amount: TokenAmount = {
+        token: mockTokenA,
+        amount: [-5000000000n, 9],
+      };
+
+      const result = tmath.abs(amount);
+
+      expect(result.amount[0]).toBe(5000000000n);
+      expect(result.token).toBe(mockTokenA);
+    });
+
+    it("should return zero when zero", () => {
+      const amount: TokenAmount = {
+        token: mockTokenA,
+        amount: [0n, 9],
+      };
+
+      const result = tmath.abs(amount);
+
+      expect(result.amount[0]).toBe(0n);
+      expect(result.token).toBe(mockTokenA);
+    });
+  });
+
+  describe("min", () => {
+    it("should return the smaller value when a < b", () => {
+      const a: TokenAmount = {
+        token: mockTokenA,
+        amount: [3000000000n, 9],
+      };
+      const b: TokenAmount = {
+        token: mockTokenA,
+        amount: [5000000000n, 9],
+      };
+
+      const result = tmath.min(a, b);
+
+      expect(result).toBe(a);
+    });
+
+    it("should return the smaller value when a > b", () => {
+      const a: TokenAmount = {
+        token: mockTokenA,
+        amount: [5000000000n, 9],
+      };
+      const b: TokenAmount = {
+        token: mockTokenA,
+        amount: [3000000000n, 9],
+      };
+
+      const result = tmath.min(a, b);
+
+      expect(result).toBe(b);
+    });
+
+    it("should return either when equal", () => {
+      const a: TokenAmount = {
+        token: mockTokenA,
+        amount: [3000000000n, 9],
+      };
+      const b: TokenAmount = {
+        token: mockTokenA,
+        amount: [3000000000n, 9],
+      };
+
+      const result = tmath.min(a, b);
+
+      expect(result.amount[0]).toBe(3000000000n);
+    });
+
+    it("should throw error when comparing different tokens", () => {
+      const a: TokenAmount = {
+        token: mockTokenA,
+        amount: [3000000000n, 9],
+      };
+      const b: TokenAmount = {
+        token: mockTokenB,
+        amount: [5000000n, 6],
+      };
+
+      expect(() => tmath.min(a, b)).toThrow(
+        "Token mint mismatch: TokenA1111111111111111111111111111111111111 !== TokenB2222222222222222222222222222222222222",
+      );
+    });
+  });
+
+  describe("max", () => {
+    it("should return the larger value when a > b", () => {
+      const a: TokenAmount = {
+        token: mockTokenA,
+        amount: [5000000000n, 9],
+      };
+      const b: TokenAmount = {
+        token: mockTokenA,
+        amount: [3000000000n, 9],
+      };
+
+      const result = tmath.max(a, b);
+
+      expect(result).toBe(a);
+    });
+
+    it("should return the larger value when a < b", () => {
+      const a: TokenAmount = {
+        token: mockTokenA,
+        amount: [3000000000n, 9],
+      };
+      const b: TokenAmount = {
+        token: mockTokenA,
+        amount: [5000000000n, 9],
+      };
+
+      const result = tmath.max(a, b);
+
+      expect(result).toBe(b);
+    });
+
+    it("should return either when equal", () => {
+      const a: TokenAmount = {
+        token: mockTokenA,
+        amount: [3000000000n, 9],
+      };
+      const b: TokenAmount = {
+        token: mockTokenA,
+        amount: [3000000000n, 9],
+      };
+
+      const result = tmath.max(a, b);
+
+      expect(result.amount[0]).toBe(3000000000n);
+    });
+  });
+
+  describe("toRaw", () => {
+    it("should convert TokenAmount to raw bigint", () => {
+      const amount: TokenAmount = {
+        token: mockTokenA,
+        amount: [5000000000n, 9],
+      };
+
+      const result = tmath.toRaw(amount);
+
+      expect(result).toBe(5000000000n);
+    });
+
+    it("should handle zero amounts", () => {
+      const amount: TokenAmount = {
+        token: mockTokenA,
+        amount: [0n, 9],
+      };
+
+      const result = tmath.toRaw(amount);
+
+      expect(result).toBe(0n);
+    });
+
+    it("should handle negative amounts", () => {
+      const amount: TokenAmount = {
+        token: mockTokenA,
+        amount: [-5000000000n, 9],
+      };
+
+      const result = tmath.toRaw(amount);
+
+      expect(result).toBe(-5000000000n);
+    });
+  });
+
   describe("edge cases", () => {
     it("should maintain precision with large numbers", () => {
       const a: TokenAmount = {
