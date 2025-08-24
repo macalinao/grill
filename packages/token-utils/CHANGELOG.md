@@ -1,5 +1,11 @@
 # @macalinao/token-utils
 
+## 0.1.7
+
+### Patch Changes
+
+- 3411158: More tmath changes
+
 ## 0.1.6
 
 ### Patch Changes

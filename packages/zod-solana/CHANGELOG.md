@@ -1,5 +1,11 @@
 # @macalinao/zod-solana
 
+## 0.1.3
+
+### Patch Changes
+
+- 1a5e0bd: Update dependencies
+
 ## 0.1.2
 
 ### Patch Changes

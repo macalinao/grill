@@ -1,6 +1,6 @@
 {
   "name": "@macalinao/grill",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "Modern Solana development kit for React applications with automatic account batching, caching, and transaction notifications",
   "license": "Apache-2.0",
   "author": "Ian Macalinao <me@ianm.com>",
