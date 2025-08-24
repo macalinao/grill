@@ -72,15 +72,3 @@ export function div<TMint extends string, TDecimals extends number>(
     ],
   };
 }
-
-export const tmath: {
-  add: typeof add;
-  sub: typeof sub;
-  mul: typeof mul;
-  div: typeof div;
-} = {
-  add,
-  sub,
-  mul,
-  div,
-};

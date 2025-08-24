@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import { address } from "@solana/kit";
-import { tmath } from "./tmath.js";
+import * as tmath from "./tmath.js";
 import type { TokenAmount } from "./types.js";
 
 describe("tmath", () => {
