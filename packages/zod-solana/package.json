@@ -54,7 +54,7 @@
     "@types/bun": "catalog:",
     "eslint": "catalog:",
     "typescript": "catalog:",
-    "zod": "^4.0.17"
+    "zod": "^4.1.1"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}": [
