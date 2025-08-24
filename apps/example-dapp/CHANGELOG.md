@@ -1,5 +1,15 @@
 # example-dapp
 
+## 0.0.15
+
+### Patch Changes
+
+- 1a5e0bd: Update dependencies
+- Updated dependencies [1a5e0bd]
+- Updated dependencies [aabb7d1]
+  - @macalinao/grill@0.5.3
+  - @macalinao/wallet-adapter-compat@2.0.3
+
 ## 0.0.14
 
 ### Patch Changes
