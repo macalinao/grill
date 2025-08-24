@@ -1,5 +1,13 @@
 # @macalinao/grill
 
+## 0.5.2
+
+### Patch Changes
+
+- Updated dependencies [a9d96c1]
+- Updated dependencies [e8cb12d]
+  - @macalinao/token-utils@0.1.6
+
 ## 0.5.1
 
 ### Patch Changes

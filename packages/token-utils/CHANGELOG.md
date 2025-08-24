@@ -1,5 +1,12 @@
 # @macalinao/token-utils
 
+## 0.1.6
+
+### Patch Changes
+
+- a9d96c1: Support commas in parseTokenAmount
+- e8cb12d: Add tmath module
+
 ## 0.1.5
 
 ### Patch Changes
