@@ -86,12 +86,32 @@
         "typescript": "catalog:",
       },
     },
+    "packages/gill-contrib": {
+      "name": "@macalinao/gill-contrib",
+      "version": "0.0.0",
+      "dependencies": {
+        "@macalinao/dataloader-es": "workspace:*",
+        "@macalinao/solana-batch-accounts-loader": "workspace:*",
+        "@macalinao/token-utils": "workspace:*",
+        "@macalinao/zod-solana": "workspace:*",
+        "@solana/kit": "catalog:",
+        "gill": "catalog:",
+      },
+      "devDependencies": {
+        "@macalinao/eslint-config": "catalog:",
+        "@macalinao/tsconfig": "catalog:",
+        "@types/bun": "catalog:",
+        "eslint": "catalog:",
+        "typescript": "catalog:",
+      },
+    },
     "packages/grill": {
       "name": "@macalinao/grill",
       "version": "0.5.3",
       "dependencies": {
         "@macalinao/clients-token-metadata": "^0.2.3",
         "@macalinao/dataloader-es": "workspace:*",
+        "@macalinao/gill-contrib": "workspace:*",
         "@macalinao/solana-batch-accounts-loader": "workspace:*",
         "@macalinao/token-utils": "workspace:*",
         "@macalinao/zod-solana": "workspace:*",
@@ -631,6 +651,8 @@
     "@macalinao/eslint-config": ["@macalinao/eslint-config@4.2.2", "", { "dependencies": { "@eslint/js": "^9.30.0", "@typescript-eslint/eslint-plugin": "^8.35.1", "@typescript-eslint/parser": "^8.35.1", "@typescript-eslint/utils": "^8.35.1", "eslint": "^9.30.0", "eslint-config-prettier": "^10.1.5", "eslint-config-turbo": "^2.5.4", "eslint-import-resolver-typescript": "^4.4.4", "eslint-plugin-import-x": "^4.16.1", "eslint-plugin-prettier": "^5.5.1", "eslint-plugin-simple-import-sort": "^12.1.1", "eslint-plugin-turbo": "^2.5.4", "eslint-plugin-unused-imports": "^4.1.4", "globals": "^16.2.0", "prettier": "^3.6.2", "tslib": "^2.8.1", "typescript-eslint": "^8.35.1" } }, "sha512-/oPhUUYQr8Kpbv4AJW+w7eF5VF/dtxwiteq3lSBr+poWZGmtwDklbvYKew2m01TVKWUmFQRhd3d8BSSzGC5pkA=="],
 
     "@macalinao/eslint-config-react": ["@macalinao/eslint-config-react@4.0.1", "", { "dependencies": { "@macalinao/eslint-config": "^5.0.1", "@tanstack/eslint-plugin-query": "^5.83.1", "@typescript-eslint/utils": "^8.39.1", "eslint-plugin-import-x": "^4.16.1", "eslint-plugin-jsx-a11y": "^6.10.2", "eslint-plugin-react": "^7.37.5", "eslint-plugin-react-hooks": "^5.2.0", "typescript-eslint": "^8.39.1" }, "peerDependencies": { "eslint": "^9.33.0" } }, "sha512-asQm8kvc9QeIVmzX54OumN8F86kChYXwzUZXIgYG5EHjLEhvvgENHdxkaKMu2SNnk59BeDPWloN3OtBcr1MToQ=="],
+
+    "@macalinao/gill-contrib": ["@macalinao/gill-contrib@workspace:packages/gill-contrib"],
 
     "@macalinao/grill": ["@macalinao/grill@workspace:packages/grill"],
 

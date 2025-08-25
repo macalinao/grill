@@ -48,6 +48,7 @@
   "dependencies": {
     "@macalinao/clients-token-metadata": "^0.2.3",
     "@macalinao/dataloader-es": "workspace:*",
+    "@macalinao/gill-contrib": "workspace:*",
     "@macalinao/solana-batch-accounts-loader": "workspace:*",
     "@macalinao/token-utils": "workspace:*",
     "@macalinao/zod-solana": "workspace:*",

@@ -1,3 +1,4 @@
+import type { GetExplorerLinkFunction } from "@macalinao/gill-contrib";
 import { createBatchAccountsLoader } from "@macalinao/solana-batch-accounts-loader";
 import { useQueryClient } from "@tanstack/react-query";
 import type { Address } from "gill";
@@ -5,7 +6,6 @@ import { getExplorerLink as defaultGetExplorerLink } from "gill";
 import { useSolanaClient } from "gill-react";
 import type { FC, ReactNode } from "react";
 import { useCallback, useMemo } from "react";
-import type { GetExplorerLinkFunction } from "../contexts/grill-context.js";
 import { GrillContext } from "../contexts/grill-context.js";
 import { useKitWallet } from "../hooks/use-kit-wallet.js";
 import type { TransactionStatusEventCallback } from "../types.js";

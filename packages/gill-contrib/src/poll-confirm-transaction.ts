@@ -1,5 +1,6 @@
 import type { Signature } from "@solana/kit";
 import type { SolanaClient } from "gill";
+import type { ConfirmedTransaction } from "./get-confirmed-transaction.js";
 import { getConfirmedTransaction } from "./get-confirmed-transaction.js";
 
 export interface PollConfirmTransactionOptions {
@@ -23,7 +24,7 @@ export async function pollConfirmTransaction({
   rpc,
   maxRetries = 30,
   retryInterval = 1000,
-}: PollConfirmTransactionOptions) {
+}: PollConfirmTransactionOptions): Promise<ConfirmedTransaction> {
   let confirmed = false;
   let confirmationError: Error | null = null;
   let retries = 0;

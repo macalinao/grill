@@ -1,4 +1,13 @@
 import type {
+  GetExplorerLinkFunction,
+  SendTXFunction,
+  SendTXOptions,
+} from "@macalinao/gill-contrib";
+import {
+  getSignatureFromBytes,
+  pollConfirmTransaction,
+} from "@macalinao/gill-contrib";
+import type {
   Address,
   Instruction,
   Signature,
@@ -11,11 +20,7 @@ import {
 } from "@solana/kit";
 import type { SolanaClient } from "gill";
 import { createTransaction } from "gill";
-import type { GetExplorerLinkFunction } from "../../contexts/grill-context.js";
 import type { TransactionStatusEvent } from "../../types.js";
-import { getSignatureFromBytes } from "../get-signature-from-bytes.js";
-import { pollConfirmTransaction } from "../poll-confirm-transaction.js";
-import type { SendTXFunction, SendTXOptions } from "../types.js";
 
 export interface CreateSendTXParams {
   signer: TransactionSendingSigner | null;
@@ -135,6 +140,7 @@ export const createSendTX = ({
       // Reload the accounts that were written to
       const writableAccounts = result.transaction.message.accountKeys
         .filter((key) => key.writable)
+
         .map((k) => k.pubkey);
       if (writableAccounts.length > 0) {
         const waitForAccountRefetch = options.waitForAccountRefetch ?? true;
