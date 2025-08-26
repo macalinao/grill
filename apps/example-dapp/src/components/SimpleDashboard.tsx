@@ -1,7 +1,7 @@
+import type * as React from "react";
 import { useAccount, useKitWallet } from "@macalinao/grill";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useSolanaClient } from "gill-react";
-import type * as React from "react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";

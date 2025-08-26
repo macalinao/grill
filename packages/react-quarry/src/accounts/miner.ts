@@ -1,7 +1,7 @@
 import type { UseDecodedAccountHook } from "@macalinao/grill";
+import type { Miner } from "@macalinao/quarry";
 import { createDecodedAccountHook } from "@macalinao/grill";
-import { getMinerDecoder  } from "@macalinao/quarry";
-import type {Miner} from "@macalinao/quarry";
+import { getMinerDecoder } from "@macalinao/quarry";
 
 /**
  * Hook to fetch and decode a Miner account.

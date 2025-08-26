@@ -1,5 +1,4 @@
 import type { UseQueryResult } from "@tanstack/react-query";
-import { useQuery } from "@tanstack/react-query";
 import type {
   Account,
   Address,
@@ -7,12 +6,13 @@ import type {
   FetchAccountConfig,
   Simplify,
 } from "gill";
+import type { GillUseRpcHook } from "./types.js";
+import { useQuery } from "@tanstack/react-query";
 import { useGrillContext } from "../contexts/grill-context.js";
 import {
   createAccountQueryKey,
   fetchAndDecodeAccount,
 } from "../utils/account-helpers.js";
-import type { GillUseRpcHook } from "./types.js";
 
 type RpcConfig = Simplify<Omit<FetchAccountConfig, "abortSignal">>;
 

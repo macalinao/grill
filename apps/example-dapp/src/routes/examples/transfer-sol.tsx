@@ -1,3 +1,5 @@
+import type { Address } from "@solana/kit";
+import type * as React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   addressSchema,
@@ -8,12 +10,10 @@ import {
   useKitWallet,
   useSendTX,
 } from "@macalinao/grill";
-import type { Address } from "@solana/kit";
 import { lamports } from "@solana/kit";
 import { getTransferSolInstruction } from "@solana-program/system";
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, Wallet } from "lucide-react";
-import type * as React from "react";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";

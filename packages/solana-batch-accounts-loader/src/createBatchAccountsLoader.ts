@@ -1,13 +1,12 @@
-import { DataLoader } from "@macalinao/dataloader-es";
 import type { Address, EncodedAccount } from "@solana/kit";
-import { address, fetchEncodedAccounts } from "@solana/kit";
-import { chunk } from "lodash-es";
-
 import type {
   BatchAccountsLoader,
   BatchAccountsLoaderConfig,
   RawAccount,
 } from "./types.js";
+import { DataLoader } from "@macalinao/dataloader-es";
+import { address, fetchEncodedAccounts } from "@solana/kit";
+import { chunk } from "lodash-es";
 
 /**
  * Creates a DataLoader for batching Solana RPC account fetches.

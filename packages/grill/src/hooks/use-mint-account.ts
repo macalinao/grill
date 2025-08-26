@@ -1,6 +1,6 @@
 import type { Mint } from "@solana-program/token";
-import { getMintDecoder } from "@solana-program/token";
 import type { UseDecodedAccountHook } from "./create-decoded-account-hook.js";
+import { getMintDecoder } from "@solana-program/token";
 import { createDecodedAccountHook } from "./create-decoded-account-hook.js";
 
 /**

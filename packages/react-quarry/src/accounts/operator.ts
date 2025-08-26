@@ -1,7 +1,7 @@
 import type { UseDecodedAccountHook } from "@macalinao/grill";
+import type { Operator } from "@macalinao/quarry";
 import { createDecodedAccountHook } from "@macalinao/grill";
-import { getOperatorDecoder  } from "@macalinao/quarry";
-import type {Operator} from "@macalinao/quarry";
+import { getOperatorDecoder } from "@macalinao/quarry";
 
 /**
  * Hook to fetch and decode an Operator account.

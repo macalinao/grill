@@ -1,5 +1,5 @@
-import { address } from "@solana/kit";
 import type { TokenInfo } from "./types.js";
+import { address } from "@solana/kit";
 
 /**
  * TokenInfo for native SOL

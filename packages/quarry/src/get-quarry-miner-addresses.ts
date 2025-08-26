@@ -1,3 +1,7 @@
+import type { TokenInfo } from "@macalinao/token-utils";
+import type { Address } from "@solana/kit";
+import type { NonEmptyArray } from "nonempty-array";
+import type { PoolInfo, PoolRewardsInfo } from "./types.js";
 import {
   findMergeMinerPda,
   findMergePoolPda,
@@ -5,11 +9,7 @@ import {
   findQuarryPda,
   findReplicaMintPda,
 } from "@macalinao/clients-quarry";
-import type { TokenInfo } from "@macalinao/token-utils";
-import type { Address } from "@solana/kit";
-import type { NonEmptyArray } from "nonempty-array";
 import { assertNEA } from "nonempty-array";
-import type { PoolInfo, PoolRewardsInfo } from "./types.js";
 
 export interface PoolRewardsAddresses {
   rewarder: Address;

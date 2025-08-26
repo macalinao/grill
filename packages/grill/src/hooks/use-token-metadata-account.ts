@@ -1,10 +1,10 @@
 import type { Metadata } from "@macalinao/clients-token-metadata";
+import type { Account, Address } from "@solana/kit";
+import type { UseQueryResult } from "@tanstack/react-query";
 import {
   findMetadataPda,
   getMetadataDecoder,
 } from "@macalinao/clients-token-metadata";
-import type { Account, Address } from "@solana/kit";
-import type { UseQueryResult } from "@tanstack/react-query";
 import { createPdaHook } from "./create-pda-hook.js";
 import { useAccount } from "./use-account.js";
 

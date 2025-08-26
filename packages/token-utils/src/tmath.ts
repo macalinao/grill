@@ -1,6 +1,6 @@
+import type { TokenAmount } from "./types.js";
 import * as dn from "dnum";
 import { tokenAmountToBigInt } from "./token-amount-to-bigint.js";
-import type { TokenAmount } from "./types.js";
 
 function assertSameToken<TMint extends string, TDecimals extends number>(
   a: TokenAmount<TMint, TDecimals>,

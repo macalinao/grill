@@ -1,8 +1,9 @@
+import type { TokenInfo } from "@macalinao/grill";
+import type * as React from "react";
 import {
   formatTokenAmount,
   NATIVE_SOL,
   parseTokenAmount,
-  type TokenInfo,
   useAccount,
   useAssociatedTokenAccount,
   useKitWallet,
@@ -11,7 +12,6 @@ import {
 import { createFileRoute } from "@tanstack/react-router";
 import { getExplorerLink } from "gill";
 import { ArrowDownUp, X } from "lucide-react";
-import type * as React from "react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";

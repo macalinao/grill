@@ -1,5 +1,5 @@
-import * as dnum from "dnum";
 import type { TokenAmount } from "./types.js";
+import * as dnum from "dnum";
 
 /**
  * Options for formatting a token amount

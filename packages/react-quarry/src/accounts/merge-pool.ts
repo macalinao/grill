@@ -1,7 +1,7 @@
 import type { UseDecodedAccountHook } from "@macalinao/grill";
+import type { MergePool } from "@macalinao/quarry";
 import { createDecodedAccountHook } from "@macalinao/grill";
-import { getMergePoolDecoder  } from "@macalinao/quarry";
-import type {MergePool} from "@macalinao/quarry";
+import { getMergePoolDecoder } from "@macalinao/quarry";
 
 /**
  * Hook to fetch and decode a MergePool account.

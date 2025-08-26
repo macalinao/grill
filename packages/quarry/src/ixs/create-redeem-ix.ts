@@ -1,8 +1,8 @@
+import type { Address, Instruction, TransactionSigner } from "@solana/kit";
 import {
   findRedeemerPda,
   getRedeemTokensInstruction,
 } from "@macalinao/clients-quarry";
-import type { Address, Instruction, TransactionSigner } from "@solana/kit";
 import {
   findAssociatedTokenPda,
   TOKEN_PROGRAM_ADDRESS,

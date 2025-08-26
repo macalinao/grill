@@ -3,17 +3,17 @@ import type {
   SignatureBytes,
   TransactionSendingSigner,
 } from "@solana/kit";
-import {
-  address,
-  getBase58Encoder,
-  getBase64EncodedWireTransaction,
-} from "@solana/kit";
 import type {
   SendTransactionOptions,
   SupportedTransactionVersions,
   TransactionOrVersionedTransaction,
 } from "@solana/wallet-adapter-base";
 import type { Connection, TransactionSignature } from "@solana/web3.js";
+import {
+  address,
+  getBase58Encoder,
+  getBase64EncodedWireTransaction,
+} from "@solana/kit";
 import {
   PublicKey,
   VersionedMessage,
