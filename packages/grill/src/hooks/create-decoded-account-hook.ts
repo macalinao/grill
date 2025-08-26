@@ -7,7 +7,9 @@ import { useAccount } from "./use-account.js";
  */
 export type UseDecodedAccountHook<TData extends object> = (args: {
   address: Address | null | undefined;
-}) => UseQueryResult<Account<TData> | null>;
+}) => UseQueryResult<Account<TData> | null> & {
+  address: Address | null | undefined;
+};
 
 /**
  * Generic helper to create a hook for fetching and decoding accounts
@@ -21,7 +23,9 @@ export function createDecodedAccountHook<TData extends object>(
     address,
   }: {
     address: Address | null | undefined;
-  }): UseQueryResult<Account<TData> | null> {
+  }): UseQueryResult<Account<TData> | null> & {
+    address: Address | null | undefined;
+  } {
     return useAccount({
       address,
       decoder,

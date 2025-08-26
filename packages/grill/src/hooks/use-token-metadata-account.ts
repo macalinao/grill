@@ -25,6 +25,7 @@ export function useTokenMetadataAccount({
   mint: Address | null | undefined;
 }): UseQueryResult<Account<Metadata> | null> & {
   pda: Address | null | undefined;
+  address: Address | null | undefined;
 } {
   const pda = useMetadataPda(mint ? { mint } : null);
 
@@ -36,5 +37,6 @@ export function useTokenMetadataAccount({
   return {
     ...accountResult,
     pda,
+    address: pda,
   };
 }
