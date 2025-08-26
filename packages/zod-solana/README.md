@@ -170,10 +170,6 @@ bun run build
 bun run lint
 ```
 
-## License
-
-MIT © Ian Macalinao
-
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
