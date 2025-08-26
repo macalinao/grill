@@ -123,6 +123,7 @@
       "dependencies": {
         "@macalinao/clients-quarry": "^0.2.1",
         "@macalinao/token-utils": "workspace:*",
+        "@solana-program/token": "^0.5",
         "nonempty-array": "^0.1.4",
       },
       "devDependencies": {
@@ -134,6 +135,25 @@
       },
       "peerDependencies": {
         "@solana/kit": "catalog:",
+      },
+    },
+    "packages/react-quarry": {
+      "name": "@macalinao/react-quarry",
+      "version": "0.0.0",
+      "dependencies": {
+        "@macalinao/grill": "workspace:*",
+        "@macalinao/quarry": "workspace:*",
+        "@solana/kit": "catalog:",
+      },
+      "devDependencies": {
+        "@macalinao/eslint-config": "catalog:",
+        "@macalinao/tsconfig": "catalog:",
+        "@types/bun": "catalog:",
+        "@types/react": "catalog:",
+        "typescript": "catalog:",
+      },
+      "peerDependencies": {
+        "react": "^18 || ^19",
       },
     },
     "packages/solana-batch-accounts-loader": {
@@ -656,6 +676,8 @@
     "@macalinao/grill": ["@macalinao/grill@workspace:packages/grill"],
 
     "@macalinao/quarry": ["@macalinao/quarry@workspace:packages/quarry"],
+
+    "@macalinao/react-quarry": ["@macalinao/react-quarry@workspace:packages/react-quarry"],
 
     "@macalinao/solana-batch-accounts-loader": ["@macalinao/solana-batch-accounts-loader@workspace:packages/solana-batch-accounts-loader"],
 
