@@ -1,0 +1,66 @@
+{
+  "name": "@macalinao/quarry",
+  "version": "0.0.0",
+  "description": "Quarry utility functions for Solana development",
+  "license": "Apache-2.0",
+  "author": "Ian Macalinao <me@ianm.com>",
+  "homepage": "https://grill.ianm.com",
+  "keywords": [
+    "solana",
+    "quarry",
+    "utilities",
+    "ian-macalinao"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/macalinao/grill.git",
+    "directory": "packages/quarry"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@macalinao/clients-quarry": "^0.2.1",
+    "@macalinao/token-utils": "workspace:*",
+    "nonempty-array": "^0.1.4"
+  },
+  "devDependencies": {
+    "@macalinao/eslint-config": "catalog:",
+    "@macalinao/tsconfig": "catalog:",
+    "@solana/kit": "catalog:",
+    "@types/bun": "catalog:",
+    "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "@solana/kit": "catalog:"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}": [
+      "biome check --write --no-errors-on-unmatched",
+      "eslint --fix --cache"
+    ],
+    "*.{json,jsonc,html}": "biome format --write --no-errors-on-unmatched"
+  }
+}
