@@ -57,7 +57,9 @@ export interface UseAssociatedTokenAccountResult {
  */
 export function useAssociatedTokenAccount(
   options: UseAssociatedTokenAccountOptions,
-): UseQueryResult<Account<Token> | null> {
+): UseQueryResult<Account<Token> | null> & {
+  address: Address | null | undefined;
+} {
   const { mint, owner, tokenProgram = TOKEN_PROGRAM_ADDRESS } = options;
 
   // Compute the ATA address
@@ -72,7 +74,12 @@ export function useAssociatedTokenAccount(
   );
 
   // Fetch the token account data
-  return useTokenAccount({
+  const accountResult = useTokenAccount({
     address: ataAddress,
   });
+
+  return {
+    ...accountResult,
+    address: ataAddress,
+  };
 }

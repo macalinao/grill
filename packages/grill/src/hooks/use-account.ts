@@ -45,16 +45,21 @@ export function useAccount<
 }: UseAccountInput<
   TConfig,
   TDecodedData
->): UseQueryResult<Account<TDecodedData> | null> {
+>): UseQueryResult<Account<TDecodedData> | null> & {
+  address: Address | null | undefined;
+} {
   const { accountLoader } = useGrillContext();
   // TODO(igm): improve the types here and somehow ensure the decoder is the same
   // for each query of an account
-  return useQuery({
-    networkMode: "offlineFirst",
-    ...options,
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
-    queryKey: address ? createAccountQueryKey(address) : [null],
-    queryFn: () => fetchAndDecodeAccount(address, accountLoader, decoder),
-    enabled: !!address,
-  }) as UseQueryResult<Account<TDecodedData> | null>;
+  return {
+    ...(useQuery({
+      networkMode: "offlineFirst",
+      ...options,
+      // eslint-disable-next-line @tanstack/query/exhaustive-deps
+      queryKey: address ? createAccountQueryKey(address) : [null],
+      queryFn: () => fetchAndDecodeAccount(address, accountLoader, decoder),
+      enabled: !!address,
+    }) as UseQueryResult<Account<TDecodedData> | null>),
+    address,
+  };
 }

@@ -35,10 +35,12 @@ export type UseAccountsResult<TDecodedData extends object> =
   | {
       isLoading: true;
       data: (Account<TDecodedData> | null | undefined)[];
+      addresses: (Address | null | undefined)[];
     }
   | {
       isLoading: false;
       data: (Account<TDecodedData> | null)[];
+      addresses: (Address | null | undefined)[];
     };
 
 /**
@@ -87,6 +89,7 @@ export function useAccounts<
         return {
           isLoading: true,
           data: results.map((result) => result.data),
+          addresses,
         };
       }
       return {
@@ -94,6 +97,7 @@ export function useAccounts<
         data: results
           .map((result) => result.data)
           .filter((r) => r !== undefined),
+        addresses,
       };
     },
   });
