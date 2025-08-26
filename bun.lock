@@ -19,7 +19,7 @@
     },
     "apps/example-dapp": {
       "name": "example-dapp",
-      "version": "0.0.15",
+      "version": "0.0.16",
       "dependencies": {
         "@hookform/resolvers": "^5.2.1",
         "@macalinao/grill": "workspace:*",
@@ -88,7 +88,7 @@
     },
     "packages/grill": {
       "name": "@macalinao/grill",
-      "version": "0.5.3",
+      "version": "0.5.4",
       "dependencies": {
         "@macalinao/clients-token-metadata": "^0.2.3",
         "@macalinao/dataloader-es": "workspace:*",
@@ -156,7 +156,7 @@
     },
     "packages/wallet-adapter-compat": {
       "name": "@macalinao/wallet-adapter-compat",
-      "version": "2.0.3",
+      "version": "2.0.4",
       "dependencies": {
         "@solana/webcrypto-ed25519-polyfill": "*",
         "tslib": "catalog:",
