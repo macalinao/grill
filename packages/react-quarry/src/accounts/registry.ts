@@ -1,6 +1,7 @@
 import type { UseDecodedAccountHook } from "@macalinao/grill";
 import { createDecodedAccountHook } from "@macalinao/grill";
-import { getRegistryDecoder, type Registry } from "@macalinao/quarry";
+import { getRegistryDecoder  } from "@macalinao/quarry";
+import type {Registry} from "@macalinao/quarry";
 
 /**
  * Hook to fetch and decode a Registry account.

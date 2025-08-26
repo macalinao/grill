@@ -1,6 +1,7 @@
 import type { PdaHook } from "@macalinao/grill";
 import { createPdaHook } from "@macalinao/grill";
-import { findReplicaMintPda, type ReplicaMintSeeds } from "@macalinao/quarry";
+import { findReplicaMintPda  } from "@macalinao/quarry";
+import type {ReplicaMintSeeds} from "@macalinao/quarry";
 import type { Address } from "@solana/kit";
 
 /**

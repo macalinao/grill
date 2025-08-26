@@ -146,7 +146,7 @@
         "@solana/kit": "catalog:",
       },
       "devDependencies": {
-        "@macalinao/eslint-config": "catalog:",
+        "@macalinao/eslint-config-react": "^4.0.1",
         "@macalinao/tsconfig": "catalog:",
         "@types/bun": "catalog:",
         "@types/react": "catalog:",

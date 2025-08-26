@@ -1,6 +1,7 @@
 import type { UseDecodedAccountHook } from "@macalinao/grill";
 import { createDecodedAccountHook } from "@macalinao/grill";
-import { getMintWrapperDecoder, type MintWrapper } from "@macalinao/quarry";
+import { getMintWrapperDecoder  } from "@macalinao/quarry";
+import type {MintWrapper} from "@macalinao/quarry";
 
 /**
  * Hook to fetch and decode a MintWrapper account.

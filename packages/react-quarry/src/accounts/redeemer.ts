@@ -1,6 +1,7 @@
 import type { UseDecodedAccountHook } from "@macalinao/grill";
 import { createDecodedAccountHook } from "@macalinao/grill";
-import { getRedeemerDecoder, type Redeemer } from "@macalinao/quarry";
+import { getRedeemerDecoder  } from "@macalinao/quarry";
+import type {Redeemer} from "@macalinao/quarry";
 
 /**
  * Hook to fetch and decode a Redeemer account.

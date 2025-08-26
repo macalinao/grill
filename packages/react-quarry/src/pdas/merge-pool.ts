@@ -1,6 +1,7 @@
 import type { PdaHook } from "@macalinao/grill";
 import { createPdaHook } from "@macalinao/grill";
-import { findMergePoolPda, type MergePoolSeeds } from "@macalinao/quarry";
+import { findMergePoolPda  } from "@macalinao/quarry";
+import type {MergePoolSeeds} from "@macalinao/quarry";
 import type { Address } from "@solana/kit";
 
 /**

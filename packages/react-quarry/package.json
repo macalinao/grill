@@ -31,7 +31,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "build:watch": "tsc --watch",
+    "lint": "eslint .",
     "clean": "rm -rf dist",
     "typecheck": "tsc --noEmit"
   },
@@ -44,7 +44,7 @@
     "react": "^18 || ^19"
   },
   "devDependencies": {
-    "@macalinao/eslint-config": "catalog:",
+    "@macalinao/eslint-config-react": "^4.0.1",
     "@macalinao/tsconfig": "catalog:",
     "@types/bun": "catalog:",
     "@types/react": "catalog:",
