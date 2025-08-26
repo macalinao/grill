@@ -33,6 +33,7 @@
     "rules": {
       "recommended": true,
       "nursery": {
+        "useConsistentTypeDefinitions": "error",
         "noFloatingPromises": "error"
       },
       "complexity": {
