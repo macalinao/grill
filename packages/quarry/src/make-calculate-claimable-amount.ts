@@ -4,6 +4,9 @@ import { calculateRewardsEarned } from "./payroll.js";
 
 const PRECISION_SECONDS = 100_000;
 
+/**
+ * Creates a function that calculates the claimable amount of rewards for a miner. Uses number arithmetic to make things super fast.
+ */
 export const makeCalculateClaimableAmount = ({
   rewardsToken,
   quarryData,
