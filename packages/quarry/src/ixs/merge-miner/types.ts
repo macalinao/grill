@@ -93,3 +93,10 @@ export interface CreateMergePoolArgs {
   primaryMint: Address;
   payer: TransactionSigner;
 }
+
+export interface MinerAddresses {
+  rewarder: Address;
+  quarry: Address;
+  miner: Address;
+  minerVault: Address;
+}
