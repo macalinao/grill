@@ -124,6 +124,7 @@
         "@macalinao/clients-quarry": "^0.2.1",
         "@macalinao/token-utils": "workspace:*",
         "@solana-program/token": "^0.5",
+        "@solana/signers": "^2.3.0",
         "nonempty-array": "^0.1.4",
       },
       "devDependencies": {

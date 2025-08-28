@@ -1,15 +1,8 @@
-// Export all types
-
-// Export claim functions
-export * from "./claim.js";
-// Export helper functions
+export * from "./claim-rewards.js";
+export * from "./deposit.js";
 export * from "./helpers.js";
-// Export initialization functions
 export * from "./init.js";
-// Export staking functions
 export * from "./stake.js";
 export * from "./types.js";
-// Export unstaking functions
 export * from "./unstake.js";
-// Export withdraw functions
 export * from "./withdraw.js";

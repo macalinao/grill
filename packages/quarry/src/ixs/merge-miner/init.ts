@@ -1,18 +1,13 @@
 import type { Address, Instruction, TransactionSigner } from "@solana/kit";
-import type {
-  InitMergeMinerArgs,
-  InitMinerForMergeMinerArgs,
-} from "./types.js";
+import type { MergePoolAccount } from "./claim-rewards.js";
+import type { InitMergeMinerArgs, MinerAddresses } from "./types.js";
 import {
   findMergeMinerPda,
-  findMinerPda,
-  findQuarryPda,
   findReplicaMintPda,
   getInitMergeMinerV2Instruction,
   getInitMinerMMV2Instruction,
 } from "@macalinao/clients-quarry";
 import {
-  findAssociatedTokenPda,
   getCreateAssociatedTokenIdempotentInstruction,
   TOKEN_PROGRAM_ADDRESS,
 } from "@solana-program/token";
@@ -20,6 +15,11 @@ import { getMinerAddresses } from "./helpers.js";
 
 /**
  * Creates an instruction to initialize a merge miner
+ *
+ * @param pool - The merge pool address
+ * @param owner - The owner of the merge miner
+ * @param payer - The transaction signer who will pay for the initialization
+ * @returns Promise resolving to the initialization instruction
  */
 export async function createInitMergeMinerIx({
   pool,
@@ -40,63 +40,131 @@ export async function createInitMergeMinerIx({
 }
 
 /**
- * Creates an instruction to initialize a miner for a merge miner (for replica quarry)
+ * Creates an instruction to initialize a miner for a merge miner using pre-computed addresses
+ * This is a helper function that avoids re-deriving addresses when they are already available
+ *
+ * @param pool - The merge pool address
+ * @param mm - The merge miner address
+ * @param tokenMint - The token mint address for the miner
+ * @param minerAddresses - Pre-computed miner addresses (rewarder, quarry, miner, minerVault)
+ * @param payer - The transaction signer who will pay for the initialization
+ * @returns The miner initialization instruction
  */
-export async function createInitMinerForMergeMinerIx({
+function createInitMinerForMergeMinerIxFromAddresses({
   pool,
   mm,
-  rewarder,
   tokenMint,
+  minerAddresses,
   payer,
-}: InitMinerForMergeMinerArgs): Promise<Instruction> {
-  const [quarry] = await findQuarryPda({
-    rewarder,
-    tokenMint,
-  });
-
-  const [miner] = await findMinerPda({
-    quarry,
-    authority: mm,
-  });
-
-  const [minerVault] = await findAssociatedTokenPda({
-    mint: tokenMint,
-    owner: miner,
-    tokenProgram: TOKEN_PROGRAM_ADDRESS,
-  });
-
+}: {
+  pool: Address;
+  mm: Address;
+  tokenMint: Address;
+  minerAddresses: MinerAddresses;
+  payer: TransactionSigner;
+}): Instruction {
   return getInitMinerMMV2Instruction({
     pool,
     mm,
     payer,
-    rewarder,
-    miner,
-    quarry,
+    rewarder: minerAddresses.rewarder,
+    miner: minerAddresses.miner,
+    quarry: minerAddresses.quarry,
     tokenMint,
-    minerVault,
+    minerVault: minerAddresses.minerVault,
   });
+}
+
+/**
+ * Creates instructions to initialize both a merge miner and its primary miner
+ * This is a convenience function that combines merge miner creation with primary miner setup
+ *
+ * @param rewarder - The rewarder program address
+ * @param mergePool - The merge pool account containing address and mint data
+ * @param owner - The owner of the merge miner (defaults to payer.address if not provided)
+ * @param payer - The transaction signer who will pay for the initialization
+ * @returns Promise resolving to instructions array and miner addresses
+ */
+export async function getCreateInitMergeMinerIxs({
+  rewarder,
+  mergePool,
+  owner,
+  payer,
+}: {
+  rewarder: Address;
+  mergePool: MergePoolAccount;
+  owner?: Address;
+  payer: TransactionSigner;
+}): Promise<{
+  ixs: Instruction[];
+  minerAddresses: MinerAddresses;
+}> {
+  const actualOwner = owner ?? payer.address;
+  const instructions: Instruction[] = [];
+
+  // Step 1: Initialize the merge miner
+  instructions.push(
+    await createInitMergeMinerIx({
+      pool: mergePool.address,
+      owner: actualOwner,
+      payer,
+    }),
+  );
+
+  // Step 2: Initialize the primary miner and get its addresses
+  const { ixs: primaryMinerIxs, minerAddresses } = await getInitPrimaryMinerIxs(
+    {
+      rewarder,
+      mergePool,
+      owner: actualOwner,
+      payer,
+    },
+  );
+
+  // Add the primary miner instructions
+  instructions.push(...primaryMinerIxs);
+
+  return {
+    ixs: instructions,
+    minerAddresses,
+  };
 }
 
 /**
  * Creates instructions to initialize the primary miner for a merge miner
  * Includes creating the associated token account for the miner vault
+ *
+ * @param rewarder - The rewarder program address
+ * @param mergePool - The merge pool account containing address and mint data
+ * @param owner - The owner of the merge miner (defaults to payer.address if not provided)
+ * @param payer - The transaction signer who will pay for the initialization
+ * @returns Promise resolving to instructions array and miner addresses
  */
 export async function getInitPrimaryMinerIxs({
   rewarder,
-  primaryMint,
   mergePool,
-  mm,
+  owner,
   payer,
 }: {
   rewarder: Address;
-  primaryMint: Address;
-  mergePool: Address;
-  mm: Address;
+  mergePool: MergePoolAccount;
+  owner?: Address;
   payer: TransactionSigner;
-}): Promise<Instruction[]> {
+}): Promise<{
+  ixs: Instruction[];
+  minerAddresses: MinerAddresses;
+}> {
+  const actualOwner = owner ?? payer.address;
+
+  // Derive the merge miner from pool and owner
+  const [mm] = await findMergeMinerPda({
+    pool: mergePool.address,
+    owner: actualOwner,
+  });
+
   const minerAddresses = await getMinerAddresses({
     rewarder,
-    mint: primaryMint,
+    mint: mergePool.data.primaryMint,
     authority: mm,
   });
 
@@ -108,46 +176,63 @@ export async function getInitPrimaryMinerIxs({
       payer,
       ata: minerAddresses.minerVault,
       owner: minerAddresses.miner,
-      mint: primaryMint,
+      mint: mergePool.data.primaryMint,
       tokenProgram: TOKEN_PROGRAM_ADDRESS,
     }),
   );
 
   // Initialize the miner
   instructions.push(
-    getInitMinerMMV2Instruction({
-      pool: mergePool,
+    createInitMinerForMergeMinerIxFromAddresses({
+      pool: mergePool.address,
       mm,
+      tokenMint: mergePool.data.primaryMint,
+      minerAddresses,
       payer,
-      rewarder,
-      miner: minerAddresses.miner,
-      quarry: minerAddresses.quarry,
-      tokenMint: primaryMint,
-      minerVault: minerAddresses.minerVault,
     }),
   );
 
-  return instructions;
+  return {
+    ixs: instructions,
+    minerAddresses,
+  };
 }
 
 /**
  * Creates instructions to initialize a replica miner for a merge miner
  * Includes creating the associated token account for the miner vault
+ *
+ * @param rewarder - The rewarder program address
+ * @param mergePool - The merge pool account containing address and mint data
+ * @param owner - The owner of the merge miner (defaults to payer.address if not provided)
+ * @param payer - The transaction signer who will pay for the initialization
+ * @returns Promise resolving to instructions array and miner addresses
  */
 export async function getInitReplicaMinerIxs({
   rewarder,
   mergePool,
-  mm,
+  owner,
   payer,
 }: {
   rewarder: Address;
-  mergePool: Address;
-  mm: Address;
+  mergePool: MergePoolAccount;
+  owner?: Address;
   payer: TransactionSigner;
-}): Promise<Instruction[]> {
+}): Promise<{
+  ixs: Instruction[];
+  minerAddresses: MinerAddresses;
+}> {
+  const actualOwner = owner ?? payer.address;
+
+  // Derive the merge miner from pool and owner
+  const [mm] = await findMergeMinerPda({
+    pool: mergePool.address,
+    owner: actualOwner,
+  });
+
   // Derive the replica mint from the merge pool
   const [replicaMint] = await findReplicaMintPda({
-    pool: mergePool,
+    pool: mergePool.address,
   });
 
   const minerAddresses = await getMinerAddresses({
@@ -171,17 +256,17 @@ export async function getInitReplicaMinerIxs({
 
   // Initialize the miner
   instructions.push(
-    getInitMinerMMV2Instruction({
-      pool: mergePool,
+    createInitMinerForMergeMinerIxFromAddresses({
+      pool: mergePool.address,
       mm,
-      payer,
-      rewarder,
-      miner: minerAddresses.miner,
-      quarry: minerAddresses.quarry,
       tokenMint: replicaMint,
-      minerVault: minerAddresses.minerVault,
+      minerAddresses,
+      payer,
     }),
   );
 
-  return instructions;
+  return {
+    ixs: instructions,
+    minerAddresses,
+  };
 }

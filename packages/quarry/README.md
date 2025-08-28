@@ -2,6 +2,8 @@
 
 A library for interacting with the Quarry Protocol, redesigned and refactored for `@solana/kit`.
 
+**NOTE: The API of this library is highly unstable and may change at any time.**
+
 The old [Quarry SDK](https://github.com/QuarryProtocol/quarry) has several issues:
 
 - It uses `@solana/web3.js` instead of the modern `@solana/kit`
