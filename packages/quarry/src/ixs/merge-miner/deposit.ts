@@ -12,6 +12,7 @@ import {
 } from "@solana-program/token";
 import { getMinerAddresses } from "./helpers.js";
 import { getCreateInitMergeMinerIxs } from "./init.js";
+import { createStakeReplicaMinerIx } from "./replica.js";
 
 /**
  * Arguments for depositing tokens into a merge miner
@@ -19,6 +20,7 @@ import { getCreateInitMergeMinerIxs } from "./init.js";
 export interface DepositMergeMinerArgs {
   amount: bigint;
   rewarder: Address;
+  replicaRewarders?: Address[];
   mergePool: MergePoolAccount;
   mmOwner?: TransactionSigner;
   payer: TransactionSigner;
@@ -44,6 +46,7 @@ export async function createDepositMergeMinerIxs({
   rewarder,
   mergePool,
   payer,
+  replicaRewarders = [],
   mmOwner = payer,
 }: DepositMergeMinerArgs): Promise<{
   ixs: Instruction[];
@@ -109,6 +112,17 @@ export async function createDepositMergeMinerIxs({
     primaryMint: mergePool.data.primaryMint,
   });
   instructions.push(stakeIx);
+
+  for (const replicaRewarder of replicaRewarders) {
+    const stakeIx = await createStakeReplicaMinerIx({
+      mmOwner,
+      pool: mergePool.address,
+      mm: mmAddress,
+      rewarder: replicaRewarder,
+      replicaMint: mergePool.data.replicaMint,
+    });
+    instructions.push(stakeIx);
+  }
 
   return {
     ixs: instructions,

@@ -78,6 +78,9 @@ export interface WithdrawTokensMergeMinerArgs {
   mm: Address;
   withdrawMint: Address;
   tokenDestination: Address;
+  rewarder: Address;
+  replicaRewarders?: Address[];
+  amount: bigint;
 }
 
 export interface RescueTokensMergeMinerArgs {
