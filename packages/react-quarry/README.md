@@ -7,11 +7,11 @@ Documentation is pending.
 ## Installation
 
 ```bash
-npm install @macalinao/react-quarry @macalinao/grill @macalinao/quarry
+npm install @macalinao/react-quarry @macalinao/grill
 # or
-yarn add @macalinao/react-quarry @macalinao/grill @macalinao/quarry
+yarn add @macalinao/react-quarry @macalinao/grill
 # or
-bun add @macalinao/react-quarry @macalinao/grill @macalinao/quarry
+bun add @macalinao/react-quarry @macalinao/grill
 ```
 
 ## Features
