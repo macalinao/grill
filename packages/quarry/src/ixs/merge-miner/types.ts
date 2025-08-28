@@ -1,4 +1,27 @@
 import type { Address, TransactionSigner } from "@solana/kit";
+import type { MergePoolAccount } from "./claim-rewards.js";
+
+/**
+ * Base arguments shared by merge miner operations
+ */
+export interface BaseMergeMinerArgs {
+  /** The merge pool account */
+  mergePool: MergePoolAccount;
+  /** The primary rewarder address */
+  rewarder: Address;
+  /** Optional array of replica rewarder addresses */
+  replicaRewarders?: Address[];
+  /** Transaction payer */
+  payer: TransactionSigner;
+}
+
+/**
+ * Base arguments for operations that require specifying an amount
+ */
+export interface MergeMinerAmountArgs extends BaseMergeMinerArgs {
+  /** Amount of tokens to deposit or withdraw */
+  amount: bigint;
+}
 
 export interface InitMergeMinerArgs {
   pool: Address;
@@ -14,7 +37,10 @@ export interface InitMinerForMergeMinerArgs {
   payer: TransactionSigner;
 }
 
-export interface StakePrimaryMinerArgs {
+/**
+ * Base arguments shared by stake and unstake primary miner operations
+ */
+export interface BasePrimaryMinerArgs {
   mmOwner: TransactionSigner;
   pool: Address;
   mm: Address;
@@ -22,30 +48,26 @@ export interface StakePrimaryMinerArgs {
   primaryMint: Address;
 }
 
-export interface StakeReplicaMinerArgs {
-  mmOwner: TransactionSigner;
-  pool: Address;
-  mm: Address;
-  rewarder: Address;
-  replicaMint: Address;
-}
+export type StakePrimaryMinerArgs = BasePrimaryMinerArgs;
 
-export interface UnstakePrimaryMinerArgs {
-  mmOwner: TransactionSigner;
-  pool: Address;
-  mm: Address;
-  rewarder: Address;
-  primaryMint: Address;
+export interface UnstakePrimaryMinerArgs extends BasePrimaryMinerArgs {
   amount: bigint;
 }
 
-export interface UnstakeAllReplicaMinerArgs {
+/**
+ * Base arguments shared by stake and unstake replica miner operations
+ */
+export interface BaseReplicaMinerArgs {
   mmOwner: TransactionSigner;
   pool: Address;
   mm: Address;
   rewarder: Address;
   replicaMint: Address;
 }
+
+export type StakeReplicaMinerArgs = BaseReplicaMinerArgs;
+
+export type UnstakeAllReplicaMinerArgs = BaseReplicaMinerArgs;
 
 export interface ClaimRewardsMergeMinerArgs {
   mintWrapper: Address;

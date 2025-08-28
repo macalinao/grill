@@ -1,29 +1,24 @@
-import type { Address, Instruction, TransactionSigner } from "@solana/kit";
-import type { MergePoolAccount } from "./claim-rewards.js";
-import {
-  findMergeMinerPda,
-  getStakePrimaryMinerInstruction,
-} from "@macalinao/clients-quarry";
+import type { Instruction, TransactionSigner } from "@solana/kit";
+import type { MergeMinerAmountArgs } from "./types.js";
+import { findMergeMinerPda } from "@macalinao/clients-quarry";
 import {
   findAssociatedTokenPda,
   getCreateAssociatedTokenIdempotentInstruction,
   getTransferInstruction,
   TOKEN_PROGRAM_ADDRESS,
 } from "@solana-program/token";
-import { getMinerAddresses } from "./helpers.js";
 import { getCreateInitMergeMinerIxs } from "./init.js";
-import { createStakeReplicaMinerIx } from "./replica.js";
+import {
+  createStakePrimaryMinerIx,
+  createStakeReplicaMinerIx,
+} from "./miner.js";
 
 /**
  * Arguments for depositing tokens into a merge miner
  */
-export interface DepositMergeMinerArgs {
-  amount: bigint;
-  rewarder: Address;
-  replicaRewarders?: Address[];
-  mergePool: MergePoolAccount;
+export interface DepositMergeMinerArgs extends MergeMinerAmountArgs {
+  /** The merge miner owner (defaults to payer) */
   mmOwner?: TransactionSigner;
-  payer: TransactionSigner;
 }
 
 /**
@@ -104,14 +99,15 @@ export async function createDepositMergeMinerIxs({
   );
 
   // Stake tokens in the primary quarry
-  const stakeIx = await createStakePrimaryMinerIx({
-    mmOwner,
-    pool: mergePool.address,
-    mm: mmAddress,
-    rewarder,
-    primaryMint: mergePool.data.primaryMint,
-  });
-  instructions.push(stakeIx);
+  instructions.push(
+    await createStakePrimaryMinerIx({
+      mmOwner,
+      pool: mergePool.address,
+      mm: mmAddress,
+      rewarder,
+      primaryMint: mergePool.data.primaryMint,
+    }),
+  );
 
   for (const replicaRewarder of replicaRewarders) {
     const stakeIx = await createStakeReplicaMinerIx({
@@ -127,46 +123,4 @@ export async function createDepositMergeMinerIxs({
   return {
     ixs: instructions,
   };
-}
-
-/**
- * Creates an instruction to stake tokens in the primary miner
- */
-async function createStakePrimaryMinerIx({
-  mmOwner,
-  pool,
-  mm,
-  rewarder,
-  primaryMint,
-}: {
-  mmOwner: TransactionSigner;
-  pool: Address;
-  mm: Address;
-  rewarder: Address;
-  primaryMint: Address;
-}): Promise<Instruction> {
-  // Get miner addresses
-  const minerAddresses = await getMinerAddresses({
-    rewarder,
-    mint: primaryMint,
-    authority: mm,
-  });
-
-  // Get merge miner's token account
-  const [mmPrimaryTokenAccount] = await findAssociatedTokenPda({
-    mint: primaryMint,
-    owner: mm,
-    tokenProgram: TOKEN_PROGRAM_ADDRESS,
-  });
-
-  return getStakePrimaryMinerInstruction({
-    mmOwner,
-    mmPrimaryTokenAccount,
-    pool,
-    mm,
-    rewarder,
-    quarry: minerAddresses.quarry,
-    miner: minerAddresses.miner,
-    minerVault: minerAddresses.minerVault,
-  });
 }
