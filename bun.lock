@@ -145,6 +145,7 @@
         "@macalinao/grill": "workspace:*",
         "@macalinao/quarry": "workspace:*",
         "@solana/kit": "catalog:",
+        "gill-react": "^0.5.0",
       },
       "devDependencies": {
         "@macalinao/eslint-config-react": "^4.0.1",

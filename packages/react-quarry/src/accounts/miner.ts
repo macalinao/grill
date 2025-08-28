@@ -1,6 +1,12 @@
-import type { UseDecodedAccountHook } from "@macalinao/grill";
+import type {
+  UseDecodedAccountHook,
+  UseDecodedAccountsHook,
+} from "@macalinao/grill";
 import type { Miner } from "@macalinao/quarry";
-import { createDecodedAccountHook } from "@macalinao/grill";
+import {
+  createDecodedAccountHook,
+  createDecodedAccountsHook,
+} from "@macalinao/grill";
 import { getMinerDecoder } from "@macalinao/quarry";
 
 /**
@@ -9,3 +15,6 @@ import { getMinerDecoder } from "@macalinao/quarry";
  */
 export const useMiner: UseDecodedAccountHook<Miner> =
   createDecodedAccountHook<Miner>(getMinerDecoder());
+
+export const useMiners: UseDecodedAccountsHook<Miner> =
+  createDecodedAccountsHook<Miner>(getMinerDecoder());

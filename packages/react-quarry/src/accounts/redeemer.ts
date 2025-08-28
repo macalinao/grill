@@ -1,6 +1,12 @@
-import type { UseDecodedAccountHook } from "@macalinao/grill";
+import type {
+  UseDecodedAccountHook,
+  UseDecodedAccountsHook,
+} from "@macalinao/grill";
 import type { Redeemer } from "@macalinao/quarry";
-import { createDecodedAccountHook } from "@macalinao/grill";
+import {
+  createDecodedAccountHook,
+  createDecodedAccountsHook,
+} from "@macalinao/grill";
 import { getRedeemerDecoder } from "@macalinao/quarry";
 
 /**
@@ -9,3 +15,6 @@ import { getRedeemerDecoder } from "@macalinao/quarry";
  */
 export const useRedeemer: UseDecodedAccountHook<Redeemer> =
   createDecodedAccountHook<Redeemer>(getRedeemerDecoder());
+
+export const useRedeemers: UseDecodedAccountsHook<Redeemer> =
+  createDecodedAccountsHook<Redeemer>(getRedeemerDecoder());

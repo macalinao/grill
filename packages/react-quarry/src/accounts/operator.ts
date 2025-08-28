@@ -1,6 +1,12 @@
-import type { UseDecodedAccountHook } from "@macalinao/grill";
+import type {
+  UseDecodedAccountHook,
+  UseDecodedAccountsHook,
+} from "@macalinao/grill";
 import type { Operator } from "@macalinao/quarry";
-import { createDecodedAccountHook } from "@macalinao/grill";
+import {
+  createDecodedAccountHook,
+  createDecodedAccountsHook,
+} from "@macalinao/grill";
 import { getOperatorDecoder } from "@macalinao/quarry";
 
 /**
@@ -9,3 +15,6 @@ import { getOperatorDecoder } from "@macalinao/quarry";
  */
 export const useOperator: UseDecodedAccountHook<Operator> =
   createDecodedAccountHook<Operator>(getOperatorDecoder());
+
+export const useOperators: UseDecodedAccountsHook<Operator> =
+  createDecodedAccountsHook<Operator>(getOperatorDecoder());

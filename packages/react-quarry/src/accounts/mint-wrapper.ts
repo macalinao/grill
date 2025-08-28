@@ -1,6 +1,12 @@
-import type { UseDecodedAccountHook } from "@macalinao/grill";
+import type {
+  UseDecodedAccountHook,
+  UseDecodedAccountsHook,
+} from "@macalinao/grill";
 import type { MintWrapper } from "@macalinao/quarry";
-import { createDecodedAccountHook } from "@macalinao/grill";
+import {
+  createDecodedAccountHook,
+  createDecodedAccountsHook,
+} from "@macalinao/grill";
 import { getMintWrapperDecoder } from "@macalinao/quarry";
 
 /**
@@ -9,3 +15,6 @@ import { getMintWrapperDecoder } from "@macalinao/quarry";
  */
 export const useMintWrapper: UseDecodedAccountHook<MintWrapper> =
   createDecodedAccountHook<MintWrapper>(getMintWrapperDecoder());
+
+export const useMintWrappers: UseDecodedAccountsHook<MintWrapper> =
+  createDecodedAccountsHook<MintWrapper>(getMintWrapperDecoder());

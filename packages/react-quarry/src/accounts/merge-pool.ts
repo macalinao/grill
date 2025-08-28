@@ -1,6 +1,12 @@
-import type { UseDecodedAccountHook } from "@macalinao/grill";
+import type {
+  UseDecodedAccountHook,
+  UseDecodedAccountsHook,
+} from "@macalinao/grill";
 import type { MergePool } from "@macalinao/quarry";
-import { createDecodedAccountHook } from "@macalinao/grill";
+import {
+  createDecodedAccountHook,
+  createDecodedAccountsHook,
+} from "@macalinao/grill";
 import { getMergePoolDecoder } from "@macalinao/quarry";
 
 /**
@@ -9,3 +15,6 @@ import { getMergePoolDecoder } from "@macalinao/quarry";
  */
 export const useMergePool: UseDecodedAccountHook<MergePool> =
   createDecodedAccountHook<MergePool>(getMergePoolDecoder());
+
+export const useMergePools: UseDecodedAccountsHook<MergePool> =
+  createDecodedAccountsHook<MergePool>(getMergePoolDecoder());

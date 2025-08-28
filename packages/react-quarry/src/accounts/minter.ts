@@ -1,6 +1,12 @@
-import type { UseDecodedAccountHook } from "@macalinao/grill";
+import type {
+  UseDecodedAccountHook,
+  UseDecodedAccountsHook,
+} from "@macalinao/grill";
 import type { Minter } from "@macalinao/quarry";
-import { createDecodedAccountHook } from "@macalinao/grill";
+import {
+  createDecodedAccountHook,
+  createDecodedAccountsHook,
+} from "@macalinao/grill";
 import { getMinterDecoder } from "@macalinao/quarry";
 
 /**
@@ -9,3 +15,6 @@ import { getMinterDecoder } from "@macalinao/quarry";
  */
 export const useMinter: UseDecodedAccountHook<Minter> =
   createDecodedAccountHook<Minter>(getMinterDecoder());
+
+export const useMinters: UseDecodedAccountsHook<Minter> =
+  createDecodedAccountsHook<Minter>(getMinterDecoder());

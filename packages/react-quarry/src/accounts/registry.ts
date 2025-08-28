@@ -1,6 +1,12 @@
-import type { UseDecodedAccountHook } from "@macalinao/grill";
+import type {
+  UseDecodedAccountHook,
+  UseDecodedAccountsHook,
+} from "@macalinao/grill";
 import type { Registry } from "@macalinao/quarry";
-import { createDecodedAccountHook } from "@macalinao/grill";
+import {
+  createDecodedAccountHook,
+  createDecodedAccountsHook,
+} from "@macalinao/grill";
 import { getRegistryDecoder } from "@macalinao/quarry";
 
 /**
@@ -9,3 +15,6 @@ import { getRegistryDecoder } from "@macalinao/quarry";
  */
 export const useRegistry: UseDecodedAccountHook<Registry> =
   createDecodedAccountHook<Registry>(getRegistryDecoder());
+
+export const useRegistries: UseDecodedAccountsHook<Registry> =
+  createDecodedAccountsHook<Registry>(getRegistryDecoder());
