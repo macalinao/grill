@@ -1,0 +1,71 @@
+{
+  "name": "@macalinao/react-quarry",
+  "version": "0.0.0",
+  "description": "React hooks for Quarry",
+  "author": "Ian Macalinao <me@ianm.com>",
+  "homepage": "https://grill.ianm.com",
+  "keywords": [
+    "quarry",
+    "react-quarry",
+    "solana",
+    "defi",
+    "staking",
+    "mining",
+    "rewards",
+    "liquidity-mining",
+    "yield-farming",
+    "merge-mining",
+    "react",
+    "react-hooks",
+    "blockchain",
+    "web3",
+    "ian-macalinao",
+    "macalinao",
+    "grill"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/macalinao/grill.git",
+    "directory": "packages/react-quarry"
+  },
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "dist/",
+    "src/",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint .",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@macalinao/grill": "workspace:*",
+    "@macalinao/quarry": "workspace:*",
+    "@solana/kit": "catalog:"
+  },
+  "peerDependencies": {
+    "react": "^18 || ^19"
+  },
+  "devDependencies": {
+    "@macalinao/eslint-config-react": "^4.0.1",
+    "@macalinao/tsconfig": "catalog:",
+    "@types/bun": "catalog:",
+    "@types/react": "catalog:",
+    "typescript": "catalog:"
+  }
+}

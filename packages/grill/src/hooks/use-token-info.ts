@@ -1,8 +1,8 @@
 import type { TokenInfo } from "@macalinao/token-utils";
-import { createTokenInfo } from "@macalinao/token-utils";
-import { tokenMetadataSchema } from "@macalinao/zod-solana";
 import type { Address } from "@solana/kit";
 import type { UseQueryResult } from "@tanstack/react-query";
+import { createTokenInfo } from "@macalinao/token-utils";
+import { tokenMetadataSchema } from "@macalinao/zod-solana";
 import { useQuery } from "@tanstack/react-query";
 import { GRILL_HOOK_CLIENT_KEY } from "../constants.js";
 import { useMintAccount } from "./use-mint-account.js";

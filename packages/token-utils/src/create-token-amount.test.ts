@@ -1,7 +1,7 @@
+import type { TokenInfo } from "./types.js";
 import { describe, expect, it } from "bun:test";
 import { address } from "@solana/kit";
 import { createTokenAmount } from "./create-token-amount.js";
-import type { TokenInfo } from "./types.js";
 
 describe("createTokenAmount", () => {
   const usdcToken: TokenInfo<string, 6> = {

@@ -1,6 +1,6 @@
+import type { TokenInfo } from "./types.js";
 import { address } from "@solana/kit";
 import { createTokenInfoFromMint } from "./create-token-info-from-mint.js";
-import type { TokenInfo } from "./types.js";
 
 /**
  * Creates a test TokenInfo for use in tests.

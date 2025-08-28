@@ -1,7 +1,7 @@
 import type { Account, Address } from "@solana/kit";
 import type { Token } from "@solana-program/token";
-import { TOKEN_PROGRAM_ADDRESS } from "@solana-program/token";
 import type { UseQueryResult } from "@tanstack/react-query";
+import { TOKEN_PROGRAM_ADDRESS } from "@solana-program/token";
 import { useAssociatedTokenPda } from "./use-associated-token-pda.js";
 import { useTokenAccount } from "./use-token-account.js";
 

@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/style/noNonNullAssertion: copied from graphql/dataloader so it's ok */
 import type { Batch, BatchLoadFn, CacheMap, Options } from "./types.js";
 
 /**
@@ -215,11 +216,9 @@ export class DataLoader<K, V, C = K> {
         for (let i = 0; i < batch.callbacks.length; i++) {
           const value = values[i] as V;
           if (value instanceof Error) {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            batch.callbacks[i]!.reject(value);
+            batch.callbacks[i]?.reject(value);
           } else {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            batch.callbacks[i]!.resolve(value);
+            batch.callbacks[i]?.resolve(value);
           }
         }
       })
@@ -236,8 +235,8 @@ export class DataLoader<K, V, C = K> {
     for (let i = 0; i < batch.keys.length; i++) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.clear(batch.keys[i]!);
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      batch.callbacks[i]!.reject(error);
+
+      batch.callbacks[i]?.reject(error);
     }
   }
 }

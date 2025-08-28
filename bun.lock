@@ -117,6 +117,46 @@
         "sonner": "^2",
       },
     },
+    "packages/quarry": {
+      "name": "@macalinao/quarry",
+      "version": "0.0.0",
+      "dependencies": {
+        "@macalinao/clients-quarry": "^0.2.1",
+        "@macalinao/token-utils": "workspace:*",
+        "@solana-program/token": "^0.5",
+        "@solana/signers": "^2.3.0",
+        "nonempty-array": "^0.1.4",
+      },
+      "devDependencies": {
+        "@macalinao/eslint-config": "catalog:",
+        "@macalinao/tsconfig": "catalog:",
+        "@solana/kit": "catalog:",
+        "@types/bun": "catalog:",
+        "typescript": "catalog:",
+      },
+      "peerDependencies": {
+        "@solana/kit": "catalog:",
+      },
+    },
+    "packages/react-quarry": {
+      "name": "@macalinao/react-quarry",
+      "version": "0.0.0",
+      "dependencies": {
+        "@macalinao/grill": "workspace:*",
+        "@macalinao/quarry": "workspace:*",
+        "@solana/kit": "catalog:",
+      },
+      "devDependencies": {
+        "@macalinao/eslint-config-react": "^4.0.1",
+        "@macalinao/tsconfig": "catalog:",
+        "@types/bun": "catalog:",
+        "@types/react": "catalog:",
+        "typescript": "catalog:",
+      },
+      "peerDependencies": {
+        "react": "^18 || ^19",
+      },
+    },
     "packages/solana-batch-accounts-loader": {
       "name": "@macalinao/solana-batch-accounts-loader",
       "version": "0.2.4",
@@ -624,6 +664,8 @@
 
     "@lit/reactive-element": ["@lit/reactive-element@2.1.1", "", { "dependencies": { "@lit-labs/ssr-dom-shim": "^1.4.0" } }, "sha512-N+dm5PAYdQ8e6UlywyyrgI2t++wFGXfHx+dSJ1oBrg6FAxUj40jId++EaRm80MKX5JnlH1sBsyZ5h0bcZKemCg=="],
 
+    "@macalinao/clients-quarry": ["@macalinao/clients-quarry@0.2.1", "", { "peerDependencies": { "@solana/kit": "*" } }, "sha512-0xngxdD/IRffIM/nI16Vp+P2ty5a4cc3lZLjfkv+vCWVViFeKsP9Zk0+/uo88EI05d4jmwuuDUUgDcBzJeJhIg=="],
+
     "@macalinao/clients-token-metadata": ["@macalinao/clients-token-metadata@0.2.3", "", { "peerDependencies": { "@solana/kit": "*" } }, "sha512-nobIy4ELYTey02YitxXcXuUK9IWQWw/NRdTRxvkufm0DCOUZOEioXFTKVaRnDZGQvF+QPUAopexyjeXZ7ZElaA=="],
 
     "@macalinao/dataloader-es": ["@macalinao/dataloader-es@workspace:packages/dataloader-es"],
@@ -633,6 +675,10 @@
     "@macalinao/eslint-config-react": ["@macalinao/eslint-config-react@4.0.1", "", { "dependencies": { "@macalinao/eslint-config": "^5.0.1", "@tanstack/eslint-plugin-query": "^5.83.1", "@typescript-eslint/utils": "^8.39.1", "eslint-plugin-import-x": "^4.16.1", "eslint-plugin-jsx-a11y": "^6.10.2", "eslint-plugin-react": "^7.37.5", "eslint-plugin-react-hooks": "^5.2.0", "typescript-eslint": "^8.39.1" }, "peerDependencies": { "eslint": "^9.33.0" } }, "sha512-asQm8kvc9QeIVmzX54OumN8F86kChYXwzUZXIgYG5EHjLEhvvgENHdxkaKMu2SNnk59BeDPWloN3OtBcr1MToQ=="],
 
     "@macalinao/grill": ["@macalinao/grill@workspace:packages/grill"],
+
+    "@macalinao/quarry": ["@macalinao/quarry@workspace:packages/quarry"],
+
+    "@macalinao/react-quarry": ["@macalinao/react-quarry@workspace:packages/react-quarry"],
 
     "@macalinao/solana-batch-accounts-loader": ["@macalinao/solana-batch-accounts-loader@workspace:packages/solana-batch-accounts-loader"],
 
@@ -2403,6 +2449,8 @@
     "node-releases": ["node-releases@2.0.19", "", {}, "sha512-xxOWJsBKtzAq7DY0J+DTzuz58K8e7sJbdgwkbMWQe8UYB6ekmsQ45q0M/tJDsGaZmbC+l7n57UV8Hl5tHxO9uw=="],
 
     "node-stdlib-browser": ["node-stdlib-browser@1.3.1", "", { "dependencies": { "assert": "^2.0.0", "browser-resolve": "^2.0.0", "browserify-zlib": "^0.2.0", "buffer": "^5.7.1", "console-browserify": "^1.1.0", "constants-browserify": "^1.0.0", "create-require": "^1.1.1", "crypto-browserify": "^3.12.1", "domain-browser": "4.22.0", "events": "^3.0.0", "https-browserify": "^1.0.0", "isomorphic-timers-promises": "^1.0.1", "os-browserify": "^0.3.0", "path-browserify": "^1.0.1", "pkg-dir": "^5.0.0", "process": "^0.11.10", "punycode": "^1.4.1", "querystring-es3": "^0.2.1", "readable-stream": "^3.6.0", "stream-browserify": "^3.0.0", "stream-http": "^3.2.0", "string_decoder": "^1.0.0", "timers-browserify": "^2.0.4", "tty-browserify": "0.0.1", "url": "^0.11.4", "util": "^0.12.4", "vm-browserify": "^1.0.1" } }, "sha512-X75ZN8DCLftGM5iKwoYLA3rjnrAEs97MkzvSd4q2746Tgpg8b8XWiBGiBG4ZpgcAqBgtgPHTiAc8ZMCvZuikDw=="],
+
+    "nonempty-array": ["nonempty-array@0.1.4", "", { "dependencies": { "tslib": "^2.8.1" } }, "sha512-uD+v44R0e1N3MR3uCxg2j09wstidPyJ29C6KcvZY78H6e02i9BeqihGh+wyXg4NpiJ/is1FqjzUCzo9VgRc1Jw=="],
 
     "normalize-path": ["normalize-path@3.0.0", "", {}, "sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA=="],
 

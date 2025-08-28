@@ -33,6 +33,7 @@
     "rules": {
       "recommended": true,
       "nursery": {
+        "useConsistentTypeDefinitions": "error",
         "noFloatingPromises": "error"
       },
       "complexity": {
@@ -43,8 +44,12 @@
         "noDoubleEquals": "error"
       },
       "style": {
-        "useImportType": "error",
-        "noNonNullAssertion": "off",
+        "useImportType": {
+          "level": "error",
+          "options": {
+            "style": "separatedType"
+          }
+        },
         "noParameterAssign": "error",
         "useAsConstAssertion": "error",
         "useDefaultParameterLast": "error",
@@ -69,25 +74,19 @@
         "noUnusedVariables": "warn",
         "noUnusedImports": "error"
       }
-    },
-    "includes": [
-      "**",
-      "!**/bun.lock",
-      "!apps/example-dapp/src/routeTree.gen.ts",
-      "!packages/*-client/src/generated/**"
-    ]
+    }
   },
   "assist": {
     "actions": {
       "source": {
-        "organizeImports": "on"
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [{ "type": true }]
+          }
+        }
       }
-    },
-    "includes": [
-      "**",
-      "!**/bun.lock",
-      "!apps/example-dapp/src/routeTree.gen.ts"
-    ]
+    }
   },
   "javascript": {
     "formatter": {
@@ -100,5 +99,20 @@
       "bracketSameLine": false,
       "bracketSpacing": true
     }
-  }
+  },
+  "overrides": [
+    {
+      "includes": ["apps/example-dapp/src/routeTree.gen.ts"],
+      "assist": {
+        "actions": {
+          "source": {
+            "organizeImports": "off"
+          }
+        }
+      },
+      "linter": {
+        "enabled": false
+      }
+    }
+  ]
 }
