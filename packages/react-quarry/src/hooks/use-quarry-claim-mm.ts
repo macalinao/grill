@@ -1,19 +1,14 @@
 import type { Signature } from "@solana/kit";
 import { useKitWallet, useSendTX } from "@macalinao/grill";
-import {
-  claimPrimaryRewards,
-  claimReplicaRewards,
-  getRewarderDecoder,
-} from "@macalinao/quarry";
+import { claimPrimaryRewards, claimReplicaRewards } from "@macalinao/quarry";
 import { address } from "@solana/kit";
-import { useSolanaClient } from "gill-react";
-import { useCallback } from "react";
-import { useRewarder } from "../accounts/rewarder.js";
+import { useCallback, useMemo } from "react";
+import { useRewarder, useRewarders } from "../accounts/rewarder.js";
 import { useMergeMinerContext } from "../contexts/merge-miner.js";
 import { usePoolInfo } from "../contexts/pool-info.js";
 
 export interface UseQuarryClaimMMResult {
-  claimAll: () => Promise<Signature[]>;
+  claimAll: () => Promise<Signature>;
   claimPrimary: () => Promise<Signature>;
   isReady: boolean;
 }
@@ -22,12 +17,24 @@ export const useQuarryClaimMM = (): UseQuarryClaimMMResult => {
   const { mergePool, mergePoolAddress } = useMergeMinerContext();
   const { poolInfo } = usePoolInfo();
   const { signer } = useKitWallet();
-  const { rpc } = useSolanaClient();
   const sendTX = useSendTX();
 
   // Fetch primary rewarder data
   const { data: primaryRewarder } = useRewarder({
     address: poolInfo.primaryRewards.rewarder,
+  });
+
+  // Prepare addresses for all secondary rewarders
+  const secondaryRewarderAddresses = useMemo(() => {
+    if (!poolInfo.secondaryRewards || poolInfo.secondaryRewards.length === 0) {
+      return [];
+    }
+    return poolInfo.secondaryRewards.map((reward) => reward.rewarder);
+  }, [poolInfo.secondaryRewards]);
+
+  // Fetch all secondary rewarders data at once
+  const secondaryRewardersResult = useRewarders({
+    addresses: secondaryRewarderAddresses,
   });
 
   const claimPrimary = useCallback(async (): Promise<Signature> => {
@@ -65,7 +72,7 @@ export const useQuarryClaimMM = (): UseQuarryClaimMMResult => {
     sendTX,
   ]);
 
-  const claimAll = useCallback(async (): Promise<Signature[]> => {
+  const claimAll = useCallback(async (): Promise<Signature> => {
     if (!signer) {
       throw new Error("Wallet not connected");
     }
@@ -74,44 +81,40 @@ export const useQuarryClaimMM = (): UseQuarryClaimMMResult => {
       throw new Error("Primary rewarder data not loaded");
     }
 
-    const signatures: Signature[] = [];
+    // Collect all instructions in a single array
+    const allInstructions = [];
 
-    // Claim primary rewards first
-    try {
-      const primarySig = await claimPrimary();
-      signatures.push(primarySig);
-    } catch (error) {
-      console.error("Failed to claim primary rewards:", error);
-    }
+    // Add primary rewards instructions
+    const primaryIxs = await claimPrimaryRewards({
+      mergePool: {
+        address: mergePoolAddress,
+        data: mergePool,
+      },
+      mmOwner: signer,
+      rewarder: {
+        address: poolInfo.primaryRewards.rewarder,
+        data: primaryRewarder.data,
+      },
+    });
+    allInstructions.push(...primaryIxs);
 
-    // Claim all secondary/replica rewards
-    if (poolInfo.secondaryRewards && poolInfo.secondaryRewards.length > 0) {
-      for (const secondaryReward of poolInfo.secondaryRewards) {
-        try {
-          // Use the useAccount hook to fetch rewarder data
-          const rewarderAccount = await rpc
-            .getAccountInfo(address(secondaryReward.rewarder), {
-              encoding: "base64",
-              commitment: "confirmed",
-            })
-            .send();
+    // Add secondary/replica rewards instructions
+    if (poolInfo.secondaryRewards?.length) {
+      for (let i = 0; i < poolInfo.secondaryRewards.length; i++) {
+        const secondaryReward = poolInfo.secondaryRewards[i];
+        const rewarderData = secondaryRewardersResult.data[i];
 
-          if (!rewarderAccount.value) {
+        if (!(secondaryReward && rewarderData)) {
+          if (secondaryReward) {
             console.error(
-              `Rewarder account ${secondaryReward.rewarder} not found`,
+              `Rewarder data for ${secondaryReward.rewarder} not found`,
             );
-            continue;
           }
+          continue;
+        }
 
-          // Decode the rewarder account
-          const decoder = getRewarderDecoder();
-          const rewarderData = decoder.decode(
-            new Uint8Array(
-              Buffer.from(rewarderAccount.value.data[0], "base64"),
-            ),
-          );
-
-          const ixs = await claimReplicaRewards({
+        try {
+          const replicaIxs = await claimReplicaRewards({
             mergePool: {
               address: mergePoolAddress,
               data: mergePool,
@@ -119,31 +122,35 @@ export const useQuarryClaimMM = (): UseQuarryClaimMMResult => {
             mmOwner: signer,
             rewarder: {
               address: address(secondaryReward.rewarder),
-              data: rewarderData,
+              data: rewarderData.data,
             },
           });
-
-          const sig = await sendTX(
-            `Claim ${secondaryReward.rewardsToken.symbol} Rewards`,
-            ixs,
-          );
-          signatures.push(sig);
+          allInstructions.push(...replicaIxs);
         } catch (error) {
           console.error(
-            `Failed to claim ${secondaryReward.rewardsToken.symbol} rewards:`,
+            `Failed to generate claim instructions for ${secondaryReward.rewardsToken.symbol} rewards:`,
             error,
           );
         }
       }
     }
 
-    return signatures;
+    // Send all instructions in a single transaction
+    const tokenSymbols = [
+      poolInfo.primaryRewards.rewardsToken.symbol,
+      ...(poolInfo.secondaryRewards?.map((r) => r.rewardsToken.symbol) ?? []),
+    ];
+
+    return sendTX(
+      `Claim All Rewards (${tokenSymbols.join(", ")})`,
+      allInstructions,
+    );
   }, [
     signer,
     primaryRewarder,
-    claimPrimary,
+    poolInfo.primaryRewards,
     poolInfo.secondaryRewards,
-    rpc,
+    secondaryRewardersResult.data,
     mergePoolAddress,
     mergePool,
     sendTX,
