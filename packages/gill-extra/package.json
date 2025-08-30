@@ -6,7 +6,7 @@
   "sideEffects": false,
   "author": "Ian Macalinao <me@ianm.com>",
   "homepage": "https://grill.ianm.com",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "keywords": [
     "solana",
     "utilities",
@@ -41,7 +41,7 @@
     "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --cache",
-    "test": "bun test || true"
+    "test": "bun test src/"
   },
   "dependencies": {
     "@macalinao/dataloader-es": "workspace:*",
