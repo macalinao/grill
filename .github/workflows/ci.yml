@@ -37,7 +37,7 @@ jobs:
         run: bun run lint
 
       - name: Run tests
-        run: bun test
+        run: bun run test
 
       - name: Check TypeScript
         run: bun run typecheck || true
