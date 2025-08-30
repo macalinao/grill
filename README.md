@@ -8,10 +8,10 @@ A comprehensive toolkit for building Solana applications with React, featuring a
 
 ### [@macalinao/grill](./packages/grill)
 
-React provider for Solana account management with automatic batching and caching, built on top of gill-react.
+React provider for Solana account management with automatic batching and caching, built on top of @gillsdk/react.
 
 ```bash
-bun add @macalinao/grill gill-react gill
+bun add @macalinao/grill @gillsdk/react gill
 ```
 
 ### [@macalinao/solana-batch-accounts-loader](./packages/solana-batch-accounts-loader)
@@ -44,7 +44,7 @@ bun add @macalinao/dataloader-es
 import { GrillProvider } from "@macalinao/grill";
 import { WalletAdapterCompatProvider } from "@macalinao/wallet-adapter-compat";
 import { createSolanaClient } from "gill";
-import { SolanaProvider } from "gill-react";
+import { SolanaProvider } from "@gillsdk/react";
 import {
   ConnectionProvider,
   WalletProvider,

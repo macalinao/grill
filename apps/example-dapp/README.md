@@ -113,7 +113,7 @@ function WalletInfo() {
 ### Making RPC Calls
 
 ```typescript
-import { useSolanaClient } from "gill-react";
+import { useSolanaClient } from "@gillsdk/react";
 
 function SlotDisplay() {
   const { rpc } = useSolanaClient();

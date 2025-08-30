@@ -28,7 +28,7 @@ import {
 } from "@solana/wallet-adapter-react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { SolanaProvider } from "gill-react";
+import { SolanaProvider } from "@gillsdk/react";
 import { createSolanaClient } from "gill";
 import { Toaster } from "sonner";
 

@@ -2,10 +2,10 @@ import type { Address } from "gill";
 import type { FC, ReactNode } from "react";
 import type { GetExplorerLinkFunction } from "../contexts/grill-context.js";
 import type { TransactionStatusEventCallback } from "../types.js";
+import { useSolanaClient } from "@gillsdk/react";
 import { createBatchAccountsLoader } from "@macalinao/solana-batch-accounts-loader";
 import { useQueryClient } from "@tanstack/react-query";
 import { getExplorerLink as defaultGetExplorerLink } from "gill";
-import { useSolanaClient } from "gill-react";
 import { useCallback, useMemo } from "react";
 import { GrillContext } from "../contexts/grill-context.js";
 import { useKitWallet } from "../hooks/use-kit-wallet.js";
@@ -26,7 +26,7 @@ export interface GrillHeadlessProviderProps {
 /**
  * Headless provider component for Solana account batching functionality.
  * Creates and provides a batch account loader for efficient Solana account fetching.
- * This provider integrates with gill-react's useSolanaClient hook to access the RPC client.
+ * This provider integrates with @gillsdk/react's useSolanaClient hook to access the RPC client.
  *
  * For UI integration with toast notifications, use GrillProvider instead.
  */
