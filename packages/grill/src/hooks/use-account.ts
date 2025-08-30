@@ -1,5 +1,4 @@
 import type { UseQueryResult } from "@tanstack/react-query";
-import { useQuery } from "@tanstack/react-query";
 import type {
   Account,
   Address,
@@ -7,12 +6,13 @@ import type {
   FetchAccountConfig,
   Simplify,
 } from "gill";
+import type { GillUseRpcHook } from "./types.js";
+import { useQuery } from "@tanstack/react-query";
 import { useGrillContext } from "../contexts/grill-context.js";
 import {
   createAccountQueryKey,
   fetchAndDecodeAccount,
 } from "../utils/account-helpers.js";
-import type { GillUseRpcHook } from "./types.js";
 
 type RpcConfig = Simplify<Omit<FetchAccountConfig, "abortSignal">>;
 
@@ -45,16 +45,21 @@ export function useAccount<
 }: UseAccountInput<
   TConfig,
   TDecodedData
->): UseQueryResult<Account<TDecodedData> | null> {
+>): UseQueryResult<Account<TDecodedData> | null> & {
+  address: Address | null | undefined;
+} {
   const { accountLoader } = useGrillContext();
   // TODO(igm): improve the types here and somehow ensure the decoder is the same
   // for each query of an account
-  return useQuery({
-    networkMode: "offlineFirst",
-    ...options,
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
-    queryKey: address ? createAccountQueryKey(address) : [null],
-    queryFn: () => fetchAndDecodeAccount(address, accountLoader, decoder),
-    enabled: !!address,
-  }) as UseQueryResult<Account<TDecodedData> | null>;
+  return {
+    ...(useQuery({
+      networkMode: "offlineFirst",
+      ...options,
+      // eslint-disable-next-line @tanstack/query/exhaustive-deps
+      queryKey: address ? createAccountQueryKey(address) : [null],
+      queryFn: () => fetchAndDecodeAccount(address, accountLoader, decoder),
+      enabled: !!address,
+    }) as UseQueryResult<Account<TDecodedData> | null>),
+    address,
+  };
 }

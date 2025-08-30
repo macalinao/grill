@@ -1,5 +1,11 @@
 # @macalinao/grill
 
+## 0.5.4
+
+### Patch Changes
+
+- 67558f1: Add addresses to useAccount
+
 ## 0.5.3
 
 ### Patch Changes

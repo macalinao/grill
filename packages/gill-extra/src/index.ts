@@ -18,7 +18,7 @@ export {
 export * from "@macalinao/zod-solana";
 export * from "gill";
 
-// Export gill-contrib specific utilities
+// Export gill-extra specific utilities
 export * from "./fetch-and-decode-account.js";
 export * from "./get-confirmed-transaction.js";
 export * from "./get-signature-from-bytes.js";

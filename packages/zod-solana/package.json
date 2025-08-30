@@ -49,12 +49,11 @@
   "devDependencies": {
     "@macalinao/eslint-config": "catalog:",
     "@macalinao/tsconfig": "catalog:",
-    "@solana/keys": "^2.3.0",
     "@solana/kit": "catalog:",
     "@types/bun": "catalog:",
     "eslint": "catalog:",
     "typescript": "catalog:",
-    "zod": "^4.1.1"
+    "zod": "^4.1.5"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}": [

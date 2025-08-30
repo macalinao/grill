@@ -1,6 +1,6 @@
+import type { Options } from "./types.js";
 import { describe, expect, it } from "bun:test";
 import { DataLoader } from "./dataLoader.js";
-import type { Options } from "./types.js";
 
 function idLoader<K, C = K>(
   options?: Options<K, K, C>,

@@ -2,7 +2,6 @@ import { WalletProvider } from "@macalinao/grill";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { install } from "@solana/webcrypto-ed25519-polyfill";
 import { useMemo } from "react";
-
 import { createWalletTransactionSendingSigner } from "./walletTransactionSendingSigner.js";
 
 // Install the polyfill

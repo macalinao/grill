@@ -1,13 +1,13 @@
-# @macalinao/gill-contrib
+# @macalinao/gill-extra
 
 Additional utilities for [Gill](https://github.com/DecalLabs/gill) - a modern Solana client library.
 
 ## Installation
 
 ```bash
-npm install @macalinao/gill-contrib
+npm install @macalinao/gill-extra
 # or
-bun add @macalinao/gill-contrib
+bun add @macalinao/gill-extra
 ```
 
 ## Features
@@ -34,7 +34,7 @@ import {
   getSolscanExplorerLink,
   createTransactionInspectorUrl,
   fetchAndDecodeAccount,
-} from "@macalinao/gill-contrib";
+} from "@macalinao/gill-extra";
 ```
 
 ## License

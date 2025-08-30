@@ -1,5 +1,5 @@
-import * as dnum from "dnum";
 import type { TokenAmount, TokenInfo } from "./types.js";
+import * as dnum from "dnum";
 
 /**
  * Parse a string amount into a TokenAmount

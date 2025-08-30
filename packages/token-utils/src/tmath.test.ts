@@ -1,7 +1,7 @@
+import type { TokenAmount } from "./types.js";
 import { describe, expect, it } from "bun:test";
 import { address } from "@solana/kit";
 import * as tmath from "./tmath.js";
-import type { TokenAmount } from "./types.js";
 
 describe("tmath", () => {
   const mockTokenA = {

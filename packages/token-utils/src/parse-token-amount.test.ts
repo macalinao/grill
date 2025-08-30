@@ -1,7 +1,7 @@
+import type { TokenInfo } from "./types.js";
 import { describe, expect, it } from "bun:test";
 import { address } from "@solana/kit";
 import { parseTokenAmount } from "./parse-token-amount.js";
-import type { TokenInfo } from "./types.js";
 
 describe("parseTokenAmount", () => {
   // Test token with 9 decimals (like SOL)

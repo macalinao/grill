@@ -2,7 +2,7 @@ import type { DataLoader } from "@macalinao/dataloader-es";
 import type {
   GetExplorerLinkFunction,
   SendTXFunction,
-} from "@macalinao/gill-contrib";
+} from "@macalinao/gill-extra";
 import type { Address, EncodedAccount } from "@solana/kit";
 import { createContext, useContext } from "react";
 

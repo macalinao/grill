@@ -1,4 +1,3 @@
-import { useQueries } from "@tanstack/react-query";
 import type {
   Account,
   Address,
@@ -6,12 +5,13 @@ import type {
   FetchAccountConfig,
   Simplify,
 } from "gill";
+import type { GillUseRpcHook } from "./types.js";
+import { useQueries } from "@tanstack/react-query";
 import { useGrillContext } from "../contexts/grill-context.js";
 import {
   createAccountQueryKey,
   fetchAndDecodeAccount,
 } from "../utils/account-helpers.js";
-import type { GillUseRpcHook } from "./types.js";
 
 type RpcConfig = Simplify<Omit<FetchAccountConfig, "abortSignal">>;
 
@@ -35,10 +35,12 @@ export type UseAccountsResult<TDecodedData extends object> =
   | {
       isLoading: true;
       data: (Account<TDecodedData> | null | undefined)[];
+      addresses: (Address | null | undefined)[];
     }
   | {
       isLoading: false;
       data: (Account<TDecodedData> | null)[];
+      addresses: (Address | null | undefined)[];
     };
 
 /**
@@ -87,6 +89,7 @@ export function useAccounts<
         return {
           isLoading: true,
           data: results.map((result) => result.data),
+          addresses,
         };
       }
       return {
@@ -94,6 +97,7 @@ export function useAccounts<
         data: results
           .map((result) => result.data)
           .filter((r) => r !== undefined),
+        addresses,
       };
     },
   });

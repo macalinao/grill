@@ -1,3 +1,4 @@
+import type * as React from "react";
 import { Link, Outlet, useLocation } from "@tanstack/react-router";
 import {
   ArrowRight,
@@ -7,7 +8,6 @@ import {
   Wallet,
   Zap,
 } from "lucide-react";
-import type * as React from "react";
 import {
   Sidebar,
   SidebarContent,

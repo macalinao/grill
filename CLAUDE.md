@@ -193,3 +193,12 @@ When creating new packages:
 - Scripts should be: `build`, `build:watch`, `clean`, `typecheck`
 - All packages use ES modules (`"type": "module"` in package.json)
 - Keep package.json scripts simple and consistent
+
+## Solana PDA Guidelines
+
+When working with PDAs (Program Derived Addresses) in React code:
+- **ALWAYS use PDA hooks** from the pdas directory (e.g., `useMergePoolPda`, `useMinerPda`)
+- **NEVER compute PDAs manually** in React components or providers
+- **NEVER use async PDA functions** like `findMergePoolPda()` directly in React code
+- PDA hooks are synchronous and properly memoized for React
+- This ensures consistent PDA computation and proper React lifecycle management

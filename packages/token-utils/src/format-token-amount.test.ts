@@ -1,8 +1,8 @@
+import type { TokenInfo } from "./types.js";
 import { describe, expect, it } from "bun:test";
 import { address } from "@solana/kit";
 import { formatTokenAmount } from "./format-token-amount.js";
 import { parseTokenAmount } from "./parse-token-amount.js";
-import type { TokenInfo } from "./types.js";
 
 describe("formatTokenAmount", () => {
   // Test tokens

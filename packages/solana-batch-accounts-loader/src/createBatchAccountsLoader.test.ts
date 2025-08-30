@@ -1,5 +1,5 @@
-import { describe, expect, it, mock } from "bun:test";
 import type { GetMultipleAccountsApi, Rpc } from "@solana/kit";
+import { describe, expect, it, mock } from "bun:test";
 import { address, getBase64Encoder, lamports } from "@solana/kit";
 import { createBatchAccountsLoader } from "./createBatchAccountsLoader.js";
 

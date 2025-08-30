@@ -1,6 +1,6 @@
 import type { TokenAmount } from "@macalinao/token-utils";
-import { createTokenAmount } from "@macalinao/token-utils";
 import type { Address } from "@solana/kit";
+import { createTokenAmount } from "@macalinao/token-utils";
 import { useMemo } from "react";
 import { useTokenAccount } from "./use-token-account.js";
 import { useTokenInfo } from "./use-token-info.js";

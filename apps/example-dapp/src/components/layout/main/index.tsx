@@ -1,6 +1,6 @@
+import type * as React from "react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { Link, Outlet } from "@tanstack/react-router";
-import type * as React from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import {
   NavigationMenu,

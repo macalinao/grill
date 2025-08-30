@@ -23,7 +23,7 @@
       "@types/react-dom": "^19.1.7",
       "react": "^19.1.0",
       "react-dom": "^19.1.0",
-      "gill": "^0.10.3",
+      "gill": "^0.11",
       "gill-react": "^0.5.0",
       "@types/bun": "^1.2.20"
     }
@@ -56,7 +56,7 @@
     "turbo": "^2.5.6",
     "typescript": "^5.9.2"
   },
-  "packageManager": "bun@1.2.20",
+  "packageManager": "bun@1.2.21",
   "lint-staged": {
     "*.{json,jsonc,html}": "biome format --write --no-errors-on-unmatched"
   },

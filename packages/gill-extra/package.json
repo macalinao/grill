@@ -1,0 +1,69 @@
+{
+  "name": "@macalinao/gill-extra",
+  "version": "0.0.0",
+  "description": "Additional utilities for Gill - Solana development without React dependencies",
+  "type": "module",
+  "sideEffects": false,
+  "author": "Ian Macalinao <me@ianm.com>",
+  "homepage": "https://grill.ianm.com",
+  "license": "MIT",
+  "keywords": [
+    "solana",
+    "utilities",
+    "dataloader",
+    "batching",
+    "esm",
+    "typescript",
+    "ian-macalinao"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist/",
+    "src/"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/macalinao/grill.git",
+    "directory": "packages/gill-extra"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "clean": "rm -fr dist/",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --cache",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@macalinao/dataloader-es": "workspace:*",
+    "@macalinao/solana-batch-accounts-loader": "workspace:*",
+    "@macalinao/token-utils": "workspace:*",
+    "@macalinao/zod-solana": "workspace:*",
+    "@solana/kit": "catalog:",
+    "gill": "catalog:"
+  },
+  "devDependencies": {
+    "@macalinao/eslint-config": "catalog:",
+    "@macalinao/tsconfig": "catalog:",
+    "@types/bun": "catalog:",
+    "eslint": "catalog:",
+    "typescript": "catalog:"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}": [
+      "biome check --write --no-errors-on-unmatched",
+      "eslint --fix --cache"
+    ],
+    "*.{json,jsonc,html}": "biome format --write --no-errors-on-unmatched"
+  }
+}

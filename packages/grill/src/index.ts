@@ -1,5 +1,5 @@
-// Re-export everything from gill-contrib (which includes gill, zod-solana, and additional utilities)
-export * from "@macalinao/gill-contrib";
+// Re-export everything from gill-extra (which includes gill, zod-solana, and additional utilities)
+export * from "@macalinao/gill-extra";
 
 // Export grill-specific React components and hooks
 export * from "./contexts/index.js";

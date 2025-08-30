@@ -1,4 +1,4 @@
-import type { GetExplorerLinkFunction } from "@macalinao/gill-contrib";
+import type { GetExplorerLinkFunction } from "@macalinao/gill-extra";
 import { createBatchAccountsLoader } from "@macalinao/solana-batch-accounts-loader";
 import { useQueryClient } from "@tanstack/react-query";
 import type { Address } from "gill";
