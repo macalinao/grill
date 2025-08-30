@@ -1,11 +1,9 @@
-export interface GetExplorerLinkArgs {
-  transaction?: string;
-  address?: string;
-  block?: string | number;
-  cluster?: "mainnet-beta" | "mainnet" | "devnet" | "testnet";
-}
+import type { GetExplorerLinkFunction } from "./build-get-explorer-link-function.js";
+import { buildGetExplorerLinkFunction } from "./build-get-explorer-link-function.js";
 
-export type GetExplorerLinkFunction = (args?: GetExplorerLinkArgs) => string;
+// Re-export types for backwards compatibility
+export type { GetExplorerLinkArgs } from "./build-get-explorer-link-function.js";
+export type { GetExplorerLinkFunction };
 
 /**
  * Creates a Solscan explorer link for viewing transactions, addresses, or blocks.
@@ -25,33 +23,20 @@ export type GetExplorerLinkFunction = (args?: GetExplorerLinkArgs) => string;
  * // For a specific cluster
  * getSolscanExplorerLink({ transaction: signature, cluster: "devnet" })
  */
-export const getSolscanExplorerLink: GetExplorerLinkFunction = (args = {}) => {
-  const baseUrl = "https://solscan.io";
-
-  // Determine the cluster suffix
-  let clusterSuffix = "";
-  if (args.cluster) {
-    if (args.cluster === "devnet") {
-      clusterSuffix = "?cluster=devnet";
-    } else if (args.cluster === "testnet") {
-      clusterSuffix = "?cluster=testnet";
-    }
-    // mainnet-beta and mainnet don't need a suffix
-  }
-
-  // Generate the appropriate link based on the type
-  if ("transaction" in args && args.transaction) {
-    return `${baseUrl}/tx/${args.transaction}${clusterSuffix}`;
-  }
-
-  if ("address" in args && args.address) {
-    return `${baseUrl}/account/${args.address}${clusterSuffix}`;
-  }
-
-  if ("block" in args && args.block !== undefined) {
-    return `${baseUrl}/block/${String(args.block)}${clusterSuffix}`;
-  }
-
-  // Default to homepage if no specific resource is provided
-  return baseUrl;
-};
+export const getSolscanExplorerLink: GetExplorerLinkFunction =
+  buildGetExplorerLinkFunction({
+    baseUrl: "https://solscan.io",
+    paths: {
+      transaction: "tx",
+      address: "account",
+      block: "block",
+    },
+    clusterParam: {
+      name: "cluster",
+      values: {
+        devnet: "devnet",
+        testnet: "testnet",
+        // mainnet-beta and mainnet don't need a parameter
+      },
+    },
+  });
