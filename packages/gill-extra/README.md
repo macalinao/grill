@@ -1,6 +1,6 @@
 # @macalinao/gill-extra
 
-Additional utilities for [Gill](https://github.com/DecalLabs/gill) - a modern Solana client library.
+Additional utilities for [Gill](https://github.com/gillsdk/gill) - a modern Solana client library.
 
 ## Installation
 
@@ -12,9 +12,6 @@ bun add @macalinao/gill-extra
 
 ## Features
 
-This package re-exports everything from `gill` and adds additional utilities:
-
-- **All Gill exports**: Complete Solana client library functionality
 - **Zod schemas**: Type-safe Solana data validation from `@macalinao/zod-solana`
 - **Transaction utilities**: Base64 encoding, transaction inspector URLs, signature conversion
 - **Polling utilities**: Transaction confirmation polling with configurable retries

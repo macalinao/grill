@@ -8,7 +8,7 @@ This isn't just about performance—it's about architecture. When every componen
 
 ## Enter Grill
 
-Grill is a Solana development kit that solves these problems at their root. Built on top of [gill](https://github.com/DecalLabs/gill) and the modern @solana/kit, Grill introduces a simple but powerful innovation: **automatic account batching**.
+Grill is a Solana development kit that solves these problems at their root. Built on top of [gill](https://github.com/gillsdk/gill) and the modern @solana/kit, Grill introduces a simple but powerful innovation: **automatic account batching**.
 
 Here's what happens when you use Grill:
 
