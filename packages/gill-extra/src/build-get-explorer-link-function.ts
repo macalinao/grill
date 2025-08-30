@@ -1,25 +1,103 @@
+/**
+ * Arguments for generating an explorer link.
+ */
 export interface GetExplorerLinkArgs {
+  /**
+   * Transaction signature to link to.
+   * Mutually exclusive with address and block.
+   */
   transaction?: string;
+
+  /**
+   * Address (account public key) to link to.
+   * Mutually exclusive with transaction and block.
+   */
   address?: string;
+
+  /**
+   * Block number or slot to link to.
+   * Mutually exclusive with transaction and address.
+   */
   block?: string | number;
+
+  /**
+   * Solana cluster to use.
+   * Defaults to mainnet if not specified.
+   */
   cluster?: "mainnet-beta" | "mainnet" | "devnet" | "testnet";
 }
 
+/**
+ * Function signature for generating explorer links.
+ *
+ * @param args - Optional arguments specifying what to link to
+ * @returns A URL string for the blockchain explorer
+ *
+ * @example
+ * ```ts
+ * const link = getExplorerLink({ transaction: "5xY..." });
+ * // Returns: "https://explorer.com/tx/5xY..."
+ * ```
+ */
 export type GetExplorerLinkFunction = (args?: GetExplorerLinkArgs) => string;
 
+/**
+ * Configuration for building an explorer link function.
+ */
 export interface ExplorerConfig {
+  /**
+   * Base URL of the blockchain explorer.
+   * @example "https://solscan.io"
+   */
   baseUrl: string;
+
+  /**
+   * Path segments for different resource types.
+   * Defaults to common patterns if not specified.
+   */
   paths?: {
+    /**
+     * Path for transaction links.
+     * @default "tx"
+     */
     transaction?: string;
+
+    /**
+     * Path for address/account links.
+     * @default "address"
+     */
     address?: string;
+
+    /**
+     * Path for block links.
+     * @default "block"
+     */
     block?: string;
   };
+
+  /**
+   * Configuration for cluster/network parameter.
+   * If not provided, no cluster parameter will be added to URLs.
+   */
   clusterParam?: {
+    /**
+     * Query parameter name for the cluster.
+     * @example "cluster" or "network"
+     */
     name: string;
+
+    /**
+     * Mapping of cluster names to parameter values.
+     * Omit a cluster to not add a parameter for it (useful for mainnet).
+     */
     values?: {
+      /** Value for devnet cluster */
       devnet?: string;
+      /** Value for testnet cluster */
       testnet?: string;
+      /** Value for mainnet-beta cluster */
       "mainnet-beta"?: string;
+      /** Value for mainnet cluster */
       mainnet?: string;
     };
   };
@@ -52,11 +130,11 @@ export interface ExplorerConfig {
 export function buildGetExplorerLinkFunction(
   config: ExplorerConfig,
 ): GetExplorerLinkFunction {
+  // Set sensible defaults for common explorer URL patterns
   const paths = {
-    transaction: "tx",
-    address: "address",
-    block: "block",
-    ...config.paths,
+    transaction: config.paths?.transaction ?? "tx",
+    address: config.paths?.address ?? "address",
+    block: config.paths?.block ?? "block",
   };
 
   return (args = {}) => {

@@ -1,10 +1,6 @@
 import type { GetExplorerLinkFunction } from "./build-get-explorer-link-function.js";
 import { buildGetExplorerLinkFunction } from "./build-get-explorer-link-function.js";
 
-// Re-export types for backwards compatibility
-export type { GetExplorerLinkArgs } from "./build-get-explorer-link-function.js";
-export type { GetExplorerLinkFunction };
-
 /**
  * Creates a Solscan explorer link for viewing transactions, addresses, or blocks.
  *

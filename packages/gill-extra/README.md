@@ -36,4 +36,4 @@ import {
 
 ## License
 
-MIT
+Copyright (c) 2025 Ian Macalinao. Licensed under the Apache-2.0 License.
