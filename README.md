@@ -2,7 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/@macalinao/grill.svg)](https://www.npmjs.com/package/@macalinao/grill)
 
-A comprehensive toolkit for building Solana applications with React, featuring automatic account batching, type-safe account decoding, and seamless transaction management. Built on top of [gill](https://github.com/DecalLabs/gill) and [@solana/kit](https://github.com/anza-xyz/kit).
+A comprehensive toolkit for building Solana applications with React, featuring automatic account batching, type-safe account decoding, and seamless transaction management. Built on top of [gill](https://github.com/gillsdk/gill) and [@solana/kit](https://github.com/anza-xyz/kit).
 
 ## Packages
 

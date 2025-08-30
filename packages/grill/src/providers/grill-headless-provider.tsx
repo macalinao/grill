@@ -1,6 +1,6 @@
+import type { GetExplorerLinkFunction } from "@macalinao/gill-extra";
 import type { Address } from "gill";
 import type { FC, ReactNode } from "react";
-import type { GetExplorerLinkFunction } from "../contexts/grill-context.js";
 import type { TransactionStatusEventCallback } from "../types.js";
 import { useSolanaClient } from "@gillsdk/react";
 import { createBatchAccountsLoader } from "@macalinao/solana-batch-accounts-loader";

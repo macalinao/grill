@@ -42,12 +42,13 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "clean": "rm -rf dist",
+    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@macalinao/clients-token-metadata": "^0.2.4",
     "@macalinao/dataloader-es": "workspace:*",
+    "@macalinao/gill-extra": "workspace:*",
     "@macalinao/solana-batch-accounts-loader": "workspace:*",
     "@macalinao/token-utils": "workspace:*",
     "@macalinao/zod-solana": "workspace:*",

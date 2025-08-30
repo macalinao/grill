@@ -1,5 +1,4 @@
-export * from "@macalinao/token-utils";
-export * from "@macalinao/zod-solana";
+export * from "@macalinao/gill-extra";
 export * from "./contexts/index.js";
 export * from "./hooks/index.js";
 export * from "./providers/index.js";

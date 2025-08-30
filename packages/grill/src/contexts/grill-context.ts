@@ -1,10 +1,10 @@
 import type { DataLoader } from "@macalinao/dataloader-es";
+import type {
+  GetExplorerLinkFunction,
+  SendTXFunction,
+} from "@macalinao/gill-extra";
 import type { Address, EncodedAccount } from "@solana/kit";
-import type { GetExplorerLinkArgs } from "gill";
-import type { SendTXFunction } from "../utils/types.js";
 import { createContext, useContext } from "react";
-
-export type GetExplorerLinkFunction = (args?: GetExplorerLinkArgs) => string;
 
 /**
  * Context value interface for SolanaAccountProvider.

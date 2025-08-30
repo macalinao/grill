@@ -181,7 +181,7 @@ The app includes several examples accessible through the sidebar:
 ## Learn More
 
 - [Grill Documentation](https://github.com/macalinao/grill)
-- [Gill Documentation](https://github.com/DecalLabs/gill)
+- [Gill Documentation](https://github.com/gillsdk/gill)
 - [Solana Kit](https://github.com/solana-developers/solana-kit)
 - [React Query](https://tanstack.com/query)
 
