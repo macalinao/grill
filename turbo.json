@@ -7,6 +7,9 @@
       "outputs": ["./dist/**"],
       "env": ["NODE_ENV"]
     },
+    "clean": {
+      "cache": false
+    },
     "lint": {
       "dependsOn": ["^build"]
     },
