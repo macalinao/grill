@@ -1,6 +1,7 @@
 import type {
-  CompilableTransactionMessage,
+  BaseTransactionMessage,
   CompiledTransactionMessage,
+  TransactionMessageWithFeePayer,
 } from "@solana/kit";
 import {
   compileTransactionMessage,
@@ -17,7 +18,7 @@ import {
  * @returns The base64-encoded transaction message string
  */
 export function encodeTransactionMessageToBase64(
-  transactionMessage: CompilableTransactionMessage,
+  transactionMessage: BaseTransactionMessage & TransactionMessageWithFeePayer,
 ): string {
   const compiled = compileTransactionMessage(transactionMessage);
   return encodeCompiledTransactionMessageToBase64(compiled);
@@ -47,7 +48,7 @@ export function encodeCompiledTransactionMessageToBase64(
  * @returns The Solana Explorer transaction inspector URL
  */
 export function createTransactionInspectorUrl(
-  transactionMessage: CompilableTransactionMessage,
+  transactionMessage: BaseTransactionMessage & TransactionMessageWithFeePayer,
   cluster: "mainnet-beta" | "testnet" | "devnet" = "mainnet-beta",
 ): string {
   const encodedMessage = encodeTransactionMessageToBase64(transactionMessage);

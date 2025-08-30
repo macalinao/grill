@@ -59,7 +59,7 @@
   },
   "devDependencies": {
     "@macalinao/eslint-config": "catalog:",
-    "@macalinao/eslint-config-react": "^4.0.1",
+    "@macalinao/eslint-config-react": "^5",
     "@macalinao/tsconfig": "catalog:",
     "@tanstack/react-query": "catalog:",
     "@testing-library/react": "^16.3.0",

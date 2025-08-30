@@ -1,5 +1,4 @@
-import { useATABalance } from "@macalinao/grill";
-import { formatTokenAmount } from "@macalinao/token-utils";
+import { formatTokenAmount, useATABalance } from "@macalinao/grill";
 import { address } from "@solana/kit";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { createFileRoute } from "@tanstack/react-router";

@@ -7,7 +7,12 @@
     "defaultBranch": "master"
   },
   "files": {
-    "ignoreUnknown": false
+    "ignoreUnknown": false,
+    "includes": [
+      "**",
+      "!**/bun.lock",
+      "!apps/example-dapp/src/routeTree.gen.ts"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -18,12 +23,7 @@
     "lineEnding": "lf",
     "lineWidth": 80,
     "attributePosition": "auto",
-    "bracketSpacing": true,
-    "includes": [
-      "**",
-      "!**/bun.lock",
-      "!apps/example-dapp/src/routeTree.gen.ts"
-    ]
+    "bracketSpacing": true
   },
   "linter": {
     "enabled": true,
@@ -34,7 +34,8 @@
       "recommended": true,
       "nursery": {
         "useConsistentTypeDefinitions": "error",
-        "noFloatingPromises": "error"
+        "noFloatingPromises": "error",
+        "noUnnecessaryConditions": "error"
       },
       "complexity": {
         "useSimplifiedLogicExpression": "error"
@@ -72,13 +73,22 @@
       },
       "correctness": {
         "noUnusedVariables": "warn",
-        "noUnusedImports": "error"
+        "noUnusedImports": "error",
+        "noUndeclaredDependencies": "error",
+        "useImportExtensions": {
+          "level": "error",
+          "options": {
+            "forceJsExtensions": true
+          }
+        }
       }
-    }
+    },
+    "includes": ["**", "!**/bun.lock"]
   },
   "assist": {
     "actions": {
       "source": {
+        // Organizes imports and splits out type imports into a separate line
         "organizeImports": {
           "level": "on",
           "options": {
@@ -90,13 +100,13 @@
   },
   "javascript": {
     "formatter": {
-      "quoteStyle": "double",
       "jsxQuoteStyle": "double",
       "quoteProperties": "asNeeded",
       "trailingCommas": "all",
       "semicolons": "always",
       "arrowParentheses": "always",
       "bracketSameLine": false,
+      "attributePosition": "auto",
       "bracketSpacing": true
     }
   },
