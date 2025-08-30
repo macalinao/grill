@@ -54,7 +54,7 @@
     "@solana-program/token": "^0.5.1",
     "@solana/kit": "catalog:",
     "gill": "catalog:",
-    "gill-react": "catalog:",
+    "@gillsdk/react": "catalog:",
     "react": "catalog:"
   },
   "devDependencies": {

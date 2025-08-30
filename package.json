@@ -24,7 +24,7 @@
       "react": "^19.1.0",
       "react-dom": "^19.1.0",
       "gill": "^0.11",
-      "gill-react": "^0.5.0",
+      "@gillsdk/react": "^0.5.1",
       "@types/bun": "^1.2.20"
     }
   },
