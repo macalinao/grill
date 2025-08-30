@@ -9,5 +9,3 @@ export const createAccountQueryKey = (
   address: string,
 ): readonly [string, string, string] =>
   [GRILL_HOOK_CLIENT_KEY, "account", address] as const;
-
-export { fetchAndDecodeAccount } from "@macalinao/gill-extra";
