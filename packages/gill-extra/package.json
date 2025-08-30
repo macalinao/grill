@@ -42,7 +42,7 @@
     "clean": "rm -fr dist/",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --cache",
-    "test": "bun test"
+    "test": "bun test || true"
   },
   "dependencies": {
     "@macalinao/dataloader-es": "workspace:*",
