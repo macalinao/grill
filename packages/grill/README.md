@@ -29,7 +29,7 @@ bun add @macalinao/grill sonner
 
 ```tsx
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { SolanaProvider } from "gill-react";
+import { SolanaProvider } from "@gillsdk/react";
 import { GrillProvider } from "@macalinao/grill";
 import { Toaster } from "sonner";
 
@@ -39,9 +39,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <SolanaProvider>
-        <GrillProvider>
-          {/* Your app components */}
-        </GrillProvider>
+        <GrillProvider>{/* Your app components */}</GrillProvider>
         <Toaster />
       </SolanaProvider>
     </QueryClientProvider>
@@ -56,10 +54,10 @@ import { useAccount } from "@macalinao/grill";
 
 function TokenBalance({ tokenAccount }: { tokenAccount: string }) {
   const { data: account, isLoading } = useAccount(tokenAccount);
-  
+
   if (isLoading) return <div>Loading...</div>;
   if (!account) return <div>Account not found</div>;
-  
+
   return <div>Balance: {account.lamports}</div>;
 }
 ```
@@ -72,19 +70,19 @@ import { getTransferSolInstruction } from "@solana-program/system";
 
 function SendButton() {
   const sendTX = useSendTX();
-  
+
   const handleSend = async () => {
     const instruction = getTransferSolInstruction({
       source: publicKey,
       destination: recipientPublicKey,
       lamports: 1000000000n, // 1 SOL
     });
-    
+
     // Transaction status toasts will automatically appear
     const signature = await sendTX("Transfer SOL", [instruction]);
     console.log("Transaction sent:", signature);
   };
-  
+
   return <button onClick={handleSend}>Send 1 SOL</button>;
 }
 ```
@@ -97,11 +95,11 @@ The main provider with built-in toast notifications:
 
 ```tsx
 <GrillProvider
-  maxBatchSize={99}           // Max accounts per batch (default: 99)
-  batchDurationMs={10}        // Batch window in ms (default: 10)
-  showToasts={true}           // Show transaction toasts (default: true)
+  maxBatchSize={99} // Max accounts per batch (default: 99)
+  batchDurationMs={10} // Batch window in ms (default: 10)
+  showToasts={true} // Show transaction toasts (default: true)
   successToastDuration={5000} // Success toast duration (default: 5000)
-  errorToastDuration={7000}   // Error toast duration (default: 7000)
+  errorToastDuration={7000} // Error toast duration (default: 7000)
   onTransactionStatusEvent={(event) => {
     // Optional: Handle transaction events manually
     console.log("Transaction event:", event);
@@ -154,14 +152,10 @@ Send transactions with automatic status notifications:
 const sendTX = useSendTX();
 
 // Send a transaction
-const signature = await sendTX(
-  "Transaction Name",
-  instructions,
-  {
-    signers: [], // Additional signers
-    luts: {},     // Address lookup tables
-  }
-);
+const signature = await sendTX("Transaction Name", instructions, {
+  signers: [], // Additional signers
+  luts: {}, // Address lookup tables
+});
 ```
 
 ### useKitWallet

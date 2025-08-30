@@ -1,6 +1,6 @@
 {
   "name": "@macalinao/react-quarry",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "React hooks for Quarry",
   "author": "Ian Macalinao <me@ianm.com>",
   "homepage": "https://grill.ianm.com",
@@ -62,7 +62,7 @@
     "react": "^18 || ^19"
   },
   "devDependencies": {
-    "@macalinao/eslint-config-react": "^4.0.1",
+    "@macalinao/eslint-config-react": "^5",
     "@macalinao/tsconfig": "catalog:",
     "@types/bun": "catalog:",
     "@types/react": "catalog:",

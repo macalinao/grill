@@ -1,4 +1,5 @@
 import type * as React from "react";
+import { SolanaProvider } from "@gillsdk/react";
 import { GrillProvider, getSolscanExplorerLink } from "@macalinao/grill";
 import { WalletAdapterCompatProvider } from "@macalinao/wallet-adapter-compat";
 import {
@@ -14,11 +15,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { createSolanaClient, getPublicSolanaRpcUrl } from "gill";
-import { SolanaProvider } from "gill-react";
 import { useMemo } from "react";
 import { Toaster } from "sonner";
-import { ThemeProvider } from "./components/theme-provider";
-import { routeTree } from "./routeTree.gen";
+import { ThemeProvider } from "./components/theme-provider.js";
+import { routeTree } from "./routeTree.gen.js";
 
 // Create the router instance
 const router = createRouter({ routeTree });

@@ -14,16 +14,16 @@ import { useEffect, useState } from "react";
 export const useGeneratedValue = (get: () => number | null): number | null => {
   const [value, setValue] = useState<number | null>(null);
   useEffect(() => {
-    let playing = true;
+    const ctrl = new AbortController();
     const doFrame = () => {
       setValue(get());
-      if (playing) {
+      if (ctrl.signal.aborted) {
         requestAnimationFrame(doFrame);
       }
     };
     doFrame();
     return () => {
-      playing = false;
+      ctrl.abort();
     };
   }, [get]);
   return value;

@@ -1,7 +1,7 @@
 {
   "name": "example-dapp",
   "private": true,
-  "version": "0.0.16",
+  "version": "0.0.17",
   "type": "module",
   "description": "Example Solana dApp demonstrating Grill features",
   "author": "Ian Macalinao <me@ianm.com>",
@@ -47,7 +47,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "gill": "catalog:",
-    "gill-react": "catalog:",
+    "@gillsdk/react": "catalog:",
     "lucide-react": "^0.542.0",
     "react": "catalog:",
     "react-dom": "catalog:",

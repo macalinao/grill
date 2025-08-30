@@ -1,6 +1,6 @@
 {
   "name": "@macalinao/wallet-adapter-compat",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Compatibility layer that bridges @solana/wallet-adapter with @solana/kit and grill",
   "type": "module",
   "sideEffects": false,
@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@macalinao/eslint-config": "catalog:",
-    "@macalinao/eslint-config-react": "^4.0.1",
+    "@macalinao/eslint-config-react": "^5",
     "@macalinao/grill": "workspace:*",
     "@macalinao/tsconfig": "catalog:",
     "@solana/web3.js": "^1.98.4",

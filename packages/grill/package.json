@@ -1,6 +1,6 @@
 {
   "name": "@macalinao/grill",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "Modern Solana development kit for React applications with automatic account batching, caching, and transaction notifications",
   "license": "Apache-2.0",
   "author": "Ian Macalinao <me@ianm.com>",
@@ -55,12 +55,12 @@
     "@solana-program/token": "^0.5.1",
     "@solana/kit": "catalog:",
     "gill": "catalog:",
-    "gill-react": "catalog:",
+    "@gillsdk/react": "catalog:",
     "react": "catalog:"
   },
   "devDependencies": {
     "@macalinao/eslint-config": "catalog:",
-    "@macalinao/eslint-config-react": "^4.0.1",
+    "@macalinao/eslint-config-react": "^5",
     "@macalinao/tsconfig": "catalog:",
     "@tanstack/react-query": "catalog:",
     "@testing-library/react": "^16.3.0",
