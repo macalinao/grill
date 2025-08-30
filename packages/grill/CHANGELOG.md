@@ -1,5 +1,11 @@
 # @macalinao/grill
 
+## 0.5.6
+
+### Patch Changes
+
+- d0e677b: Update dependencies, speed up linting
+
 ## 0.5.5
 
 ### Patch Changes
