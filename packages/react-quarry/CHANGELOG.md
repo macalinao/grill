@@ -1,5 +1,13 @@
 # @macalinao/react-quarry
 
+## 0.0.2
+
+### Patch Changes
+
+- d0e677b: Update dependencies, speed up linting
+- Updated dependencies [d0e677b]
+  - @macalinao/grill@0.5.6
+
 ## 0.0.1
 
 ### Patch Changes

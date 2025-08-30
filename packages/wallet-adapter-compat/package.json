@@ -1,6 +1,6 @@
 {
   "name": "@macalinao/wallet-adapter-compat",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "Compatibility layer that bridges @solana/wallet-adapter with @solana/kit and grill",
   "type": "module",
   "sideEffects": false,

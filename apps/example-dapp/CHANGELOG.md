@@ -1,5 +1,14 @@
 # example-dapp
 
+## 0.0.18
+
+### Patch Changes
+
+- d0e677b: Update dependencies, speed up linting
+- Updated dependencies [d0e677b]
+  - @macalinao/wallet-adapter-compat@2.0.6
+  - @macalinao/grill@0.5.6
+
 ## 0.0.17
 
 ### Patch Changes
