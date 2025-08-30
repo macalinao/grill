@@ -1,5 +1,13 @@
 # @macalinao/solana-batch-accounts-loader
 
+## 0.2.5
+
+### Patch Changes
+
+- 85dece6: Alter Biome config
+- Updated dependencies [85dece6]
+  - @macalinao/dataloader-es@0.2.5
+
 ## 0.2.4
 
 ### Patch Changes

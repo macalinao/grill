@@ -1,5 +1,16 @@
 # @macalinao/grill
 
+## 0.5.5
+
+### Patch Changes
+
+- 85dece6: Alter Biome config
+- Updated dependencies [85dece6]
+  - @macalinao/solana-batch-accounts-loader@0.2.5
+  - @macalinao/dataloader-es@0.2.5
+  - @macalinao/token-utils@0.1.8
+  - @macalinao/zod-solana@0.1.4
+
 ## 0.5.4
 
 ### Patch Changes

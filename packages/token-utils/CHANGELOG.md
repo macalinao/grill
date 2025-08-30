@@ -1,5 +1,11 @@
 # @macalinao/token-utils
 
+## 0.1.8
+
+### Patch Changes
+
+- 85dece6: Alter Biome config
+
 ## 0.1.7
 
 ### Patch Changes
