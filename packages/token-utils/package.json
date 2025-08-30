@@ -39,7 +39,7 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint .",
-    "clean": "rm -rf dist",
+    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo",
     "typecheck": "tsc --noEmit",
     "test": "bun test"
   },
