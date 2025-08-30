@@ -3,7 +3,7 @@ import {
   findMintWrapperPda,
   getNewWrapperInstructionAsync,
 } from "@macalinao/clients-quarry";
-import { generateKeyPairSigner } from "@solana/signers";
+import { generateKeyPairSigner } from "@solana/kit";
 
 /**
  * Creates an instruction to create a new mint wrapper
