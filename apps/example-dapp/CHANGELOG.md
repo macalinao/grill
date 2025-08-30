@@ -1,5 +1,14 @@
 # example-dapp
 
+## 0.0.17
+
+### Patch Changes
+
+- 85dece6: Alter Biome config
+- Updated dependencies [85dece6]
+  - @macalinao/wallet-adapter-compat@2.0.5
+  - @macalinao/grill@0.5.5
+
 ## 0.0.16
 
 ### Patch Changes

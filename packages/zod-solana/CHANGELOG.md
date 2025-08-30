@@ -1,5 +1,11 @@
 # @macalinao/zod-solana
 
+## 0.1.4
+
+### Patch Changes
+
+- 85dece6: Alter Biome config
+
 ## 0.1.3
 
 ### Patch Changes
