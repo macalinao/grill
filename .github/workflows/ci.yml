@@ -38,6 +38,3 @@ jobs:
 
       - name: Run tests
         run: bun run test
-
-      - name: Check TypeScript
-        run: bun run typecheck || true
