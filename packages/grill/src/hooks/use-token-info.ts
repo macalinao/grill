@@ -5,6 +5,7 @@ import { createTokenInfo } from "@macalinao/token-utils";
 import { tokenMetadataSchema } from "@macalinao/zod-solana";
 import { useQuery } from "@tanstack/react-query";
 import { GRILL_HOOK_CLIENT_KEY } from "../constants.js";
+import { useGrillContext } from "../contexts/grill-context.js";
 import { useMintAccount } from "./use-mint-account.js";
 import { useTokenMetadataAccount } from "./use-token-metadata-account.js";
 
@@ -13,6 +14,7 @@ export function useTokenInfo({
 }: {
   mint: Address | null | undefined;
 }): UseQueryResult<TokenInfo | null> {
+  const { preloadedTokenInfo } = useGrillContext();
   const { data: metadataAccount } = useTokenMetadataAccount({ mint });
   const { data: mintAccount } = useMintAccount({ address: mint });
 
@@ -21,10 +23,18 @@ export function useTokenInfo({
   const onChainName = metadataAccount?.data.data.name;
   const onChainSymbol = metadataAccount?.data.data.symbol;
 
+  // Check if we have preloaded token info for this mint
+  const preloadedInfo = mint && preloadedTokenInfo?.get(mint);
+
   return useQuery<TokenInfo | null>({
     // eslint-disable-next-line @tanstack/query/exhaustive-deps
     queryKey: [GRILL_HOOK_CLIENT_KEY, "tokenInfo", mint] as const,
     queryFn: async () => {
+      // Return preloaded info if available
+      if (preloadedInfo) {
+        return preloadedInfo;
+      }
+
       if (!mint || decimals === undefined) {
         return null;
       }
@@ -73,7 +83,10 @@ export function useTokenInfo({
       });
     },
     enabled:
-      !!mint && mintAccount !== undefined && metadataAccount !== undefined,
+      !!mint &&
+      !preloadedInfo &&
+      mintAccount !== undefined &&
+      metadataAccount !== undefined,
     staleTime: 5 * 60 * 1000, // Cache for 5 minutes
     gcTime: 60 * 60 * 1000, // Keep in cache for 1 hour
   });

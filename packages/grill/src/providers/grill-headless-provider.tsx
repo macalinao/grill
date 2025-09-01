@@ -1,4 +1,5 @@
 import type { GetExplorerLinkFunction } from "@macalinao/gill-extra";
+import type { TokenInfo } from "@macalinao/token-utils";
 import type { Address } from "gill";
 import type { FC, ReactNode } from "react";
 import type { TransactionStatusEventCallback } from "../types.js";
@@ -21,6 +22,8 @@ export interface GrillHeadlessProviderProps {
   onTransactionStatusEvent?: TransactionStatusEventCallback;
   /** Custom function to get explorer link for a transaction signature. Defaults to gill's getExplorerLink. */
   getExplorerLink?: GetExplorerLinkFunction;
+  /** Preloaded token info for instant access without fetching */
+  preloadedTokenInfo?: Map<Address, TokenInfo> | Record<Address, TokenInfo>;
 }
 
 /**
@@ -38,6 +41,7 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
     console.log(e);
   },
   getExplorerLink = defaultGetExplorerLink,
+  preloadedTokenInfo,
 }) => {
   const { rpc } = useSolanaClient();
   const queryClient = useQueryClient();
@@ -76,6 +80,19 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
     [signer, rpc, refetchAccounts, onTransactionStatusEvent, getExplorerLink],
   );
 
+  // Convert preloadedTokenInfo to Map if it's an object
+  const preloadedTokenInfoMap = useMemo(() => {
+    if (!preloadedTokenInfo) {
+      return undefined;
+    }
+    if (preloadedTokenInfo instanceof Map) {
+      return preloadedTokenInfo;
+    }
+    return new Map(
+      Object.entries(preloadedTokenInfo) as [Address, TokenInfo][],
+    );
+  }, [preloadedTokenInfo]);
+
   return (
     <GrillContext.Provider
       value={{
@@ -83,6 +100,7 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
         refetchAccounts,
         sendTX,
         getExplorerLink,
+        preloadedTokenInfo: preloadedTokenInfoMap,
       }}
     >
       {children}
