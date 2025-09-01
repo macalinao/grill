@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { GRILL_HOOK_CLIENT_KEY } from "../constants.js";
+import { createPdaQueryKey } from "../query-keys.js";
 
 /**
  * A function that computes a PDA from some arguments.
@@ -44,7 +44,7 @@ export function createPdaHook<TArgs, TResult>(
     args: TArgs | null | undefined,
   ): TResult | null | undefined {
     const { data } = useQuery<TResult | null>({
-      queryKey: [GRILL_HOOK_CLIENT_KEY, "pda", queryKeyPrefix, args] as const,
+      queryKey: createPdaQueryKey(queryKeyPrefix, args),
       queryFn: async () => {
         if (!args) {
           return null;

@@ -1,7 +1,7 @@
 import type { BatchAccountsLoader } from "@macalinao/solana-batch-accounts-loader";
 import type { QueryClient } from "@tanstack/react-query";
 import type { Address } from "gill";
-import { createAccountQueryKey } from "./account-helpers.js";
+import { createAccountQueryKey } from "../query-keys.js";
 
 /**
  * Refetches the accounts for the given addresses

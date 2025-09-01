@@ -9,7 +9,7 @@ import type { GillUseRpcHook } from "./types.js";
 import { fetchAndDecodeAccount } from "@macalinao/gill-extra";
 import { useQueries } from "@tanstack/react-query";
 import { useGrillContext } from "../contexts/grill-context.js";
-import { createAccountQueryKey } from "../utils/account-helpers.js";
+import { createAccountQueryKey } from "../query-keys.js";
 
 type RpcConfig = Simplify<Omit<FetchAccountConfig, "abortSignal">>;
 
