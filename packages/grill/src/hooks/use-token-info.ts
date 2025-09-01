@@ -4,7 +4,7 @@ import type { UseQueryResult } from "@tanstack/react-query";
 import { createTokenInfo } from "@macalinao/token-utils";
 import { tokenMetadataSchema } from "@macalinao/zod-solana";
 import { useQuery } from "@tanstack/react-query";
-import { GRILL_HOOK_CLIENT_KEY } from "../constants.js";
+import { createTokenInfoQueryKey } from "../query-keys.js";
 import { useMintAccount } from "./use-mint-account.js";
 import { useTokenMetadataAccount } from "./use-token-metadata-account.js";
 
@@ -23,7 +23,7 @@ export function useTokenInfo({
 
   return useQuery<TokenInfo | null>({
     // eslint-disable-next-line @tanstack/query/exhaustive-deps
-    queryKey: [GRILL_HOOK_CLIENT_KEY, "tokenInfo", mint] as const,
+    queryKey: createTokenInfoQueryKey(mint),
     queryFn: async () => {
       if (!mint || decimals === undefined) {
         return null;

@@ -16,7 +16,7 @@ Grill is a modern Solana development kit monorepo that provides React components
 - **Routing**: @tanstack/react-router (in example-dapp)
 - **Styling**: Tailwind CSS v4 with shadcn/ui components
 - **Code Quality**: Biome for formatting, ESLint for linting
-- **Testing**: Vitest
+- **Testing**: Bun Test via `bun run test`
 
 ## Essential Commands
 
