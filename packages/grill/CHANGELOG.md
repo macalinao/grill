@@ -1,5 +1,15 @@
 # @macalinao/grill
 
+## 0.5.7
+
+### Patch Changes
+
+- bf01031: Query key cleanup
+- d6e8cfb: Grill hook client key cleanup
+- Updated dependencies [3681f7a]
+- Updated dependencies [ec4287f]
+  - @macalinao/gill-extra@0.0.1
+
 ## 0.5.6
 
 ### Patch Changes
