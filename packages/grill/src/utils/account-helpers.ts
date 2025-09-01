@@ -1,4 +1,4 @@
-export const GRILL_HOOK_CLIENT_KEY = "@macalinao/grill";
+export const GRILL_HOOK_CLIENT_KEY = "solana";
 
 /**
  * Create a query key for the account query
