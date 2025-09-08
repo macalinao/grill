@@ -51,6 +51,7 @@
     "@macalinao/eslint-config-react": "^5",
     "@macalinao/grill": "workspace:*",
     "@macalinao/tsconfig": "catalog:",
+    "@solana/kit": "catalog:",
     "@solana/web3.js": "^1.98.4",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",

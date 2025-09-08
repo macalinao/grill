@@ -58,9 +58,9 @@
     "test": "bun test || true"
   },
   "dependencies": {
-    "@macalinao/clients-quarry": "^0.2.1",
+    "@macalinao/clients-quarry": "^0.3.0",
     "@macalinao/token-utils": "workspace:*",
-    "@solana-program/token": "^0.5.1",
+    "@solana-program/token": "^0.6.0",
     "nonempty-array": "^0.1.4"
   },
   "devDependencies": {
