@@ -1,5 +1,11 @@
 # @macalinao/quarry
 
+## 0.0.2
+
+### Patch Changes
+
+- aef5258: Update all dependencies
+
 ## 0.0.1
 
 ### Patch Changes

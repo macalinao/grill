@@ -1,5 +1,14 @@
 # example-dapp
 
+## 0.0.21
+
+### Patch Changes
+
+- aef5258: Update all dependencies
+- Updated dependencies [aef5258]
+  - @macalinao/wallet-adapter-compat@2.0.9
+  - @macalinao/grill@0.5.9
+
 ## 0.0.20
 
 ### Patch Changes
