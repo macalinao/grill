@@ -53,23 +53,25 @@
     "@macalinao/solana-batch-accounts-loader": "workspace:*",
     "@macalinao/token-utils": "workspace:*",
     "@macalinao/zod-solana": "workspace:*",
-    "@solana-program/token": "^0.6.0",
-    "@solana/kit": "catalog:",
-    "gill": "catalog:",
-    "react": "catalog:"
+    "@solana-program/token": "^0.6.0"
   },
   "devDependencies": {
+    "react": "catalog:",
     "@macalinao/eslint-config": "catalog:",
     "@macalinao/eslint-config-react": "^5",
     "@macalinao/tsconfig": "catalog:",
+    "@solana/kit": "catalog:",
     "@tanstack/react-query": "catalog:",
     "@testing-library/react": "^16.3.0",
     "@types/bun": "catalog:",
     "@types/react": "^19.1.12",
+    "gill": "catalog:",
     "typescript": "catalog:"
   },
   "peerDependencies": {
+    "@solana/kit": "catalog:",
     "@tanstack/react-query": "^5",
+    "gill": "catalog:",
     "react": "^18.0.0 || ^19.0.0",
     "sonner": "^2"
   },
