@@ -114,7 +114,7 @@
       "version": "0.5.7",
       "dependencies": {
         "@gillsdk/react": "catalog:",
-        "@macalinao/clients-token-metadata": "^0.2.6",
+        "@macalinao/clients-token-metadata": "^0.3.0",
         "@macalinao/dataloader-es": "workspace:*",
         "@macalinao/gill-extra": "workspace:*",
         "@macalinao/solana-batch-accounts-loader": "workspace:*",
@@ -147,7 +147,7 @@
       "name": "@macalinao/quarry",
       "version": "0.0.1",
       "dependencies": {
-        "@macalinao/clients-quarry": "^0.2.2",
+        "@macalinao/clients-quarry": "^0.3.0",
         "@macalinao/token-utils": "workspace:*",
         "@solana-program/token": "^0.6.0",
         "nonempty-array": "^0.1.4",
@@ -692,9 +692,9 @@
 
     "@lit/reactive-element": ["@lit/reactive-element@2.1.1", "", { "dependencies": { "@lit-labs/ssr-dom-shim": "^1.4.0" } }, "sha512-N+dm5PAYdQ8e6UlywyyrgI2t++wFGXfHx+dSJ1oBrg6FAxUj40jId++EaRm80MKX5JnlH1sBsyZ5h0bcZKemCg=="],
 
-    "@macalinao/clients-quarry": ["@macalinao/clients-quarry@0.2.2", "", { "peerDependencies": { "@solana/kit": "*" } }, "sha512-rrLiaM42J+Ycwois9vYh/6Cr6oRalJnihSeddz8sFIJhzUOeLb9/Xw7jOcpXVAtSaEiNAlHaNjQFGzsApE4Tcw=="],
+    "@macalinao/clients-quarry": ["@macalinao/clients-quarry@0.3.0", "", { "peerDependencies": { "@solana/kit": "*" } }, "sha512-PR5HCBKpNTgE7GYHjLcu74+Nak4bNQ4LBag7DgddSCd+I49KURKaR+rfoNZ1d4Gn8R9NMcXekKdhHEAjZuBmBQ=="],
 
-    "@macalinao/clients-token-metadata": ["@macalinao/clients-token-metadata@0.2.6", "", { "peerDependencies": { "@solana/kit": "*" } }, "sha512-1VZUdixIwdfWlJ8zvRsJS46QHYyaFkKSJjC+KhAILHq9C83gBjpxCvSwJXTnmyP37XA02y4fWV8vReWq535J2w=="],
+    "@macalinao/clients-token-metadata": ["@macalinao/clients-token-metadata@0.3.0", "", { "peerDependencies": { "@solana/kit": "*" } }, "sha512-LjPyTpgnO4Rp/kqLPCnlgdnYBF64PbEaxzzDvclWyRzMjQ9kERYD0JiqAbY69eVj3M7ys6TI1BdhjxennrG3FA=="],
 
     "@macalinao/dataloader-es": ["@macalinao/dataloader-es@workspace:packages/dataloader-es"],
 
