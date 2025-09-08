@@ -1,5 +1,12 @@
 # @macalinao/grill
 
+## 0.5.8
+
+### Patch Changes
+
+- Updated dependencies [893371f]
+  - @macalinao/gill-extra@0.0.2
+
 ## 0.5.7
 
 ### Patch Changes
