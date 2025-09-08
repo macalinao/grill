@@ -1,5 +1,14 @@
 # @macalinao/react-quarry
 
+## 0.0.5
+
+### Patch Changes
+
+- aef5258: Update all dependencies
+- Updated dependencies [aef5258]
+  - @macalinao/quarry@0.0.2
+  - @macalinao/grill@0.5.9
+
 ## 0.0.4
 
 ### Patch Changes

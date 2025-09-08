@@ -1,5 +1,13 @@
 # @macalinao/grill
 
+## 0.5.9
+
+### Patch Changes
+
+- aef5258: Update all dependencies
+- Updated dependencies [aef5258]
+  - @macalinao/gill-extra@0.0.3
+
 ## 0.5.8
 
 ### Patch Changes
