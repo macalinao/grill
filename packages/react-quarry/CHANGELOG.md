@@ -1,5 +1,11 @@
 # @macalinao/react-quarry
 
+## 0.0.6
+
+### Patch Changes
+
+- @macalinao/grill@0.5.10
+
 ## 0.0.5
 
 ### Patch Changes

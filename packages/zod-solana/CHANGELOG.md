@@ -1,5 +1,11 @@
 # @macalinao/zod-solana
 
+## 0.1.5
+
+### Patch Changes
+
+- 3d64ada: Update zod import to be tree shakeable
+
 ## 0.1.4
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @macalinao/grill
 
+## 0.5.10
+
+### Patch Changes
+
+- Updated dependencies [3d64ada]
+  - @macalinao/zod-solana@0.1.5
+  - @macalinao/gill-extra@0.0.4
+
 ## 0.5.9
 
 ### Patch Changes

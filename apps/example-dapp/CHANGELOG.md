@@ -1,5 +1,13 @@
 # example-dapp
 
+## 0.0.22
+
+### Patch Changes
+
+- 3d64ada: Update zod import to be tree shakeable
+  - @macalinao/grill@0.5.10
+  - @macalinao/wallet-adapter-compat@2.0.10
+
 ## 0.0.21
 
 ### Patch Changes
