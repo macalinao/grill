@@ -1,5 +1,11 @@
 # @macalinao/grill
 
+## 0.5.11
+
+### Patch Changes
+
+- 48ec0ee: Add staticTokenInfo prop
+
 ## 0.5.10
 
 ### Patch Changes

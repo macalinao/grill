@@ -1,5 +1,14 @@
 # example-dapp
 
+## 0.0.23
+
+### Patch Changes
+
+- 48ec0ee: Add staticTokenInfo prop
+- Updated dependencies [48ec0ee]
+  - @macalinao/grill@0.5.11
+  - @macalinao/wallet-adapter-compat@2.0.11
+
 ## 0.0.22
 
 ### Patch Changes
