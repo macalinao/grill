@@ -1,5 +1,12 @@
 # @macalinao/gill-extra
 
+## 0.0.4
+
+### Patch Changes
+
+- Updated dependencies [3d64ada]
+  - @macalinao/zod-solana@0.1.5
+
 ## 0.0.3
 
 ### Patch Changes
