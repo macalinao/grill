@@ -1,4 +1,5 @@
 import type { GetExplorerLinkFunction } from "@macalinao/gill-extra";
+import type { TokenInfo } from "@macalinao/token-utils";
 import type { Address } from "gill";
 import type { FC, ReactNode } from "react";
 import type { TransactionStatusEventCallback } from "../types.js";
@@ -21,6 +22,11 @@ export interface GrillHeadlessProviderProps {
   onTransactionStatusEvent?: TransactionStatusEventCallback;
   /** Custom function to get explorer link for a transaction signature. Defaults to gill's getExplorerLink. */
   getExplorerLink?: GetExplorerLinkFunction;
+  /**
+   * Static token information that overrides whatever is on-chain.
+   * useTokenInfo will load these instantly without fetching from chain.
+   */
+  staticTokenInfo?: TokenInfo[];
 }
 
 /**
@@ -38,6 +44,7 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
     console.log(e);
   },
   getExplorerLink = defaultGetExplorerLink,
+  staticTokenInfo = [],
 }) => {
   const { rpc } = useSolanaClient();
   const queryClient = useQueryClient();
@@ -76,6 +83,11 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
     [signer, rpc, refetchAccounts, onTransactionStatusEvent, getExplorerLink],
   );
 
+  const staticTokenInfoMap = useMemo(
+    () => new Map(staticTokenInfo.map((info) => [info.mint, info])),
+    [staticTokenInfo],
+  );
+
   return (
     <GrillContext.Provider
       value={{
@@ -83,6 +95,7 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
         refetchAccounts,
         sendTX,
         getExplorerLink,
+        staticTokenInfo: staticTokenInfoMap,
       }}
     >
       {children}

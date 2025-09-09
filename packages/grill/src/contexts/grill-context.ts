@@ -3,6 +3,7 @@ import type {
   GetExplorerLinkFunction,
   SendTXFunction,
 } from "@macalinao/gill-extra";
+import type { TokenInfo } from "@macalinao/token-utils";
 import type { Address, EncodedAccount } from "@solana/kit";
 import { createContext, useContext } from "react";
 
@@ -24,6 +25,12 @@ export interface GrillContextValue {
    * Function to get explorer link for a transaction signature
    */
   getExplorerLink: GetExplorerLinkFunction;
+
+  /**
+   * Static token information map where key is mint address.
+   * This overrides whatever is on-chain, and useTokenInfo will load it instantly.
+   */
+  staticTokenInfo: ReadonlyMap<Address, TokenInfo>;
 }
 
 /**

@@ -48,6 +48,20 @@ const ExamplesIndexPage: React.FC = () => {
             </Link>
           </CardContent>
         </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Static Token Info</CardTitle>
+            <CardDescription>
+              Preload token metadata for instant display without chain fetching
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Link to="/examples/static-tokens">
+              <Button className="w-full">View Example</Button>
+            </Link>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
