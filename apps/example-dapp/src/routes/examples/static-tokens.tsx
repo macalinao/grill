@@ -19,11 +19,11 @@ export const Route = createFileRoute("/examples/static-tokens")({
   component: StaticTokensPage,
 });
 
-// Example static token info that would normally be passed to GrillProvider
-// This demonstrates how static token info can override on-chain data
+// Example static token info - in production, this could come from a config file
+// or be fetched once at startup and cached
 const STATIC_TOKEN_INFO: TokenInfo[] = [
   {
-    mint: address("11111111111111111111111111111111"),
+    mint: address("AZzE3wPJtVZ8H7nHyBxB4Wq4e17bEz7W3Eb1v4C4pX8D"),
     name: "Static Test Token",
     symbol: "STT",
     decimals: 9,
@@ -31,7 +31,7 @@ const STATIC_TOKEN_INFO: TokenInfo[] = [
       "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png",
   },
   {
-    mint: address("22222222222222222222222222222222"),
+    mint: address("AZzE3wPJtVZ8H7nHyBxB4Wq4e17bEz7W3Eb1v4C4pX8E"),
     name: "Another Static Token",
     symbol: "AST",
     decimals: 6,
