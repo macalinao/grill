@@ -4,6 +4,7 @@ import type { UseQueryResult } from "@tanstack/react-query";
 import { createTokenInfo } from "@macalinao/token-utils";
 import { tokenMetadataSchema } from "@macalinao/zod-solana";
 import { useQuery } from "@tanstack/react-query";
+import { useGrillContext } from "../contexts/grill-context.js";
 import { createTokenInfoQueryKey } from "../query-keys.js";
 import { useMintAccount } from "./use-mint-account.js";
 import { useTokenMetadataAccount } from "./use-token-metadata-account.js";
@@ -13,6 +14,7 @@ export function useTokenInfo({
 }: {
   mint: Address | null | undefined;
 }): UseQueryResult<TokenInfo | null> {
+  const { staticTokenInfo } = useGrillContext();
   const { data: metadataAccount } = useTokenMetadataAccount({ mint });
   const { data: mintAccount } = useMintAccount({ address: mint });
 
@@ -21,11 +23,23 @@ export function useTokenInfo({
   const onChainName = metadataAccount?.data.data.name;
   const onChainSymbol = metadataAccount?.data.data.symbol;
 
+  // Check for static token info
+  const staticInfo = mint ? staticTokenInfo.get(mint) : undefined;
+
   return useQuery<TokenInfo | null>({
     // eslint-disable-next-line @tanstack/query/exhaustive-deps
     queryKey: createTokenInfoQueryKey(mint),
     queryFn: async () => {
-      if (!mint || decimals === undefined) {
+      if (!mint) {
+        return null;
+      }
+
+      // Return static token info if available
+      if (staticInfo) {
+        return staticInfo;
+      }
+
+      if (decimals === undefined) {
         return null;
       }
 
@@ -73,8 +87,11 @@ export function useTokenInfo({
       });
     },
     enabled:
-      !!mint && mintAccount !== undefined && metadataAccount !== undefined,
-    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
+      !!mint &&
+      (staticInfo !== undefined ||
+        (mintAccount !== undefined && metadataAccount !== undefined)),
+    staleTime: staticInfo ? Number.POSITIVE_INFINITY : 5 * 60 * 1000, // Static info never goes stale
     gcTime: 60 * 60 * 1000, // Keep in cache for 1 hour
+    initialData: staticInfo ?? undefined,
   });
 }
