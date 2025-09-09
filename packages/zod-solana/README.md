@@ -47,7 +47,7 @@ if (result.success) {
 ```typescript
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import * as z from "zod";
 import { addressSchema } from "@macalinao/zod-solana";
 
 const formSchema = z.object({
@@ -84,7 +84,7 @@ function SendTokenForm() {
 ### Type Inference
 
 ```typescript
-import { z } from "zod";
+import * as z from "zod";
 import { addressSchema } from "@macalinao/zod-solana";
 
 // Infer the Address type
@@ -125,7 +125,7 @@ A Zod schema that validates Solana addresses.
 ### Validating Multiple Addresses
 
 ```typescript
-import { z } from "zod";
+import * as z from "zod";
 import { addressSchema } from "@macalinao/zod-solana";
 
 const multiSigSchema = z.object({

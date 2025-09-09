@@ -1,4 +1,4 @@
-import { z } from "zod";
+import * as z from "zod";
 import { u8Schema } from "./u8-schema.js";
 
 /**

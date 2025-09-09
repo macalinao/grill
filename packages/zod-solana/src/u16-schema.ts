@@ -1,4 +1,4 @@
-import { z } from "zod";
+import * as z from "zod";
 import { U16_MAX } from "./constants.js";
 
 /**
