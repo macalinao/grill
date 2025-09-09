@@ -1,6 +1,6 @@
 import type { Address } from "@solana/kit";
 import { address } from "@solana/kit";
-import { z } from "zod";
+import * as z from "zod";
 
 /**
  * A Zod schema for Solana addresses.

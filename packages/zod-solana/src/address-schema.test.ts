@@ -1,4 +1,4 @@
-import type { z } from "zod";
+import type * as z from "zod";
 import { describe, expect, it } from "bun:test";
 import { address } from "@solana/kit";
 import { addressSchema } from "./address-schema.js";
