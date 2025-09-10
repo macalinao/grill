@@ -1,13 +1,10 @@
+import type { PdaFn } from "@macalinao/gill-extra";
 import { useQuery } from "@tanstack/react-query";
-import { createPdaQueryKey } from "../query-keys.js";
+import { createPdaQuery } from "./pda-query-utils.js";
 
 /**
- * A function that computes a PDA from some arguments.
+ * Hook for computing a PDA from some arguments.
  */
-export type PdaFn<TArgs, TResult> = (
-  args: TArgs,
-) => Promise<readonly [TResult, number]>;
-
 export type PdaHook<TArgs, TResult> = (
   args: TArgs | null | undefined,
 ) => TResult | null | undefined;
@@ -43,20 +40,9 @@ export function createPdaHook<TArgs, TResult>(
   return function usePda(
     args: TArgs | null | undefined,
   ): TResult | null | undefined {
-    const { data } = useQuery<TResult | null>({
-      queryKey: createPdaQueryKey(queryKeyPrefix, args),
-      queryFn: async () => {
-        if (!args) {
-          return null;
-        }
-        const [pda] = await pdaFn(args);
-        return pda;
-      },
-      enabled: !!args,
-      // PDAs are deterministic, so we can cache them indefinitely
-      staleTime: Number.POSITIVE_INFINITY,
-      gcTime: Number.POSITIVE_INFINITY,
-    });
+    const { data } = useQuery<TResult | null>(
+      createPdaQuery(pdaFn, queryKeyPrefix, args),
+    );
     return data;
   };
 }

@@ -44,3 +44,10 @@ export type AccountInfo<TData extends Uint8Array | object> = Pick<
   Account<TData>,
   "data" | "address"
 >;
+
+/**
+ * A function that computes a PDA from some arguments.
+ */
+export type PdaFn<TArgs, TResult> = (
+  args: TArgs,
+) => Promise<readonly [TResult, number]>;

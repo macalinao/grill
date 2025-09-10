@@ -2,6 +2,11 @@ import type { Address, Decoder } from "@solana/kit";
 import type { UseAccountsResult } from "./use-accounts.js";
 import { useAccounts } from "./use-accounts.js";
 
+export type DecodedAccountsResult<TData extends object> =
+  UseAccountsResult<TData> & {
+    addresses: (Address | null | undefined)[];
+  };
+
 /**
  * A hook for fetching and decoding multiple accounts.
  */

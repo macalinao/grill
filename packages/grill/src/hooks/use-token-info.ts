@@ -9,11 +9,21 @@ import { createTokenInfoQueryKey } from "../query-keys.js";
 import { useMintAccount } from "./use-mint-account.js";
 import { useTokenMetadataAccount } from "./use-token-metadata-account.js";
 
+export interface UseTokenInfoInput {
+  /**
+   * Mint address of the token to get the info of.
+   */
+  mint: Address | null | undefined;
+}
+
+/**
+ * Hook for getting the {@link TokenInfo} for a given mint address.
+ * @param param0
+ * @returns
+ */
 export function useTokenInfo({
   mint,
-}: {
-  mint: Address | null | undefined;
-}): UseQueryResult<TokenInfo | null> {
+}: UseTokenInfoInput): UseQueryResult<TokenInfo | null> {
   const { staticTokenInfo } = useGrillContext();
   const { data: metadataAccount } = useTokenMetadataAccount({ mint });
   const { data: mintAccount } = useMintAccount({ address: mint });
