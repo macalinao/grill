@@ -61,8 +61,9 @@
     "*.{json,jsonc,html}": "biome format --write --no-errors-on-unmatched"
   },
   "overrides": {
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "@types/react": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:"
   },
   "dependencies": {
     "dnum": "^2.15.0"
