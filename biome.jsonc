@@ -7,7 +7,6 @@
     "defaultBranch": "master"
   },
   "files": {
-    "ignoreUnknown": false,
     "includes": [
       "**",
       "!**/bun.lock",
@@ -16,7 +15,6 @@
   },
   "formatter": {
     "enabled": true,
-    "useEditorconfig": true,
     "formatWithErrors": false,
     "indentStyle": "space",
     "indentWidth": 2,
@@ -82,8 +80,7 @@
           }
         }
       }
-    },
-    "includes": ["**", "!**/bun.lock"]
+    }
   },
   "assist": {
     "actions": {

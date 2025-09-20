@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@gillsdk/react": "catalog:",
-    "@macalinao/clients-token-metadata": "^0.3.0",
+    "@macalinao/clients-token-metadata": "^0.4.0",
     "@macalinao/dataloader-es": "workspace:*",
     "@macalinao/gill-extra": "workspace:*",
     "@macalinao/solana-batch-accounts-loader": "workspace:*",
@@ -63,7 +63,7 @@
     "@tanstack/react-query": "catalog:",
     "@testing-library/react": "^16.3.0",
     "@types/bun": "catalog:",
-    "@types/react": "^19.1.12",
+    "@types/react": "catalog:",
     "gill": "catalog:",
     "react": "catalog:",
     "typescript": "catalog:"

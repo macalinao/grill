@@ -44,10 +44,12 @@
     "test": "bun test src/"
   },
   "dependencies": {
+    "@macalinao/clients-token-metadata": "^0.4.0",
     "@macalinao/dataloader-es": "workspace:*",
     "@macalinao/solana-batch-accounts-loader": "workspace:*",
     "@macalinao/token-utils": "workspace:*",
-    "@macalinao/zod-solana": "workspace:*"
+    "@macalinao/zod-solana": "workspace:*",
+    "@solana-program/token": "^0.6.0"
   },
   "devDependencies": {
     "@macalinao/eslint-config": "catalog:",

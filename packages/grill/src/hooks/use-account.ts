@@ -14,7 +14,7 @@ import { createAccountQueryKey } from "../query-keys.js";
 
 type RpcConfig = Simplify<Omit<FetchAccountConfig, "abortSignal">>;
 
-type UseAccountInput<
+export type UseAccountInput<
   TConfig extends RpcConfig = RpcConfig,
   TDecodedData extends object = Uint8Array,
 > = GillUseRpcHook<TConfig> & {
@@ -31,6 +31,14 @@ type UseAccountInput<
 };
 
 /**
+ * Result type for the useAccount hook.
+ */
+export type UseAccountResult<TDecodedData extends object> =
+  UseQueryResult<Account<TDecodedData> | null> & {
+    address: Address | null | undefined;
+  };
+
+/**
  * Get the account info for an address. Concurrent queries are batched using a DataLoader.
  */
 export function useAccount<
@@ -40,12 +48,7 @@ export function useAccount<
   options,
   address,
   decoder,
-}: UseAccountInput<
-  TConfig,
-  TDecodedData
->): UseQueryResult<Account<TDecodedData> | null> & {
-  address: Address | null | undefined;
-} {
+}: UseAccountInput<TConfig, TDecodedData>): UseAccountResult<TDecodedData> {
   const { accountLoader } = useGrillContext();
   // TODO(igm): improve the types here and somehow ensure the decoder is the same
   // for each query of an account

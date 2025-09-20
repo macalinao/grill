@@ -12,6 +12,7 @@
     "**/.direnv": true
   },
   "typescript.tsdk": "node_modules/typescript/lib",
+  "editor.defaultFormatter": "biomejs.biome",
   "[json]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
@@ -22,7 +23,7 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
     "source.fixAll.biome": "explicit",
-    "source.action.organizeImports.biome": "explicit"
+    "source.organizeImports.biome": "explicit"
   },
   "cSpell.words": ["dnum", "tmath", "TKNA", "TKNB"]
 }
