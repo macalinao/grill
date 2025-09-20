@@ -1,5 +1,11 @@
 # @macalinao/zod-solana
 
+## 0.1.6
+
+### Patch Changes
+
+- b577d51: Add support for multiple pdas/token accounts being fetched
+
 ## 0.1.5
 
 ### Patch Changes

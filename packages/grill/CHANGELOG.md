@@ -1,5 +1,14 @@
 # @macalinao/grill
 
+## 0.5.12
+
+### Patch Changes
+
+- b577d51: Add support for multiple pdas/token accounts being fetched
+- Updated dependencies [b577d51]
+  - @macalinao/gill-extra@0.0.5
+  - @macalinao/zod-solana@0.1.6
+
 ## 0.5.11
 
 ### Patch Changes
