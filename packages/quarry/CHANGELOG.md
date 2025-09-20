@@ -1,5 +1,11 @@
 # @macalinao/quarry
 
+## 0.0.3
+
+### Patch Changes
+
+- b577d51: Add support for multiple pdas/token accounts being fetched
+
 ## 0.0.2
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @macalinao/gill-extra
 
+## 0.0.5
+
+### Patch Changes
+
+- b577d51: Add support for multiple pdas/token accounts being fetched
+- Updated dependencies [b577d51]
+  - @macalinao/zod-solana@0.1.6
+
 ## 0.0.4
 
 ### Patch Changes
