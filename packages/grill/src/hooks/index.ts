@@ -14,4 +14,5 @@ export * from "./use-send-tx.js";
 export * from "./use-token-account.js";
 export * from "./use-token-balance.js";
 export * from "./use-token-info.js";
+export * from "./use-token-infos.js";
 export * from "./use-token-metadata-account.js";
