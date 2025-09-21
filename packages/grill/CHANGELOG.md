@@ -1,5 +1,13 @@
 # @macalinao/grill
 
+## 0.5.13
+
+### Patch Changes
+
+- b0a90a2: Add re-exports from Gill
+- Updated dependencies [b0a90a2]
+  - @macalinao/gill-extra@0.0.6
+
 ## 0.5.12
 
 ### Patch Changes
