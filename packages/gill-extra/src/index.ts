@@ -1,6 +1,7 @@
 export type { SolanaClient } from "gill";
 export * from "@macalinao/token-utils";
 export * from "@macalinao/zod-solana";
+export { createSolanaClient, getExplorerLink } from "gill";
 // Export gill-extra specific utilities
 export * from "./build-get-explorer-link-function.js";
 export * from "./constants.js";
