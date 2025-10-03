@@ -1,5 +1,11 @@
 # @macalinao/zod-solana
 
+## 0.1.7
+
+### Patch Changes
+
+- 42846e7: Dependency bumps
+
 ## 0.1.6
 
 ### Patch Changes

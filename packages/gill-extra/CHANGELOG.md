@@ -1,5 +1,13 @@
 # @macalinao/gill-extra
 
+## 0.0.7
+
+### Patch Changes
+
+- 42846e7: Dependency bumps
+- Updated dependencies [42846e7]
+  - @macalinao/zod-solana@0.1.7
+
 ## 0.0.6
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @macalinao/quarry
 
+## 0.0.4
+
+### Patch Changes
+
+- 42846e7: Dependency bumps
+
 ## 0.0.3
 
 ### Patch Changes

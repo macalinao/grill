@@ -1,6 +1,6 @@
 {
   "name": "@macalinao/zod-solana",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Zod schemas for Solana types with @solana/kit integration",
   "type": "module",
   "sideEffects": false,

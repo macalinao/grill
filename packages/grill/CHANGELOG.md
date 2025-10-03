@@ -1,5 +1,14 @@
 # @macalinao/grill
 
+## 0.5.14
+
+### Patch Changes
+
+- 42846e7: Dependency bumps
+- Updated dependencies [42846e7]
+  - @macalinao/gill-extra@0.0.7
+  - @macalinao/zod-solana@0.1.7
+
 ## 0.5.13
 
 ### Patch Changes
