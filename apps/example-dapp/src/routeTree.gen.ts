@@ -8,107 +8,107 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from "./routes/__root.tsx"
-import { Route as ExamplesRouteImport } from "./routes/examples.tsx"
-import { Route as IndexRouteImport } from "./routes/index.tsx"
-import { Route as ExamplesIndexRouteImport } from "./routes/examples/index.tsx"
-import { Route as ExamplesWrappedSolRouteImport } from "./routes/examples/wrapped-sol.tsx"
-import { Route as ExamplesTransferSolRouteImport } from "./routes/examples/transfer-sol.tsx"
-import { Route as ExamplesTokensRouteImport } from "./routes/examples/tokens.tsx"
-import { Route as ExamplesTokenBalancesRouteImport } from "./routes/examples/token-balances.tsx"
-import { Route as ExamplesStaticTokensRouteImport } from "./routes/examples/static-tokens.tsx"
-import { Route as ExamplesDashboardRouteImport } from "./routes/examples/dashboard.tsx"
-import { Route as ExamplesBatchAccountsRouteImport } from "./routes/examples/batch-accounts.tsx"
+import { Route as rootRouteImport } from "./routes/__root.tsx";
+import { Route as ExamplesRouteImport } from "./routes/examples.tsx";
+import { Route as IndexRouteImport } from "./routes/index.tsx";
+import { Route as ExamplesIndexRouteImport } from "./routes/examples/index.tsx";
+import { Route as ExamplesWrappedSolRouteImport } from "./routes/examples/wrapped-sol.tsx";
+import { Route as ExamplesTransferSolRouteImport } from "./routes/examples/transfer-sol.tsx";
+import { Route as ExamplesTokensRouteImport } from "./routes/examples/tokens.tsx";
+import { Route as ExamplesTokenBalancesRouteImport } from "./routes/examples/token-balances.tsx";
+import { Route as ExamplesStaticTokensRouteImport } from "./routes/examples/static-tokens.tsx";
+import { Route as ExamplesDashboardRouteImport } from "./routes/examples/dashboard.tsx";
+import { Route as ExamplesBatchAccountsRouteImport } from "./routes/examples/batch-accounts.tsx";
 
 const ExamplesRoute = ExamplesRouteImport.update({
   id: "/examples",
   path: "/examples",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const IndexRoute = IndexRouteImport.update({
   id: "/",
   path: "/",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const ExamplesIndexRoute = ExamplesIndexRouteImport.update({
   id: "/",
   path: "/",
   getParentRoute: () => ExamplesRoute,
-} as any)
+} as any);
 const ExamplesWrappedSolRoute = ExamplesWrappedSolRouteImport.update({
   id: "/wrapped-sol",
   path: "/wrapped-sol",
   getParentRoute: () => ExamplesRoute,
-} as any)
+} as any);
 const ExamplesTransferSolRoute = ExamplesTransferSolRouteImport.update({
   id: "/transfer-sol",
   path: "/transfer-sol",
   getParentRoute: () => ExamplesRoute,
-} as any)
+} as any);
 const ExamplesTokensRoute = ExamplesTokensRouteImport.update({
   id: "/tokens",
   path: "/tokens",
   getParentRoute: () => ExamplesRoute,
-} as any)
+} as any);
 const ExamplesTokenBalancesRoute = ExamplesTokenBalancesRouteImport.update({
   id: "/token-balances",
   path: "/token-balances",
   getParentRoute: () => ExamplesRoute,
-} as any)
+} as any);
 const ExamplesStaticTokensRoute = ExamplesStaticTokensRouteImport.update({
   id: "/static-tokens",
   path: "/static-tokens",
   getParentRoute: () => ExamplesRoute,
-} as any)
+} as any);
 const ExamplesDashboardRoute = ExamplesDashboardRouteImport.update({
   id: "/dashboard",
   path: "/dashboard",
   getParentRoute: () => ExamplesRoute,
-} as any)
+} as any);
 const ExamplesBatchAccountsRoute = ExamplesBatchAccountsRouteImport.update({
   id: "/batch-accounts",
   path: "/batch-accounts",
   getParentRoute: () => ExamplesRoute,
-} as any)
+} as any);
 
 export interface FileRoutesByFullPath {
-  "/": typeof IndexRoute
-  "/examples": typeof ExamplesRouteWithChildren
-  "/examples/batch-accounts": typeof ExamplesBatchAccountsRoute
-  "/examples/dashboard": typeof ExamplesDashboardRoute
-  "/examples/static-tokens": typeof ExamplesStaticTokensRoute
-  "/examples/token-balances": typeof ExamplesTokenBalancesRoute
-  "/examples/tokens": typeof ExamplesTokensRoute
-  "/examples/transfer-sol": typeof ExamplesTransferSolRoute
-  "/examples/wrapped-sol": typeof ExamplesWrappedSolRoute
-  "/examples/": typeof ExamplesIndexRoute
+  "/": typeof IndexRoute;
+  "/examples": typeof ExamplesRouteWithChildren;
+  "/examples/batch-accounts": typeof ExamplesBatchAccountsRoute;
+  "/examples/dashboard": typeof ExamplesDashboardRoute;
+  "/examples/static-tokens": typeof ExamplesStaticTokensRoute;
+  "/examples/token-balances": typeof ExamplesTokenBalancesRoute;
+  "/examples/tokens": typeof ExamplesTokensRoute;
+  "/examples/transfer-sol": typeof ExamplesTransferSolRoute;
+  "/examples/wrapped-sol": typeof ExamplesWrappedSolRoute;
+  "/examples/": typeof ExamplesIndexRoute;
 }
 export interface FileRoutesByTo {
-  "/": typeof IndexRoute
-  "/examples/batch-accounts": typeof ExamplesBatchAccountsRoute
-  "/examples/dashboard": typeof ExamplesDashboardRoute
-  "/examples/static-tokens": typeof ExamplesStaticTokensRoute
-  "/examples/token-balances": typeof ExamplesTokenBalancesRoute
-  "/examples/tokens": typeof ExamplesTokensRoute
-  "/examples/transfer-sol": typeof ExamplesTransferSolRoute
-  "/examples/wrapped-sol": typeof ExamplesWrappedSolRoute
-  "/examples": typeof ExamplesIndexRoute
+  "/": typeof IndexRoute;
+  "/examples/batch-accounts": typeof ExamplesBatchAccountsRoute;
+  "/examples/dashboard": typeof ExamplesDashboardRoute;
+  "/examples/static-tokens": typeof ExamplesStaticTokensRoute;
+  "/examples/token-balances": typeof ExamplesTokenBalancesRoute;
+  "/examples/tokens": typeof ExamplesTokensRoute;
+  "/examples/transfer-sol": typeof ExamplesTransferSolRoute;
+  "/examples/wrapped-sol": typeof ExamplesWrappedSolRoute;
+  "/examples": typeof ExamplesIndexRoute;
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport
-  "/": typeof IndexRoute
-  "/examples": typeof ExamplesRouteWithChildren
-  "/examples/batch-accounts": typeof ExamplesBatchAccountsRoute
-  "/examples/dashboard": typeof ExamplesDashboardRoute
-  "/examples/static-tokens": typeof ExamplesStaticTokensRoute
-  "/examples/token-balances": typeof ExamplesTokenBalancesRoute
-  "/examples/tokens": typeof ExamplesTokensRoute
-  "/examples/transfer-sol": typeof ExamplesTransferSolRoute
-  "/examples/wrapped-sol": typeof ExamplesWrappedSolRoute
-  "/examples/": typeof ExamplesIndexRoute
+  __root__: typeof rootRouteImport;
+  "/": typeof IndexRoute;
+  "/examples": typeof ExamplesRouteWithChildren;
+  "/examples/batch-accounts": typeof ExamplesBatchAccountsRoute;
+  "/examples/dashboard": typeof ExamplesDashboardRoute;
+  "/examples/static-tokens": typeof ExamplesStaticTokensRoute;
+  "/examples/token-balances": typeof ExamplesTokenBalancesRoute;
+  "/examples/tokens": typeof ExamplesTokensRoute;
+  "/examples/transfer-sol": typeof ExamplesTransferSolRoute;
+  "/examples/wrapped-sol": typeof ExamplesWrappedSolRoute;
+  "/examples/": typeof ExamplesIndexRoute;
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
+  fileRoutesByFullPath: FileRoutesByFullPath;
   fullPaths:
     | "/"
     | "/examples"
@@ -119,8 +119,8 @@ export interface FileRouteTypes {
     | "/examples/tokens"
     | "/examples/transfer-sol"
     | "/examples/wrapped-sol"
-    | "/examples/"
-  fileRoutesByTo: FileRoutesByTo
+    | "/examples/";
+  fileRoutesByTo: FileRoutesByTo;
   to:
     | "/"
     | "/examples/batch-accounts"
@@ -130,7 +130,7 @@ export interface FileRouteTypes {
     | "/examples/tokens"
     | "/examples/transfer-sol"
     | "/examples/wrapped-sol"
-    | "/examples"
+    | "/examples";
   id:
     | "__root__"
     | "/"
@@ -142,98 +142,98 @@ export interface FileRouteTypes {
     | "/examples/tokens"
     | "/examples/transfer-sol"
     | "/examples/wrapped-sol"
-    | "/examples/"
-  fileRoutesById: FileRoutesById
+    | "/examples/";
+  fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  ExamplesRoute: typeof ExamplesRouteWithChildren
+  IndexRoute: typeof IndexRoute;
+  ExamplesRoute: typeof ExamplesRouteWithChildren;
 }
 
 declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
     "/examples": {
-      id: "/examples"
-      path: "/examples"
-      fullPath: "/examples"
-      preLoaderRoute: typeof ExamplesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: "/examples";
+      path: "/examples";
+      fullPath: "/examples";
+      preLoaderRoute: typeof ExamplesRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     "/": {
-      id: "/"
-      path: "/"
-      fullPath: "/"
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: "/";
+      path: "/";
+      fullPath: "/";
+      preLoaderRoute: typeof IndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     "/examples/": {
-      id: "/examples/"
-      path: "/"
-      fullPath: "/examples/"
-      preLoaderRoute: typeof ExamplesIndexRouteImport
-      parentRoute: typeof ExamplesRoute
-    }
+      id: "/examples/";
+      path: "/";
+      fullPath: "/examples/";
+      preLoaderRoute: typeof ExamplesIndexRouteImport;
+      parentRoute: typeof ExamplesRoute;
+    };
     "/examples/wrapped-sol": {
-      id: "/examples/wrapped-sol"
-      path: "/wrapped-sol"
-      fullPath: "/examples/wrapped-sol"
-      preLoaderRoute: typeof ExamplesWrappedSolRouteImport
-      parentRoute: typeof ExamplesRoute
-    }
+      id: "/examples/wrapped-sol";
+      path: "/wrapped-sol";
+      fullPath: "/examples/wrapped-sol";
+      preLoaderRoute: typeof ExamplesWrappedSolRouteImport;
+      parentRoute: typeof ExamplesRoute;
+    };
     "/examples/transfer-sol": {
-      id: "/examples/transfer-sol"
-      path: "/transfer-sol"
-      fullPath: "/examples/transfer-sol"
-      preLoaderRoute: typeof ExamplesTransferSolRouteImport
-      parentRoute: typeof ExamplesRoute
-    }
+      id: "/examples/transfer-sol";
+      path: "/transfer-sol";
+      fullPath: "/examples/transfer-sol";
+      preLoaderRoute: typeof ExamplesTransferSolRouteImport;
+      parentRoute: typeof ExamplesRoute;
+    };
     "/examples/tokens": {
-      id: "/examples/tokens"
-      path: "/tokens"
-      fullPath: "/examples/tokens"
-      preLoaderRoute: typeof ExamplesTokensRouteImport
-      parentRoute: typeof ExamplesRoute
-    }
+      id: "/examples/tokens";
+      path: "/tokens";
+      fullPath: "/examples/tokens";
+      preLoaderRoute: typeof ExamplesTokensRouteImport;
+      parentRoute: typeof ExamplesRoute;
+    };
     "/examples/token-balances": {
-      id: "/examples/token-balances"
-      path: "/token-balances"
-      fullPath: "/examples/token-balances"
-      preLoaderRoute: typeof ExamplesTokenBalancesRouteImport
-      parentRoute: typeof ExamplesRoute
-    }
+      id: "/examples/token-balances";
+      path: "/token-balances";
+      fullPath: "/examples/token-balances";
+      preLoaderRoute: typeof ExamplesTokenBalancesRouteImport;
+      parentRoute: typeof ExamplesRoute;
+    };
     "/examples/static-tokens": {
-      id: "/examples/static-tokens"
-      path: "/static-tokens"
-      fullPath: "/examples/static-tokens"
-      preLoaderRoute: typeof ExamplesStaticTokensRouteImport
-      parentRoute: typeof ExamplesRoute
-    }
+      id: "/examples/static-tokens";
+      path: "/static-tokens";
+      fullPath: "/examples/static-tokens";
+      preLoaderRoute: typeof ExamplesStaticTokensRouteImport;
+      parentRoute: typeof ExamplesRoute;
+    };
     "/examples/dashboard": {
-      id: "/examples/dashboard"
-      path: "/dashboard"
-      fullPath: "/examples/dashboard"
-      preLoaderRoute: typeof ExamplesDashboardRouteImport
-      parentRoute: typeof ExamplesRoute
-    }
+      id: "/examples/dashboard";
+      path: "/dashboard";
+      fullPath: "/examples/dashboard";
+      preLoaderRoute: typeof ExamplesDashboardRouteImport;
+      parentRoute: typeof ExamplesRoute;
+    };
     "/examples/batch-accounts": {
-      id: "/examples/batch-accounts"
-      path: "/batch-accounts"
-      fullPath: "/examples/batch-accounts"
-      preLoaderRoute: typeof ExamplesBatchAccountsRouteImport
-      parentRoute: typeof ExamplesRoute
-    }
+      id: "/examples/batch-accounts";
+      path: "/batch-accounts";
+      fullPath: "/examples/batch-accounts";
+      preLoaderRoute: typeof ExamplesBatchAccountsRouteImport;
+      parentRoute: typeof ExamplesRoute;
+    };
   }
 }
 
 interface ExamplesRouteChildren {
-  ExamplesBatchAccountsRoute: typeof ExamplesBatchAccountsRoute
-  ExamplesDashboardRoute: typeof ExamplesDashboardRoute
-  ExamplesStaticTokensRoute: typeof ExamplesStaticTokensRoute
-  ExamplesTokenBalancesRoute: typeof ExamplesTokenBalancesRoute
-  ExamplesTokensRoute: typeof ExamplesTokensRoute
-  ExamplesTransferSolRoute: typeof ExamplesTransferSolRoute
-  ExamplesWrappedSolRoute: typeof ExamplesWrappedSolRoute
-  ExamplesIndexRoute: typeof ExamplesIndexRoute
+  ExamplesBatchAccountsRoute: typeof ExamplesBatchAccountsRoute;
+  ExamplesDashboardRoute: typeof ExamplesDashboardRoute;
+  ExamplesStaticTokensRoute: typeof ExamplesStaticTokensRoute;
+  ExamplesTokenBalancesRoute: typeof ExamplesTokenBalancesRoute;
+  ExamplesTokensRoute: typeof ExamplesTokensRoute;
+  ExamplesTransferSolRoute: typeof ExamplesTransferSolRoute;
+  ExamplesWrappedSolRoute: typeof ExamplesWrappedSolRoute;
+  ExamplesIndexRoute: typeof ExamplesIndexRoute;
 }
 
 const ExamplesRouteChildren: ExamplesRouteChildren = {
@@ -245,16 +245,16 @@ const ExamplesRouteChildren: ExamplesRouteChildren = {
   ExamplesTransferSolRoute: ExamplesTransferSolRoute,
   ExamplesWrappedSolRoute: ExamplesWrappedSolRoute,
   ExamplesIndexRoute: ExamplesIndexRoute,
-}
+};
 
 const ExamplesRouteWithChildren = ExamplesRoute._addFileChildren(
   ExamplesRouteChildren,
-)
+);
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ExamplesRoute: ExamplesRouteWithChildren,
-}
+};
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+  ._addFileTypes<FileRouteTypes>();
