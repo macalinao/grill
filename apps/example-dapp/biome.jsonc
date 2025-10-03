@@ -8,6 +8,9 @@
     "rules": {
       "suspicious": {
         "noUnknownAtRules": "off"
+      },
+      "correctness": {
+        "useImportExtensions": "off"
       }
     }
   },
