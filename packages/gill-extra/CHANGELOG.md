@@ -1,5 +1,11 @@
 # @macalinao/gill-extra
 
+## 0.0.6
+
+### Patch Changes
+
+- b0a90a2: Add re-exports from Gill
+
 ## 0.0.5
 
 ### Patch Changes
