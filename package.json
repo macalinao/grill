@@ -47,16 +47,17 @@
     "codegen": "turbo run codegen"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.2.4",
+    "@biomejs/biome": "^2.2.5",
     "@changesets/cli": "^2.29.7",
+    "@macalinao/biome-config": "^0.1.1",
     "eslint": "^9.36.0",
     "husky": "^9.1.7",
-    "lint-staged": "^16.1.6",
+    "lint-staged": "^16.2.3",
     "prettier": "^3.6.2",
-    "turbo": "^2.5.6",
-    "typescript": "^5.9.2"
+    "turbo": "^2.5.8",
+    "typescript": "^5.9.3"
   },
-  "packageManager": "bun@1.2.21",
+  "packageManager": "bun@1.2.23",
   "lint-staged": {
     "*.{json,jsonc,html}": "biome format --write --no-errors-on-unmatched"
   },

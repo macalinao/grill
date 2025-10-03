@@ -1,0 +1,35 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.2.5/schema.json",
+  "extends": "//",
+  "linter": {
+    "domains": {
+      "react": "recommended"
+    },
+    "rules": {
+      "suspicious": {
+        "noUnknownAtRules": "off"
+      },
+      "correctness": {
+        "useImportExtensions": "off"
+      }
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["src/routeTree.gen.ts"],
+      "assist": {
+        "actions": {
+          "source": {
+            "organizeImports": "off"
+          }
+        }
+      },
+      "linter": {
+        "enabled": false
+      },
+      "formatter": {
+        "enabled": false
+      }
+    }
+  ]
+}

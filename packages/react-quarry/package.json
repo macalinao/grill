@@ -62,7 +62,7 @@
     "react": "^18 || ^19"
   },
   "devDependencies": {
-    "@macalinao/eslint-config-react": "^5",
+    "@macalinao/eslint-config-react": "^5.0.2",
     "@macalinao/tsconfig": "catalog:",
     "@solana/kit": "catalog:",
     "@types/bun": "catalog:",
