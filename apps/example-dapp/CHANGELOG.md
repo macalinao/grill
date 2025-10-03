@@ -1,5 +1,14 @@
 # example-dapp
 
+## 0.0.26
+
+### Patch Changes
+
+- 42846e7: Dependency bumps
+- Updated dependencies [42846e7]
+  - @macalinao/wallet-adapter-compat@2.0.14
+  - @macalinao/grill@0.5.14
+
 ## 0.0.25
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @macalinao/react-quarry
 
+## 0.0.10
+
+### Patch Changes
+
+- 42846e7: Dependency bumps
+- Updated dependencies [42846e7]
+  - @macalinao/quarry@0.0.4
+  - @macalinao/grill@0.5.14
+
 ## 0.0.9
 
 ### Patch Changes
