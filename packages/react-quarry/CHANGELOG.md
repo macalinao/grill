@@ -1,5 +1,18 @@
 # @macalinao/react-quarry
 
+## 1.0.0
+
+### Minor Changes
+
+- 7300702: Fix bugs around quarry merge miner initialization, more pda hooks
+
+### Patch Changes
+
+- Updated dependencies [7768fe9]
+- Updated dependencies [7300702]
+  - @macalinao/quarry@0.2.0
+  - @macalinao/grill@0.6.0
+
 ## 0.1.0
 
 ### Minor Changes
