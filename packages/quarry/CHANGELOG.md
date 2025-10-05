@@ -1,5 +1,13 @@
 # @macalinao/quarry
 
+## 0.2.1
+
+### Patch Changes
+
+- 481456c: Change resolution to be ^ rather than \* for workspace packages
+- Updated dependencies [481456c]
+  - @macalinao/gill-extra@0.0.8
+
 ## 0.2.0
 
 ### Minor Changes

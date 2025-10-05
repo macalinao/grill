@@ -1,5 +1,14 @@
 # @macalinao/react-quarry
 
+## 1.0.1
+
+### Patch Changes
+
+- 481456c: Change resolution to be ^ rather than \* for workspace packages
+- Updated dependencies [481456c]
+  - @macalinao/quarry@0.2.1
+  - @macalinao/grill@0.6.1
+
 ## 1.0.0
 
 ### Minor Changes
