@@ -1,7 +1,7 @@
 import type { PdaHook } from "@macalinao/grill";
 import type { MintWrapperSeeds } from "@macalinao/quarry";
 import type { Address } from "@solana/kit";
-import { createPdaHook } from "@macalinao/grill";
+import { createPdaHook, createPdasHook } from "@macalinao/grill";
 import { findMintWrapperPda } from "@macalinao/quarry";
 
 /**
@@ -24,3 +24,24 @@ import { findMintWrapperPda } from "@macalinao/quarry";
  */
 export const useMintWrapperPda: PdaHook<MintWrapperSeeds, Address> =
   createPdaHook(findMintWrapperPda, "mintWrapperPda");
+
+/**
+ * Hook to derive multiple PDA addresses for MintWrappers.
+ * Computes deterministic addresses for multiple MintWrapper accounts
+ * with caching for efficient batch processing.
+ *
+ * @param args - Array of seed objects for deriving MintWrapper PDAs
+ * @returns Array of computed MintWrapper PDA addresses or null if args is null/undefined
+ *
+ * @example
+ * ```tsx
+ * const mintWrapperPdas = useMintWrapperPdas([
+ *   { base: baseAddress1, mint: tokenMintAddress1 },
+ *   { base: baseAddress2, mint: tokenMintAddress2 }
+ * ]);
+ * ```
+ */
+export const useMintWrapperPdas = createPdasHook(
+  findMintWrapperPda,
+  "mintWrapperPda",
+);

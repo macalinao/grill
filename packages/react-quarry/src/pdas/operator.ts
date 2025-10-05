@@ -1,7 +1,7 @@
 import type { PdaHook } from "@macalinao/grill";
 import type { OperatorSeeds } from "@macalinao/quarry";
 import type { Address } from "@solana/kit";
-import { createPdaHook } from "@macalinao/grill";
+import { createPdaHook, createPdasHook } from "@macalinao/grill";
 import { findOperatorPda } from "@macalinao/quarry";
 
 /**
@@ -26,3 +26,21 @@ export const useOperatorPda: PdaHook<OperatorSeeds, Address> = createPdaHook(
   findOperatorPda,
   "operatorPda",
 );
+
+/**
+ * Hook to derive multiple PDA addresses for Operators.
+ * Computes deterministic addresses for multiple Operator accounts
+ * with caching for efficient batch processing.
+ *
+ * @param args - Array of seed objects for deriving Operator PDAs
+ * @returns Array of computed Operator PDA addresses or null if args is null/undefined
+ *
+ * @example
+ * ```tsx
+ * const operatorPdas = useOperatorPdas([
+ *   { base: baseAddress1, operator: operatorPublicKey1 },
+ *   { base: baseAddress2, operator: operatorPublicKey2 }
+ * ]);
+ * ```
+ */
+export const useOperatorPdas = createPdasHook(findOperatorPda, "operatorPda");

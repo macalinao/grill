@@ -1,7 +1,7 @@
 import type { PdaHook } from "@macalinao/grill";
 import type { QuarrySeeds } from "@macalinao/quarry";
 import type { Address } from "@solana/kit";
-import { createPdaHook } from "@macalinao/grill";
+import { createPdaHook, createPdasHook } from "@macalinao/grill";
 import { findQuarryPda } from "@macalinao/quarry";
 
 /**
@@ -26,3 +26,21 @@ export const useQuarryPda: PdaHook<QuarrySeeds, Address> = createPdaHook(
   findQuarryPda,
   "quarryPda",
 );
+
+/**
+ * Hook to derive multiple PDA addresses for Quarries.
+ * Computes deterministic addresses for multiple Quarry accounts
+ * with caching for efficient batch processing.
+ *
+ * @param args - Array of seed objects for deriving Quarry PDAs
+ * @returns Array of computed Quarry PDA addresses or null if args is null/undefined
+ *
+ * @example
+ * ```tsx
+ * const quarryPdas = useQuarryPdas([
+ *   { rewarder: rewarderAddress1, tokenMint: tokenMintAddress1 },
+ *   { rewarder: rewarderAddress2, tokenMint: tokenMintAddress2 }
+ * ]);
+ * ```
+ */
+export const useQuarryPdas = createPdasHook(findQuarryPda, "quarryPda");

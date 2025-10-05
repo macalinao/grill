@@ -1,7 +1,7 @@
 import type { PdaHook } from "@macalinao/grill";
 import type { MinterSeeds } from "@macalinao/quarry";
 import type { Address } from "@solana/kit";
-import { createPdaHook } from "@macalinao/grill";
+import { createPdaHook, createPdasHook } from "@macalinao/grill";
 import { findMinterPda } from "@macalinao/quarry";
 
 /**
@@ -26,3 +26,21 @@ export const useMinterPda: PdaHook<MinterSeeds, Address> = createPdaHook(
   findMinterPda,
   "minterPda",
 );
+
+/**
+ * Hook to derive multiple PDA addresses for Minters.
+ * Computes deterministic addresses for multiple Minter accounts
+ * with caching for efficient batch processing.
+ *
+ * @param args - Array of seed objects for deriving Minter PDAs
+ * @returns Array of computed Minter PDA addresses or null if args is null/undefined
+ *
+ * @example
+ * ```tsx
+ * const minterPdas = useMinterPdas([
+ *   { mintWrapper: mintWrapperAddress1, authority: authorityAddress1 },
+ *   { mintWrapper: mintWrapperAddress2, authority: authorityAddress2 }
+ * ]);
+ * ```
+ */
+export const useMinterPdas = createPdasHook(findMinterPda, "minterPda");
