@@ -44,7 +44,7 @@
     "test": "bun test src/"
   },
   "dependencies": {
-    "@macalinao/dataloader-es": "workspace:*",
+    "@macalinao/dataloader-es": "workspace:^",
     "lodash-es": "^4.17.21",
     "tslib": "catalog:"
   },

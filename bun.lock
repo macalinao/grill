@@ -6,7 +6,7 @@
       "devDependencies": {
         "@biomejs/biome": "^2.2.5",
         "@changesets/cli": "^2.29.7",
-        "@macalinao/biome-config": "^0.1.1",
+        "@macalinao/biome-config": "^0.1.2",
         "eslint": "^9.37.0",
         "husky": "^9.1.7",
         "lint-staged": "^16.2.3",
@@ -21,8 +21,7 @@
       "dependencies": {
         "@gillsdk/react": "catalog:",
         "@hookform/resolvers": "^5.2.2",
-        "@macalinao/grill": "workspace:*",
-        "@macalinao/wallet-adapter-compat": "workspace:*",
+        "@macalinao/wallet-adapter-compat": "workspace:^",
         "@radix-ui/react-dialog": "^1.1.15",
         "@radix-ui/react-navigation-menu": "^1.2.14",
         "@radix-ui/react-separator": "^1.1.7",
@@ -53,6 +52,7 @@
       "devDependencies": {
         "@eslint/js": "^9.37.0",
         "@macalinao/eslint-config": "catalog:",
+        "@macalinao/grill": "workspace:^",
         "@macalinao/tsconfig": "catalog:",
         "@tanstack/react-query-devtools": "^5.90.2",
         "@tanstack/react-router-devtools": "^1.132.37",
@@ -72,6 +72,9 @@
         "vite-plugin-node-polyfills": "^0.24.0",
         "vite-tsconfig-paths": "^5.1.4",
       },
+      "peerDependencies": {
+        "@macalinao/grill": "workspace:^",
+      },
     },
     "packages/dataloader-es": {
       "name": "@macalinao/dataloader-es",
@@ -89,10 +92,10 @@
       "version": "0.0.7",
       "dependencies": {
         "@macalinao/clients-token-metadata": "^0.4.0",
-        "@macalinao/dataloader-es": "workspace:*",
-        "@macalinao/solana-batch-accounts-loader": "workspace:*",
-        "@macalinao/token-utils": "workspace:*",
-        "@macalinao/zod-solana": "workspace:*",
+        "@macalinao/dataloader-es": "workspace:^",
+        "@macalinao/solana-batch-accounts-loader": "workspace:^",
+        "@macalinao/token-utils": "workspace:^",
+        "@macalinao/zod-solana": "workspace:^",
         "@solana-program/token": "^0.6.0",
       },
       "devDependencies": {
@@ -115,11 +118,11 @@
       "dependencies": {
         "@gillsdk/react": "catalog:",
         "@macalinao/clients-token-metadata": "^0.4.0",
-        "@macalinao/dataloader-es": "workspace:*",
-        "@macalinao/gill-extra": "workspace:*",
-        "@macalinao/solana-batch-accounts-loader": "workspace:*",
-        "@macalinao/token-utils": "workspace:*",
-        "@macalinao/zod-solana": "workspace:*",
+        "@macalinao/dataloader-es": "workspace:^",
+        "@macalinao/gill-extra": "workspace:^",
+        "@macalinao/solana-batch-accounts-loader": "workspace:^",
+        "@macalinao/token-utils": "workspace:^",
+        "@macalinao/zod-solana": "workspace:^",
         "@solana-program/token": "^0.6.0",
       },
       "devDependencies": {
@@ -148,8 +151,8 @@
       "version": "0.2.0",
       "dependencies": {
         "@macalinao/clients-quarry": "^0.4.2",
-        "@macalinao/gill-extra": "workspace:*",
-        "@macalinao/token-utils": "workspace:*",
+        "@macalinao/gill-extra": "workspace:^",
+        "@macalinao/token-utils": "workspace:^",
         "@solana-program/token": "^0.6.0",
         "nonempty-array": "^0.1.4",
       },
@@ -168,11 +171,11 @@
       "name": "@macalinao/react-quarry",
       "version": "1.0.0",
       "dependencies": {
-        "@macalinao/quarry": "workspace:*",
+        "@macalinao/quarry": "workspace:^",
       },
       "devDependencies": {
         "@macalinao/eslint-config-react": "^5.0.2",
-        "@macalinao/grill": "workspace:*",
+        "@macalinao/grill": "workspace:^",
         "@macalinao/tsconfig": "catalog:",
         "@solana/kit": "catalog:",
         "@types/bun": "catalog:",
@@ -180,7 +183,7 @@
         "typescript": "catalog:",
       },
       "peerDependencies": {
-        "@macalinao/grill": "workspace:*",
+        "@macalinao/grill": "workspace:^",
         "@solana/kit": "catalog:",
         "react": "^18 || ^19",
       },
@@ -189,7 +192,7 @@
       "name": "@macalinao/solana-batch-accounts-loader",
       "version": "0.2.5",
       "dependencies": {
-        "@macalinao/dataloader-es": "workspace:*",
+        "@macalinao/dataloader-es": "workspace:^",
         "lodash-es": "^4.17.21",
         "tslib": "catalog:",
       },
@@ -232,7 +235,7 @@
       "devDependencies": {
         "@macalinao/eslint-config": "catalog:",
         "@macalinao/eslint-config-react": "^5.0.2",
-        "@macalinao/grill": "workspace:*",
+        "@macalinao/grill": "workspace:^",
         "@macalinao/tsconfig": "catalog:",
         "@solana/kit": "catalog:",
         "@solana/web3.js": "^1.98.4",
@@ -242,7 +245,7 @@
         "typescript": "catalog:",
       },
       "peerDependencies": {
-        "@macalinao/grill": "workspace:*",
+        "@macalinao/grill": "workspace:^",
         "@solana/kit": "catalog:",
         "@solana/wallet-adapter-base": "catalog:",
         "@solana/wallet-adapter-react": "catalog:",
