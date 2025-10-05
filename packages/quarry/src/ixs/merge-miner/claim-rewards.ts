@@ -4,11 +4,9 @@ import type { Address, Instruction, TransactionSigner } from "@solana/kit";
 import {
   findMergeMinerPda,
   findMinerPda,
-  findMinterPda,
   findQuarryPda,
-  getClaimRewardsMMInstruction,
-  getWithdrawTokensMMInstruction,
-  QUARRY_MINT_WRAPPER_PROGRAM_ADDRESS,
+  getClaimRewardsMMInstructionAsync,
+  getWithdrawTokensMMInstructionAsync,
 } from "@macalinao/clients-quarry";
 import {
   findAssociatedTokenPda,
@@ -59,12 +57,6 @@ export async function claimRewardsCommon({
   rewarder,
 }: ClaimRewardsCommonArgs): Promise<Instruction[]> {
   const instructions: Instruction[] = [];
-
-  // Derive the minter PDA
-  const [minter] = await findMinterPda({
-    wrapper: rewarder.data.mintWrapper,
-    authority: stake.rewarder,
-  });
 
   // Get or create associated token accounts for the merge miner
   const [mmQuarryTokenAccount] = await findAssociatedTokenPda({
@@ -122,30 +114,23 @@ export async function claimRewardsCommon({
 
   // Claim rewards instruction
   instructions.push(
-    getClaimRewardsMMInstruction({
+    await getClaimRewardsMMInstructionAsync({
       mintWrapper: rewarder.data.mintWrapper,
-      mintWrapperProgram: QUARRY_MINT_WRAPPER_PROGRAM_ADDRESS,
-      minter,
       rewardsTokenMint: rewarder.data.rewardsTokenMint,
-      rewardsTokenAccount: mmRewardsTokenAccount,
-      claimFeeTokenAccount: rewarder.data.claimFeeTokenAccount,
       stakeTokenAccount: mmQuarryTokenAccount,
       pool: stake.pool,
       mm: stake.mm,
       rewarder: stake.rewarder,
       quarry: stake.quarry,
-      miner: stake.miner,
       minerVault: stake.minerVault,
     }),
   );
 
   // Withdraw rewards tokens from merge miner to owner
   instructions.push(
-    getWithdrawTokensMMInstruction({
+    await getWithdrawTokensMMInstructionAsync({
       owner: mmOwner,
       pool: stake.pool,
-      mm: stake.mm,
-      mmTokenAccount: mmRewardsTokenAccount,
       withdrawMint: rewarder.data.rewardsTokenMint,
       tokenDestination: ownerRewardsTokenAccount,
     }),
