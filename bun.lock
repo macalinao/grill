@@ -165,7 +165,7 @@
     },
     "packages/react-quarry": {
       "name": "@macalinao/react-quarry",
-      "version": "0.0.11",
+      "version": "0.1.0",
       "dependencies": {
         "@macalinao/quarry": "workspace:*",
       },
