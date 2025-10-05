@@ -1,5 +1,13 @@
 # @macalinao/wallet-adapter-compat
 
+## 3.0.1
+
+### Patch Changes
+
+- 481456c: Change resolution to be ^ rather than \* for workspace packages
+- Updated dependencies [481456c]
+  - @macalinao/grill@0.6.1
+
 ## 3.0.0
 
 ### Patch Changes

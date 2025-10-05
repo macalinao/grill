@@ -1,5 +1,14 @@
 # example-dapp
 
+## 0.1.2
+
+### Patch Changes
+
+- 481456c: Change resolution to be ^ rather than \* for workspace packages
+- Updated dependencies [481456c]
+  - @macalinao/wallet-adapter-compat@3.0.1
+  - @macalinao/grill@0.6.1
+
 ## 0.1.1
 
 ### Patch Changes

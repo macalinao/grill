@@ -1,5 +1,11 @@
 # @macalinao/solana-batch-accounts-loader
 
+## 0.2.6
+
+### Patch Changes
+
+- 481456c: Change resolution to be ^ rather than \* for workspace packages
+
 ## 0.2.5
 
 ### Patch Changes
