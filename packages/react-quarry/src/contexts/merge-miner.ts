@@ -5,8 +5,13 @@ import { createContext, useContext } from "react";
 export interface MergeMinerContextValue {
   mergePool: MergePool;
   mergePoolAddress: Address;
+  mergeMinerAddress: Address | null;
   userAddress: Address | null;
-  balance: bigint;
+  /**
+   * Null = doesn't exist (balance is effectively)
+   * Undefined = loading
+   */
+  balanceRaw: bigint | null | undefined;
 }
 
 export const MergeMinerContext: React.Context<MergeMinerContextValue | null> =

@@ -38,20 +38,26 @@ export const MergeMinerProvider: React.FC<Props> = ({ children }: Props) => {
   });
 
   // TODO(igm): probably want to create a proper loading state here
-  if (!(mergePoolAddress && mergePoolAccount)) {
+  if (
+    !(mergePoolAddress && mergePoolAccount) ||
+    mergeMinerAddress === undefined
+  ) {
     return <div>Loading...</div>;
   }
 
   // Get balance from merge miner account, default to 0
-  const balance = mergeMinerAccount?.data.primaryBalance ?? 0n;
+  const balanceRaw = mergeMinerAccount
+    ? mergeMinerAccount.data.primaryBalance
+    : mergeMinerAccount;
 
   return (
     <MergeMinerContext.Provider
       value={{
         mergePool: mergePoolAccount.data,
         mergePoolAddress,
+        mergeMinerAddress,
         userAddress: signer?.address ?? null,
-        balance,
+        balanceRaw,
       }}
     >
       {children}

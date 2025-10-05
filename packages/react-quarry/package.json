@@ -54,14 +54,15 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@macalinao/grill": "workspace:*",
     "@macalinao/quarry": "workspace:*"
   },
   "peerDependencies": {
+    "@macalinao/grill": "workspace:*",
     "@solana/kit": "catalog:",
     "react": "^18 || ^19"
   },
   "devDependencies": {
+    "@macalinao/grill": "workspace:*",
     "@macalinao/eslint-config-react": "^5.0.2",
     "@macalinao/tsconfig": "catalog:",
     "@solana/kit": "catalog:",
