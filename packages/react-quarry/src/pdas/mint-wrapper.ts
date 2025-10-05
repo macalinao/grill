@@ -1,6 +1,5 @@
 import type { PdaHook, PdasHook } from "@macalinao/grill";
 import type { MintWrapperSeeds } from "@macalinao/quarry";
-import type { Address } from "@solana/kit";
 import { createPdaHook, createPdasHook } from "@macalinao/grill";
 import { findMintWrapperPda } from "@macalinao/quarry";
 
@@ -22,8 +21,10 @@ import { findMintWrapperPda } from "@macalinao/quarry";
  * });
  * ```
  */
-export const useMintWrapperPda: PdaHook<MintWrapperSeeds, Address> =
-  createPdaHook(findMintWrapperPda, "mintWrapperPda");
+export const useMintWrapperPda: PdaHook<MintWrapperSeeds> = createPdaHook(
+  findMintWrapperPda,
+  "mintWrapperPda",
+);
 
 /**
  * Hook to derive multiple PDA addresses for MintWrappers.
@@ -41,5 +42,7 @@ export const useMintWrapperPda: PdaHook<MintWrapperSeeds, Address> =
  * ]);
  * ```
  */
-export const useMintWrapperPdas: PdasHook<MintWrapperSeeds, Address> =
-  createPdasHook(findMintWrapperPda, "mintWrapperPda");
+export const useMintWrapperPdas: PdasHook<MintWrapperSeeds> = createPdasHook(
+  findMintWrapperPda,
+  "mintWrapperPda",
+);

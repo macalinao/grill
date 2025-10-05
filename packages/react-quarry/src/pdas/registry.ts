@@ -1,6 +1,5 @@
 import type { PdaHook, PdasHook } from "@macalinao/grill";
 import type { RegistrySeeds } from "@macalinao/quarry";
-import type { Address } from "@solana/kit";
 import { createPdaHook, createPdasHook } from "@macalinao/grill";
 import { findRegistryPda } from "@macalinao/quarry";
 
@@ -20,7 +19,7 @@ import { findRegistryPda } from "@macalinao/quarry";
  * });
  * ```
  */
-export const useRegistryPda: PdaHook<RegistrySeeds, Address> = createPdaHook(
+export const useRegistryPda: PdaHook<RegistrySeeds> = createPdaHook(
   findRegistryPda,
   "registryPda",
 );
@@ -41,7 +40,7 @@ export const useRegistryPda: PdaHook<RegistrySeeds, Address> = createPdaHook(
  * ]);
  * ```
  */
-export const useRegistryPdas: PdasHook<RegistrySeeds, Address> = createPdasHook(
+export const useRegistryPdas: PdasHook<RegistrySeeds> = createPdasHook(
   findRegistryPda,
   "registryPda",
 );

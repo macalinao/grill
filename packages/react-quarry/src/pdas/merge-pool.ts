@@ -1,6 +1,5 @@
 import type { PdaHook, PdasHook } from "@macalinao/grill";
 import type { MergePoolSeeds } from "@macalinao/quarry";
-import type { Address } from "@solana/kit";
 import { createPdaHook, createPdasHook } from "@macalinao/grill";
 import { findMergePoolPda } from "@macalinao/quarry";
 
@@ -20,7 +19,7 @@ import { findMergePoolPda } from "@macalinao/quarry";
  * });
  * ```
  */
-export const useMergePoolPda: PdaHook<MergePoolSeeds, Address> = createPdaHook(
+export const useMergePoolPda: PdaHook<MergePoolSeeds> = createPdaHook(
   findMergePoolPda,
   "mergePoolPda",
 );
@@ -41,5 +40,7 @@ export const useMergePoolPda: PdaHook<MergePoolSeeds, Address> = createPdaHook(
  * ]);
  * ```
  */
-export const useMergePoolPdas: PdasHook<MergePoolSeeds, Address> =
-  createPdasHook(findMergePoolPda, "mergePoolPda");
+export const useMergePoolPdas: PdasHook<MergePoolSeeds> = createPdasHook(
+  findMergePoolPda,
+  "mergePoolPda",
+);

@@ -1,6 +1,5 @@
 import type { PdaHook, PdasHook } from "@macalinao/grill";
 import type { QuarrySeeds } from "@macalinao/quarry";
-import type { Address } from "@solana/kit";
 import { createPdaHook, createPdasHook } from "@macalinao/grill";
 import { findQuarryPda } from "@macalinao/quarry";
 
@@ -22,7 +21,7 @@ import { findQuarryPda } from "@macalinao/quarry";
  * });
  * ```
  */
-export const useQuarryPda: PdaHook<QuarrySeeds, Address> = createPdaHook(
+export const useQuarryPda: PdaHook<QuarrySeeds> = createPdaHook(
   findQuarryPda,
   "quarryPda",
 );
@@ -43,7 +42,7 @@ export const useQuarryPda: PdaHook<QuarrySeeds, Address> = createPdaHook(
  * ]);
  * ```
  */
-export const useQuarryPdas: PdasHook<QuarrySeeds, Address> = createPdasHook(
+export const useQuarryPdas: PdasHook<QuarrySeeds> = createPdasHook(
   findQuarryPda,
   "quarryPda",
 );

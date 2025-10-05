@@ -1,6 +1,5 @@
 import type { PdaHook, PdasHook } from "@macalinao/grill";
 import type { MergeMinerSeeds } from "@macalinao/quarry";
-import type { Address } from "@solana/kit";
 import { createPdaHook, createPdasHook } from "@macalinao/grill";
 import { findMergeMinerPda } from "@macalinao/quarry";
 
@@ -22,8 +21,10 @@ import { findMergeMinerPda } from "@macalinao/quarry";
  * });
  * ```
  */
-export const useMergeMinerPda: PdaHook<MergeMinerSeeds, Address> =
-  createPdaHook(findMergeMinerPda, "mergeMinerPda");
+export const useMergeMinerPda: PdaHook<MergeMinerSeeds> = createPdaHook(
+  findMergeMinerPda,
+  "mergeMinerPda",
+);
 
 /**
  * Hook to derive multiple PDA addresses for MergeMiners.
@@ -41,5 +42,7 @@ export const useMergeMinerPda: PdaHook<MergeMinerSeeds, Address> =
  * ]);
  * ```
  */
-export const useMergeMinerPdas: PdasHook<MergeMinerSeeds, Address> =
-  createPdasHook(findMergeMinerPda, "mergeMinerPda");
+export const useMergeMinerPdas: PdasHook<MergeMinerSeeds> = createPdasHook(
+  findMergeMinerPda,
+  "mergeMinerPda",
+);

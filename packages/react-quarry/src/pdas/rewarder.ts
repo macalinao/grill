@@ -1,6 +1,5 @@
 import type { PdaHook, PdasHook } from "@macalinao/grill";
 import type { RewarderSeeds } from "@macalinao/quarry";
-import type { Address } from "@solana/kit";
 import { createPdaHook, createPdasHook } from "@macalinao/grill";
 import { findRewarderPda } from "@macalinao/quarry";
 
@@ -22,7 +21,7 @@ import { findRewarderPda } from "@macalinao/quarry";
  * });
  * ```
  */
-export const useRewarderPda: PdaHook<RewarderSeeds, Address> = createPdaHook(
+export const useRewarderPda: PdaHook<RewarderSeeds> = createPdaHook(
   findRewarderPda,
   "rewarderPda",
 );
@@ -43,7 +42,7 @@ export const useRewarderPda: PdaHook<RewarderSeeds, Address> = createPdaHook(
  * ]);
  * ```
  */
-export const useRewarderPdas: PdasHook<RewarderSeeds, Address> = createPdasHook(
+export const useRewarderPdas: PdasHook<RewarderSeeds> = createPdasHook(
   findRewarderPda,
   "rewarderPda",
 );

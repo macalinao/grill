@@ -7,7 +7,7 @@ import {
   getTransferInstruction,
   TOKEN_PROGRAM_ADDRESS,
 } from "@solana-program/token";
-import { getCreateInitMergeMinerIxs } from "./init.js";
+import { getCreateInitMergeMinerIxs } from "./init/get-create-init-merge-miner-ixs.js";
 import {
   createStakePrimaryMinerIx,
   createStakeReplicaMinerIx,
@@ -58,6 +58,7 @@ export async function createDepositMergeMinerIxs({
   // Initialize merge miner and primary miner if needed
   const { ixs: initIxs } = await getCreateInitMergeMinerIxs({
     rewarder,
+    replicaRewarders,
     mergePool,
     owner: mmOwner.address,
     payer,

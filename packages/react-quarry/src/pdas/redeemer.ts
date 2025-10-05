@@ -1,6 +1,5 @@
 import type { PdaHook, PdasHook } from "@macalinao/grill";
 import type { RedeemerSeeds } from "@macalinao/quarry";
-import type { Address } from "@solana/kit";
 import { createPdaHook, createPdasHook } from "@macalinao/grill";
 import { findRedeemerPda } from "@macalinao/quarry";
 
@@ -22,7 +21,7 @@ import { findRedeemerPda } from "@macalinao/quarry";
  * });
  * ```
  */
-export const useRedeemerPda: PdaHook<RedeemerSeeds, Address> = createPdaHook(
+export const useRedeemerPda: PdaHook<RedeemerSeeds> = createPdaHook(
   findRedeemerPda,
   "redeemerPda",
 );
@@ -43,7 +42,7 @@ export const useRedeemerPda: PdaHook<RedeemerSeeds, Address> = createPdaHook(
  * ]);
  * ```
  */
-export const useRedeemerPdas: PdasHook<RedeemerSeeds, Address> = createPdasHook(
+export const useRedeemerPdas: PdasHook<RedeemerSeeds> = createPdasHook(
   findRedeemerPda,
   "redeemerPda",
 );

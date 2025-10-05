@@ -1,6 +1,5 @@
 import type { PdaHook, PdasHook } from "@macalinao/grill";
 import type { OperatorSeeds } from "@macalinao/quarry";
-import type { Address } from "@solana/kit";
 import { createPdaHook, createPdasHook } from "@macalinao/grill";
 import { findOperatorPda } from "@macalinao/quarry";
 
@@ -22,7 +21,7 @@ import { findOperatorPda } from "@macalinao/quarry";
  * });
  * ```
  */
-export const useOperatorPda: PdaHook<OperatorSeeds, Address> = createPdaHook(
+export const useOperatorPda: PdaHook<OperatorSeeds> = createPdaHook(
   findOperatorPda,
   "operatorPda",
 );
@@ -43,7 +42,7 @@ export const useOperatorPda: PdaHook<OperatorSeeds, Address> = createPdaHook(
  * ]);
  * ```
  */
-export const useOperatorPdas: PdasHook<OperatorSeeds, Address> = createPdasHook(
+export const useOperatorPdas: PdasHook<OperatorSeeds> = createPdasHook(
   findOperatorPda,
   "operatorPda",
 );
