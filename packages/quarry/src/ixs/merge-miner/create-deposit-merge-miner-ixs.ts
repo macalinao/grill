@@ -3,6 +3,7 @@ import type { MergeMinerAmountArgs } from "./types.js";
 import { findMergeMinerPda } from "@macalinao/clients-quarry";
 import {
   findAssociatedTokenPda,
+  getCreateAssociatedTokenIdempotentInstruction,
   getTransferInstruction,
   TOKEN_PROGRAM_ADDRESS,
 } from "@solana-program/token";
@@ -18,6 +19,7 @@ import {
 export interface DepositMergeMinerArgs extends MergeMinerAmountArgs {
   /** The merge miner owner (defaults to payer) */
   mmOwner?: TransactionSigner;
+  initMergeMiner?: boolean;
 }
 
 /**
@@ -42,6 +44,7 @@ export async function createDepositMergeMinerIxs({
   payer,
   replicaRewarders = [],
   mmOwner = payer,
+  initMergeMiner,
 }: DepositMergeMinerArgs): Promise<{
   ixs: Instruction[];
 }> {
@@ -54,15 +57,17 @@ export async function createDepositMergeMinerIxs({
     tokenProgram: TOKEN_PROGRAM_ADDRESS,
   });
 
-  // Initialize merge miner and primary miner if needed
-  const { ixs: initIxs } = await getCreateInitMergeMinerIxs({
-    rewarder,
-    replicaRewarders,
-    mergePool,
-    owner: mmOwner.address,
-    payer,
-  });
-  instructions.push(...initIxs);
+  if (initMergeMiner) {
+    // Initialize merge miner and primary miner if needed
+    const { ixs: initIxs } = await getCreateInitMergeMinerIxs({
+      rewarder,
+      replicaRewarders,
+      mergePool,
+      owner: mmOwner.address,
+      payer,
+    });
+    instructions.push(...initIxs);
+  }
 
   // Get merge miner address
   const [mmAddress] = await findMergeMinerPda({
@@ -76,6 +81,17 @@ export async function createDepositMergeMinerIxs({
     owner: mmAddress,
     tokenProgram: TOKEN_PROGRAM_ADDRESS,
   });
+
+  // Create merge miner's token account if needed
+  instructions.push(
+    getCreateAssociatedTokenIdempotentInstruction({
+      payer,
+      ata: mmPrimaryTokenAccount,
+      owner: mmAddress,
+      mint: mergePool.data.primaryMint,
+      tokenProgram: TOKEN_PROGRAM_ADDRESS,
+    }),
+  );
 
   // Transfer tokens from user to merge miner
   instructions.push(
