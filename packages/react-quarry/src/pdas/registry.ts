@@ -1,7 +1,6 @@
-import type { PdaHook } from "@macalinao/grill";
+import type { PdaHook, PdasHook } from "@macalinao/grill";
 import type { RegistrySeeds } from "@macalinao/quarry";
-import type { Address } from "@solana/kit";
-import { createPdaHook } from "@macalinao/grill";
+import { createPdaHook, createPdasHook } from "@macalinao/grill";
 import { findRegistryPda } from "@macalinao/quarry";
 
 /**
@@ -20,7 +19,28 @@ import { findRegistryPda } from "@macalinao/quarry";
  * });
  * ```
  */
-export const useRegistryPda: PdaHook<RegistrySeeds, Address> = createPdaHook(
+export const useRegistryPda: PdaHook<RegistrySeeds> = createPdaHook(
+  findRegistryPda,
+  "registryPda",
+);
+
+/**
+ * Hook to derive multiple PDA addresses for Registries.
+ * Computes deterministic addresses for multiple Registry accounts
+ * with caching for efficient batch processing.
+ *
+ * @param args - Array of seed objects for deriving Registry PDAs
+ * @returns Array of computed Registry PDA addresses or null if args is null/undefined
+ *
+ * @example
+ * ```tsx
+ * const registryPdas = useRegistryPdas([
+ *   { realm: realmAddress1 },
+ *   { realm: realmAddress2 }
+ * ]);
+ * ```
+ */
+export const useRegistryPdas: PdasHook<RegistrySeeds> = createPdasHook(
   findRegistryPda,
   "registryPda",
 );

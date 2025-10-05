@@ -1,7 +1,6 @@
-import type { PdaHook } from "@macalinao/grill";
+import type { PdaHook, PdasHook } from "@macalinao/grill";
 import type { MergeMinerSeeds } from "@macalinao/quarry";
-import type { Address } from "@solana/kit";
-import { createPdaHook } from "@macalinao/grill";
+import { createPdaHook, createPdasHook } from "@macalinao/grill";
 import { findMergeMinerPda } from "@macalinao/quarry";
 
 /**
@@ -22,5 +21,28 @@ import { findMergeMinerPda } from "@macalinao/quarry";
  * });
  * ```
  */
-export const useMergeMinerPda: PdaHook<MergeMinerSeeds, Address> =
-  createPdaHook(findMergeMinerPda, "mergeMinerPda");
+export const useMergeMinerPda: PdaHook<MergeMinerSeeds> = createPdaHook(
+  findMergeMinerPda,
+  "mergeMinerPda",
+);
+
+/**
+ * Hook to derive multiple PDA addresses for MergeMiners.
+ * Computes deterministic addresses for multiple MergeMiner accounts
+ * with caching for efficient batch processing.
+ *
+ * @param args - Array of seed objects for deriving MergeMiner PDAs
+ * @returns Array of computed MergeMiner PDA addresses or null if args is null/undefined
+ *
+ * @example
+ * ```tsx
+ * const mergeMinerPdas = useMergeMinerPdas([
+ *   { mergePool: mergePoolAddress1, owner: walletPublicKey1 },
+ *   { mergePool: mergePoolAddress2, owner: walletPublicKey2 }
+ * ]);
+ * ```
+ */
+export const useMergeMinerPdas: PdasHook<MergeMinerSeeds> = createPdasHook(
+  findMergeMinerPda,
+  "mergeMinerPda",
+);

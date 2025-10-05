@@ -1,7 +1,6 @@
-import type { PdaHook } from "@macalinao/grill";
+import type { PdaHook, PdasHook } from "@macalinao/grill";
 import type { ReplicaMintSeeds } from "@macalinao/quarry";
-import type { Address } from "@solana/kit";
-import { createPdaHook } from "@macalinao/grill";
+import { createPdaHook, createPdasHook } from "@macalinao/grill";
 import { findReplicaMintPda } from "@macalinao/quarry";
 
 /**
@@ -22,5 +21,28 @@ import { findReplicaMintPda } from "@macalinao/quarry";
  * });
  * ```
  */
-export const useReplicaMintPda: PdaHook<ReplicaMintSeeds, Address> =
-  createPdaHook(findReplicaMintPda, "replicaMintPda");
+export const useReplicaMintPda: PdaHook<ReplicaMintSeeds> = createPdaHook(
+  findReplicaMintPda,
+  "replicaMintPda",
+);
+
+/**
+ * Hook to derive multiple PDA addresses for ReplicaMints.
+ * Computes deterministic addresses for multiple ReplicaMint accounts
+ * with caching for efficient batch processing.
+ *
+ * @param args - Array of seed objects for deriving ReplicaMint PDAs
+ * @returns Array of computed ReplicaMint PDA addresses or null if args is null/undefined
+ *
+ * @example
+ * ```tsx
+ * const replicaMintPdas = useReplicaMintPdas([
+ *   { primaryMint: primaryMintAddress1, replicaMintIndex: 0 },
+ *   { primaryMint: primaryMintAddress2, replicaMintIndex: 1 }
+ * ]);
+ * ```
+ */
+export const useReplicaMintPdas: PdasHook<ReplicaMintSeeds> = createPdasHook(
+  findReplicaMintPda,
+  "replicaMintPda",
+);

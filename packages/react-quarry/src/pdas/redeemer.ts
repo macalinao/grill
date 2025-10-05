@@ -1,7 +1,6 @@
-import type { PdaHook } from "@macalinao/grill";
+import type { PdaHook, PdasHook } from "@macalinao/grill";
 import type { RedeemerSeeds } from "@macalinao/quarry";
-import type { Address } from "@solana/kit";
-import { createPdaHook } from "@macalinao/grill";
+import { createPdaHook, createPdasHook } from "@macalinao/grill";
 import { findRedeemerPda } from "@macalinao/quarry";
 
 /**
@@ -22,7 +21,28 @@ import { findRedeemerPda } from "@macalinao/quarry";
  * });
  * ```
  */
-export const useRedeemerPda: PdaHook<RedeemerSeeds, Address> = createPdaHook(
+export const useRedeemerPda: PdaHook<RedeemerSeeds> = createPdaHook(
+  findRedeemerPda,
+  "redeemerPda",
+);
+
+/**
+ * Hook to derive multiple PDA addresses for Redeemers.
+ * Computes deterministic addresses for multiple Redeemer accounts
+ * with caching for efficient batch processing.
+ *
+ * @param args - Array of seed objects for deriving Redeemer PDAs
+ * @returns Array of computed Redeemer PDA addresses or null if args is null/undefined
+ *
+ * @example
+ * ```tsx
+ * const redeemerPdas = useRedeemerPdas([
+ *   { iouMint: iouMintAddress1, redemptionMint: redemptionMintAddress1 },
+ *   { iouMint: iouMintAddress2, redemptionMint: redemptionMintAddress2 }
+ * ]);
+ * ```
+ */
+export const useRedeemerPdas: PdasHook<RedeemerSeeds> = createPdasHook(
   findRedeemerPda,
   "redeemerPda",
 );

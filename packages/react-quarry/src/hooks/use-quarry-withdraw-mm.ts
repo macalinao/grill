@@ -16,7 +16,7 @@ export interface UseQuarryWithdrawMMResult {
 }
 
 export const useQuarryWithdrawMM = (): UseQuarryWithdrawMMResult => {
-  const { mergePool, mergePoolAddress } = useMergeMinerContext();
+  const { mergePool } = useMergeMinerContext();
   const { poolInfo } = usePoolInfo();
   const { signer } = useKitWallet();
   const sendTX = useSendTX();
@@ -30,18 +30,11 @@ export const useQuarryWithdrawMM = (): UseQuarryWithdrawMMResult => {
         throw new Error("Wallet not connected");
       }
 
-      if (!poolInfo.primaryRewards.rewarder) {
-        throw new Error("No primary rewarder found");
-      }
-
       const ixs = await createWithdrawMergeMinerIxs({
         amount,
         tokenDestination,
         rewarder: poolInfo.primaryRewards.rewarder,
-        mergePool: {
-          address: mergePoolAddress,
-          data: mergePool,
-        },
+        mergePool,
         owner: signer,
         payer: signer,
         replicaRewarders:
@@ -54,7 +47,6 @@ export const useQuarryWithdrawMM = (): UseQuarryWithdrawMMResult => {
       signer,
       poolInfo.primaryRewards.rewarder,
       poolInfo.secondaryRewards,
-      mergePoolAddress,
       mergePool,
       sendTX,
     ],

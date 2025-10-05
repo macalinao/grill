@@ -1,7 +1,6 @@
-import type { PdaHook } from "@macalinao/grill";
+import type { PdaHook, PdasHook } from "@macalinao/grill";
 import type { MinerSeeds } from "@macalinao/quarry";
-import type { Address } from "@solana/kit";
-import { createPdaHook } from "@macalinao/grill";
+import { createPdaHook, createPdasHook } from "@macalinao/grill";
 import { findMinerPda } from "@macalinao/quarry";
 
 /**
@@ -22,7 +21,28 @@ import { findMinerPda } from "@macalinao/quarry";
  * });
  * ```
  */
-export const useMinerPda: PdaHook<MinerSeeds, Address> = createPdaHook(
+export const useMinerPda: PdaHook<MinerSeeds> = createPdaHook(
+  findMinerPda,
+  "minerPda",
+);
+
+/**
+ * Hook to derive multiple PDA addresses for Miners.
+ * Computes deterministic addresses for multiple Miner accounts
+ * with caching for efficient batch processing.
+ *
+ * @param args - Array of seed objects for deriving Miner PDAs
+ * @returns Array of computed Miner PDA addresses or null if args is null/undefined
+ *
+ * @example
+ * ```tsx
+ * const minerPdas = useMinerPdas([
+ *   { quarry: quarryAddress1, authority: walletPublicKey1 },
+ *   { quarry: quarryAddress2, authority: walletPublicKey2 }
+ * ]);
+ * ```
+ */
+export const useMinerPdas: PdasHook<MinerSeeds> = createPdasHook(
   findMinerPda,
   "minerPda",
 );

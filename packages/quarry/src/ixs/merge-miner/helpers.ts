@@ -1,7 +1,6 @@
 import type { Address } from "@solana/kit";
 import type { MinerAddresses } from "./types.js";
 import {
-  findMergeMinerPda,
   findMergePoolPda,
   findMinerPda,
   findQuarryPda,
@@ -32,23 +31,6 @@ export async function getMergePoolAddresses({
   });
 
   return { pool, replicaMint };
-}
-
-/**
- * Helper to get the merge miner PDA
- */
-export async function getMergeMinerAddress({
-  pool,
-  owner,
-}: {
-  pool: Address;
-  owner: Address;
-}): Promise<Address> {
-  const [mm] = await findMergeMinerPda({
-    pool,
-    owner,
-  });
-  return mm;
 }
 
 /**

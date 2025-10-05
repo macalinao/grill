@@ -2,7 +2,7 @@ import type { Address, Instruction, TransactionSigner } from "@solana/kit";
 import type { MergeMinerAmountArgs } from "./types.js";
 import {
   findMergeMinerPda,
-  getWithdrawTokensMMInstruction,
+  getWithdrawTokensMMInstructionAsync,
 } from "@macalinao/clients-quarry";
 import {
   findAssociatedTokenPda,
@@ -21,7 +21,11 @@ import {
 export interface WithdrawMergeMinerArgs extends MergeMinerAmountArgs {
   /** Owner of the merge miner */
   owner: TransactionSigner;
-  /** Destination of the tokens, defaults to the owner's primary ATA */
+  /**
+   * Destination of the tokens, defaults to the owner's primary ATA
+   *
+   * Note: this must be a token account.
+   */
   tokenDestination?: Address;
 }
 
@@ -37,12 +41,6 @@ export async function createWithdrawMergeMinerIxs({
   owner,
   payer,
 }: WithdrawMergeMinerArgs): Promise<Instruction[]> {
-  const [mmTokenAccount] = await findAssociatedTokenPda({
-    mint: mergePool.data.primaryMint,
-    owner: owner.address,
-    tokenProgram: TOKEN_PROGRAM_ADDRESS,
-  });
-
   // Get merge miner address
   const [mmAddress] = await findMergeMinerPda({
     pool: mergePool.address,
@@ -71,19 +69,6 @@ export async function createWithdrawMergeMinerIxs({
       primaryMint: mergePool.data.primaryMint,
       amount,
     }),
-    // Stake replica tokens back into the merge miner
-    ...(await Promise.all(
-      replicaRewarders.map(
-        async (replicaRewarder) =>
-          await createStakeReplicaMinerIx({
-            mmOwner: owner,
-            pool: mergePool.address,
-            mm: mmAddress,
-            rewarder: replicaRewarder,
-            replicaMint: mergePool.data.replicaMint,
-          }),
-      ),
-    )),
   ];
 
   if (!tokenDestination) {
@@ -104,15 +89,29 @@ export async function createWithdrawMergeMinerIxs({
     tokenDestination = destinationATA;
   }
 
-  const withdrawIx = getWithdrawTokensMMInstruction({
+  const withdrawIx = await getWithdrawTokensMMInstructionAsync({
     owner,
     pool: mergePool.address,
-    mm: mmAddress,
-    mmTokenAccount,
     withdrawMint: mergePool.data.primaryMint,
     tokenDestination,
   });
   ixs.push(withdrawIx);
+
+  ixs.push(
+    // Stake replica tokens back into the merge miner
+    ...(await Promise.all(
+      replicaRewarders.map(
+        async (replicaRewarder) =>
+          await createStakeReplicaMinerIx({
+            mmOwner: owner,
+            pool: mergePool.address,
+            mm: mmAddress,
+            rewarder: replicaRewarder,
+            replicaMint: mergePool.data.replicaMint,
+          }),
+      ),
+    )),
+  );
 
   return ixs;
 }
