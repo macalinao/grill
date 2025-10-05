@@ -1,8 +1,12 @@
 import type { PdaFn } from "@macalinao/gill-extra";
+import type { Address } from "@solana/kit";
 import { useQueries } from "@tanstack/react-query";
 import { createPdaQuery } from "./pda-query-utils.js";
 
-export type PdasHook<TArgs, TResult> = <T extends readonly TArgs[]>(
+/**
+ * Hook for computing multiple PDAs from some arguments.
+ */
+export type PdasHook<TArgs, TResult = Address> = <T extends readonly TArgs[]>(
   args: T | null | undefined,
 ) => { [K in keyof T]: TResult } | null | undefined;
 

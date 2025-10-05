@@ -1,4 +1,4 @@
-import type { PdaHook } from "@macalinao/grill";
+import type { PdaHook, PdasHook } from "@macalinao/grill";
 import type { MinerSeeds } from "@macalinao/quarry";
 import type { Address } from "@solana/kit";
 import { createPdaHook, createPdasHook } from "@macalinao/grill";
@@ -43,4 +43,7 @@ export const useMinerPda: PdaHook<MinerSeeds, Address> = createPdaHook(
  * ]);
  * ```
  */
-export const useMinerPdas = createPdasHook(findMinerPda, "minerPda");
+export const useMinerPdas: PdasHook<MinerSeeds, Address> = createPdasHook(
+  findMinerPda,
+  "minerPda",
+);

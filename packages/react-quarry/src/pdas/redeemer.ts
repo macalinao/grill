@@ -1,4 +1,4 @@
-import type { PdaHook } from "@macalinao/grill";
+import type { PdaHook, PdasHook } from "@macalinao/grill";
 import type { RedeemerSeeds } from "@macalinao/quarry";
 import type { Address } from "@solana/kit";
 import { createPdaHook, createPdasHook } from "@macalinao/grill";
@@ -43,4 +43,7 @@ export const useRedeemerPda: PdaHook<RedeemerSeeds, Address> = createPdaHook(
  * ]);
  * ```
  */
-export const useRedeemerPdas = createPdasHook(findRedeemerPda, "redeemerPda");
+export const useRedeemerPdas: PdasHook<RedeemerSeeds, Address> = createPdasHook(
+  findRedeemerPda,
+  "redeemerPda",
+);

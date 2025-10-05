@@ -1,11 +1,12 @@
 import type { PdaFn } from "@macalinao/gill-extra";
+import type { Address } from "@solana/kit";
 import { useQuery } from "@tanstack/react-query";
 import { createPdaQuery } from "./pda-query-utils.js";
 
 /**
  * Hook for computing a PDA from some arguments.
  */
-export type PdaHook<TArgs, TResult> = (
+export type PdaHook<TArgs, TResult = Address> = (
   args: TArgs | null | undefined,
 ) => TResult | null | undefined;
 

@@ -1,4 +1,4 @@
-import type { PdaHook } from "@macalinao/grill";
+import type { PdaHook, PdasHook } from "@macalinao/grill";
 import type { MintWrapperSeeds } from "@macalinao/quarry";
 import type { Address } from "@solana/kit";
 import { createPdaHook, createPdasHook } from "@macalinao/grill";
@@ -41,7 +41,5 @@ export const useMintWrapperPda: PdaHook<MintWrapperSeeds, Address> =
  * ]);
  * ```
  */
-export const useMintWrapperPdas = createPdasHook(
-  findMintWrapperPda,
-  "mintWrapperPda",
-);
+export const useMintWrapperPdas: PdasHook<MintWrapperSeeds, Address> =
+  createPdasHook(findMintWrapperPda, "mintWrapperPda");
