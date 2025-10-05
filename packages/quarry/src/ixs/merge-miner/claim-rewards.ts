@@ -164,13 +164,9 @@ export async function claimPrimaryRewards({
 }: {
   mergePool: MergePoolAccount;
   mmOwner: TransactionSigner;
-  rewarder: {
-    address: Address;
-    data: Pick<
-      Rewarder,
-      "mintWrapper" | "rewardsTokenMint" | "claimFeeTokenAccount"
-    >;
-  };
+  rewarder: AccountInfo<
+    Pick<Rewarder, "mintWrapper" | "rewardsTokenMint" | "claimFeeTokenAccount">
+  >;
 }): Promise<Instruction[]> {
   const stake = await getPrimaryStakeAccounts({
     rewarder: rewarder.address,

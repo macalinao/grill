@@ -14,7 +14,7 @@ export interface UseQuarryClaimMMResult {
 }
 
 export const useQuarryClaimMM = (): UseQuarryClaimMMResult => {
-  const { mergePool, mergePoolAddress } = useMergeMinerContext();
+  const { mergePool } = useMergeMinerContext();
   const { poolInfo } = usePoolInfo();
   const { signer } = useKitWallet();
   const sendTX = useSendTX();
@@ -47,15 +47,9 @@ export const useQuarryClaimMM = (): UseQuarryClaimMMResult => {
     }
 
     const ixs = await claimPrimaryRewards({
-      mergePool: {
-        address: mergePoolAddress,
-        data: mergePool,
-      },
+      mergePool,
       mmOwner: signer,
-      rewarder: {
-        address: poolInfo.primaryRewards.rewarder,
-        data: primaryRewarder.data,
-      },
+      rewarder: primaryRewarder,
     });
 
     return sendTX(
@@ -65,9 +59,7 @@ export const useQuarryClaimMM = (): UseQuarryClaimMMResult => {
   }, [
     signer,
     primaryRewarder,
-    mergePoolAddress,
     mergePool,
-    poolInfo.primaryRewards.rewarder,
     poolInfo.primaryRewards.rewardsToken.symbol,
     sendTX,
   ]);
@@ -86,10 +78,7 @@ export const useQuarryClaimMM = (): UseQuarryClaimMMResult => {
 
     // Add primary rewards instructions
     const primaryIxs = await claimPrimaryRewards({
-      mergePool: {
-        address: mergePoolAddress,
-        data: mergePool,
-      },
+      mergePool,
       mmOwner: signer,
       rewarder: {
         address: poolInfo.primaryRewards.rewarder,
@@ -115,10 +104,7 @@ export const useQuarryClaimMM = (): UseQuarryClaimMMResult => {
 
         try {
           const replicaIxs = await claimReplicaRewards({
-            mergePool: {
-              address: mergePoolAddress,
-              data: mergePool,
-            },
+            mergePool,
             mmOwner: signer,
             rewarder: {
               address: address(secondaryReward.rewarder),
@@ -151,7 +137,6 @@ export const useQuarryClaimMM = (): UseQuarryClaimMMResult => {
     poolInfo.primaryRewards,
     poolInfo.secondaryRewards,
     secondaryRewardersResult.data,
-    mergePoolAddress,
     mergePool,
     sendTX,
   ]);

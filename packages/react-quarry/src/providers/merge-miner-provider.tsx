@@ -11,6 +11,12 @@ interface Props {
   children?: React.ReactNode;
 }
 
+/**
+ * Provides info about the merge pool and the user's merge miner.
+ *
+ * @param param0
+ * @returns
+ */
 export const MergeMinerProvider: React.FC<Props> = ({ children }: Props) => {
   const poolInfo = usePoolInfo();
   const { signer } = useKitWallet();
@@ -53,11 +59,13 @@ export const MergeMinerProvider: React.FC<Props> = ({ children }: Props) => {
   return (
     <MergeMinerContext.Provider
       value={{
-        mergePool: mergePoolAccount.data,
         mergePoolAddress,
         mergeMinerAddress,
         userAddress: signer?.address ?? null,
         balanceRaw,
+
+        mergePool: mergePoolAccount,
+        mergeMiner: mergeMinerAccount,
       }}
     >
       {children}
