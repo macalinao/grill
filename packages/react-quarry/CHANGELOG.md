@@ -1,5 +1,15 @@
 # @macalinao/react-quarry
 
+## 0.1.0
+
+### Minor Changes
+
+- ea6f8a5: rename balance -> blanceRaw, expose mergeMinerAddress
+
+### Patch Changes
+
+- 56571db: Fix peer dep
+
 ## 0.0.11
 
 ### Patch Changes
