@@ -17,7 +17,7 @@
     },
     "apps/example-dapp": {
       "name": "example-dapp",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "dependencies": {
         "@gillsdk/react": "catalog:",
         "@hookform/resolvers": "^5.2.2",
@@ -111,7 +111,7 @@
     },
     "packages/grill": {
       "name": "@macalinao/grill",
-      "version": "0.5.14",
+      "version": "0.6.0",
       "dependencies": {
         "@gillsdk/react": "catalog:",
         "@macalinao/clients-token-metadata": "^0.4.0",
@@ -145,7 +145,7 @@
     },
     "packages/quarry": {
       "name": "@macalinao/quarry",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "dependencies": {
         "@macalinao/clients-quarry": "^0.4.2",
         "@macalinao/gill-extra": "workspace:*",
@@ -166,7 +166,7 @@
     },
     "packages/react-quarry": {
       "name": "@macalinao/react-quarry",
-      "version": "0.1.0",
+      "version": "1.0.0",
       "dependencies": {
         "@macalinao/quarry": "workspace:*",
       },
@@ -224,7 +224,7 @@
     },
     "packages/wallet-adapter-compat": {
       "name": "@macalinao/wallet-adapter-compat",
-      "version": "2.0.14",
+      "version": "3.0.0",
       "dependencies": {
         "@solana/webcrypto-ed25519-polyfill": "*",
         "tslib": "catalog:",
@@ -613,7 +613,7 @@
 
     "@lit/reactive-element": ["@lit/reactive-element@2.1.1", "", { "dependencies": { "@lit-labs/ssr-dom-shim": "^1.4.0" } }, "sha512-N+dm5PAYdQ8e6UlywyyrgI2t++wFGXfHx+dSJ1oBrg6FAxUj40jId++EaRm80MKX5JnlH1sBsyZ5h0bcZKemCg=="],
 
-    "@macalinao/biome-config": ["@macalinao/biome-config@0.1.1", "", {}, "sha512-/CvLQt6gbVoDx25uWcUzWuE5gk+QsXLc3CNssHLQl7PvvzxWVv+QOtD0eoRiNKNJ9bk9j0E3jYyGrN7rCmCdTw=="],
+    "@macalinao/biome-config": ["@macalinao/biome-config@0.1.2", "", {}, "sha512-AvU9H6fcAIhmxRGlSUMBiyrLSA2kkW8mFRvlzchpIAION1dDpVEOBEjXpOBb+HLDRw5SO6qBl+R54RuyBvGVew=="],
 
     "@macalinao/clients-quarry": ["@macalinao/clients-quarry@0.4.2", "", { "peerDependencies": { "@solana/kit": "*" } }, "sha512-k1SWx/350KGPI7qFQQy6c7QIqG+m7MSasQIB8P40sRlMpFNCV6iZ5ymgq5S4eRr33k9CLon7P+OVOdKP92Uikw=="],
 
