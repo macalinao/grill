@@ -167,11 +167,11 @@
       "name": "@macalinao/react-quarry",
       "version": "0.0.10",
       "dependencies": {
-        "@macalinao/grill": "workspace:*",
         "@macalinao/quarry": "workspace:*",
       },
       "devDependencies": {
         "@macalinao/eslint-config-react": "^5.0.2",
+        "@macalinao/grill": "workspace:*",
         "@macalinao/tsconfig": "catalog:",
         "@solana/kit": "catalog:",
         "@types/bun": "catalog:",
@@ -179,6 +179,7 @@
         "typescript": "catalog:",
       },
       "peerDependencies": {
+        "@macalinao/grill": "workspace:*",
         "@solana/kit": "catalog:",
         "react": "^18 || ^19",
       },
