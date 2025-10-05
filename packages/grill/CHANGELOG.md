@@ -1,5 +1,11 @@
 # @macalinao/grill
 
+## 0.6.0
+
+### Minor Changes
+
+- 7300702: Fix bugs around quarry merge miner initialization, more pda hooks
+
 ## 0.5.14
 
 ### Patch Changes

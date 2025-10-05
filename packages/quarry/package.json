@@ -1,6 +1,6 @@
 {
   "name": "@macalinao/quarry",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Quarry utility functions for Solana development",
   "license": "Apache-2.0",
   "author": "Ian Macalinao <me@ianm.com>",

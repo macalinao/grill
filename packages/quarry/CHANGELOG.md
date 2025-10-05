@@ -1,5 +1,15 @@
 # @macalinao/quarry
 
+## 0.2.0
+
+### Minor Changes
+
+- 7300702: Fix bugs around quarry merge miner initialization, more pda hooks
+
+### Patch Changes
+
+- 7768fe9: Fix deposit/withdraw bugs
+
 ## 0.1.0
 
 ### Minor Changes
