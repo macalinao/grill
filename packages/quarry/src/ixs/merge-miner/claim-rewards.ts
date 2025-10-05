@@ -1,4 +1,5 @@
 import type { MergePool, Rewarder } from "@macalinao/clients-quarry";
+import type { AccountInfo } from "@macalinao/gill-extra";
 import type { Address, Instruction, TransactionSigner } from "@solana/kit";
 import {
   findMergeMinerPda,
@@ -24,10 +25,12 @@ export interface QuarryStakeAccounts {
   minerVault: Address;
 }
 
-export interface MergePoolAccount {
-  address: Address;
-  data: Pick<MergePool, "primaryMint" | "replicaMint">;
-}
+/**
+ * A merge pool account with primary/replica mint exposed.
+ */
+export type MergePoolAccount = AccountInfo<
+  Pick<MergePool, "primaryMint" | "replicaMint">
+>;
 
 export interface ClaimRewardsCommonArgs {
   quarryMint: Address;

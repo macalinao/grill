@@ -3,7 +3,6 @@ import type { MergeMinerAmountArgs } from "./types.js";
 import { findMergeMinerPda } from "@macalinao/clients-quarry";
 import {
   findAssociatedTokenPda,
-  getCreateAssociatedTokenIdempotentInstruction,
   getTransferInstruction,
   TOKEN_PROGRAM_ADDRESS,
 } from "@solana-program/token";
@@ -77,17 +76,6 @@ export async function createDepositMergeMinerIxs({
     owner: mmAddress,
     tokenProgram: TOKEN_PROGRAM_ADDRESS,
   });
-
-  // Create merge miner's token account if needed
-  instructions.push(
-    getCreateAssociatedTokenIdempotentInstruction({
-      payer,
-      ata: mmPrimaryTokenAccount,
-      owner: mmAddress,
-      mint: mergePool.data.primaryMint,
-      tokenProgram: TOKEN_PROGRAM_ADDRESS,
-    }),
-  );
 
   // Transfer tokens from user to merge miner
   instructions.push(

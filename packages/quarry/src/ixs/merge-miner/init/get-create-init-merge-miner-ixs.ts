@@ -40,12 +40,23 @@ export async function getCreateInitMergeMinerIxs({
   minerAddresses: MinerAddresses;
 }> {
   const actualOwner = owner ?? payer.address;
+  const [mm] = await findMergeMinerPda({
+    pool: mergePool.address,
+    owner: actualOwner,
+  });
   const instructions: Instruction[] = [
     // Step 1: Initialize the merge miner
     await getInitMergeMinerV2InstructionAsync({
       pool: mergePool.address,
       owner: actualOwner,
       payer,
+    }),
+    // Set up the merge miner's token account for the primary mint
+    await getCreateAssociatedTokenIdempotentInstructionAsync({
+      payer,
+      owner: mm,
+      mint: mergePool.data.primaryMint,
+      tokenProgram: TOKEN_PROGRAM_ADDRESS,
     }),
   ];
 
@@ -64,10 +75,6 @@ export async function getCreateInitMergeMinerIxs({
 
   // Create associated token account for the replica mint if we have replica rewarders
   if (replicaRewarders.length > 0) {
-    const [mm] = await findMergeMinerPda({
-      pool: mergePool.address,
-      owner: actualOwner,
-    });
     instructions.push(
       await getCreateAssociatedTokenIdempotentInstructionAsync({
         payer,
