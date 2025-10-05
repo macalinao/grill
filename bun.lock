@@ -17,7 +17,7 @@
     },
     "apps/example-dapp": {
       "name": "example-dapp",
-      "version": "0.0.26",
+      "version": "0.1.0",
       "dependencies": {
         "@gillsdk/react": "catalog:",
         "@hookform/resolvers": "^5.2.2",
@@ -145,7 +145,7 @@
     },
     "packages/quarry": {
       "name": "@macalinao/quarry",
-      "version": "0.0.4",
+      "version": "0.1.0",
       "dependencies": {
         "@macalinao/clients-quarry": "^0.4.2",
         "@macalinao/token-utils": "workspace:*",
@@ -165,7 +165,7 @@
     },
     "packages/react-quarry": {
       "name": "@macalinao/react-quarry",
-      "version": "0.0.10",
+      "version": "0.0.11",
       "dependencies": {
         "@macalinao/grill": "workspace:*",
         "@macalinao/quarry": "workspace:*",

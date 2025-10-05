@@ -1,5 +1,12 @@
 # @macalinao/react-quarry
 
+## 0.0.11
+
+### Patch Changes
+
+- Updated dependencies [d57f739]
+  - @macalinao/quarry@0.1.0
+
 ## 0.0.10
 
 ### Patch Changes

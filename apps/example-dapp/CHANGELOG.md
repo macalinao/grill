@@ -1,5 +1,11 @@
 # example-dapp
 
+## 0.1.0
+
+### Minor Changes
+
+- d57f739: Update dependencies, including Gill
+
 ## 0.0.26
 
 ### Patch Changes

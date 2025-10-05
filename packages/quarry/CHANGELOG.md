@@ -1,5 +1,11 @@
 # @macalinao/quarry
 
+## 0.1.0
+
+### Minor Changes
+
+- d57f739: Update dependencies, including Gill
+
 ## 0.0.4
 
 ### Patch Changes
