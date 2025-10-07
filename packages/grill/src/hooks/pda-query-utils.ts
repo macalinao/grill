@@ -19,7 +19,7 @@ export function createPdaQuery<TArgs, TResult>(
       const [pda] = await pdaFn(args);
       return pda;
     },
-    enabled: !!args,
+    enabled: args !== undefined,
     // PDAs are deterministic, so we can cache them indefinitely
     staleTime: Number.POSITIVE_INFINITY,
     gcTime: Number.POSITIVE_INFINITY,

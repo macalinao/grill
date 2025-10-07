@@ -5,19 +5,17 @@ import type { UseAccountsResult } from "./use-accounts.js";
 import {
   findMetadataPda,
   getMetadataDecoder,
+  TOKEN_METADATA_PROGRAM_ADDRESS,
 } from "@macalinao/clients-token-metadata";
 import { createDecodedAccountHook } from "./create-decoded-account-hook.js";
 import { createDecodedAccountsHook } from "./create-decoded-accounts-hook.js";
 import { createPdaHook } from "./create-pda-hook.js";
 import { createPdasHook } from "./create-pdas-hook.js";
 
-const TOKEN_METADATA_PROGRAM_ID =
-  "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s" as Address;
-
 export const useTokenMetadataPda = createPdaHook(
   async ({ mint }: { mint: Address }) => {
     const pda = await findMetadataPda({
-      programId: TOKEN_METADATA_PROGRAM_ID,
+      programId: TOKEN_METADATA_PROGRAM_ADDRESS,
       mint,
     });
     return pda;
@@ -28,7 +26,7 @@ export const useTokenMetadataPda = createPdaHook(
 export const useTokenMetadataPdas = createPdasHook(
   async ({ mint }: { mint: Address }) => {
     const pda = await findMetadataPda({
-      programId: TOKEN_METADATA_PROGRAM_ID,
+      programId: TOKEN_METADATA_PROGRAM_ADDRESS,
       mint,
     });
     return pda;
