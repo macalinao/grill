@@ -1,5 +1,11 @@
 # @macalinao/gill-extra
 
+## 0.1.0
+
+### Minor Changes
+
+- 9bd8013: Update token info fetching to fetch image URIs and from certified token list fallback
+
 ## 0.0.8
 
 ### Patch Changes
