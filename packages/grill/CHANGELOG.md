@@ -1,5 +1,13 @@
 # @macalinao/grill
 
+## 0.6.2
+
+### Patch Changes
+
+- 171abf8: Make PDA null if PDA hook is null
+- Updated dependencies [9bd8013]
+  - @macalinao/gill-extra@0.1.0
+
 ## 0.6.1
 
 ### Patch Changes

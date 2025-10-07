@@ -1,5 +1,13 @@
 # example-dapp
 
+## 0.1.3
+
+### Patch Changes
+
+- 9bd8013: Update token info fetching to fetch image URIs and from certified token list fallback
+- Updated dependencies [171abf8]
+  - @macalinao/grill@0.6.2
+
 ## 0.1.2
 
 ### Patch Changes
