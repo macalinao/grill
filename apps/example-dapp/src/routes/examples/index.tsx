@@ -65,20 +65,6 @@ const ExamplesIndexPage: React.FC = () => {
 
         <Card>
           <CardHeader>
-            <CardTitle>Fetch Stablecoins (USDC/USDT)</CardTitle>
-            <CardDescription>
-              Example of fetching USDC, USDT, and other stablecoin token info
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Link to="/examples/fetch-stablecoins">
-              <Button className="w-full">View Example</Button>
-            </Link>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
             <CardTitle>All Tokens</CardTitle>
             <CardDescription>
               View comprehensive token information including supply and decimals
