@@ -38,19 +38,27 @@ export async function fetchTokenInfo({
     try {
       const response = await fetch(uri);
       if (response.ok) {
-        const result = tokenMetadataSchema.safeParse(await response.json());
+        const contentType = response.headers.get("content-type");
 
-        if (result.success) {
-          // Override with data from URI JSON
-          metadataAccountData = {
-            name: result.data.name,
-            symbol: result.data.symbol,
-          };
-          if (result.data.image) {
-            metadataUriJson = { image: result.data.image };
-          }
+        // If the URI is an image, use it directly as the image URI
+        if (contentType?.startsWith("image")) {
+          metadataUriJson = { image: uri };
         } else {
-          console.error("Invalid token metadata:", result.error);
+          // Otherwise, try to parse it as JSON
+          const result = tokenMetadataSchema.safeParse(await response.json());
+
+          if (result.success) {
+            // Override with data from URI JSON
+            metadataAccountData = {
+              name: result.data.name,
+              symbol: result.data.symbol,
+            };
+            if (result.data.image) {
+              metadataUriJson = { image: result.data.image };
+            }
+          } else {
+            console.error("Invalid token metadata:", result.error);
+          }
         }
       }
     } catch (error) {
@@ -59,10 +67,36 @@ export async function fetchTokenInfo({
   }
 
   // Create token info with all collected data
-  return createTokenInfo({
+  const tokenInfo = createTokenInfo({
     mint: mint.address,
     mintAccount: { decimals },
     metadataAccount: metadataAccountData,
     metadataUriJson,
   });
+
+  // Fallback: Try to fetch from certified token list if no icon URL
+  if (!tokenInfo.iconURL) {
+    const certifiedTokenInfoUrl = `https://raw.githubusercontent.com/CLBExchange/certified-token-list/refs/heads/master/101/${mint.address}.json`;
+    try {
+      const response = await fetch(certifiedTokenInfoUrl);
+      if (response.ok) {
+        const data = (await response.json()) as {
+          name: string;
+          symbol: string;
+          logoURI: string;
+        };
+        if (!tokenInfo.name) {
+          tokenInfo.name = data.name;
+        }
+        if (!tokenInfo.symbol) {
+          tokenInfo.symbol = data.symbol;
+        }
+        tokenInfo.iconURL = data.logoURI;
+      }
+    } catch (error) {
+      console.warn("Could not fetch certified token info:", error);
+    }
+  }
+
+  return tokenInfo;
 }

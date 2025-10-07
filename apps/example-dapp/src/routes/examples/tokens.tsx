@@ -20,6 +20,8 @@ export const Route = createFileRoute("/examples/tokens")({
 // Define token mint addresses
 const TOKENS = [
   address("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"), // USDC
+  address("Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB"), // USDT
+  address("AuQaustGiaqxRvj2gtCdrd22PBzTn8kM3kEPEkZCtuDw"), // ADX (no metadata JSON, just an image)
   address("So11111111111111111111111111111111111111112"), // Wrapped SOL
   address("JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN"), // Jupiter
   address("METAewgxyPbgwsseH8T16a39CQ5VyVxZi9zXiDPY18m"), // META

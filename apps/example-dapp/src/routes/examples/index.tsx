@@ -62,6 +62,20 @@ const ExamplesIndexPage: React.FC = () => {
             </Link>
           </CardContent>
         </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>All Tokens</CardTitle>
+            <CardDescription>
+              View comprehensive token information including supply and decimals
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Link to="/examples/tokens">
+              <Button className="w-full">View Example</Button>
+            </Link>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
