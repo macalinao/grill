@@ -17,6 +17,7 @@ import { Route as ExamplesTransferSolRouteImport } from "./routes/examples/trans
 import { Route as ExamplesTokensRouteImport } from "./routes/examples/tokens.tsx"
 import { Route as ExamplesTokenBalancesRouteImport } from "./routes/examples/token-balances.tsx"
 import { Route as ExamplesStaticTokensRouteImport } from "./routes/examples/static-tokens.tsx"
+import { Route as ExamplesFetchStablecoinsRouteImport } from "./routes/examples/fetch-stablecoins.tsx"
 import { Route as ExamplesDashboardRouteImport } from "./routes/examples/dashboard.tsx"
 import { Route as ExamplesBatchAccountsRouteImport } from "./routes/examples/batch-accounts.tsx"
 
@@ -60,6 +61,12 @@ const ExamplesStaticTokensRoute = ExamplesStaticTokensRouteImport.update({
   path: "/static-tokens",
   getParentRoute: () => ExamplesRoute,
 } as any)
+const ExamplesFetchStablecoinsRoute =
+  ExamplesFetchStablecoinsRouteImport.update({
+    id: "/fetch-stablecoins",
+    path: "/fetch-stablecoins",
+    getParentRoute: () => ExamplesRoute,
+  } as any)
 const ExamplesDashboardRoute = ExamplesDashboardRouteImport.update({
   id: "/dashboard",
   path: "/dashboard",
@@ -76,6 +83,7 @@ export interface FileRoutesByFullPath {
   "/examples": typeof ExamplesRouteWithChildren
   "/examples/batch-accounts": typeof ExamplesBatchAccountsRoute
   "/examples/dashboard": typeof ExamplesDashboardRoute
+  "/examples/fetch-stablecoins": typeof ExamplesFetchStablecoinsRoute
   "/examples/static-tokens": typeof ExamplesStaticTokensRoute
   "/examples/token-balances": typeof ExamplesTokenBalancesRoute
   "/examples/tokens": typeof ExamplesTokensRoute
@@ -87,6 +95,7 @@ export interface FileRoutesByTo {
   "/": typeof IndexRoute
   "/examples/batch-accounts": typeof ExamplesBatchAccountsRoute
   "/examples/dashboard": typeof ExamplesDashboardRoute
+  "/examples/fetch-stablecoins": typeof ExamplesFetchStablecoinsRoute
   "/examples/static-tokens": typeof ExamplesStaticTokensRoute
   "/examples/token-balances": typeof ExamplesTokenBalancesRoute
   "/examples/tokens": typeof ExamplesTokensRoute
@@ -100,6 +109,7 @@ export interface FileRoutesById {
   "/examples": typeof ExamplesRouteWithChildren
   "/examples/batch-accounts": typeof ExamplesBatchAccountsRoute
   "/examples/dashboard": typeof ExamplesDashboardRoute
+  "/examples/fetch-stablecoins": typeof ExamplesFetchStablecoinsRoute
   "/examples/static-tokens": typeof ExamplesStaticTokensRoute
   "/examples/token-balances": typeof ExamplesTokenBalancesRoute
   "/examples/tokens": typeof ExamplesTokensRoute
@@ -114,6 +124,7 @@ export interface FileRouteTypes {
     | "/examples"
     | "/examples/batch-accounts"
     | "/examples/dashboard"
+    | "/examples/fetch-stablecoins"
     | "/examples/static-tokens"
     | "/examples/token-balances"
     | "/examples/tokens"
@@ -125,6 +136,7 @@ export interface FileRouteTypes {
     | "/"
     | "/examples/batch-accounts"
     | "/examples/dashboard"
+    | "/examples/fetch-stablecoins"
     | "/examples/static-tokens"
     | "/examples/token-balances"
     | "/examples/tokens"
@@ -137,6 +149,7 @@ export interface FileRouteTypes {
     | "/examples"
     | "/examples/batch-accounts"
     | "/examples/dashboard"
+    | "/examples/fetch-stablecoins"
     | "/examples/static-tokens"
     | "/examples/token-balances"
     | "/examples/tokens"
@@ -208,6 +221,13 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof ExamplesStaticTokensRouteImport
       parentRoute: typeof ExamplesRoute
     }
+    "/examples/fetch-stablecoins": {
+      id: "/examples/fetch-stablecoins"
+      path: "/fetch-stablecoins"
+      fullPath: "/examples/fetch-stablecoins"
+      preLoaderRoute: typeof ExamplesFetchStablecoinsRouteImport
+      parentRoute: typeof ExamplesRoute
+    }
     "/examples/dashboard": {
       id: "/examples/dashboard"
       path: "/dashboard"
@@ -228,6 +248,7 @@ declare module "@tanstack/react-router" {
 interface ExamplesRouteChildren {
   ExamplesBatchAccountsRoute: typeof ExamplesBatchAccountsRoute
   ExamplesDashboardRoute: typeof ExamplesDashboardRoute
+  ExamplesFetchStablecoinsRoute: typeof ExamplesFetchStablecoinsRoute
   ExamplesStaticTokensRoute: typeof ExamplesStaticTokensRoute
   ExamplesTokenBalancesRoute: typeof ExamplesTokenBalancesRoute
   ExamplesTokensRoute: typeof ExamplesTokensRoute
@@ -239,6 +260,7 @@ interface ExamplesRouteChildren {
 const ExamplesRouteChildren: ExamplesRouteChildren = {
   ExamplesBatchAccountsRoute: ExamplesBatchAccountsRoute,
   ExamplesDashboardRoute: ExamplesDashboardRoute,
+  ExamplesFetchStablecoinsRoute: ExamplesFetchStablecoinsRoute,
   ExamplesStaticTokensRoute: ExamplesStaticTokensRoute,
   ExamplesTokenBalancesRoute: ExamplesTokenBalancesRoute,
   ExamplesTokensRoute: ExamplesTokensRoute,
