@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@macalinao/eslint-config": "catalog:",
-    "@macalinao/eslint-config-react": "^5.0.2",
+    "@macalinao/eslint-config-react": "^5.0.3",
     "@macalinao/grill": "workspace:^",
     "@macalinao/tsconfig": "catalog:",
     "@solana/kit": "catalog:",
