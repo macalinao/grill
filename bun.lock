@@ -89,7 +89,7 @@
     },
     "packages/gill-extra": {
       "name": "@macalinao/gill-extra",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "dependencies": {
         "@macalinao/clients-token-metadata": "^0.4.0",
         "@macalinao/dataloader-es": "workspace:^",
