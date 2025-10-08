@@ -1,5 +1,13 @@
 # @macalinao/wallet-adapter-compat
 
+## 3.0.2
+
+### Patch Changes
+
+- fecc82c: Bump dependencies
+- Updated dependencies [fecc82c]
+  - @macalinao/grill@0.6.3
+
 ## 3.0.1
 
 ### Patch Changes

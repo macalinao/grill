@@ -1,5 +1,14 @@
 # @macalinao/grill
 
+## 0.6.3
+
+### Patch Changes
+
+- fecc82c: Bump dependencies
+- Updated dependencies [fecc82c]
+  - @macalinao/gill-extra@0.1.2
+  - @macalinao/zod-solana@0.1.8
+
 ## 0.6.2
 
 ### Patch Changes

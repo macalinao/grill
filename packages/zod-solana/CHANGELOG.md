@@ -1,5 +1,11 @@
 # @macalinao/zod-solana
 
+## 0.1.8
+
+### Patch Changes
+
+- fecc82c: Bump dependencies
+
 ## 0.1.7
 
 ### Patch Changes
