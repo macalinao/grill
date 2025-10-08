@@ -1,5 +1,11 @@
 # @macalinao/gill-extra
 
+## 0.1.1
+
+### Patch Changes
+
+- 6bff255: Add helper for creating tokens with metadata
+
 ## 0.1.0
 
 ### Minor Changes
