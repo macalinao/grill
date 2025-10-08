@@ -1,5 +1,13 @@
 # @macalinao/quarry
 
+## 0.2.3
+
+### Patch Changes
+
+- fecc82c: Bump dependencies
+- Updated dependencies [fecc82c]
+  - @macalinao/gill-extra@0.1.2
+
 ## 0.2.2
 
 ### Patch Changes

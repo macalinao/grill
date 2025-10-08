@@ -1,5 +1,14 @@
 # @macalinao/react-quarry
 
+## 1.0.2
+
+### Patch Changes
+
+- fecc82c: Bump dependencies
+- Updated dependencies [fecc82c]
+  - @macalinao/quarry@0.2.3
+  - @macalinao/grill@0.6.3
+
 ## 1.0.1
 
 ### Patch Changes

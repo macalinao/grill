@@ -1,5 +1,14 @@
 # example-dapp
 
+## 0.1.4
+
+### Patch Changes
+
+- fecc82c: Bump dependencies
+- Updated dependencies [fecc82c]
+  - @macalinao/wallet-adapter-compat@3.0.2
+  - @macalinao/grill@0.6.3
+
 ## 0.1.3
 
 ### Patch Changes
