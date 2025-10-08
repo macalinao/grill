@@ -7,6 +7,12 @@ export interface PoolRewardsInfo {
   iouMint?: Address;
 }
 
+export const isPoolRewardsInfoWithIouMint = (
+  rewardsInfo: PoolRewardsInfo,
+): rewardsInfo is PoolRewardsInfoWithIouMint => {
+  return rewardsInfo.iouMint !== undefined;
+};
+
 export type PoolRewardsInfoWithIouMint = PoolRewardsInfo & {
   iouMint: Address;
 };

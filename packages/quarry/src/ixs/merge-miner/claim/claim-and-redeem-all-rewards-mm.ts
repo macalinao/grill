@@ -3,16 +3,8 @@ import type { AccountInfo } from "@macalinao/gill-extra";
 import type { Instruction, TransactionSigner } from "@solana/kit";
 import type { PoolInfo } from "../../../types.js";
 import type { MergePoolAccount } from "../types.js";
-import {
-  findRedeemerPda,
-  getRedeemAllTokensInstructionAsync,
-} from "@macalinao/clients-quarry";
-import {
-  findAssociatedTokenPda,
-  getCloseAccountInstruction,
-  getCreateAssociatedTokenIdempotentInstruction,
-  TOKEN_PROGRAM_ADDRESS,
-} from "@solana-program/token";
+import { isPoolRewardsInfoWithIouMint } from "../../../types.js";
+import { createRedeemAllIxs } from "../../create-redeem-all-ixs.js";
 import { claimPrimaryRewards } from "./claim-primary-rewards.js";
 import { claimReplicaRewards } from "./claim-replica-rewards.js";
 
@@ -52,50 +44,12 @@ export async function claimAndRedeemAllRewardsMM({
 
   // Prepare primary redemption instructions
   const primaryRedemptionIxs: Instruction[] = [];
-  if (poolInfo.primaryRewards.iouMint) {
-    const [primaryIouSource] = await findAssociatedTokenPda({
-      mint: poolInfo.primaryRewards.iouMint,
-      owner: signer.address,
-      tokenProgram: TOKEN_PROGRAM_ADDRESS,
-    });
-
-    const [primaryRedeemer] = await findRedeemerPda({
-      iouMint: poolInfo.primaryRewards.iouMint,
-      redemptionMint: poolInfo.primaryRewards.rewardsToken.mint,
-    });
-
-    const [primaryRedemptionVault] = await findAssociatedTokenPda({
-      mint: poolInfo.primaryRewards.rewardsToken.mint,
-      owner: primaryRedeemer,
-      tokenProgram: TOKEN_PROGRAM_ADDRESS,
-    });
-
-    const [primaryRedemptionDestination] = await findAssociatedTokenPda({
-      mint: poolInfo.primaryRewards.rewardsToken.mint,
-      owner: signer.address,
-      tokenProgram: TOKEN_PROGRAM_ADDRESS,
-    });
-
+  if (isPoolRewardsInfoWithIouMint(poolInfo.primaryRewards)) {
     primaryRedemptionIxs.push(
-      getCreateAssociatedTokenIdempotentInstruction({
-        ata: primaryRedemptionDestination,
-        mint: poolInfo.primaryRewards.rewardsToken.mint,
-        owner: signer.address,
-        tokenProgram: TOKEN_PROGRAM_ADDRESS,
-        payer: signer,
-      }),
-      await getRedeemAllTokensInstructionAsync({
-        redeemer: primaryRedeemer,
-        sourceAuthority: signer,
-        iouMint: poolInfo.primaryRewards.iouMint,
-        redemptionVault: primaryRedemptionVault,
-        redemptionDestination: primaryRedemptionDestination,
-      }),
-      getCloseAccountInstruction({
-        account: primaryIouSource,
-        destination: signer.address,
-        owner: signer,
-      }),
+      ...(await createRedeemAllIxs({
+        rewardsInfo: poolInfo.primaryRewards,
+        withdrawer: signer,
+      })),
     );
   }
 
@@ -123,50 +77,12 @@ export async function claimAndRedeemAllRewardsMM({
         });
         secondaryIxs.push(...replicaIxs);
 
-        if (secondaryReward.iouMint) {
-          const [iouSource] = await findAssociatedTokenPda({
-            mint: secondaryReward.iouMint,
-            owner: signer.address,
-            tokenProgram: TOKEN_PROGRAM_ADDRESS,
-          });
-
-          const [redeemer] = await findRedeemerPda({
-            iouMint: secondaryReward.iouMint,
-            redemptionMint: secondaryReward.rewardsToken.mint,
-          });
-
-          const [redemptionVault] = await findAssociatedTokenPda({
-            mint: secondaryReward.rewardsToken.mint,
-            owner: redeemer,
-            tokenProgram: TOKEN_PROGRAM_ADDRESS,
-          });
-
-          const [redemptionDestination] = await findAssociatedTokenPda({
-            mint: secondaryReward.rewardsToken.mint,
-            owner: signer.address,
-            tokenProgram: TOKEN_PROGRAM_ADDRESS,
-          });
-
+        if (isPoolRewardsInfoWithIouMint(secondaryReward)) {
           secondaryIxs.push(
-            getCreateAssociatedTokenIdempotentInstruction({
-              ata: redemptionDestination,
-              mint: secondaryReward.rewardsToken.mint,
-              owner: signer.address,
-              tokenProgram: TOKEN_PROGRAM_ADDRESS,
-              payer: signer,
-            }),
-            await getRedeemAllTokensInstructionAsync({
-              redeemer,
-              sourceAuthority: signer,
-              iouMint: secondaryReward.iouMint,
-              redemptionVault,
-              redemptionDestination,
-            }),
-            getCloseAccountInstruction({
-              account: iouSource,
-              destination: signer.address,
-              owner: signer,
-            }),
+            ...(await createRedeemAllIxs({
+              rewardsInfo: secondaryReward,
+              withdrawer: signer,
+            })),
           );
         }
       } catch (error) {
