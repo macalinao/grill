@@ -17,7 +17,7 @@
     },
     "apps/example-dapp": {
       "name": "example-dapp",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "dependencies": {
         "@gillsdk/react": "catalog:",
         "@hookform/resolvers": "^5.2.2",
@@ -89,7 +89,7 @@
     },
     "packages/gill-extra": {
       "name": "@macalinao/gill-extra",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "dependencies": {
         "@macalinao/clients-token-metadata": "^0.4.1",
         "@macalinao/dataloader-es": "workspace:^",
@@ -115,7 +115,7 @@
     },
     "packages/grill": {
       "name": "@macalinao/grill",
-      "version": "0.6.2",
+      "version": "0.6.3",
       "dependencies": {
         "@gillsdk/react": "catalog:",
         "@macalinao/clients-token-metadata": "^0.4.1",
@@ -149,7 +149,7 @@
     },
     "packages/quarry": {
       "name": "@macalinao/quarry",
-      "version": "0.2.2",
+      "version": "0.2.3",
       "dependencies": {
         "@macalinao/clients-quarry": "^0.4.3",
         "@macalinao/gill-extra": "workspace:^",
@@ -170,7 +170,7 @@
     },
     "packages/react-quarry": {
       "name": "@macalinao/react-quarry",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "dependencies": {
         "@macalinao/quarry": "workspace:^",
       },
@@ -228,7 +228,7 @@
     },
     "packages/wallet-adapter-compat": {
       "name": "@macalinao/wallet-adapter-compat",
-      "version": "3.0.1",
+      "version": "3.0.2",
       "dependencies": {
         "@solana/webcrypto-ed25519-polyfill": "*",
         "tslib": "catalog:",
@@ -257,7 +257,7 @@
     },
     "packages/zod-solana": {
       "name": "@macalinao/zod-solana",
-      "version": "0.1.7",
+      "version": "0.1.8",
       "devDependencies": {
         "@macalinao/eslint-config": "catalog:",
         "@macalinao/tsconfig": "catalog:",
