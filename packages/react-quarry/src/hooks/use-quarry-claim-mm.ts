@@ -1,7 +1,9 @@
 import type { Signature } from "@solana/kit";
 import { useKitWallet, useSendTX } from "@macalinao/grill";
-import { claimPrimaryRewards, claimReplicaRewards } from "@macalinao/quarry";
-import { address } from "@solana/kit";
+import {
+  claimAndRedeemAllRewardsMM,
+  claimPrimaryRewards,
+} from "@macalinao/quarry";
 import { useCallback, useMemo } from "react";
 import { useRewarder, useRewarders } from "../accounts/rewarder.js";
 import { useMergeMinerContext } from "../contexts/merge-miner.js";
@@ -73,53 +75,15 @@ export const useQuarryClaimMM = (): UseQuarryClaimMMResult => {
       throw new Error("Primary rewarder data not loaded");
     }
 
-    // Collect all instructions in a single array
-    const allInstructions = [];
-
-    // Add primary rewards instructions
-    const primaryIxs = await claimPrimaryRewards({
+    const allInstructions = await claimAndRedeemAllRewardsMM({
+      poolInfo,
       mergePool,
-      mmOwner: signer,
-      rewarder: {
-        address: poolInfo.primaryRewards.rewarder,
-        data: primaryRewarder.data,
-      },
+      signer,
+      primaryRewarder,
+      secondaryRewarders: secondaryRewardersResult.data.map((d) =>
+        d === null ? undefined : d,
+      ),
     });
-    allInstructions.push(...primaryIxs);
-
-    // Add secondary/replica rewards instructions
-    if (poolInfo.secondaryRewards?.length) {
-      for (let i = 0; i < poolInfo.secondaryRewards.length; i++) {
-        const secondaryReward = poolInfo.secondaryRewards[i];
-        const rewarderData = secondaryRewardersResult.data[i];
-
-        if (!(secondaryReward && rewarderData)) {
-          if (secondaryReward) {
-            console.error(
-              `Rewarder data for ${secondaryReward.rewarder} not found`,
-            );
-          }
-          continue;
-        }
-
-        try {
-          const replicaIxs = await claimReplicaRewards({
-            mergePool,
-            mmOwner: signer,
-            rewarder: {
-              address: address(secondaryReward.rewarder),
-              data: rewarderData.data,
-            },
-          });
-          allInstructions.push(...replicaIxs);
-        } catch (error) {
-          console.error(
-            `Failed to generate claim instructions for ${secondaryReward.rewardsToken.symbol} rewards:`,
-            error,
-          );
-        }
-      }
-    }
 
     // Send all instructions in a single transaction
     const tokenSymbols = [
@@ -134,8 +98,7 @@ export const useQuarryClaimMM = (): UseQuarryClaimMMResult => {
   }, [
     signer,
     primaryRewarder,
-    poolInfo.primaryRewards,
-    poolInfo.secondaryRewards,
+    poolInfo,
     secondaryRewardersResult.data,
     mergePool,
     sendTX,

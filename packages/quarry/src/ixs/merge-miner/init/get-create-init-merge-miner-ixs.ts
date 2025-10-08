@@ -1,5 +1,5 @@
 import type { Address, Instruction, TransactionSigner } from "@solana/kit";
-import type { MergePoolAccount } from "../claim-rewards.js";
+import type { MergePoolAccount } from "../claim/types.js";
 import type { MinerAddresses } from "../types.js";
 import {
   findMergeMinerPda,

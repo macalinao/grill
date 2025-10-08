@@ -7,6 +7,10 @@ export interface PoolRewardsInfo {
   iouMint?: Address;
 }
 
+export type PoolRewardsInfoWithIouMint = PoolRewardsInfo & {
+  iouMint: Address;
+};
+
 export type PoolQuarryInfo = PoolRewardsInfo & {
   isReplica?: boolean;
   stakedToken: TokenInfo;

@@ -1,5 +1,13 @@
+import type { MergePool } from "@macalinao/clients-quarry";
+import type { AccountInfo } from "@macalinao/gill-extra";
 import type { Address, TransactionSigner } from "@solana/kit";
-import type { MergePoolAccount } from "./claim-rewards.js";
+
+/**
+ * A merge pool account with primary/replica mint exposed.
+ */
+export type MergePoolAccount = AccountInfo<
+  Pick<MergePool, "primaryMint" | "replicaMint">
+>;
 
 /**
  * Base arguments shared by merge miner operations

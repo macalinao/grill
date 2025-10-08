@@ -1,4 +1,4 @@
-export * from "./claim-rewards.js";
+export * from "./claim/index.js";
 export * from "./create-deposit-merge-miner-ixs.js";
 export * from "./create-withdraw-merge-miner-ixs.js";
 export * from "./helpers.js";
