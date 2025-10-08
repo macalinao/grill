@@ -96,6 +96,7 @@
         "@macalinao/solana-batch-accounts-loader": "workspace:^",
         "@macalinao/token-utils": "workspace:^",
         "@macalinao/zod-solana": "workspace:^",
+        "@solana-program/system": "^0.8.1",
         "@solana-program/token": "^0.6.0",
       },
       "devDependencies": {
