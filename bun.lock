@@ -91,7 +91,7 @@
       "name": "@macalinao/gill-extra",
       "version": "0.1.2",
       "dependencies": {
-        "@macalinao/clients-token-metadata": "^0.4.1",
+        "@macalinao/clients-token-metadata": "^0.4.2",
         "@macalinao/dataloader-es": "workspace:^",
         "@macalinao/solana-batch-accounts-loader": "workspace:^",
         "@macalinao/token-utils": "workspace:^",
@@ -118,7 +118,7 @@
       "version": "0.6.3",
       "dependencies": {
         "@gillsdk/react": "catalog:",
-        "@macalinao/clients-token-metadata": "^0.4.1",
+        "@macalinao/clients-token-metadata": "^0.4.2",
         "@macalinao/dataloader-es": "workspace:^",
         "@macalinao/gill-extra": "workspace:^",
         "@macalinao/solana-batch-accounts-loader": "workspace:^",
