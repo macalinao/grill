@@ -79,6 +79,9 @@
     "packages/dataloader-es": {
       "name": "@macalinao/dataloader-es",
       "version": "0.2.5",
+      "dependencies": {
+        "tslib": "^2.8.1",
+      },
       "devDependencies": {
         "@macalinao/eslint-config": "catalog:",
         "@macalinao/tsconfig": "catalog:",
