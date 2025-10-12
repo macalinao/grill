@@ -233,7 +233,6 @@ export class DataLoader<K, V, C = K> {
     // Cache hits are resolved, even though the batch failed.
     resolveCacheHits(batch);
     for (let i = 0; i < batch.keys.length; i++) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.clear(batch.keys[i]!);
 
       batch.callbacks[i]?.reject(error);

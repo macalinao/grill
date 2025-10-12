@@ -17,7 +17,7 @@ export const useGeneratedValue = (get: () => number | null): number | null => {
     const ctrl = new AbortController();
     const doFrame = () => {
       setValue(get());
-      if (ctrl.signal.aborted) {
+      if (!ctrl.signal.aborted) {
         requestAnimationFrame(doFrame);
       }
     };

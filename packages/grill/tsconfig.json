@@ -2,6 +2,6 @@
   "extends": "@macalinao/tsconfig/tsconfig.react.json",
   "compilerOptions": {
     "isolatedDeclarations": false,
-    "types": ["bun-types"]
+    "types": ["bun"]
   }
 }
