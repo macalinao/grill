@@ -1,5 +1,15 @@
 # @macalinao/quarry
 
+## 0.2.4
+
+### Patch Changes
+
+- f17031d: Fix bun-types import
+- Updated dependencies [f17031d]
+- Updated dependencies [d3ee6e1]
+  - @macalinao/token-utils@0.1.9
+  - @macalinao/gill-extra@0.1.3
+
 ## 0.2.3
 
 ### Patch Changes

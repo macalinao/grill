@@ -1,5 +1,17 @@
 # @macalinao/gill-extra
 
+## 0.1.3
+
+### Patch Changes
+
+- f17031d: Fix bun-types import
+- d3ee6e1: Bump dependencies
+- Updated dependencies [f17031d]
+  - @macalinao/solana-batch-accounts-loader@0.2.7
+  - @macalinao/dataloader-es@0.2.6
+  - @macalinao/token-utils@0.1.9
+  - @macalinao/zod-solana@0.1.9
+
 ## 0.1.2
 
 ### Patch Changes

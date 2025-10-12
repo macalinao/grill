@@ -1,5 +1,11 @@
 # @macalinao/dataloader-es
 
+## 0.2.6
+
+### Patch Changes
+
+- f17031d: Fix bun-types import
+
 ## 0.2.5
 
 ### Patch Changes
