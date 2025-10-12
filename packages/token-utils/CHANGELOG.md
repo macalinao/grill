@@ -1,5 +1,11 @@
 # @macalinao/token-utils
 
+## 0.1.9
+
+### Patch Changes
+
+- f17031d: Fix bun-types import
+
 ## 0.1.8
 
 ### Patch Changes

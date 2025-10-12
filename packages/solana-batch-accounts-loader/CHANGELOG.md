@@ -1,5 +1,13 @@
 # @macalinao/solana-batch-accounts-loader
 
+## 0.2.7
+
+### Patch Changes
+
+- f17031d: Fix bun-types import
+- Updated dependencies [f17031d]
+  - @macalinao/dataloader-es@0.2.6
+
 ## 0.2.6
 
 ### Patch Changes

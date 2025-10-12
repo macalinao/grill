@@ -78,7 +78,7 @@
     },
     "packages/dataloader-es": {
       "name": "@macalinao/dataloader-es",
-      "version": "0.2.5",
+      "version": "0.2.6",
       "dependencies": {
         "tslib": "^2.8.1",
       },
@@ -92,7 +92,7 @@
     },
     "packages/gill-extra": {
       "name": "@macalinao/gill-extra",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "dependencies": {
         "@macalinao/clients-token-metadata": "^0.4.2",
         "@macalinao/dataloader-es": "workspace:^",
@@ -118,7 +118,7 @@
     },
     "packages/grill": {
       "name": "@macalinao/grill",
-      "version": "0.6.3",
+      "version": "0.6.4",
       "dependencies": {
         "@gillsdk/react": "catalog:",
         "@macalinao/clients-token-metadata": "^0.4.2",
@@ -152,7 +152,7 @@
     },
     "packages/quarry": {
       "name": "@macalinao/quarry",
-      "version": "0.2.3",
+      "version": "0.2.4",
       "dependencies": {
         "@macalinao/clients-quarry": "^0.4.3",
         "@macalinao/gill-extra": "workspace:^",
@@ -173,7 +173,7 @@
     },
     "packages/react-quarry": {
       "name": "@macalinao/react-quarry",
-      "version": "1.0.2",
+      "version": "1.0.3",
       "dependencies": {
         "@macalinao/quarry": "workspace:^",
       },
@@ -194,7 +194,7 @@
     },
     "packages/solana-batch-accounts-loader": {
       "name": "@macalinao/solana-batch-accounts-loader",
-      "version": "0.2.6",
+      "version": "0.2.7",
       "dependencies": {
         "@macalinao/dataloader-es": "workspace:^",
         "lodash-es": "^4.17.21",
@@ -214,7 +214,7 @@
     },
     "packages/token-utils": {
       "name": "@macalinao/token-utils",
-      "version": "0.1.8",
+      "version": "0.1.9",
       "dependencies": {
         "dnum": "^2.15.0",
       },
@@ -260,7 +260,7 @@
     },
     "packages/zod-solana": {
       "name": "@macalinao/zod-solana",
-      "version": "0.1.8",
+      "version": "0.1.9",
       "devDependencies": {
         "@macalinao/eslint-config": "catalog:",
         "@macalinao/tsconfig": "catalog:",
@@ -2266,7 +2266,7 @@
 
     "lightningcss-win32-x64-msvc": ["lightningcss-win32-x64-msvc@1.30.1", "", { "os": "win32", "cpu": "x64" }, "sha512-PVqXh48wh4T53F/1CCu8PIPCxLzWyCnn/9T5W1Jpmdy5h9Cwd+0YQS6/LwhHXSafuc61/xg9Lv5OrCby6a++jg=="],
 
-    "lint-staged": ["lint-staged@16.2.3", "", { "dependencies": { "commander": "^14.0.1", "listr2": "^9.0.4", "micromatch": "^4.0.8", "nano-spawn": "^1.0.3", "pidtree": "^0.6.0", "string-argv": "^0.3.2", "yaml": "^2.8.1" }, "bin": { "lint-staged": "bin/lint-staged.js" } }, "sha512-1OnJEESB9zZqsp61XHH2fvpS1es3hRCxMplF/AJUDa8Ho8VrscYDIuxGrj3m8KPXbcWZ8fT9XTMUhEQmOVKpKw=="],
+    "lint-staged": ["lint-staged@16.2.4", "", { "dependencies": { "commander": "^14.0.1", "listr2": "^9.0.4", "micromatch": "^4.0.8", "nano-spawn": "^2.0.0", "pidtree": "^0.6.0", "string-argv": "^0.3.2", "yaml": "^2.8.1" }, "bin": { "lint-staged": "bin/lint-staged.js" } }, "sha512-Pkyr/wd90oAyXk98i/2KwfkIhoYQUMtss769FIT9hFM5ogYZwrk+GRE46yKXSg2ZGhcJ1p38Gf5gmI5Ohjg2yg=="],
 
     "listr2": ["listr2@9.0.4", "", { "dependencies": { "cli-truncate": "^5.0.0", "colorette": "^2.0.20", "eventemitter3": "^5.0.1", "log-update": "^6.1.0", "rfdc": "^1.4.1", "wrap-ansi": "^9.0.0" } }, "sha512-1wd/kpAdKRLwv7/3OKC8zZ5U8e/fajCfWMxacUvB79S5nLrYGPtUI/8chMQhn3LQjsRVErTb9i1ECAwW0ZIHnQ=="],
 
@@ -2382,7 +2382,7 @@
 
     "nan": ["nan@2.23.0", "", {}, "sha512-1UxuyYGdoQHcGg87Lkqm3FzefucTa0NAiOcuRsDmysep3c1LVCRK2krrUDafMWtjSG04htvAmvg96+SDknOmgQ=="],
 
-    "nano-spawn": ["nano-spawn@1.0.3", "", {}, "sha512-jtpsQDetTnvS2Ts1fiRdci5rx0VYws5jGyC+4IYOTnIQ/wwdf6JdomlHBwqC3bJYOvaKu0C2GSZ1A60anrYpaA=="],
+    "nano-spawn": ["nano-spawn@2.0.0", "", {}, "sha512-tacvGzUY5o2D8CBh2rrwxyNojUsZNU2zjNTzKQrkgGJQTbGAfArVWXSKMBokBeeg6C7OLRGUEyoFlYbfeWQIqw=="],
 
     "nanoid": ["nanoid@3.3.11", "", { "bin": { "nanoid": "bin/nanoid.cjs" } }, "sha512-N8SpfPUnUp1bK+PMYW8qSWdl9U+wwNWI4QKxOYDy9JAro3WMX7p2OeVRF9v+347pnakNevPmiHhNmZ2HbFA76w=="],
 

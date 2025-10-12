@@ -1,5 +1,16 @@
 # @macalinao/react-quarry
 
+## 1.0.3
+
+### Patch Changes
+
+- f17031d: Fix bun-types import
+- 6e1a67b: Fix bug with useGeneratedValue (not aborted)
+- Updated dependencies [f17031d]
+- Updated dependencies [d3ee6e1]
+  - @macalinao/quarry@0.2.4
+  - @macalinao/grill@0.6.4
+
 ## 1.0.2
 
 ### Patch Changes
