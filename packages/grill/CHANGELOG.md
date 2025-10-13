@@ -1,5 +1,13 @@
 # @macalinao/grill
 
+## 0.6.5
+
+### Patch Changes
+
+- ffac787: Bump to Bun 1.3
+- Updated dependencies [ceff137]
+  - @macalinao/token-utils@0.1.10
+
 ## 0.6.4
 
 ### Patch Changes
