@@ -70,15 +70,8 @@ export const createSendTX = ({
       feePayer: signer,
       instructions: [...ixs],
       latestBlockhash,
-      // the compute budget values are HIGHLY recommend to be set in order to maximize your transaction landing rate
-      computeUnitLimit:
-        options.computeUnitLimit === null
-          ? undefined
-          : (options.computeUnitLimit ?? 1_400_000),
-      computeUnitPrice:
-        options.computeUnitPrice === null
-          ? undefined
-          : (options.computeUnitPrice ?? 100_000n),
+      computeUnitLimit: options.computeUnitLimit,
+      computeUnitPrice: options.computeUnitPrice,
     });
 
     // Apply address lookup tables if provided to compress the transaction
