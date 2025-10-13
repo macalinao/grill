@@ -9,6 +9,7 @@ import { useMergePoolPda } from "../pdas/merge-pool.js";
 
 interface Props {
   children?: React.ReactNode;
+  loading?: React.ReactNode;
 }
 
 /**
@@ -17,7 +18,10 @@ interface Props {
  * @param param0
  * @returns
  */
-export const MergeMinerProvider: React.FC<Props> = ({ children }: Props) => {
+export const MergeMinerProvider: React.FC<Props> = ({
+  children,
+  loading,
+}: Props) => {
   const poolInfo = usePoolInfo();
   const { signer } = useKitWallet();
   const mergePoolAddress = useMergePoolPda({
@@ -48,7 +52,7 @@ export const MergeMinerProvider: React.FC<Props> = ({ children }: Props) => {
     !(mergePoolAddress && mergePoolAccount) ||
     mergeMinerAddress === undefined
   ) {
-    return <div>Loading...</div>;
+    return loading ?? <div>Loading...</div>;
   }
 
   // Get balance from merge miner account, default to 0

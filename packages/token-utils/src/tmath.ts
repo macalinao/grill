@@ -189,3 +189,12 @@ export function toRaw<TMint extends string, TDecimals extends number>(
 ): bigint {
   return tokenAmountToBigInt(amount);
 }
+
+/**
+ * Converts a TokenAmount to a number.
+ * @param amount
+ * @returns
+ */
+export function toNumber(amount: TokenAmount): number {
+  return dn.toNumber(amount.amount);
+}
