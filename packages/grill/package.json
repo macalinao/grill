@@ -56,8 +56,7 @@
     "@solana-program/token": "^0.6.0"
   },
   "devDependencies": {
-    "@macalinao/eslint-config": "catalog:",
-    "@macalinao/eslint-config-react": "^5.0.3",
+    "@macalinao/eslint-config-react": "catalog:",
     "@macalinao/tsconfig": "catalog:",
     "@solana/kit": "catalog:",
     "@tanstack/react-query": "catalog:",

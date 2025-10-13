@@ -28,18 +28,21 @@ jobs:
           # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
           fetch-depth: 0
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: 1.2.23
 
       - name: Cache dependencies
         uses: actions/cache@v4
         with:
           path: ~/.bun/install/cache
-          key: ${{ runner.os }}-buncache-${{ hashFiles('**/bun.lock') }}
+          key: ${{ runner.os }}-bc-${{ hashFiles('**/bun.lock') }}
           restore-keys: |
-            ${{ runner.os }}-buncache-
+            ${{ runner.os }}-bc-
 
       - name: Install Dependencies
         run: bun install --frozen-lockfile
