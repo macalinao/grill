@@ -21,9 +21,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.bun/install/cache
-          key: ${{ runner.os }}-buncache-${{ hashFiles('**/bun.lock') }}
+          key: ${{ runner.os }}-bc-${{ hashFiles('**/bun.lock') }}
           restore-keys: |
-            ${{ runner.os }}-buncache-
+            ${{ runner.os }}-bc-
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
