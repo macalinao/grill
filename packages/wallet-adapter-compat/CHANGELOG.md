@@ -1,5 +1,13 @@
 # @macalinao/wallet-adapter-compat
 
+## 3.0.3
+
+### Patch Changes
+
+- ffac787: Bump to Bun 1.3
+- Updated dependencies [ffac787]
+  - @macalinao/grill@0.6.5
+
 ## 3.0.2
 
 ### Patch Changes

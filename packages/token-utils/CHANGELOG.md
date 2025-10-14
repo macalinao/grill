@@ -1,5 +1,11 @@
 # @macalinao/token-utils
 
+## 0.1.10
+
+### Patch Changes
+
+- ceff137: Add toNumber helper for TokenAmount
+
 ## 0.1.9
 
 ### Patch Changes

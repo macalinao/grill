@@ -1,5 +1,14 @@
 # @macalinao/react-quarry
 
+## 1.0.4
+
+### Patch Changes
+
+- d8f999b: Allow specifying custom loading state for merge miner provider
+- ffac787: Bump to Bun 1.3
+- Updated dependencies [ffac787]
+  - @macalinao/grill@0.6.5
+
 ## 1.0.3
 
 ### Patch Changes
