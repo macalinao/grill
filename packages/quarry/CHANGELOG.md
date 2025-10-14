@@ -1,5 +1,13 @@
 # @macalinao/quarry
 
+## 0.2.5
+
+### Patch Changes
+
+- Updated dependencies [5ebaaa1]
+- Updated dependencies [ef7c68e]
+  - @macalinao/gill-extra@0.2.0
+
 ## 0.2.4
 
 ### Patch Changes

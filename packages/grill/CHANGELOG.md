@@ -1,5 +1,18 @@
 # @macalinao/grill
 
+## 0.7.0
+
+### Minor Changes
+
+- ef7c68e: Change compute unit stuff to be not included by default
+
+### Patch Changes
+
+- 5ebaaa1: Add parseTransactionError, new error type
+- Updated dependencies [5ebaaa1]
+- Updated dependencies [ef7c68e]
+  - @macalinao/gill-extra@0.2.0
+
 ## 0.6.5
 
 ### Patch Changes
