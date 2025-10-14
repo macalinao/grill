@@ -4,21 +4,17 @@ import type {
   Instruction,
   Signature,
 } from "@solana/kit";
+import type { CreateTransactionInput } from "gill";
 
-export interface SendTXOptions {
+export interface SendTXOptions
+  extends Pick<
+    CreateTransactionInput<0>,
+    "computeUnitLimit" | "computeUnitPrice"
+  > {
+  /**
+   * Address lookup tables (optional)
+   */
   lookupTables?: AddressesByLookupTableAddress;
-  /**
-   * Compute unit limit for the transaction.
-   * Set to null to omit compute unit limit instruction.
-   * Defaults to 1,400,000 if not specified.
-   */
-  computeUnitLimit?: number | null;
-  /**
-   * Compute unit price for the transaction in microlamports.
-   * Set to null to omit compute unit price instruction.
-   * Defaults to 100,000 if not specified.
-   */
-  computeUnitPrice?: bigint | null;
   /**
    * Whether to wait for account refetch after transaction confirmation.
    * When true (default), the function will wait for all writable accounts
@@ -28,6 +24,10 @@ export interface SendTXOptions {
    * @default true
    */
   waitForAccountRefetch?: boolean;
+  /**
+   * If true, skips the pre-flight simulation.
+   */
+  skipPreflight?: boolean;
 }
 
 export type SendTXFunction = (
