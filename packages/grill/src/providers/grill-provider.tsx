@@ -207,6 +207,27 @@ export const GrillProvider: FC<GrillProviderProps> = ({
           toastIds.current.delete(txId);
           break;
         }
+        case "error-simulation-failed": {
+          console.error("Simulation failed", event);
+          const description = `Simulation failed: ${event.errorMessage}`;
+          if (existingToastId) {
+            // Update existing toast to error
+            toast.error(event.title, {
+              id: existingToastId,
+              description,
+              duration: errorToastDuration,
+            });
+          } else {
+            // Create new error toast if somehow we don't have one
+            toast.error(event.title, {
+              description,
+              duration: errorToastDuration,
+            });
+          }
+          // Clean up toast ID after error
+          toastIds.current.delete(txId);
+          break;
+        }
       }
     },
     [
