@@ -14,13 +14,15 @@ import type { SolanaClient } from "gill";
 import type { TransactionStatusEvent } from "../../types.js";
 import {
   getSignatureFromBytes,
+  parseTransactionError,
   pollConfirmTransaction,
 } from "@macalinao/gill-extra";
 import {
   compressTransactionMessageUsingAddressLookupTables,
+  getSolanaErrorFromTransactionError,
   signAndSendTransactionMessageWithSigners,
 } from "@solana/kit";
-import { createTransaction } from "gill";
+import { createTransaction, simulateTransactionFactory } from "gill";
 
 export interface CreateSendTXParams {
   signer: TransactionSendingSigner | null;
@@ -41,6 +43,7 @@ export const createSendTX = ({
   onTransactionStatusEvent,
   getExplorerLink,
 }: CreateSendTXParams): SendTXFunction => {
+  const simulateTransaction = simulateTransactionFactory({ rpc });
   return async (
     name: string,
     ixs: readonly Instruction[],
@@ -83,6 +86,24 @@ export const createSendTX = ({
             addressLookupTables,
           )
         : transactionMessage;
+
+    // preflight
+    if (!options.skipPreflight) {
+      const simulationResult = await simulateTransaction(
+        finalTransactionMessage,
+      );
+      if (simulationResult.value.err) {
+        onTransactionStatusEvent({
+          ...baseEvent,
+          type: "error-simulation-failed",
+          errorMessage: parseTransactionError(
+            simulationResult.value.err,
+            simulationResult.value.logs,
+          ),
+        });
+        throw getSolanaErrorFromTransactionError(simulationResult.value.err);
+      }
+    }
 
     onTransactionStatusEvent({
       ...baseEvent,

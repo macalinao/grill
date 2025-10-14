@@ -24,6 +24,10 @@ export interface SendTXOptions
    * @default true
    */
   waitForAccountRefetch?: boolean;
+  /**
+   * If true, skips the pre-flight simulation.
+   */
+  skipPreflight?: boolean;
 }
 
 export type SendTXFunction = (

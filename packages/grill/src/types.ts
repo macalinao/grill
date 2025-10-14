@@ -35,6 +35,10 @@ export type TransactionStatusEvent = {
       sig: Signature;
       explorerLink: string;
     }
+  | {
+      type: "error-simulation-failed";
+      errorMessage: string;
+    }
 );
 
 export type TransactionStatusEventCallback = (
