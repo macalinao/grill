@@ -1,5 +1,15 @@
 # @macalinao/gill-extra
 
+## 0.2.0
+
+### Minor Changes
+
+- ef7c68e: Change compute unit stuff to be not included by default
+
+### Patch Changes
+
+- 5ebaaa1: Add parseTransactionError, new error type
+
 ## 0.1.3
 
 ### Patch Changes
