@@ -1,5 +1,11 @@
 # example-dapp
 
+## 1.0.2
+
+### Patch Changes
+
+- dbe5fa8: use better SOL icon
+
 ## 1.0.1
 
 ### Patch Changes

@@ -17,7 +17,7 @@
     },
     "apps/example-dapp": {
       "name": "example-dapp",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "dependencies": {
         "@gillsdk/react": "catalog:",
         "@hookform/resolvers": "^5.2.2",
@@ -214,7 +214,7 @@
     },
     "packages/token-utils": {
       "name": "@macalinao/token-utils",
-      "version": "0.1.11",
+      "version": "0.1.12",
       "dependencies": {
         "dnum": "^2.15.0",
       },
@@ -618,7 +618,7 @@
 
     "@lit/reactive-element": ["@lit/reactive-element@2.1.1", "", { "dependencies": { "@lit-labs/ssr-dom-shim": "^1.4.0" } }, "sha512-N+dm5PAYdQ8e6UlywyyrgI2t++wFGXfHx+dSJ1oBrg6FAxUj40jId++EaRm80MKX5JnlH1sBsyZ5h0bcZKemCg=="],
 
-    "@macalinao/biome-config": ["@macalinao/biome-config@0.1.2", "", {}, "sha512-AvU9H6fcAIhmxRGlSUMBiyrLSA2kkW8mFRvlzchpIAION1dDpVEOBEjXpOBb+HLDRw5SO6qBl+R54RuyBvGVew=="],
+    "@macalinao/biome-config": ["@macalinao/biome-config@0.1.3", "", {}, "sha512-lXY64aa8bFZBtjtg/XmqEOZ2BwoiAO9bRrQdRGiFC7O0+eC+J7UM3fEckmWbYeq4NAPhrgyHvmyyfj7pEDioPw=="],
 
     "@macalinao/clients-quarry": ["@macalinao/clients-quarry@0.4.4", "", { "peerDependencies": { "@solana/kit": "*" } }, "sha512-EJM/CBgf/Hi20ji3EgrX0SeGqPEIuUuGOD2Vy5sO8zSx1KDm/Mgf34jDyKa41P8rkWA1Q/IT9t9enHr8jAjzVQ=="],
 
