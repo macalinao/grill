@@ -127,6 +127,7 @@
         "@macalinao/solana-batch-accounts-loader": "workspace:^",
         "@macalinao/token-utils": "workspace:^",
         "@macalinao/zod-solana": "workspace:^",
+        "@solana-program/address-lookup-table": "^0.7.0",
         "@solana-program/token": "^0.6.0",
       },
       "devDependencies": {
