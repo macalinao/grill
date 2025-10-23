@@ -1,4 +1,4 @@
-import type { Address } from "@solana/kit";
+import type { Address, ReadonlyUint8Array } from "@solana/kit";
 
 export const GRILL_REACT_QUERY_NAMESPACE = "solana" as const;
 
@@ -14,6 +14,15 @@ export type PdaQueryKey<TArgs> = readonly [
   "pda",
   string,
   TArgs | null | undefined,
+];
+export type ProgramAccountsQueryKey = readonly [
+  "solana",
+  "programAccounts",
+  {
+    programAddress: Address;
+    discriminator: ReadonlyUint8Array;
+    decoderName: string;
+  },
 ];
 
 /**
@@ -45,3 +54,25 @@ export const createPdaQueryKey = <TArgs>(
   args: TArgs | null | undefined,
 ): PdaQueryKey<TArgs> =>
   [GRILL_REACT_QUERY_NAMESPACE, "pda", queryKeyPrefix, args] as const;
+
+/**
+ * Create a query key for program accounts queries
+ * @param programAddress - The program address
+ * @param discriminator - The discriminator for filtering
+ * @param decoderName - The name of the decoder
+ * @returns The query key
+ */
+export const createProgramAccountsQueryKey = (
+  programAddress: Address,
+  discriminator: ReadonlyUint8Array,
+  decoderName: string,
+): ProgramAccountsQueryKey =>
+  [
+    GRILL_REACT_QUERY_NAMESPACE,
+    "programAccounts",
+    {
+      programAddress,
+      discriminator,
+      decoderName,
+    },
+  ] as const;

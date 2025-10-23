@@ -2,6 +2,7 @@ export * from "./create-decoded-account-hook.js";
 export * from "./create-decoded-accounts-hook.js";
 export * from "./create-pda-hook.js";
 export * from "./create-pdas-hook.js";
+export * from "./get-program-accounts/index.js";
 export * from "./use-account.js";
 export * from "./use-accounts.js";
 export * from "./use-associated-token-account.js";
