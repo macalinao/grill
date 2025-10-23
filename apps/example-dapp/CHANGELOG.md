@@ -1,5 +1,19 @@
 # example-dapp
 
+## 1.0.1
+
+### Patch Changes
+
+- c9b6849: Update dependencies
+- 3f9e7d9: Remove unnecessary arguments
+- c093c0e: Fix broken token metadata fetching -- allow for empty symbols
+- 8964b7b: Update dependencies
+- Updated dependencies [c9b6849]
+- Updated dependencies [3f9e7d9]
+- Updated dependencies [c093c0e]
+- Updated dependencies [8964b7b]
+  - @macalinao/grill@0.7.2
+
 ## 1.0.0
 
 ### Patch Changes

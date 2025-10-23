@@ -1,5 +1,20 @@
 # @macalinao/quarry
 
+## 0.2.6
+
+### Patch Changes
+
+- c9b6849: Update dependencies
+- 3f9e7d9: Remove unnecessary arguments
+- 8964b7b: Update dependencies
+- Updated dependencies [c9b6849]
+- Updated dependencies [3f9e7d9]
+- Updated dependencies [c093c0e]
+- Updated dependencies [0a8bc95]
+- Updated dependencies [8964b7b]
+  - @macalinao/token-utils@0.1.11
+  - @macalinao/gill-extra@0.2.1
+
 ## 0.2.5
 
 ### Patch Changes
