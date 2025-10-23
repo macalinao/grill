@@ -4,10 +4,7 @@ import {
   getCreateMetadataAccountV3Instruction,
   TOKEN_METADATA_PROGRAM_ADDRESS,
 } from "@macalinao/clients-token-metadata";
-import {
-  getCreateAccountInstruction,
-  SYSTEM_PROGRAM_ADDRESS,
-} from "@solana-program/system";
+import { getCreateAccountInstruction } from "@solana-program/system";
 import {
   getInitializeMint2Instruction,
   getMintSize,
@@ -71,7 +68,6 @@ export const createToken = async ({
       mintAuthority: payer,
       payer,
       updateAuthority: payer,
-      systemProgram: SYSTEM_PROGRAM_ADDRESS,
       createMetadataAccountArgsV3: {
         data: {
           name: metadata.name,
