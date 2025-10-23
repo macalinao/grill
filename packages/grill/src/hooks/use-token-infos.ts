@@ -2,9 +2,9 @@ import type { TokenInfo } from "@macalinao/token-utils";
 import type { Address } from "@solana/kit";
 import { fetchTokenInfo } from "@macalinao/gill-extra";
 import { useQueries } from "@tanstack/react-query";
+import { useMintAccounts } from "../accounts/mint.js";
 import { useGrillContext } from "../contexts/grill-context.js";
 import { createTokenInfoQueryKey } from "../query-keys.js";
-import { useMintAccounts } from "./use-mint-account.js";
 import { useTokenMetadataAccounts } from "./use-token-metadata-account.js";
 
 export interface UseTokenInfosInput {
