@@ -1,5 +1,11 @@
 # @macalinao/token-utils
 
+## 0.1.12
+
+### Patch Changes
+
+- dbe5fa8: use better SOL icon
+
 ## 0.1.11
 
 ### Patch Changes
