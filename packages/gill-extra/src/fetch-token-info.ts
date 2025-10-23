@@ -21,14 +21,14 @@ export async function fetchTokenInfo({
 }: FetchTokenInfoParams): Promise<TokenInfo | null> {
   const uri = metadata?.data.uri;
   const decimals = mint.data.decimals;
-  const onChainName = metadata?.data.name;
-  const onChainSymbol = metadata?.data.symbol;
 
   // Prepare metadata account data
-  let metadataAccountData: { name: string; symbol: string } | null =
-    onChainName && onChainSymbol
-      ? { name: onChainName, symbol: onChainSymbol }
-      : null;
+  let metadataAccountData: { name: string; symbol: string } | null = metadata
+    ? {
+        name: metadata.data.name,
+        symbol: metadata.data.symbol,
+      }
+    : null;
 
   // Prepare metadata URI JSON data
   let metadataUriJson: { image: string } | null = null;

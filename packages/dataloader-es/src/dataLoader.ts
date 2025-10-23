@@ -251,7 +251,7 @@ function resolveCacheHits<K, V>(batch: Batch<K, V>) {
 
 // Private: given the DataLoader's options, produce a valid max batch size.
 function getValidMaxBatchSize<K, V, C>(options?: Options<K, V, C>): number {
-  const shouldBatch = !options || options.batch !== false;
+  const shouldBatch = options?.batch !== false;
   if (!shouldBatch) {
     return 1;
   }
@@ -289,7 +289,7 @@ function getValidCacheKeyFn<K, C>(
 function getValidCacheMap<K, V, C>(
   options?: Options<K, V, C>,
 ): CacheMap<C, Promise<V>> | null {
-  const shouldCache = !options || options.cache !== false;
+  const shouldCache = options?.cache !== false;
   if (!shouldCache) {
     return null;
   }

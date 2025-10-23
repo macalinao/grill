@@ -1,6 +1,6 @@
 {
   "name": "@macalinao/grill",
-  "version": "0.7.0",
+  "version": "0.7.2",
   "description": "Modern Solana development kit for React applications with automatic account batching, caching, and transaction notifications",
   "license": "Apache-2.0",
   "author": "Ian Macalinao <me@ianm.com>",
@@ -47,13 +47,14 @@
   },
   "dependencies": {
     "@gillsdk/react": "catalog:",
-    "@macalinao/clients-token-metadata": "^0.4.2",
+    "@macalinao/clients-token-metadata": "^0.4.4",
     "@macalinao/dataloader-es": "workspace:^",
     "@macalinao/gill-extra": "workspace:^",
     "@macalinao/solana-batch-accounts-loader": "workspace:^",
     "@macalinao/token-utils": "workspace:^",
     "@macalinao/zod-solana": "workspace:^",
-    "@solana-program/token": "^0.6.0"
+    "@solana-program/token": "^0.7.0",
+    "@solana-program/address-lookup-table": "^0.9.0"
   },
   "devDependencies": {
     "@macalinao/eslint-config-react": "catalog:",
@@ -69,7 +70,7 @@
   },
   "peerDependencies": {
     "@solana/kit": "catalog:",
-    "@tanstack/react-query": "^5",
+    "@tanstack/react-query": "^5.90.5",
     "gill": "catalog:",
     "react": "^18.0.0 || ^19.0.0",
     "sonner": "^2"

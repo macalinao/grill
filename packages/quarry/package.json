@@ -1,6 +1,6 @@
 {
   "name": "@macalinao/quarry",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Quarry utility functions for Solana development",
   "license": "Apache-2.0",
   "author": "Ian Macalinao <me@ianm.com>",
@@ -58,10 +58,10 @@
     "test": "bun test || true"
   },
   "dependencies": {
-    "@macalinao/clients-quarry": "^0.4.3",
+    "@macalinao/clients-quarry": "^0.4.4",
     "@macalinao/gill-extra": "workspace:^",
     "@macalinao/token-utils": "workspace:^",
-    "@solana-program/token": "^0.6.0",
+    "@solana-program/token": "^0.7.0",
     "nonempty-array": "^0.1.4"
   },
   "devDependencies": {

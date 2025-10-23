@@ -34,6 +34,8 @@ declare module "@tanstack/react-router" {
 
 import "@solana/wallet-adapter-react-ui/styles.css";
 
+console.log(import.meta.env);
+
 const endpoint =
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   import.meta.env.VITE_SOLANA_RPC_URL || getPublicSolanaRpcUrl("mainnet-beta");

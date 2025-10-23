@@ -1,5 +1,20 @@
 # @macalinao/gill-extra
 
+## 0.2.1
+
+### Patch Changes
+
+- c9b6849: Update dependencies
+- 3f9e7d9: Remove unnecessary arguments
+- c093c0e: Fix broken token metadata fetching -- allow for empty symbols
+- 0a8bc95: re-export some addresses of programs
+- 8964b7b: Update dependencies
+- Updated dependencies [c9b6849]
+- Updated dependencies [3f9e7d9]
+- Updated dependencies [c093c0e]
+- Updated dependencies [8964b7b]
+  - @macalinao/token-utils@0.1.11
+
 ## 0.2.0
 
 ### Minor Changes
