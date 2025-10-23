@@ -1,5 +1,12 @@
 # @macalinao/grill
 
+## 0.7.1
+
+### Patch Changes
+
+- 90affa8: Add ALT fetching hooks
+- f4b610c: Reorganize directory structure of account/pda fetchers
+
 ## 0.7.0
 
 ### Minor Changes

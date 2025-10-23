@@ -3,9 +3,9 @@ import type { Address } from "@solana/kit";
 import type { UseQueryResult } from "@tanstack/react-query";
 import { fetchTokenInfo } from "@macalinao/gill-extra";
 import { useQuery } from "@tanstack/react-query";
+import { useMintAccount } from "../accounts/mint.js";
 import { useGrillContext } from "../contexts/grill-context.js";
 import { createTokenInfoQueryKey } from "../query-keys.js";
-import { useMintAccount } from "./use-mint-account.js";
 import { useTokenMetadataAccount } from "./use-token-metadata-account.js";
 
 export interface UseTokenInfoInput {

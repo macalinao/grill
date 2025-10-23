@@ -1,9 +1,11 @@
 import type { Mint } from "@solana-program/token";
-import type { UseDecodedAccountHook } from "./create-decoded-account-hook.js";
-import type { UseDecodedAccountsHook } from "./create-decoded-accounts-hook.js";
+import type { UseDecodedAccountHook } from "../hooks/create-decoded-account-hook.js";
+import type { UseDecodedAccountsHook } from "../hooks/create-decoded-accounts-hook.js";
+import {
+  createDecodedAccountHook,
+  createDecodedAccountsHook,
+} from "@macalinao/grill";
 import { getMintDecoder } from "@solana-program/token";
-import { createDecodedAccountHook } from "./create-decoded-account-hook.js";
-import { createDecodedAccountsHook } from "./create-decoded-accounts-hook.js";
 
 /**
  * Hook for fetching and decoding a mint account
