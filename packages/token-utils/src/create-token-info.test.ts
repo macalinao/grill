@@ -165,7 +165,7 @@ describe("createTokenInfo", () => {
       expect(result).toEqual({
         mint: address("EmSjmSVNbXGfMqLXnQPJNayVrx8TdPWKQ3rUWqCrcT9t"),
         name: "",
-        symbol: "",
+        symbol: "EMSJ",
         decimals: 3,
       });
     });

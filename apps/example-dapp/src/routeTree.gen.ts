@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from "./routes/__root.tsx"
 import { Route as ExamplesRouteImport } from "./routes/examples.tsx"
 import { Route as IndexRouteImport } from "./routes/index.tsx"
 import { Route as ExamplesIndexRouteImport } from "./routes/examples/index.tsx"
+import { Route as TokenInfoTokenMintRouteImport } from "./routes/token-info.$tokenMint.tsx"
 import { Route as ExamplesWrappedSolRouteImport } from "./routes/examples/wrapped-sol.tsx"
 import { Route as ExamplesTransferSolRouteImport } from "./routes/examples/transfer-sol.tsx"
 import { Route as ExamplesTokensRouteImport } from "./routes/examples/tokens.tsx"
@@ -34,6 +35,11 @@ const ExamplesIndexRoute = ExamplesIndexRouteImport.update({
   id: "/",
   path: "/",
   getParentRoute: () => ExamplesRoute,
+} as any)
+const TokenInfoTokenMintRoute = TokenInfoTokenMintRouteImport.update({
+  id: "/token-info/$tokenMint",
+  path: "/token-info/$tokenMint",
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ExamplesWrappedSolRoute = ExamplesWrappedSolRouteImport.update({
   id: "/wrapped-sol",
@@ -81,6 +87,7 @@ export interface FileRoutesByFullPath {
   "/examples/tokens": typeof ExamplesTokensRoute
   "/examples/transfer-sol": typeof ExamplesTransferSolRoute
   "/examples/wrapped-sol": typeof ExamplesWrappedSolRoute
+  "/token-info/$tokenMint": typeof TokenInfoTokenMintRoute
   "/examples/": typeof ExamplesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -92,6 +99,7 @@ export interface FileRoutesByTo {
   "/examples/tokens": typeof ExamplesTokensRoute
   "/examples/transfer-sol": typeof ExamplesTransferSolRoute
   "/examples/wrapped-sol": typeof ExamplesWrappedSolRoute
+  "/token-info/$tokenMint": typeof TokenInfoTokenMintRoute
   "/examples": typeof ExamplesIndexRoute
 }
 export interface FileRoutesById {
@@ -105,6 +113,7 @@ export interface FileRoutesById {
   "/examples/tokens": typeof ExamplesTokensRoute
   "/examples/transfer-sol": typeof ExamplesTransferSolRoute
   "/examples/wrapped-sol": typeof ExamplesWrappedSolRoute
+  "/token-info/$tokenMint": typeof TokenInfoTokenMintRoute
   "/examples/": typeof ExamplesIndexRoute
 }
 export interface FileRouteTypes {
@@ -119,6 +128,7 @@ export interface FileRouteTypes {
     | "/examples/tokens"
     | "/examples/transfer-sol"
     | "/examples/wrapped-sol"
+    | "/token-info/$tokenMint"
     | "/examples/"
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -130,6 +140,7 @@ export interface FileRouteTypes {
     | "/examples/tokens"
     | "/examples/transfer-sol"
     | "/examples/wrapped-sol"
+    | "/token-info/$tokenMint"
     | "/examples"
   id:
     | "__root__"
@@ -142,12 +153,14 @@ export interface FileRouteTypes {
     | "/examples/tokens"
     | "/examples/transfer-sol"
     | "/examples/wrapped-sol"
+    | "/token-info/$tokenMint"
     | "/examples/"
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ExamplesRoute: typeof ExamplesRouteWithChildren
+  TokenInfoTokenMintRoute: typeof TokenInfoTokenMintRoute
 }
 
 declare module "@tanstack/react-router" {
@@ -172,6 +185,13 @@ declare module "@tanstack/react-router" {
       fullPath: "/examples/"
       preLoaderRoute: typeof ExamplesIndexRouteImport
       parentRoute: typeof ExamplesRoute
+    }
+    "/token-info/$tokenMint": {
+      id: "/token-info/$tokenMint"
+      path: "/token-info/$tokenMint"
+      fullPath: "/token-info/$tokenMint"
+      preLoaderRoute: typeof TokenInfoTokenMintRouteImport
+      parentRoute: typeof rootRouteImport
     }
     "/examples/wrapped-sol": {
       id: "/examples/wrapped-sol"
@@ -254,6 +274,7 @@ const ExamplesRouteWithChildren = ExamplesRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ExamplesRoute: ExamplesRouteWithChildren,
+  TokenInfoTokenMintRoute: TokenInfoTokenMintRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
