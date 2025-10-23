@@ -23,6 +23,15 @@ export interface CreateTokenInfoParams<
   metadataUriJson: { image: string } | null;
 }
 
+const addressToSymbol = (address: Address) => {
+  const symbolChars = address
+    .toUpperCase()
+    .split("")
+    .filter((char) => /[A-Z0-9]/.test(char))
+    .slice(0, 4);
+  return symbolChars.length >= 4 ? symbolChars.join("") : address.slice(0, 4);
+};
+
 /**
  * Create a TokenInfo object from on-chain and off-chain data.
  * If no metadata account is provided, derives name and symbol from the mint address.
@@ -64,7 +73,7 @@ export function createTokenInfo<
     const tokenInfo: TokenInfo<TMint, TDecimals> = {
       mint,
       name: metadataAccount.name,
-      symbol: metadataAccount.symbol,
+      symbol: metadataAccount.symbol || addressToSymbol(mint),
       decimals: mintAccount.decimals,
     };
 
@@ -82,18 +91,7 @@ export function createTokenInfo<
   // Take first 6 characters of the address for the short name
   const shortName = `${addressStr.slice(0, 6)}...`;
 
-  // Take first 4 uppercase characters that are letters or numbers for symbol
-  // If not enough, just use first 4 characters
-  const symbolChars = addressStr
-    .toUpperCase()
-    .split("")
-    .filter((char) => /[A-Z0-9]/.test(char))
-    .slice(0, 4);
-
-  const symbol =
-    symbolChars.length >= 4
-      ? symbolChars.join("")
-      : addressStr.slice(0, 4).toUpperCase();
+  const symbol = addressToSymbol(mint);
 
   return {
     mint,
