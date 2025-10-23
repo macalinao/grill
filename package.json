@@ -48,12 +48,12 @@
     "codegen": "turbo run codegen"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.2.6",
+    "@biomejs/biome": "^2.2.7",
     "@changesets/cli": "^2.29.7",
     "@macalinao/biome-config": "^0.1.2",
-    "eslint": "^9.37.0",
+    "eslint": "^9.38.0",
     "husky": "^9.1.7",
-    "lint-staged": "^16.2.4",
+    "lint-staged": "^16.2.6",
     "prettier": "^3.6.2",
     "turbo": "^2.5.8",
     "typescript": "^5.9.3"
