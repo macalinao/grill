@@ -1,5 +1,14 @@
 # @macalinao/token-utils
 
+## 0.1.11
+
+### Patch Changes
+
+- c9b6849: Update dependencies
+- 3f9e7d9: Remove unnecessary arguments
+- c093c0e: Fix broken token metadata fetching -- allow for empty symbols
+- 8964b7b: Update dependencies
+
 ## 0.1.10
 
 ### Patch Changes
