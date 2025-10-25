@@ -47,11 +47,7 @@ export const usePoolStats = (poolInfo: PoolInfo): PoolStats => {
       annualRewardsRate,
       totalDeposits,
     };
-  }, [
-    quarryAccount?.data,
-    poolInfo.primaryRewards.rewardsToken,
-    poolInfo.stakedToken,
-  ]);
+  }, [quarryAccount, poolInfo]);
 
   return {
     annualRewardsRate: stats.annualRewardsRate,

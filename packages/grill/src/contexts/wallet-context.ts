@@ -12,6 +12,5 @@ export interface WalletContextState {
 /**
  * React context for wallet-related functionality
  */
-export const WalletContext = createContext<WalletContextState | undefined>(
-  undefined,
-);
+export const WalletContext: React.Context<WalletContextState | undefined> =
+  createContext<WalletContextState | undefined>(undefined);

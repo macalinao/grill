@@ -1,3 +1,5 @@
+import type { PdaHook, PdasHook } from "@macalinao/grill";
+import type { AssociatedTokenSeeds } from "@solana-program/token";
 import { createPdaHook, createPdasHook } from "@macalinao/grill";
 import { findAssociatedTokenPda } from "@solana-program/token";
 
@@ -18,10 +20,8 @@ import { findAssociatedTokenPda } from "@solana-program/token";
  * }
  * ```
  */
-export const useAssociatedTokenPda = createPdaHook(
-  findAssociatedTokenPda,
-  "associatedTokenPda",
-);
+export const useAssociatedTokenPda: PdaHook<AssociatedTokenSeeds> =
+  createPdaHook(findAssociatedTokenPda, "associatedTokenPda");
 
 /**
  * Hook to compute multiple Associated Token Account (ATA) addresses for given mints and owners
@@ -41,7 +41,5 @@ export const useAssociatedTokenPda = createPdaHook(
  * });
  * ```
  */
-export const useAssociatedTokenPdas = createPdasHook(
-  findAssociatedTokenPda,
-  "associatedTokenPdas",
-);
+export const useAssociatedTokenPdas: PdasHook<AssociatedTokenSeeds> =
+  createPdasHook(findAssociatedTokenPda, "associatedTokenPdas");

@@ -61,6 +61,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.38.0",
+    "@macalinao/biome-config": "^0.1.4",
     "@macalinao/eslint-config": "catalog:",
     "@macalinao/grill": "workspace:^",
     "@macalinao/tsconfig": "catalog:",
