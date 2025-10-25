@@ -1,7 +1,7 @@
 {
   "root": false,
   "$schema": "https://biomejs.dev/schemas/2.2.7/schema.json",
-  "extends": "//",
+  "extends": ["@macalinao/biome-config/base", "@macalinao/biome-config/react"],
   "linter": {
     "domains": {
       "react": "recommended"
@@ -30,6 +30,16 @@
       },
       "formatter": {
         "enabled": false
+      }
+    },
+    {
+      "includes": ["src/routes/**/*.tsx"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useComponentExportOnlyModules": "off"
+          }
+        }
       }
     }
   ]
