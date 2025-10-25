@@ -30,7 +30,7 @@ const SIDEBAR_WIDTH_MOBILE = "18rem";
 const SIDEBAR_WIDTH_ICON = "3rem";
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
 
-interface SidebarContextProps {
+export interface SidebarContextProps {
   state: "expanded" | "collapsed";
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -40,7 +40,10 @@ interface SidebarContextProps {
   toggleSidebar: () => void;
 }
 
-const SidebarContext = React.createContext<SidebarContextProps | null>(null);
+// eslint-disable-next-line react-refresh/only-export-components
+export const SidebarContext = React.createContext<SidebarContextProps | null>(
+  null,
+);
 
 function useSidebar() {
   const context = React.useContext(SidebarContext);

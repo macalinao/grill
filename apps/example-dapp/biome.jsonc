@@ -1,6 +1,6 @@
 {
   "root": false,
-  "$schema": "https://biomejs.dev/schemas/2.2.7/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.0/schema.json",
   "extends": ["@macalinao/biome-config/base", "@macalinao/biome-config/react"],
   "linter": {
     "domains": {
@@ -34,6 +34,19 @@
     },
     {
       "includes": ["src/routes/**/*.tsx"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useComponentExportOnlyModules": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": [
+        "src/components/ui/sidebar.tsx",
+        "src/components/theme-provider.tsx"
+      ],
       "linter": {
         "rules": {
           "style": {
