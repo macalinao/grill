@@ -1,7 +1,6 @@
 {
-  "extends": "@macalinao/tsconfig/tsconfig.dom.json",
+  "extends": "@macalinao/tsconfig/tsconfig.base.json",
   "compilerOptions": {
-    "types": ["bun"],
-    "isolatedDeclarations": false
+    "types": ["bun"]
   }
 }

@@ -2,6 +2,11 @@ export { addressSchema } from "./address-schema.js";
 export { U8_MAX, U16_MAX, U32_MAX, U64_MAX } from "./constants.js";
 export {
   type TokenMetadata,
+  type TokenMetadataAttribute,
+  type TokenMetadataCollection,
+  type TokenMetadataCreator,
+  type TokenMetadataFile,
+  type TokenMetadataProperties,
   tokenMetadataSchema,
 } from "./token-metadata-schema.js";
 export { u8Schema } from "./u8-schema.js";

@@ -6,7 +6,7 @@ import { U64_MAX } from "./constants.js";
  * Validates that a string represents a valid u64 value (0 to 2^64-1).
  * Returns the value as a string to preserve precision for large numbers.
  */
-export const u64StringSchema = z.string().refine(
+export const u64StringSchema: z.ZodType<string> = z.string().refine(
   (val) => {
     // Check for empty string
     if (val === "") {

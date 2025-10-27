@@ -1,4 +1,10 @@
 import type { Metadata } from "@macalinao/clients-token-metadata";
+import type {
+  PdaHook,
+  PdasHook,
+  UseDecodedAccountHook,
+  UseDecodedAccountsHook,
+} from "@macalinao/grill";
 import type { Address } from "@solana/kit";
 import type { UseAccountResult } from "./use-account.js";
 import type { UseAccountsResult } from "./use-accounts.js";
@@ -12,7 +18,7 @@ import { createDecodedAccountsHook } from "./create-decoded-accounts-hook.js";
 import { createPdaHook } from "./create-pda-hook.js";
 import { createPdasHook } from "./create-pdas-hook.js";
 
-export const useTokenMetadataPda = createPdaHook(
+export const useTokenMetadataPda: PdaHook<{ mint: Address }> = createPdaHook(
   async ({ mint }: { mint: Address }) => {
     const pda = await findMetadataPda({
       programId: TOKEN_METADATA_PROGRAM_ADDRESS,
@@ -23,7 +29,7 @@ export const useTokenMetadataPda = createPdaHook(
   "tokenMetadataPda",
 );
 
-export const useTokenMetadataPdas = createPdasHook(
+export const useTokenMetadataPdas: PdasHook<{ mint: Address }> = createPdasHook(
   async ({ mint }: { mint: Address }) => {
     const pda = await findMetadataPda({
       programId: TOKEN_METADATA_PROGRAM_ADDRESS,
@@ -34,13 +40,11 @@ export const useTokenMetadataPdas = createPdasHook(
   "tokenMetadataPda",
 );
 
-export const useMplTokenMetadataAccount = createDecodedAccountHook(
-  getMetadataDecoder(),
-);
+export const useMplTokenMetadataAccount: UseDecodedAccountHook<Metadata> =
+  createDecodedAccountHook(getMetadataDecoder());
 
-export const useMplTokenMetadataAccounts = createDecodedAccountsHook(
-  getMetadataDecoder(),
-);
+export const useMplTokenMetadataAccounts: UseDecodedAccountsHook<Metadata> =
+  createDecodedAccountsHook(getMetadataDecoder());
 
 export function useTokenMetadataAccount({
   mint,
