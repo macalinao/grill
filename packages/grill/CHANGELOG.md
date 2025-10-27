@@ -1,5 +1,13 @@
 # @macalinao/grill
 
+## 0.7.3
+
+### Patch Changes
+
+- cc2378b: support isolated declarations in zod-solana
+- Updated dependencies [cc2378b]
+  - @macalinao/zod-solana@0.1.10
+
 ## 0.7.2
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @macalinao/zod-solana
 
+## 0.1.10
+
+### Patch Changes
+
+- cc2378b: support isolated declarations in zod-solana
+
 ## 0.1.9
 
 ### Patch Changes
