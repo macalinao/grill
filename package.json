@@ -48,7 +48,7 @@
     "codegen": "turbo run codegen"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.3.1",
+    "@biomejs/biome": "^2.3.2",
     "@changesets/cli": "^2.29.7",
     "@macalinao/biome-config": "^0.1.4",
     "eslint": "^9.38.0",
