@@ -14,6 +14,11 @@ import { createContext, useContext } from "react";
 export interface GrillContextValue {
   /** DataLoader instance for batching and caching Solana account requests */
   accountLoader: DataLoader<Address, EncodedAccount | null>;
+  /**
+   * Refetches the given accounts.
+   * @param addresses
+   * @returns
+   */
   refetchAccounts: (addresses: Address[]) => Promise<void>;
 
   /**
@@ -50,9 +55,7 @@ export const GrillContext: React.Context<GrillContextValue | null> =
 export const useGrillContext = (): GrillContextValue => {
   const context = useContext(GrillContext);
   if (!context) {
-    throw new Error(
-      "useSolanaAccountContext must be used within a SolanaAccountProvider",
-    );
+    throw new Error("useGrillContext must be used within a GrillProvider");
   }
   return context;
 };
