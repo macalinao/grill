@@ -1,5 +1,11 @@
 # @macalinao/grill
 
+## 0.7.4
+
+### Patch Changes
+
+- cd3464c: fix error message for using context in wrong spot
+
 ## 0.7.3
 
 ### Patch Changes
