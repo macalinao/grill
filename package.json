@@ -10,7 +10,7 @@
       "apps/*"
     ],
     "catalog": {
-      "eslint": "^9.38.0",
+      "eslint": "=9.38.0",
       "typescript": "^5.9.3",
       "@macalinao/eslint-config": "^7.0.1",
       "@macalinao/eslint-config-react": "^6.0.2",

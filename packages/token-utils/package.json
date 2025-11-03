@@ -51,7 +51,8 @@
     "@macalinao/tsconfig": "catalog:",
     "@solana/kit": "catalog:",
     "@types/bun": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "eslint": "catalog:"
   },
   "peerDependencies": {
     "@solana/kit": "catalog:"
