@@ -1,4 +1,5 @@
 export { addressSchema } from "./address-schema.js";
+export { bpsSchema } from "./bps-schema.js";
 export { U8_MAX, U16_MAX, U32_MAX, U64_MAX } from "./constants.js";
 export {
   type TokenMetadata,
