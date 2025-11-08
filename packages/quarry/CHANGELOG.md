@@ -1,5 +1,19 @@
 # @macalinao/quarry
 
+## 0.3.0
+
+### Minor Changes
+
+- c3b2bf4: Update to latest Gill/Kit
+
+### Patch Changes
+
+- 7aa4e36: Eslint 9.38 force
+- Updated dependencies [7aa4e36]
+- Updated dependencies [c3b2bf4]
+  - @macalinao/token-utils@0.1.13
+  - @macalinao/gill-extra@0.3.0
+
 ## 0.2.6
 
 ### Patch Changes
