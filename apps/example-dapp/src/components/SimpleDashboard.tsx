@@ -108,7 +108,9 @@ export const SimpleDashboard: React.FC = () => {
                 This example demonstrates how to use the Grill library with:
               </p>
               <ul className="list-disc pl-6 mt-2 space-y-1 text-sm text-muted-foreground">
-                <li>SolanaClientProvider with gill's createSolanaClient</li>
+                <li>
+                  SolanaClientProvider with gill&apos;s createSolanaClient
+                </li>
                 <li>
                   GrillProvider with React Query for reactive account fetching
                 </li>

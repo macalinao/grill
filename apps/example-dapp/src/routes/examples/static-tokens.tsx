@@ -180,7 +180,7 @@ function StaticTokensPage() {
             Static Tokens (Would Load Instantly)
           </h2>
           <p className="text-sm text-muted-foreground mb-4">
-            These tokens would normally be configured in GrillProvider's
+            These tokens would normally be configured in GrillProvider&apos;s
             staticTokenInfo prop. They would load instantly without any chain
             fetching.
           </p>
