@@ -1,5 +1,19 @@
 # @macalinao/gill-extra
 
+## 0.3.0
+
+### Minor Changes
+
+- c3b2bf4: Update to latest Gill/Kit
+
+### Patch Changes
+
+- Updated dependencies [78e5e42]
+- Updated dependencies [7aa4e36]
+- Updated dependencies [c3b2bf4]
+  - @macalinao/zod-solana@0.2.0
+  - @macalinao/token-utils@0.1.13
+
 ## 0.2.1
 
 ### Patch Changes

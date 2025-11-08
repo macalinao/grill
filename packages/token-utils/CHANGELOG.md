@@ -1,5 +1,11 @@
 # @macalinao/token-utils
 
+## 0.1.13
+
+### Patch Changes
+
+- 7aa4e36: Eslint 9.38 force
+
 ## 0.1.12
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # @macalinao/zod-solana
 
+## 0.2.0
+
+### Minor Changes
+
+- c3b2bf4: Update to latest Gill/Kit
+
+### Patch Changes
+
+- 78e5e42: Add BPS schema
+- 7aa4e36: Eslint 9.38 force
+
 ## 0.1.10
 
 ### Patch Changes

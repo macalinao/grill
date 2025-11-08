@@ -1,5 +1,14 @@
 # example-dapp
 
+## 2.0.0
+
+### Patch Changes
+
+- c3b2bf4: Update to latest Gill/Kit
+- Updated dependencies [c3b2bf4]
+  - @macalinao/grill@0.8.0
+  - @macalinao/wallet-adapter-compat@5.0.0
+
 ## 1.0.3
 
 ### Patch Changes
