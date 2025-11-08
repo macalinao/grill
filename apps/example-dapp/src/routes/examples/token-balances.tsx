@@ -123,7 +123,7 @@ function TokenBalances() {
               <ul className="list-disc list-inside mt-1 ml-4">
                 <li>Computing the ATA address for each token</li>
                 <li>Fetching token metadata and decimals</li>
-                <li>Returning zero balance if the ATA doesn't exist</li>
+                <li>Returning zero balance if the ATA doesn&apos;t exist</li>
                 <li>Formatting the balance with proper decimal places</li>
               </ul>
             </p>
