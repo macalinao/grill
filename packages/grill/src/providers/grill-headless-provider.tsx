@@ -27,6 +27,11 @@ export interface GrillHeadlessProviderProps {
    * useTokenInfo will load these instantly without fetching from chain.
    */
   staticTokenInfo?: TokenInfo[];
+  /**
+   * Whether to fetch from the certified token list as a fallback when token metadata is missing.
+   * Defaults to true for backwards compatibility.
+   */
+  fetchFromCertifiedTokenList?: boolean;
 }
 
 /**
@@ -45,6 +50,7 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
   },
   getExplorerLink = defaultGetExplorerLink,
   staticTokenInfo = [],
+  fetchFromCertifiedTokenList = true,
 }) => {
   const { rpc } = useSolanaClient();
   const queryClient = useQueryClient();
@@ -96,6 +102,7 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
         sendTX,
         getExplorerLink,
         staticTokenInfo: staticTokenInfoMap,
+        fetchFromCertifiedTokenList,
       }}
     >
       {children}

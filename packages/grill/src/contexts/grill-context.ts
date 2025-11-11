@@ -36,6 +36,12 @@ export interface GrillContextValue {
    * This overrides whatever is on-chain, and useTokenInfo will load it instantly.
    */
   staticTokenInfo: ReadonlyMap<Address, TokenInfo>;
+
+  /**
+   * Whether to fetch from the certified token list as a fallback.
+   * Defaults to true for backwards compatibility.
+   */
+  fetchFromCertifiedTokenList: boolean;
 }
 
 /**
