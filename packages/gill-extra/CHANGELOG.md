@@ -1,5 +1,11 @@
 # @macalinao/gill-extra
 
+## 0.3.1
+
+### Patch Changes
+
+- 01aff6c: Allow opting out of the certified token list for unknown token metadata
+
 ## 0.3.0
 
 ### Minor Changes
