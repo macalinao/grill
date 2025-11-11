@@ -8,6 +8,11 @@ import { tokenMetadataSchema } from "@macalinao/zod-solana";
 export interface FetchTokenInfoParams {
   mint: AccountInfo<Pick<Mint, "decimals">>;
   metadata: Metadata | null;
+  /**
+   * Whether to fetch from the certified token list as a fallback.
+   * Defaults to true for backwards compatibility.
+   */
+  fetchFromCertifiedTokenList?: boolean;
 }
 
 /**
@@ -18,6 +23,7 @@ export interface FetchTokenInfoParams {
 export async function fetchTokenInfo({
   mint,
   metadata,
+  fetchFromCertifiedTokenList = true,
 }: FetchTokenInfoParams): Promise<TokenInfo | null> {
   const uri = metadata?.data.uri;
   const decimals = mint.data.decimals;
@@ -74,8 +80,8 @@ export async function fetchTokenInfo({
     metadataUriJson,
   });
 
-  // Fallback: Try to fetch from certified token list if no icon URL
-  if (!tokenInfo.iconURL) {
+  // Fallback: Try to fetch from certified token list if no icon URL and enabled
+  if (fetchFromCertifiedTokenList && !tokenInfo.iconURL) {
     const certifiedTokenInfoUrl = `https://raw.githubusercontent.com/CLBExchange/certified-token-list/refs/heads/master/101/${mint.address}.json`;
     try {
       const response = await fetch(certifiedTokenInfoUrl);

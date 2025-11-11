@@ -23,7 +23,7 @@ export interface UseTokenInfoInput {
 export function useTokenInfo({
   mint,
 }: UseTokenInfoInput): UseQueryResult<TokenInfo | null> {
-  const { staticTokenInfo } = useGrillContext();
+  const { staticTokenInfo, fetchFromCertifiedTokenList } = useGrillContext();
   const { data: metadataAccount } = useTokenMetadataAccount({ mint });
   const { data: mintAccount } = useMintAccount({ address: mint });
 
@@ -51,6 +51,7 @@ export function useTokenInfo({
       return fetchTokenInfo({
         mint: mintAccount,
         metadata: metadataAccount?.data ?? null,
+        fetchFromCertifiedTokenList,
       });
     },
     enabled:
