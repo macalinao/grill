@@ -1,5 +1,13 @@
 # @macalinao/grill
 
+## 0.8.1
+
+### Patch Changes
+
+- 01aff6c: Allow opting out of the certified token list for unknown token metadata
+- Updated dependencies [01aff6c]
+  - @macalinao/gill-extra@0.3.1
+
 ## 0.8.0
 
 ### Minor Changes
