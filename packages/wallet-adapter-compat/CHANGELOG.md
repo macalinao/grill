@@ -1,5 +1,11 @@
 # @macalinao/wallet-adapter-compat
 
+## 5.0.1
+
+### Patch Changes
+
+- 44c32ff: Fix wallet adapter compat provider signer useMemo deps
+
 ## 5.0.0
 
 ### Patch Changes
