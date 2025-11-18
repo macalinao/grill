@@ -2,7 +2,7 @@ import { WalletProvider } from "@macalinao/grill";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { install } from "@solana/webcrypto-ed25519-polyfill";
 import { useMemo } from "react";
-import { createWalletTransactionSendingSigner } from "./walletTransactionSendingSigner.js";
+import { createWalletTransactionSendingSigner } from "./wallet-transaction-sending-signer.js";
 
 // Install the polyfill
 install();
@@ -21,21 +21,24 @@ export const WalletAdapterCompatProvider: React.FC<
   WalletAdapterCompatProviderProps
 > = ({ children }) => {
   const { connection } = useConnection();
-  const wallet = useWallet();
+  const { publicKey, sendTransaction, connected } = useWallet();
 
   // Create the signer when wallet is connected
   const signer = useMemo(() => {
-    if (!(wallet.connected && wallet.publicKey && wallet.signTransaction)) {
+    if (!(connected && publicKey)) {
       return null;
     }
 
     try {
-      return createWalletTransactionSendingSigner(wallet, connection);
+      return createWalletTransactionSendingSigner(
+        { publicKey, sendTransaction },
+        connection,
+      );
     } catch (error) {
       console.error("Failed to create transaction sending signer:", error);
       return null;
     }
-  }, [wallet, connection]);
+  }, [connected, publicKey, sendTransaction, connection]);
 
   return <WalletProvider signer={signer}>{children}</WalletProvider>;
 };
