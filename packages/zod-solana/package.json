@@ -44,7 +44,7 @@
   },
   "peerDependencies": {
     "@solana/kit": "*",
-    "zod": ">4.1.13"
+    "zod": ">=3"
   },
   "devDependencies": {
     "@macalinao/eslint-config": "catalog:",
