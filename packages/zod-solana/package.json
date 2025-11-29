@@ -44,7 +44,7 @@
   },
   "peerDependencies": {
     "@solana/kit": "*",
-    "zod": ">=3.0.0 || >=4.0.0"
+    "zod": ">=3"
   },
   "devDependencies": {
     "@macalinao/eslint-config": "catalog:",
@@ -53,7 +53,7 @@
     "@types/bun": "catalog:",
     "eslint": "catalog:",
     "typescript": "catalog:",
-    "zod": "^4.1.12"
+    "zod": "^4.1.13"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}": [

@@ -50,7 +50,7 @@
     "@macalinao/token-utils": "workspace:^",
     "@macalinao/zod-solana": "workspace:^",
     "@solana-program/system": "^0.10.0",
-    "@solana-program/token": "^0.8.0"
+    "@solana-program/token": "^0.9.0"
   },
   "devDependencies": {
     "@macalinao/eslint-config": "catalog:",
