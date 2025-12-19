@@ -91,7 +91,7 @@
       "name": "@macalinao/gill-extra",
       "version": "0.3.1",
       "dependencies": {
-        "@macalinao/clients-token-metadata": "^0.4.5",
+        "@macalinao/clients-token-metadata": "^0.4.6",
         "@macalinao/dataloader-es": "workspace:^",
         "@macalinao/solana-batch-accounts-loader": "workspace:^",
         "@macalinao/token-utils": "workspace:^",
@@ -118,7 +118,7 @@
       "version": "0.8.1",
       "dependencies": {
         "@gillsdk/react": "catalog:",
-        "@macalinao/clients-token-metadata": "^0.4.5",
+        "@macalinao/clients-token-metadata": "^0.4.6",
         "@macalinao/dataloader-es": "workspace:^",
         "@macalinao/gill-extra": "workspace:^",
         "@macalinao/solana-batch-accounts-loader": "workspace:^",
@@ -150,7 +150,7 @@
       "name": "@macalinao/quarry",
       "version": "0.3.0",
       "dependencies": {
-        "@macalinao/clients-quarry": "^0.4.5",
+        "@macalinao/clients-quarry": "^0.4.6",
         "@macalinao/gill-extra": "workspace:^",
         "@macalinao/token-utils": "workspace:^",
         "@solana-program/token": "^0.9.0",
@@ -620,9 +620,9 @@
 
     "@macalinao/biome-config": ["@macalinao/biome-config@0.1.7", "", { "peerDependencies": { "@biomejs/biome": "^2.3.10" } }, "sha512-JijaB/REJr6D3fGV36d1XGsf2WFofgnMS1WbOYcNJCQpic2XmFALV7GNL28z7rDCN3/DeSovPuW/1yImce7kPA=="],
 
-    "@macalinao/clients-quarry": ["@macalinao/clients-quarry@0.4.5", "", { "peerDependencies": { "@solana/kit": "*" } }, "sha512-X4nhFl3RCAKpaqPpqMFwJp7AbNV+WAwNbxF2fxNx6/o9sODX2Fb1/cZHy5+4KOTPGhysbZWYNZjQQzzPN8uyzg=="],
+    "@macalinao/clients-quarry": ["@macalinao/clients-quarry@0.4.6", "", { "peerDependencies": { "@solana/kit": "*" } }, "sha512-SvQZGgLzLdlbtXjyCLM6ewFI06sbFfz+TaRVcXORqtsunbiZrHt0cSHs5LLi5HqOpaRfuEancrLRJCRb+tME/A=="],
 
-    "@macalinao/clients-token-metadata": ["@macalinao/clients-token-metadata@0.4.5", "", { "peerDependencies": { "@solana/kit": "*" } }, "sha512-ymOI7pdCjidmW9xAJHwj6qkH2sXU6uAGgHpgbyAeNnP/Zc1O+sxBf3t0959Gatl994VIf9FqMYB28l+VwrOBdw=="],
+    "@macalinao/clients-token-metadata": ["@macalinao/clients-token-metadata@0.4.6", "", { "peerDependencies": { "@solana/kit": "*" } }, "sha512-FRUYkGAScAj/h/PiD/nEVTgfyCLPxSmvSrTTx+9vINJ8rZbVE9oFigsXomJKfJDGj3CrNu1sCq5Yfxlm85y4Uw=="],
 
     "@macalinao/dataloader-es": ["@macalinao/dataloader-es@workspace:packages/dataloader-es"],
 
