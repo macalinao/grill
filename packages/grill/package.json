@@ -42,7 +42,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo"
+    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo .eslintcache"
   },
   "dependencies": {
     "@gillsdk/react": "catalog:",

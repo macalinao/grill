@@ -44,7 +44,7 @@
     "build:watch:packages": "turbo watch build --filter='./packages/**'",
     "lint": "biome check && turbo run lint",
     "lint:fix": "biome check --write --no-errors-on-unmatched --unsafe && turbo run lint -- --fix",
-    "clean": "turbo run clean",
+    "clean": "turbo run clean && rm -fr node_modules/",
     "test": "CI=true turbo run test",
     "watch": "turbo watch build",
     "changeset": "changeset",

@@ -39,7 +39,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo",
+    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo .eslintcache",
     "lint": "eslint . --cache",
     "test": "bun test src/"
   },
@@ -51,6 +51,7 @@
   "devDependencies": {
     "@macalinao/eslint-config": "catalog:",
     "@macalinao/tsconfig": "catalog:",
+    "@solana/kit": "catalog:",
     "@types/bun": "catalog:",
     "@types/lodash-es": "^4.17.12",
     "eslint": "catalog:",

@@ -53,7 +53,7 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint .",
-    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo",
+    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo .eslintcache",
     "test": "bun test || true"
   },
   "dependencies": {
