@@ -1,5 +1,17 @@
 # @macalinao/gill-extra
 
+## 0.3.2
+
+### Patch Changes
+
+- 74d15f7: Update Coda deps
+- 2f832a8: Update all dependencies
+- Updated dependencies [74d15f7]
+- Updated dependencies [2f832a8]
+  - @macalinao/solana-batch-accounts-loader@0.2.8
+  - @macalinao/token-utils@0.1.14
+  - @macalinao/zod-solana@0.2.1
+
 ## 0.3.1
 
 ### Patch Changes
