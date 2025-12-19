@@ -1,15 +1,18 @@
 import type { DataLoader } from "@macalinao/dataloader-es";
-import type {
-  Address,
-  EncodedAccount,
-  GetMultipleAccountsApi,
-  Rpc,
-} from "@solana/kit";
+import type { Address, EncodedAccount } from "@solana/kit";
 
 export type RawAccount = EncodedAccount;
 
+/**
+ * RPC type that has the getMultipleAccounts method.
+ * This is a permissive type that accepts any Rpc with getMultipleAccounts.
+ */
+export type RpcWithGetMultipleAccounts = Parameters<
+  typeof import("@solana/kit").fetchEncodedAccounts
+>[0];
+
 export interface BatchAccountsLoaderConfig {
-  rpc: Rpc<GetMultipleAccountsApi>;
+  rpc: RpcWithGetMultipleAccounts;
   commitment?: "confirmed" | "finalized";
   maxBatchSize?: number;
   /**
