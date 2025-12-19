@@ -50,8 +50,7 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint .",
-    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo",
-    "typecheck": "tsc --noEmit"
+    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo"
   },
   "dependencies": {
     "@macalinao/quarry": "workspace:^"

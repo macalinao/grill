@@ -60,8 +60,8 @@
     "@macalinao/grill": "workspace:^"
   },
   "devDependencies": {
-    "@macalinao/biome-config": "^0.1.4",
-    "@macalinao/eslint-config-vite": "^2.0.1",
+    "@macalinao/biome-config": "^0.1.7",
+    "@macalinao/eslint-config-vite": "^2.0.2",
     "@macalinao/grill": "workspace:^",
     "@macalinao/tsconfig": "catalog:",
     "@tanstack/react-query-devtools": "^5.91.1",
