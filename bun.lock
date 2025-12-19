@@ -18,7 +18,7 @@
     },
     "apps/example-dapp": {
       "name": "example-dapp",
-      "version": "2.0.0",
+      "version": "2.0.1",
       "dependencies": {
         "@gillsdk/react": "catalog:",
         "@hookform/resolvers": "^5.2.2",
@@ -89,7 +89,7 @@
     },
     "packages/gill-extra": {
       "name": "@macalinao/gill-extra",
-      "version": "0.3.1",
+      "version": "0.3.2",
       "dependencies": {
         "@macalinao/clients-token-metadata": "^0.4.6",
         "@macalinao/dataloader-es": "workspace:^",
@@ -115,7 +115,7 @@
     },
     "packages/grill": {
       "name": "@macalinao/grill",
-      "version": "0.8.1",
+      "version": "0.8.2",
       "dependencies": {
         "@gillsdk/react": "catalog:",
         "@macalinao/clients-token-metadata": "^0.4.6",
@@ -148,7 +148,7 @@
     },
     "packages/quarry": {
       "name": "@macalinao/quarry",
-      "version": "0.3.0",
+      "version": "0.3.1",
       "dependencies": {
         "@macalinao/clients-quarry": "^0.4.6",
         "@macalinao/gill-extra": "workspace:^",
@@ -170,7 +170,7 @@
     },
     "packages/react-quarry": {
       "name": "@macalinao/react-quarry",
-      "version": "3.0.0",
+      "version": "3.0.1",
       "dependencies": {
         "@macalinao/quarry": "workspace:^",
       },
@@ -191,7 +191,7 @@
     },
     "packages/solana-batch-accounts-loader": {
       "name": "@macalinao/solana-batch-accounts-loader",
-      "version": "0.2.7",
+      "version": "0.2.8",
       "dependencies": {
         "@macalinao/dataloader-es": "workspace:^",
         "lodash-es": "^4.17.22",
@@ -212,7 +212,7 @@
     },
     "packages/token-utils": {
       "name": "@macalinao/token-utils",
-      "version": "0.1.13",
+      "version": "0.1.14",
       "dependencies": {
         "dnum": "^2.17.0",
       },
@@ -230,7 +230,7 @@
     },
     "packages/wallet-adapter-compat": {
       "name": "@macalinao/wallet-adapter-compat",
-      "version": "5.0.1",
+      "version": "5.0.2",
       "dependencies": {
         "@solana/webcrypto-ed25519-polyfill": "5.1.0",
         "tslib": "catalog:",
@@ -258,7 +258,7 @@
     },
     "packages/zod-solana": {
       "name": "@macalinao/zod-solana",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "devDependencies": {
         "@macalinao/eslint-config": "catalog:",
         "@macalinao/tsconfig": "catalog:",
