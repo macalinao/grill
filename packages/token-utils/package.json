@@ -44,7 +44,7 @@
     "test": "bun test"
   },
   "dependencies": {
-    "dnum": "^2.15.0"
+    "dnum": "^2.17.0"
   },
   "devDependencies": {
     "@macalinao/eslint-config": "catalog:",
@@ -55,7 +55,7 @@
     "eslint": "catalog:"
   },
   "peerDependencies": {
-    "@solana/kit": "catalog:"
+    "@solana/kit": "catalog:peer"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}": [

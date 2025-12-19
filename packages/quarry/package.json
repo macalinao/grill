@@ -73,7 +73,7 @@
     "eslint": "catalog:"
   },
   "peerDependencies": {
-    "@solana/kit": "catalog:"
+    "@solana/kit": "catalog:peer"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}": [

@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "@macalinao/dataloader-es": "workspace:^",
-    "lodash-es": "^4.17.21",
+    "lodash-es": "^4.17.22",
     "tslib": "catalog:"
   },
   "devDependencies": {
@@ -57,7 +57,7 @@
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "@solana/kit": "catalog:"
+    "@solana/kit": "catalog:peer"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}": [

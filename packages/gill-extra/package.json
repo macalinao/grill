@@ -62,7 +62,7 @@
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "@solana/kit": "catalog:",
+    "@solana/kit": "catalog:peer",
     "gill": "catalog:"
   },
   "lint-staged": {

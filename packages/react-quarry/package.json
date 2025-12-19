@@ -58,8 +58,8 @@
   },
   "peerDependencies": {
     "@macalinao/grill": "workspace:^",
-    "@solana/kit": "catalog:",
-    "react": "^18 || ^19"
+    "@solana/kit": "catalog:peer",
+    "react": "catalog:peer"
   },
   "devDependencies": {
     "@macalinao/eslint-config-react": "catalog:",

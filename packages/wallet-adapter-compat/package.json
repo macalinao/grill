@@ -43,7 +43,7 @@
     "lint": "eslint . --cache"
   },
   "dependencies": {
-    "@solana/webcrypto-ed25519-polyfill": "5.0.0",
+    "@solana/webcrypto-ed25519-polyfill": "5.1.0",
     "tslib": "catalog:"
   },
   "devDependencies": {
@@ -60,11 +60,11 @@
   "peerDependencies": {
     "@macalinao/grill": "workspace:^",
     "@solana/web3.js": "^1.98.4",
-    "@solana/kit": "catalog:",
+    "@solana/kit": "catalog:peer",
     "@solana/wallet-adapter-base": "catalog:",
     "@solana/wallet-adapter-react": "catalog:",
-    "react": "catalog:",
-    "react-dom": "catalog:"
+    "react": "catalog:peer",
+    "react-dom": "catalog:peer"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}": [
