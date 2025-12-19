@@ -42,12 +42,11 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo",
-    "typecheck": "tsc --noEmit"
+    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo .eslintcache"
   },
   "dependencies": {
     "@gillsdk/react": "catalog:",
-    "@macalinao/clients-token-metadata": "^0.4.4",
+    "@macalinao/clients-token-metadata": "^0.4.6",
     "@macalinao/dataloader-es": "workspace:^",
     "@macalinao/gill-extra": "workspace:^",
     "@macalinao/solana-batch-accounts-loader": "workspace:^",
@@ -61,7 +60,6 @@
     "@macalinao/tsconfig": "catalog:",
     "@solana/kit": "catalog:",
     "@tanstack/react-query": "catalog:",
-    "@testing-library/react": "^16.3.0",
     "@types/bun": "catalog:",
     "@types/react": "catalog:",
     "gill": "catalog:",
@@ -69,10 +67,10 @@
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "@solana/kit": "catalog:",
-    "@tanstack/react-query": "^5.90.11",
+    "@solana/kit": "catalog:peer",
+    "@tanstack/react-query": "^5.90.12",
     "gill": "catalog:",
-    "react": "^18.0.0 || ^19.0.0",
+    "react": "catalog:peer",
     "sonner": "^2"
   },
   "lint-staged": {

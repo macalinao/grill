@@ -38,13 +38,12 @@
   },
   "scripts": {
     "build": "tsc",
-    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo",
-    "typecheck": "tsc --noEmit",
+    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo .eslintcache",
     "lint": "eslint . --cache",
     "test": "bun test src/"
   },
   "dependencies": {
-    "@macalinao/clients-token-metadata": "^0.4.4",
+    "@macalinao/clients-token-metadata": "^0.4.6",
     "@macalinao/dataloader-es": "workspace:^",
     "@macalinao/solana-batch-accounts-loader": "workspace:^",
     "@macalinao/token-utils": "workspace:^",
@@ -62,7 +61,7 @@
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "@solana/kit": "catalog:",
+    "@solana/kit": "catalog:peer",
     "gill": "catalog:"
   },
   "lint-staged": {

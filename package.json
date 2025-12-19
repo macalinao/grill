@@ -9,24 +9,32 @@
       "packages/*",
       "apps/*"
     ],
+    "catalogs": {
+      "peer": {
+        "@solana/kit": "*",
+        "react": "^18 || ^19",
+        "react-dom": "^18 || ^19",
+        "zod": "^4"
+      }
+    },
     "catalog": {
-      "eslint": "=9.39.1",
+      "eslint": "=9.39.2",
       "typescript": "^5.9.3",
-      "@macalinao/eslint-config": "^7.0.2",
+      "@macalinao/eslint-config": "^7.0.3",
       "@macalinao/eslint-config-react": "^6.0.3",
       "@macalinao/tsconfig": "^3.2.5",
-      "@solana/kit": "^5.0.0",
+      "@solana/kit": "^5.1.0",
       "tslib": "^2.8.1",
-      "@tanstack/react-query": "^5.90.11",
+      "@tanstack/react-query": "^5.90.12",
       "@solana/wallet-adapter-base": "^0.9.27",
       "@solana/wallet-adapter-react": "^0.15.39",
       "@types/react": "^19.2.7",
       "@types/react-dom": "^19.2.3",
-      "react": "^19.2.0",
-      "react-dom": "^19.2.0",
+      "react": "^19.2.3",
+      "react-dom": "^19.2.3",
       "gill": "^0.14.0",
       "@gillsdk/react": "^0.7.0",
-      "@types/bun": "^1.3.3"
+      "@types/bun": "^1.3.5"
     }
   },
   "scripts": {
@@ -36,7 +44,7 @@
     "build:watch:packages": "turbo watch build --filter='./packages/**'",
     "lint": "biome check && turbo run lint",
     "lint:fix": "biome check --write --no-errors-on-unmatched --unsafe && turbo run lint -- --fix",
-    "clean": "turbo run clean",
+    "clean": "turbo run clean && rm -fr node_modules/",
     "test": "CI=true turbo run test",
     "watch": "turbo watch build",
     "changeset": "changeset",
@@ -48,14 +56,14 @@
     "codegen": "turbo run codegen"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.3.8",
+    "@biomejs/biome": "^2.3.10",
     "@changesets/cli": "^2.29.8",
-    "@macalinao/biome-config": "^0.1.6",
-    "eslint": "^9.39.1",
+    "@macalinao/biome-config": "^0.1.7",
+    "eslint": "^9.39.2",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
-    "prettier": "^3.7.2",
-    "turbo": "^2.6.1",
+    "prettier": "^3.7.4",
+    "turbo": "^2.6.3",
     "typescript": "^5.9.3"
   },
   "packageManager": "bun@1.3.1",

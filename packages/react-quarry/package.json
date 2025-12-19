@@ -50,16 +50,15 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint .",
-    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo",
-    "typecheck": "tsc --noEmit"
+    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo .eslintcache"
   },
   "dependencies": {
     "@macalinao/quarry": "workspace:^"
   },
   "peerDependencies": {
     "@macalinao/grill": "workspace:^",
-    "@solana/kit": "catalog:",
-    "react": "^18 || ^19"
+    "@solana/kit": "catalog:peer",
+    "react": "catalog:peer"
   },
   "devDependencies": {
     "@macalinao/eslint-config-react": "catalog:",

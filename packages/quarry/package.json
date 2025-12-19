@@ -53,12 +53,11 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint .",
-    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo",
-    "typecheck": "tsc --noEmit",
+    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo .eslintcache",
     "test": "bun test || true"
   },
   "dependencies": {
-    "@macalinao/clients-quarry": "^0.4.4",
+    "@macalinao/clients-quarry": "^0.4.6",
     "@macalinao/gill-extra": "workspace:^",
     "@macalinao/token-utils": "workspace:^",
     "@solana-program/token": "^0.9.0",
@@ -73,7 +72,7 @@
     "eslint": "catalog:"
   },
   "peerDependencies": {
-    "@solana/kit": "catalog:"
+    "@solana/kit": "catalog:peer"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}": [
