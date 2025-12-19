@@ -1,5 +1,12 @@
 # @macalinao/zod-solana
 
+## 0.2.1
+
+### Patch Changes
+
+- 74d15f7: Update Coda deps
+- 2f832a8: Update all dependencies
+
 ## 0.2.0
 
 ### Minor Changes

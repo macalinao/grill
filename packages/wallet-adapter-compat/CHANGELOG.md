@@ -1,5 +1,15 @@
 # @macalinao/wallet-adapter-compat
 
+## 5.0.2
+
+### Patch Changes
+
+- 74d15f7: Update Coda deps
+- 2f832a8: Update all dependencies
+- Updated dependencies [74d15f7]
+- Updated dependencies [2f832a8]
+  - @macalinao/grill@0.8.2
+
 ## 5.0.1
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @macalinao/solana-batch-accounts-loader
 
+## 0.2.8
+
+### Patch Changes
+
+- 74d15f7: Update Coda deps
+- 2f832a8: Update all dependencies
+
 ## 0.2.7
 
 ### Patch Changes
