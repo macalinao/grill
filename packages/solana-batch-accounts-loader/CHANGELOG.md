@@ -1,5 +1,13 @@
 # @macalinao/solana-batch-accounts-loader
 
+## 0.2.9
+
+### Patch Changes
+
+- 804b34f: update some dependencies
+- Updated dependencies [804b34f]
+  - @macalinao/dataloader-es@0.2.7
+
 ## 0.2.8
 
 ### Patch Changes

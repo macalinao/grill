@@ -1,5 +1,11 @@
 # @macalinao/dataloader-es
 
+## 0.2.7
+
+### Patch Changes
+
+- 804b34f: update some dependencies
+
 ## 0.2.6
 
 ### Patch Changes

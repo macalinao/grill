@@ -1,6 +1,6 @@
 {
   "name": "@macalinao/solana-batch-accounts-loader",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "Efficient batch account loading for Solana using DataLoader and @solana/kit",
   "type": "module",
   "sideEffects": false,
