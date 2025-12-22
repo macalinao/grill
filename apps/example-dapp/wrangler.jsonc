@@ -1,0 +1,25 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "grill-example-dapp",
+  "compatibility_date": "2025-06-19",
+  "workers_dev": true,
+  "preview_urls": true,
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application"
+  },
+  "routes": [
+    {
+      "pattern": "grill.ianm.com",
+      "zone_name": "ianm.com",
+      "custom_domain": true
+    }
+  ],
+  "build": {
+    "command": "cd ../.. && bun run build --filter=example-dapp"
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  }
+}
