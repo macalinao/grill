@@ -28,6 +28,7 @@
   "dependencies": {
     "@gillsdk/react": "catalog:",
     "@hookform/resolvers": "^5.2.2",
+    "@macalinao/clients-meteora-damm-v2": "^0.1.1",
     "@macalinao/wallet-adapter-compat": "workspace:^",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-navigation-menu": "^1.2.14",

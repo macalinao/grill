@@ -22,6 +22,7 @@
       "dependencies": {
         "@gillsdk/react": "catalog:",
         "@hookform/resolvers": "^5.2.2",
+        "@macalinao/clients-meteora-damm-v2": "^0.1.1",
         "@macalinao/wallet-adapter-compat": "workspace:^",
         "@radix-ui/react-dialog": "^1.1.15",
         "@radix-ui/react-navigation-menu": "^1.2.14",
@@ -620,6 +621,8 @@
     "@lit/reactive-element": ["@lit/reactive-element@2.1.1", "", { "dependencies": { "@lit-labs/ssr-dom-shim": "^1.4.0" } }, "sha512-N+dm5PAYdQ8e6UlywyyrgI2t++wFGXfHx+dSJ1oBrg6FAxUj40jId++EaRm80MKX5JnlH1sBsyZ5h0bcZKemCg=="],
 
     "@macalinao/biome-config": ["@macalinao/biome-config@0.1.7", "", { "peerDependencies": { "@biomejs/biome": "^2.3.10" } }, "sha512-JijaB/REJr6D3fGV36d1XGsf2WFofgnMS1WbOYcNJCQpic2XmFALV7GNL28z7rDCN3/DeSovPuW/1yImce7kPA=="],
+
+    "@macalinao/clients-meteora-damm-v2": ["@macalinao/clients-meteora-damm-v2@0.1.1", "", { "peerDependencies": { "@solana/kit": "*" } }, "sha512-gXUJCUkwfFEYxYDM7reYpHEcYxmhdtFkOVNRyeUR87/b9CNs55Hq9GyeiSlFOuVaYP4pWetUu87MObnYCIV/dg=="],
 
     "@macalinao/clients-quarry": ["@macalinao/clients-quarry@0.4.6", "", { "peerDependencies": { "@solana/kit": "*" } }, "sha512-SvQZGgLzLdlbtXjyCLM6ewFI06sbFfz+TaRVcXORqtsunbiZrHt0cSHs5LLi5HqOpaRfuEancrLRJCRb+tME/A=="],
 
