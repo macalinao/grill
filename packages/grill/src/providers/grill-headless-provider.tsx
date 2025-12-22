@@ -1,4 +1,7 @@
-import type { GetExplorerLinkFunction } from "@macalinao/gill-extra";
+import type {
+  GetExplorerLinkFunction,
+  SolanaCluster,
+} from "@macalinao/gill-extra";
 import type { TokenInfo } from "@macalinao/token-utils";
 import type { Address } from "gill";
 import type { FC, ReactNode } from "react";
@@ -33,6 +36,17 @@ export interface GrillHeadlessProviderProps {
    * Defaults to true for backwards compatibility.
    */
   fetchFromCertifiedTokenList?: boolean;
+  /**
+   * The RPC URL used for creating transaction inspector URLs in error logs.
+   * This is needed to generate correct inspector URLs for custom RPC endpoints.
+   * If using localhost, this should be "http://localhost:8899" (or your local RPC port).
+   */
+  rpcUrl?: string;
+  /**
+   * The Solana cluster for explorer links. Defaults to "mainnet-beta".
+   * Use "localnet" when developing locally.
+   */
+  cluster?: SolanaCluster;
 }
 
 /**
@@ -59,6 +73,8 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
   getExplorerLink = defaultGetExplorerLink,
   staticTokenInfo = [],
   fetchFromCertifiedTokenList = true,
+  rpcUrl,
+  cluster = "mainnet-beta",
 }) => {
   const { rpc } = useSolanaClient();
   const queryClient = useQueryClient();
@@ -93,8 +109,18 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
         refetchAccounts,
         onTransactionStatusEvent,
         getExplorerLink,
+        rpcUrl,
+        cluster,
       }),
-    [signer, rpc, refetchAccounts, onTransactionStatusEvent, getExplorerLink],
+    [
+      signer,
+      rpc,
+      refetchAccounts,
+      onTransactionStatusEvent,
+      getExplorerLink,
+      rpcUrl,
+      cluster,
+    ],
   );
 
   const staticTokenInfoMap = useMemo(

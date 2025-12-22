@@ -2,6 +2,7 @@ import type {
   GetExplorerLinkFunction,
   SendTXFunction,
   SendTXOptions,
+  SolanaCluster,
 } from "@macalinao/gill-extra";
 import type {
   Address,
@@ -14,6 +15,7 @@ import type { SolanaClient } from "gill";
 import type { TransactionStatusEvent } from "../../types.js";
 import {
   getSignatureFromBytes,
+  logTransactionSimulation,
   parseTransactionError,
   pollConfirmTransaction,
 } from "@macalinao/gill-extra";
@@ -30,6 +32,16 @@ export interface CreateSendTXParams {
   refetchAccounts: (addresses: Address[]) => Promise<void>;
   onTransactionStatusEvent: (event: TransactionStatusEvent) => void;
   getExplorerLink: GetExplorerLinkFunction;
+  /**
+   * The RPC URL used for creating transaction inspector URLs.
+   * This is needed to generate correct inspector URLs for custom RPC endpoints.
+   */
+  rpcUrl?: string;
+  /**
+   * The Solana cluster for explorer links.
+   * Defaults to "mainnet-beta".
+   */
+  cluster?: SolanaCluster;
 }
 
 /**
@@ -42,6 +54,8 @@ export const createSendTX = ({
   refetchAccounts,
   onTransactionStatusEvent,
   getExplorerLink,
+  rpcUrl,
+  cluster = "mainnet-beta",
 }: CreateSendTXParams): SendTXFunction => {
   const simulateTransaction = simulateTransactionFactory({ rpc });
   return async (
@@ -93,13 +107,24 @@ export const createSendTX = ({
         finalTransactionMessage,
       );
       if (simulationResult.value.err) {
+        // Log detailed debugging information to the console
+        logTransactionSimulation({
+          title: name,
+          simulationResult: simulationResult.value,
+          transactionMessage: finalTransactionMessage,
+          cluster,
+          rpcUrl,
+        });
+
+        const logs = simulationResult.value.logs ?? [];
+        const errorMessage = parseTransactionError(
+          simulationResult.value.err,
+          logs,
+        );
         onTransactionStatusEvent({
           ...baseEvent,
           type: "error-simulation-failed",
-          errorMessage: parseTransactionError(
-            simulationResult.value.err,
-            simulationResult.value.logs,
-          ),
+          errorMessage,
         });
         throw getSolanaErrorFromTransactionError(simulationResult.value.err);
       }
