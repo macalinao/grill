@@ -39,6 +39,22 @@ export function encodeCompiledTransactionMessageToBase64(
   return getBase64Decoder().decode(encodedMessageBytes);
 }
 
+export type SolanaCluster = "mainnet-beta" | "testnet" | "devnet" | "localnet";
+
+export interface TransactionInspectorUrlOptions {
+  /**
+   * The Solana cluster (defaults to "mainnet-beta").
+   * Use "localnet" for local development with a custom RPC URL.
+   */
+  cluster?: SolanaCluster;
+  /**
+   * Custom RPC URL for the transaction inspector.
+   * Required when cluster is "localnet" or when using a custom RPC endpoint.
+   * This will be URL-encoded and passed as the customUrl parameter.
+   */
+  customUrl?: string;
+}
+
 /**
  * Creates a Solana Explorer transaction inspector URL from a transaction message.
  * This allows previewing and simulating transactions before sending them.
@@ -49,11 +65,41 @@ export function encodeCompiledTransactionMessageToBase64(
  */
 export function createTransactionInspectorUrl(
   transactionMessage: BaseTransactionMessage & TransactionMessageWithFeePayer,
-  cluster: "mainnet-beta" | "testnet" | "devnet" = "mainnet-beta",
+  cluster: SolanaCluster = "mainnet-beta",
 ): string {
+  return createTransactionInspectorUrlWithOptions(transactionMessage, {
+    cluster,
+  });
+}
+
+/**
+ * Creates a Solana Explorer transaction inspector URL from a transaction message
+ * with support for custom RPC URLs.
+ *
+ * @param transactionMessage - The compilable transaction message to create an inspector URL for
+ * @param options - Options including cluster and optional custom RPC URL
+ * @returns The Solana Explorer transaction inspector URL
+ */
+export function createTransactionInspectorUrlWithOptions(
+  transactionMessage: BaseTransactionMessage & TransactionMessageWithFeePayer,
+  options: TransactionInspectorUrlOptions = {},
+): string {
+  const { cluster = "mainnet-beta", customUrl } = options;
   const encodedMessage = encodeTransactionMessageToBase64(transactionMessage);
-  const clusterParam = cluster === "mainnet-beta" ? "" : `&cluster=${cluster}`;
-  return `https://explorer.solana.com/tx/inspector?message=${encodeURIComponent(
-    encodedMessage,
-  )}${clusterParam}`;
+
+  const params = new URLSearchParams();
+  params.set("message", encodedMessage);
+
+  // Handle cluster and customUrl
+  if (customUrl) {
+    params.set("cluster", "custom");
+    params.set("customUrl", customUrl);
+  } else if (cluster === "localnet") {
+    params.set("cluster", "custom");
+    params.set("customUrl", "http://localhost:8899");
+  } else if (cluster !== "mainnet-beta") {
+    params.set("cluster", cluster);
+  }
+
+  return `https://explorer.solana.com/tx/inspector?${params.toString()}`;
 }
