@@ -18,6 +18,7 @@ import { Route as ExamplesTransferSolRouteImport } from "./routes/examples/trans
 import { Route as ExamplesTokensRouteImport } from "./routes/examples/tokens.tsx"
 import { Route as ExamplesTokenBalancesRouteImport } from "./routes/examples/token-balances.tsx"
 import { Route as ExamplesStaticTokensRouteImport } from "./routes/examples/static-tokens.tsx"
+import { Route as ExamplesPoolSubscriptionRouteImport } from "./routes/examples/pool-subscription.tsx"
 import { Route as ExamplesDashboardRouteImport } from "./routes/examples/dashboard.tsx"
 import { Route as ExamplesBatchAccountsRouteImport } from "./routes/examples/batch-accounts.tsx"
 
@@ -66,6 +67,12 @@ const ExamplesStaticTokensRoute = ExamplesStaticTokensRouteImport.update({
   path: "/static-tokens",
   getParentRoute: () => ExamplesRoute,
 } as any)
+const ExamplesPoolSubscriptionRoute =
+  ExamplesPoolSubscriptionRouteImport.update({
+    id: "/pool-subscription",
+    path: "/pool-subscription",
+    getParentRoute: () => ExamplesRoute,
+  } as any)
 const ExamplesDashboardRoute = ExamplesDashboardRouteImport.update({
   id: "/dashboard",
   path: "/dashboard",
@@ -82,6 +89,7 @@ export interface FileRoutesByFullPath {
   "/examples": typeof ExamplesRouteWithChildren
   "/examples/batch-accounts": typeof ExamplesBatchAccountsRoute
   "/examples/dashboard": typeof ExamplesDashboardRoute
+  "/examples/pool-subscription": typeof ExamplesPoolSubscriptionRoute
   "/examples/static-tokens": typeof ExamplesStaticTokensRoute
   "/examples/token-balances": typeof ExamplesTokenBalancesRoute
   "/examples/tokens": typeof ExamplesTokensRoute
@@ -94,6 +102,7 @@ export interface FileRoutesByTo {
   "/": typeof IndexRoute
   "/examples/batch-accounts": typeof ExamplesBatchAccountsRoute
   "/examples/dashboard": typeof ExamplesDashboardRoute
+  "/examples/pool-subscription": typeof ExamplesPoolSubscriptionRoute
   "/examples/static-tokens": typeof ExamplesStaticTokensRoute
   "/examples/token-balances": typeof ExamplesTokenBalancesRoute
   "/examples/tokens": typeof ExamplesTokensRoute
@@ -108,6 +117,7 @@ export interface FileRoutesById {
   "/examples": typeof ExamplesRouteWithChildren
   "/examples/batch-accounts": typeof ExamplesBatchAccountsRoute
   "/examples/dashboard": typeof ExamplesDashboardRoute
+  "/examples/pool-subscription": typeof ExamplesPoolSubscriptionRoute
   "/examples/static-tokens": typeof ExamplesStaticTokensRoute
   "/examples/token-balances": typeof ExamplesTokenBalancesRoute
   "/examples/tokens": typeof ExamplesTokensRoute
@@ -123,6 +133,7 @@ export interface FileRouteTypes {
     | "/examples"
     | "/examples/batch-accounts"
     | "/examples/dashboard"
+    | "/examples/pool-subscription"
     | "/examples/static-tokens"
     | "/examples/token-balances"
     | "/examples/tokens"
@@ -135,6 +146,7 @@ export interface FileRouteTypes {
     | "/"
     | "/examples/batch-accounts"
     | "/examples/dashboard"
+    | "/examples/pool-subscription"
     | "/examples/static-tokens"
     | "/examples/token-balances"
     | "/examples/tokens"
@@ -148,6 +160,7 @@ export interface FileRouteTypes {
     | "/examples"
     | "/examples/batch-accounts"
     | "/examples/dashboard"
+    | "/examples/pool-subscription"
     | "/examples/static-tokens"
     | "/examples/token-balances"
     | "/examples/tokens"
@@ -228,6 +241,13 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof ExamplesStaticTokensRouteImport
       parentRoute: typeof ExamplesRoute
     }
+    "/examples/pool-subscription": {
+      id: "/examples/pool-subscription"
+      path: "/pool-subscription"
+      fullPath: "/examples/pool-subscription"
+      preLoaderRoute: typeof ExamplesPoolSubscriptionRouteImport
+      parentRoute: typeof ExamplesRoute
+    }
     "/examples/dashboard": {
       id: "/examples/dashboard"
       path: "/dashboard"
@@ -248,6 +268,7 @@ declare module "@tanstack/react-router" {
 interface ExamplesRouteChildren {
   ExamplesBatchAccountsRoute: typeof ExamplesBatchAccountsRoute
   ExamplesDashboardRoute: typeof ExamplesDashboardRoute
+  ExamplesPoolSubscriptionRoute: typeof ExamplesPoolSubscriptionRoute
   ExamplesStaticTokensRoute: typeof ExamplesStaticTokensRoute
   ExamplesTokenBalancesRoute: typeof ExamplesTokenBalancesRoute
   ExamplesTokensRoute: typeof ExamplesTokensRoute
@@ -259,6 +280,7 @@ interface ExamplesRouteChildren {
 const ExamplesRouteChildren: ExamplesRouteChildren = {
   ExamplesBatchAccountsRoute: ExamplesBatchAccountsRoute,
   ExamplesDashboardRoute: ExamplesDashboardRoute,
+  ExamplesPoolSubscriptionRoute: ExamplesPoolSubscriptionRoute,
   ExamplesStaticTokensRoute: ExamplesStaticTokensRoute,
   ExamplesTokenBalancesRoute: ExamplesTokenBalancesRoute,
   ExamplesTokensRoute: ExamplesTokensRoute,

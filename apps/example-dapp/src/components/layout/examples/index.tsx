@@ -1,6 +1,7 @@
 import type * as React from "react";
 import { Link, Outlet, useLocation } from "@tanstack/react-router";
 import {
+  Activity,
   ArrowRight,
   Coins,
   Database,
@@ -64,6 +65,11 @@ const exampleNavItems: ExampleNavItem[] = [
     title: "Batch Accounts",
     href: "/examples/batch-accounts",
     icon: Zap,
+  },
+  {
+    title: "Pool Subscription",
+    href: "/examples/pool-subscription",
+    icon: Activity,
   },
 ];
 

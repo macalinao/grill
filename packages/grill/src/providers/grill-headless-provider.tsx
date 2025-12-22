@@ -12,6 +12,7 @@ import { GrillContext } from "../contexts/grill-context.js";
 import { useKitWallet } from "../hooks/use-kit-wallet.js";
 import { createSendTX } from "../utils/internal/create-send-tx.js";
 import { refetchAccounts as doRefetchAccounts } from "../utils/refetch-accounts.js";
+import { SubscriptionProvider } from "./subscription-provider.js";
 
 export interface GrillHeadlessProviderProps {
   children: ReactNode;
@@ -40,6 +41,13 @@ export interface GrillHeadlessProviderProps {
  * This provider integrates with @gillsdk/react's useSolanaClient hook to access the RPC client.
  *
  * For UI integration with toast notifications, use GrillProvider instead.
+ *
+ * @example
+ * ```tsx
+ * <GrillHeadlessProvider>
+ *   <App />
+ * </GrillHeadlessProvider>
+ * ```
  */
 export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
   children,
@@ -95,17 +103,19 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
   );
 
   return (
-    <GrillContext.Provider
-      value={{
-        accountLoader,
-        refetchAccounts,
-        sendTX,
-        getExplorerLink,
-        staticTokenInfo: staticTokenInfoMap,
-        fetchFromCertifiedTokenList,
-      }}
-    >
-      {children}
-    </GrillContext.Provider>
+    <SubscriptionProvider>
+      <GrillContext.Provider
+        value={{
+          accountLoader,
+          refetchAccounts,
+          sendTX,
+          getExplorerLink,
+          staticTokenInfo: staticTokenInfoMap,
+          fetchFromCertifiedTokenList,
+        }}
+      >
+        {children}
+      </GrillContext.Provider>
+    </SubscriptionProvider>
   );
 };
