@@ -1,5 +1,15 @@
 # @macalinao/quarry
 
+## 0.3.2
+
+### Patch Changes
+
+- 804b34f: update some dependencies
+- Updated dependencies [804b34f]
+- Updated dependencies [86e4165]
+  - @macalinao/token-utils@0.1.15
+  - @macalinao/gill-extra@0.4.0
+
 ## 0.3.1
 
 ### Patch Changes

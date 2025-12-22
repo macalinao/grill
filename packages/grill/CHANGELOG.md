@@ -1,5 +1,55 @@
 # @macalinao/grill
 
+## 0.9.0
+
+### Minor Changes
+
+- 550b61b: Add WebSocket subscription support for real-time account updates
+
+  This release adds a subscription system that allows React components to receive real-time account updates via WebSocket connections. Key features:
+  - **`subscribeToUpdates` option**: Pass `{ subscribeToUpdates: true }` to `useAccount` or hooks created with `createDecodedAccountHook` to enable real-time updates
+  - **Reference-counted subscriptions**: Multiple components subscribing to the same account share a single WebSocket connection
+  - **Automatic cache updates**: When an account changes on-chain, the React Query cache is automatically updated
+  - **Automatic cleanup**: Subscriptions are cleaned up when all subscribers unmount
+
+  Example usage:
+
+  ```tsx
+  // Subscribe to real-time updates for an account
+  const { account } = useAccount({
+    address: myAddress,
+    decoder: myDecoder,
+    subscribeToUpdates: true,
+  });
+
+  // Or with a typed account hook
+  const useMyAccount = createDecodedAccountHook(myDecoder);
+  const { account } = useMyAccount({
+    address: myAddress,
+    subscribeToUpdates: true,
+  });
+  ```
+
+  The `SubscriptionProvider` is now automatically included in `GrillHeadlessProvider` and `GrillProvider`, so no additional setup is required.
+
+- 86e4165: Add transaction simulation logging with Solana Explorer inspector URLs
+  - Added `logTransactionSimulation` function to log detailed debugging info when simulations fail
+  - Automatically generates Solana Explorer inspector URLs with proper support for localhost/custom RPC endpoints
+  - Added `createTransactionInspectorUrlWithOptions` for creating inspector URLs with custom RPC URL support
+  - GrillProvider now accepts `rpcUrl` and `cluster` props for proper inspector URL generation
+  - Console output includes color-coded logs, inspector URL, and copy-paste debugging block
+
+### Patch Changes
+
+- 804b34f: update some dependencies
+- Updated dependencies [804b34f]
+- Updated dependencies [86e4165]
+  - @macalinao/solana-batch-accounts-loader@0.2.9
+  - @macalinao/dataloader-es@0.2.7
+  - @macalinao/token-utils@0.1.15
+  - @macalinao/gill-extra@0.4.0
+  - @macalinao/zod-solana@0.2.2
+
 ## 0.8.2
 
 ### Patch Changes

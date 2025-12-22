@@ -1,5 +1,11 @@
 # @macalinao/token-utils
 
+## 0.1.15
+
+### Patch Changes
+
+- 804b34f: update some dependencies
+
 ## 0.1.14
 
 ### Patch Changes

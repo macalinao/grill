@@ -1,5 +1,25 @@
 # @macalinao/gill-extra
 
+## 0.4.0
+
+### Minor Changes
+
+- 86e4165: Add transaction simulation logging with Solana Explorer inspector URLs
+  - Added `logTransactionSimulation` function to log detailed debugging info when simulations fail
+  - Automatically generates Solana Explorer inspector URLs with proper support for localhost/custom RPC endpoints
+  - Added `createTransactionInspectorUrlWithOptions` for creating inspector URLs with custom RPC URL support
+  - GrillProvider now accepts `rpcUrl` and `cluster` props for proper inspector URL generation
+  - Console output includes color-coded logs, inspector URL, and copy-paste debugging block
+
+### Patch Changes
+
+- 804b34f: update some dependencies
+- Updated dependencies [804b34f]
+  - @macalinao/solana-batch-accounts-loader@0.2.9
+  - @macalinao/dataloader-es@0.2.7
+  - @macalinao/token-utils@0.1.15
+  - @macalinao/zod-solana@0.2.2
+
 ## 0.3.2
 
 ### Patch Changes
