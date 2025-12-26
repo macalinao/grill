@@ -3,6 +3,7 @@ import type * as React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   addressSchema,
+  createLamports,
   formatTokenAmount,
   NATIVE_SOL,
   parseTokenAmount,
@@ -91,10 +92,8 @@ const TransferSolPage: React.FC = () => {
     if (!userAccount) {
       return "0";
     }
-    const tokenAmount = {
-      token: NATIVE_SOL,
-      amount: [userAccount.lamports, NATIVE_SOL.decimals] as const,
-    };
+    // Use createLamports to create a TokenAmount from the account's lamports
+    const tokenAmount = createLamports(userAccount.lamports);
     return formatTokenAmount(tokenAmount, { symbol: true });
   }, [userAccount]);
 
@@ -163,12 +162,23 @@ const TransferSolPage: React.FC = () => {
     <div className="container mx-auto p-4">
       <Card className="max-w-2xl mx-auto">
         <CardHeader>
-          <CardTitle>Transfer SOL</CardTitle>
-          <CardDescription>
-            Send native SOL to another Solana address. Form validation is
-            handled by Zod schema with @macalinao/zod-solana for address
-            validation.
-          </CardDescription>
+          <div className="flex items-center gap-3">
+            {NATIVE_SOL.iconURL && (
+              <img
+                src={NATIVE_SOL.iconURL}
+                alt={NATIVE_SOL.symbol}
+                className="w-10 h-10 rounded-full"
+              />
+            )}
+            <div>
+              <CardTitle>Transfer SOL</CardTitle>
+              <CardDescription>
+                Send native SOL to another Solana address. Form validation is
+                handled by Zod schema with @macalinao/zod-solana for address
+                validation.
+              </CardDescription>
+            </div>
+          </div>
         </CardHeader>
         <CardContent>
           <form
