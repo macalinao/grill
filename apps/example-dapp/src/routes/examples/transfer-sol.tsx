@@ -3,6 +3,7 @@ import type * as React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   addressSchema,
+  createLamports,
   formatTokenAmount,
   NATIVE_SOL,
   parseTokenAmount,
@@ -91,10 +92,8 @@ const TransferSolPage: React.FC = () => {
     if (!userAccount) {
       return "0";
     }
-    const tokenAmount = {
-      token: NATIVE_SOL,
-      amount: [userAccount.lamports, NATIVE_SOL.decimals] as const,
-    };
+    // Use createLamports to create a TokenAmount from the account's lamports
+    const tokenAmount = createLamports(userAccount.lamports);
     return formatTokenAmount(tokenAmount, { symbol: true });
   }, [userAccount]);
 
