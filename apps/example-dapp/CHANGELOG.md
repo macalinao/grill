@@ -1,5 +1,11 @@
 # example-dapp
 
+## 3.0.1
+
+### Patch Changes
+
+- 9fccefb: createLamports helper
+
 ## 3.0.0
 
 ### Patch Changes
