@@ -1,7 +1,7 @@
 {
   "name": "example-dapp",
   "private": true,
-  "version": "3.0.0",
+  "version": "3.0.1",
   "type": "module",
   "description": "Example Solana dApp demonstrating Grill features",
   "author": "Ian Macalinao <me@ianm.com>",
