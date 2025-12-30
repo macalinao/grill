@@ -1,5 +1,6 @@
 import type {
   GetExplorerLinkFunction,
+  GetSimulationUserErrorMessageFunction,
   SendTXFunction,
   SendTXOptions,
   SolanaCluster,
@@ -14,9 +15,9 @@ import type {
 import type { SolanaClient } from "gill";
 import type { TransactionStatusEvent } from "../../types.js";
 import {
+  getDefaultSimulationUserErrorMessage,
   getSignatureFromBytes,
   logTransactionSimulation,
-  parseTransactionError,
   pollConfirmTransaction,
 } from "@macalinao/gill-extra";
 import {
@@ -42,6 +43,11 @@ export interface CreateSendTXParams {
    * Defaults to "mainnet-beta".
    */
   cluster?: SolanaCluster;
+  /**
+   * Function to get a user-friendly error message from a simulation result.
+   * Defaults to getDefaultSimulationUserErrorMessage.
+   */
+  getSimulationUserErrorMessage?: GetSimulationUserErrorMessageFunction;
 }
 
 /**
@@ -56,6 +62,7 @@ export const createSendTX = ({
   getExplorerLink,
   rpcUrl,
   cluster = "mainnet-beta",
+  getSimulationUserErrorMessage = getDefaultSimulationUserErrorMessage,
 }: CreateSendTXParams): SendTXFunction => {
   const simulateTransaction = simulateTransactionFactory({ rpc });
   return async (
@@ -116,10 +123,8 @@ export const createSendTX = ({
           rpcUrl,
         });
 
-        const logs = simulationResult.value.logs ?? [];
-        const errorMessage = parseTransactionError(
-          simulationResult.value.err,
-          logs,
+        const errorMessage = getSimulationUserErrorMessage(
+          simulationResult.value,
         );
         onTransactionStatusEvent({
           ...baseEvent,

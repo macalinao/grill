@@ -1,6 +1,7 @@
 import type { TokenAmount, TokenInfo } from "./types.js";
 import { address } from "@solana/kit";
 import { createTokenAmount } from "./create-token-amount.js";
+import { parseTokenAmount } from "./parse-token-amount.js";
 
 /**
  * SVG icon for native SOL
@@ -76,4 +77,22 @@ export function createLamports(
   lamports: bigint,
 ): TokenAmount<"11111111111111111111111111111111", 9> {
   return createTokenAmount(NATIVE_SOL, lamports);
+}
+
+/**
+ * Parse a human-readable SOL amount string into a TokenAmount.
+ *
+ * @param amountHuman - The amount as a string (e.g. "1.5", "100", "0.000001") or number
+ * @returns A TokenAmount for native SOL
+ *
+ * @example
+ * ```ts
+ * const amount = parseSolAmount("1.5"); // 1.5 SOL
+ * const lamports = amount.amount[0]; // 1500000000n
+ * ```
+ */
+export function parseSolAmount(
+  amountHuman: string | number,
+): TokenAmount<"11111111111111111111111111111111", 9> {
+  return parseTokenAmount(NATIVE_SOL, amountHuman);
 }

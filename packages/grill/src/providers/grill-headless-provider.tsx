@@ -1,5 +1,6 @@
 import type {
   GetExplorerLinkFunction,
+  GetSimulationUserErrorMessageFunction,
   SolanaCluster,
 } from "@macalinao/gill-extra";
 import type { TokenInfo } from "@macalinao/token-utils";
@@ -47,6 +48,11 @@ export interface GrillHeadlessProviderProps {
    * Use "localnet" when developing locally.
    */
   cluster?: SolanaCluster;
+  /**
+   * Function to get a user-friendly error message from a simulation result.
+   * Defaults to getDefaultSimulationUserErrorMessage from @macalinao/gill-extra.
+   */
+  getSimulationUserErrorMessage?: GetSimulationUserErrorMessageFunction;
 }
 
 /**
@@ -75,6 +81,7 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
   fetchFromCertifiedTokenList = true,
   rpcUrl,
   cluster = "mainnet-beta",
+  getSimulationUserErrorMessage,
 }) => {
   const { rpc } = useSolanaClient();
   const queryClient = useQueryClient();
@@ -111,6 +118,7 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
         getExplorerLink,
         rpcUrl,
         cluster,
+        getSimulationUserErrorMessage,
       }),
     [
       signer,
@@ -120,6 +128,7 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
       getExplorerLink,
       rpcUrl,
       cluster,
+      getSimulationUserErrorMessage,
     ],
   );
 
