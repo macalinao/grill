@@ -1,5 +1,5 @@
 import type { TransactionError } from "@solana/kit";
-import { getSolanaErrorFromTransactionError } from "@solana/kit";
+import { getTransactionErrorMessage } from "@macalinao/solana-errors";
 
 export const parseTransactionError = (
   err: TransactionError,
@@ -17,6 +17,8 @@ export const parseTransactionError = (
     }
   }
 
-  const solanaError = getSolanaErrorFromTransactionError(err);
-  return solanaError.message;
+  // Use @macalinao/solana-errors for formatting - this works in production
+  // unlike @solana/kit's getSolanaErrorFromTransactionError which strips
+  // error messages when __DEV__ is false
+  return getTransactionErrorMessage(err);
 };
