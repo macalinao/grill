@@ -4,7 +4,10 @@
  * https://docs.rs/solana-sdk/latest/solana_sdk/transaction/enum.TransactionError.html
  */
 
+import type { TransactionError } from "@solana/kit";
 import { getInstructionErrorMessage } from "./instruction-error.js";
+
+export type { TransactionError };
 
 /**
  * TransactionError variant names mapped to their human-readable messages.
@@ -65,18 +68,6 @@ export const TRANSACTION_ERROR_MESSAGES: Record<string, string> = {
     "Program execution temporarily restricted",
   UnbalancedTransaction: "Sum of account balances before and after transaction do not match",
 };
-
-/**
- * The shape of a TransactionError as returned by Solana RPC.
- * Can be a simple string or an object with additional data.
- */
-export type TransactionError =
-  | string
-  | { InstructionError: [number, unknown] }
-  | { DuplicateInstruction: number }
-  | { InsufficientFundsForRent: { account_index: number } }
-  | { ProgramExecutionTemporarilyRestricted: { account_index: number } }
-  | Record<string, unknown>;
 
 /**
  * Gets the human-readable message for a TransactionError.

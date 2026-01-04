@@ -45,9 +45,13 @@
   "devDependencies": {
     "@macalinao/eslint-config": "catalog:",
     "@macalinao/tsconfig": "catalog:",
+    "@solana/kit": "catalog:",
     "@types/bun": "catalog:",
     "eslint": "catalog:",
     "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "@solana/kit": "catalog:peer"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}": [
