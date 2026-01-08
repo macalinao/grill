@@ -1,5 +1,6 @@
 import type { Address } from "@solana/kit";
 import type { TokenInfo } from "./types.js";
+import { normalizeIconUrl } from "./normalize-icon-url.js";
 
 export interface CreateTokenInfoParams<
   TMint extends string = string,
@@ -79,7 +80,7 @@ export function createTokenInfo<
 
     // Add icon URL if available from metadata URI JSON
     if (metadataUriJson?.image) {
-      tokenInfo.iconURL = metadataUriJson.image;
+      tokenInfo.iconURL = normalizeIconUrl(metadataUriJson.image);
     }
 
     return tokenInfo;

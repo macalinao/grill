@@ -2,7 +2,7 @@ import type { Metadata } from "@macalinao/clients-token-metadata";
 import type { TokenInfo } from "@macalinao/token-utils";
 import type { Mint } from "@solana-program/token";
 import type { AccountInfo } from "./types.js";
-import { createTokenInfo } from "@macalinao/token-utils";
+import { createTokenInfo, normalizeIconUrl } from "@macalinao/token-utils";
 import { tokenMetadataSchema } from "@macalinao/zod-solana";
 
 export interface FetchTokenInfoParams {
@@ -97,7 +97,7 @@ export async function fetchTokenInfo({
         if (!tokenInfo.symbol) {
           tokenInfo.symbol = data.symbol;
         }
-        tokenInfo.iconURL = data.logoURI;
+        tokenInfo.iconURL = normalizeIconUrl(data.logoURI);
       }
     } catch (error) {
       console.warn("Could not fetch certified token info:", error);
