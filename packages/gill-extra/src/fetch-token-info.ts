@@ -42,13 +42,15 @@ export async function fetchTokenInfo({
   // Try to fetch metadata from URI if available
   if (uri && metadataAccountData) {
     try {
-      const response = await fetch(uri);
+      // Normalize the URI to handle domain migrations (e.g., irys.xyz -> irysnetwork.com)
+      const normalizedUri = normalizeIconUrl(uri);
+      const response = await fetch(normalizedUri);
       if (response.ok) {
         const contentType = response.headers.get("content-type");
 
         // If the URI is an image, use it directly as the image URI
         if (contentType?.startsWith("image")) {
-          metadataUriJson = { image: uri };
+          metadataUriJson = { image: normalizedUri };
         } else {
           // Otherwise, try to parse it as JSON
           const result = tokenMetadataSchema.safeParse(await response.json());
