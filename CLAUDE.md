@@ -8,7 +8,7 @@ Grill is a modern Solana development kit monorepo that provides React components
 
 ## Technology Stack
 
-- **Package Manager**: Bun (v1.3.1)
+- **Package Manager**: Bun (v1.3.6)
 - **Build System**: Turbo v2 for monorepo orchestration
 - **Framework**: React 18/19 with TypeScript 5.9
 - **Solana**: @solana/kit, gill, @gillsdk/react
