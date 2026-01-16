@@ -3,6 +3,7 @@
 {
   dotenv.enable = true;
   packages = with pkgs; [
+    ast-grep
     git
     nixfmt-rfc-style
   ];

@@ -8,14 +8,14 @@ Grill is a modern Solana development kit monorepo that provides React components
 
 ## Technology Stack
 
-- **Package Manager**: Bun (v1.2.19)
-- **Build System**: Turbo for monorepo orchestration
-- **Framework**: React 19 with TypeScript
+- **Package Manager**: Bun (v1.3.1)
+- **Build System**: Turbo v2 for monorepo orchestration
+- **Framework**: React 18/19 with TypeScript 5.9
 - **Solana**: @solana/kit, gill, @gillsdk/react
 - **State Management**: @tanstack/react-query for caching
 - **Routing**: @tanstack/react-router (in example-dapp)
-- **Styling**: Tailwind CSS v4 with shadcn/ui components
-- **Code Quality**: Biome for formatting, ESLint for linting
+- **Styling**: Tailwind CSS v4 with shadcn/ui components (in example-dapp)
+- **Code Quality**: Biome for formatting/linting, ESLint for additional linting, ast-grep for pattern enforcement
 - **Testing**: Bun Test via `bun run test`
 
 ## Essential Commands
@@ -24,33 +24,33 @@ Grill is a modern Solana development kit monorepo that provides React components
 # Development
 bun install                  # Install all dependencies
 bun run build                # Build all packages
+bun run build:packages       # Build only packages (not apps)
 bun run build:watch          # Watch mode for all packages
 bun run build:watch:packages # Watch mode for packages only
 
 # Code Quality
-bun run lint                 # Run biome check + eslint
-bun run lint:fix            # Fix linting issues
-biome check --write         # Format with biome
+bun run lint                 # Run biome check + ast-grep scan + eslint
+bun run lint:fix             # Fix linting issues
 
 # Testing
-bun run test                # Run all tests
-bun test                    # Run tests directly
+bun run test                 # Run all tests
 
 # Package Publishing
-bun run changeset           # Create changeset for version bumps
-bun run ci:publish          # Publish packages to npm
+bun run changeset            # Create changeset for version bumps
+bun run ci:version           # Version packages and update lockfile
+bun run ci:publish           # Publish packages to npm
 
-# Coda (Code generation)
-coda generate               # Generate type-safe clients from Anchor IDLs (run directly, no npx/bunx)
+# Code Generation
+bun run codegen              # Run codegen tasks (turbo)
 
 # Example App Development
 cd apps/example-dapp
-bun run dev                 # Start Vite dev server
-bun run build              # Build the app
+bun run dev                  # Start Vite dev server
+bun run build                # Build the app
 
 # IMPORTANT: After making code changes
 bun run build                # Build to check for TypeScript errors
-bun run lint:fix            # Fix linting and formatting issues
+bun run lint:fix             # Fix linting and formatting issues
 ```
 
 ## Architecture
@@ -59,8 +59,8 @@ bun run lint:fix            # Fix linting and formatting issues
 
 The project uses Bun workspaces with packages in two directories:
 
-- `packages/*` - Core library packages
-- `apps/*` - Example applications
+- `packages/*` - Core library packages (9 packages)
+- `apps/*` - Example applications (1 app)
 
 ### Core Packages
 
@@ -68,15 +68,35 @@ The project uses Bun workspaces with packages in two directories:
    - `GrillProvider`: Creates DataLoader for batching account requests with sonner toast notifications
    - `GrillHeadlessProvider`: Headless version without UI features (for custom implementations)
    - `WalletProvider`: Kit wallet integration context
-   - `useAccount`: Hook for fetching account data with batching
-   - `useKitWallet`: Access wallet signer and RPC
+   - `SubscriptionProvider`: WebSocket subscription support for real-time account updates
+   - Key hooks: `useAccount`, `useTokenInfo`, `useTokenBalance`, `useAssociatedTokenAccount`, `useSendTx`
    - Note: sonner is a required peer dependency for transaction toast notifications
 
 2. **@macalinao/solana-batch-accounts-loader** - DataLoader implementation for batching Solana account fetches
+   - Batches up to 99 accounts in a single RPC call (respects Solana RPC limits)
+   - Uses `fetchEncodedAccounts` from @solana/kit
 
 3. **@macalinao/wallet-adapter-compat** - Compatibility layer between @solana/wallet-adapter and @solana/kit
+   - Enables wallet adapter ecosystem support with modern @solana/kit APIs
 
-4. **dataloader-es** - ES module compatible DataLoader implementation
+4. **@macalinao/dataloader-es** - ES module-native TypeScript implementation of the DataLoader pattern
+   - Modern alternative to classic DataLoader
+
+5. **@macalinao/gill-extra** - Additional utilities for gill
+   - Exports: `fetchAndDecodeAccount`, `fetchTokenInfo`, transaction utilities, explorer helpers
+   - No React dependencies
+
+6. **@macalinao/zod-solana** - Zod schemas for Solana types with @solana/kit integration
+   - Provides validation schemas for Solana addresses, tokens, amounts, etc.
+
+7. **@macalinao/quarry** - Quarry utility functions for Solana DeFi
+   - Functions for merge pool, miner, and rewarder operations
+
+8. **@macalinao/react-quarry** - React hooks for Quarry protocol
+   - Depends on @macalinao/grill
+
+9. **@macalinao/token-utils** - Token utility functions for Solana development
+   - Includes dnum library for precise decimal number handling
 
 ### Provider Hierarchy
 
@@ -84,11 +104,11 @@ When using Grill, providers must be set up in this order:
 
 ```tsx
 QueryClientProvider
-  → SolanaProvider (@gillsdk/react)
-    → ConnectionProvider (@solana/wallet-adapter-react)
-      → WalletProvider (@solana/wallet-adapter-react)
-        → WalletModalProvider
-          → GrillProvider
+  -> SolanaProvider (@gillsdk/react)
+    -> ConnectionProvider (@solana/wallet-adapter-react)
+      -> WalletProvider (@solana/wallet-adapter-react)
+        -> WalletModalProvider
+          -> GrillProvider (or GrillHeadlessProvider)
 ```
 
 ### Account Batching Architecture
@@ -96,8 +116,8 @@ QueryClientProvider
 The core innovation is automatic batching of concurrent account requests:
 
 - Multiple `useAccount` calls in different components are automatically batched
-- Uses DataLoader pattern to coalesce requests within a tick
-- Single RPC call instead of multiple, improving performance
+- Uses DataLoader pattern to coalesce requests within a tick (default 10ms)
+- Single RPC call instead of multiple (up to 99 accounts per batch)
 - Integrated with React Query for caching
 
 ### Kit Wallet Integration
@@ -116,7 +136,6 @@ Provides two contexts:
 - Use `import type` for type-only imports (enforced by Biome)
 - Arrays use shorthand syntax: `string[]` not `Array<string>`
 - **Use double quotes for strings** (not single quotes)
-- Follow default Prettier settings
 
 ### After Making Code Changes
 
@@ -130,7 +149,6 @@ Provides two contexts:
 - Small, focused components
 - Use function components with hooks
 - Props interfaces should be explicitly defined
-- File structure: `components/category/component-name/index.tsx`
 
 ### Biome/ESLint Configuration
 
@@ -141,21 +159,22 @@ Provides two contexts:
 - No double equals (use === instead)
 - Imports are auto-organized on save
 
+### AST-grep Rules
+
+The project uses ast-grep for pattern enforcement:
+- Configuration in `sgconfig.yml` and `.ast-grep/rules/`
+- Example: Enforces namespace imports for Zod (`import * as zod from "zod"`)
+
 ## Example App (example-dapp)
 
 The example-dapp demonstrates:
 
-- TanStack Router for routing
-- shadcn/ui component integration
+- TanStack Router for routing (file-based)
+- shadcn/ui component integration with Radix UI
 - Wallet connection with Solana wallet adapter
 - Layout system with navigation and sidebar
 - Dark mode support
-
-Routes:
-
-- `/` - Home page
-- `/dashboard` - Simple dashboard
-- `/examples/*` - Examples section with sidebar navigation
+- React Hook Form with Zod validation
 
 ## Turborepo Configuration
 
@@ -164,6 +183,7 @@ Tasks are defined in turbo.json:
 - `build`: Depends on upstream builds, outputs to `./dist/**`
 - `lint`: Depends on upstream builds
 - `test`: Depends on build, no caching
+- `codegen`: For code generation tasks
 - Tasks run in topological order respecting dependencies
 
 ## Working with Providers
@@ -185,13 +205,14 @@ The repository includes vendor documentation at `/docs/vendor/`:
 
 ## CI/CD
 
-GitHub Actions workflow runs on push/PR to main:
+GitHub Actions workflow runs on push/PR to master:
 
 - Installs dependencies with frozen lockfile
 - Builds all packages
-- Runs linting (biome + eslint)
+- Runs linting (biome + ast-grep + eslint)
 - Runs tests
-- Checks TypeScript compilation
+
+Release workflow handles versioning and publishing via changesets.
 
 ## Publishing Workflow
 
@@ -209,13 +230,13 @@ When creating new packages:
 - Scripts should be: `build`, `build:watch`, `clean`, `typecheck`
 - All packages use ES modules (`"type": "module"` in package.json)
 - Keep package.json scripts simple and consistent
+- Use workspace catalogs for shared dependency versions
 
 ## Solana PDA Guidelines
 
-When working with PDAs (Program Derived Addresses) in React code:
+When working with PDAs (Program Derived Addresses) in React code (e.g., in react-quarry):
 
-- **ALWAYS use PDA hooks** from the pdas directory (e.g., `useMergePoolPda`, `useMinerPda`)
-- **NEVER compute PDAs manually** in React components or providers
-- **NEVER use async PDA functions** like `findMergePoolPda()` directly in React code
+- **Use PDA hooks** from the pdas directory (e.g., `useMergePoolPda`, `useMinerPda`)
+- **Avoid computing PDAs manually** in React components or providers
 - PDA hooks are synchronous and properly memoized for React
 - This ensures consistent PDA computation and proper React lifecycle management
