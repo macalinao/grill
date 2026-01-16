@@ -23,6 +23,11 @@ const SOL_USDC_POOL_ADDRESS = address(
   "8Pm2kZpnxD3hoMmt4bjStX2Pw2Z9abpbHzZxMPqxPmie",
 );
 
+// Second Meteora Pool
+const SECOND_POOL_ADDRESS = address(
+  "BnztueWcXv93mgW7yJe8WYpnCxpz34nujPhfjQT6SLu1",
+);
+
 // Create the decoder once, outside the component
 const poolDecoder = getPoolDecoder();
 
@@ -161,6 +166,18 @@ function PoolSubscriptionPage() {
     subscribeToUpdates: true,
   });
 
+  // Fetch second pool data with real-time subscription
+  const {
+    data: secondPool,
+    isLoading: isLoadingSecond,
+    error: errorSecond,
+    dataUpdatedAt: dataUpdatedAtSecond,
+  } = useAccount({
+    address: SECOND_POOL_ADDRESS,
+    decoder: poolDecoder,
+    subscribeToUpdates: true,
+  });
+
   return (
     <div className="container mx-auto py-6">
       <div className="mb-6">
@@ -217,15 +234,26 @@ function PoolSubscriptionPage() {
           </CardContent>
         </Card>
 
-        {/* Last Updated Indicator */}
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <RefreshCw className="h-4 w-4" />
-          <span>
-            Last updated:{" "}
-            {dataUpdatedAt
-              ? new Date(dataUpdatedAt).toLocaleTimeString()
-              : "Never"}
-          </span>
+        {/* Last Updated Indicators */}
+        <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+          <div className="flex items-center gap-2">
+            <RefreshCw className="h-4 w-4" />
+            <span>
+              SOL-USDC Pool:{" "}
+              {dataUpdatedAt
+                ? new Date(dataUpdatedAt).toLocaleTimeString()
+                : "Never"}
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <RefreshCw className="h-4 w-4" />
+            <span>
+              Second Pool:{" "}
+              {dataUpdatedAtSecond
+                ? new Date(dataUpdatedAtSecond).toLocaleTimeString()
+                : "Never"}
+            </span>
+          </div>
         </div>
 
         {/* Pool Data Card */}
@@ -253,6 +281,39 @@ function PoolSubscriptionPage() {
               </div>
             ) : pool ? (
               <PoolDataDisplay pool={pool.data} />
+            ) : (
+              <div className="rounded-lg border p-4 text-center text-muted-foreground">
+                Pool not found
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Second Pool Data Card */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Meteora Pool</CardTitle>
+            <CardDescription>
+              Real-time data from pool {SECOND_POOL_ADDRESS.slice(0, 8)}...
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            {errorSecond ? (
+              <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-600">
+                Error loading pool: {errorSecond.message}
+              </div>
+            ) : isLoadingSecond ? (
+              <div className="space-y-4">
+                <Skeleton className="h-24 w-full" />
+                <div className="grid grid-cols-2 gap-4">
+                  <Skeleton className="h-20 w-full" />
+                  <Skeleton className="h-20 w-full" />
+                  <Skeleton className="h-20 w-full" />
+                  <Skeleton className="h-20 w-full" />
+                </div>
+              </div>
+            ) : secondPool ? (
+              <PoolDataDisplay pool={secondPool.data} />
             ) : (
               <div className="rounded-lg border p-4 text-center text-muted-foreground">
                 Pool not found
