@@ -42,8 +42,9 @@
     "build:packages": "turbo build --filter='./packages/**'",
     "build:watch": "turbo watch build",
     "build:watch:packages": "turbo watch build --filter='./packages/**'",
-    "lint": "biome check && turbo run lint",
-    "lint:fix": "biome check --write --no-errors-on-unmatched --unsafe && turbo run lint -- --fix",
+    "lint": "ast-grep scan && biome check && turbo run lint",
+    "lint:fix": "ast-grep scan --update-all && biome check --write --no-errors-on-unmatched --unsafe && turbo run lint -- --fix",
+    "lint:ci": "turbo run lint",
     "clean": "turbo run clean && rm -fr node_modules/",
     "test": "CI=true turbo run test",
     "watch": "turbo watch build",
@@ -66,7 +67,7 @@
     "turbo": "^2.7.2",
     "typescript": "^5.9.3"
   },
-  "packageManager": "bun@1.3.1",
+  "packageManager": "bun@1.3.6",
   "lint-staged": {
     "*.{json,jsonc,html}": "biome format --write --no-errors-on-unmatched"
   },

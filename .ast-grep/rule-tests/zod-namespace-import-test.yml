@@ -1,0 +1,24 @@
+id: zod-namespace-import
+valid:
+  - |
+    import * as zod from "zod"
+  - |
+    import * as zod from "zod";
+  - |
+    import something from "other-package"
+  - |
+    import { something } from "other-package"
+
+invalid:
+  - |
+    import { z } from "zod"
+  - |
+    import { z } from "zod";
+  - |
+    import { z, infer } from "zod"
+  - |
+    import { z as zod } from "zod"
+  - |
+    import type { z } from "zod"
+  - |
+    import type { z, infer } from "zod"
