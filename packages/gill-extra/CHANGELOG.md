@@ -1,5 +1,11 @@
 # @macalinao/gill-extra
 
+## 0.4.1
+
+### Patch Changes
+
+- 79b4f2d: Add token info fetching helpers
+
 ## 0.4.0
 
 ### Minor Changes
