@@ -7,6 +7,7 @@ export * from "./build-get-explorer-link-function.js";
 export * from "./constants.js";
 export * from "./fetch-and-decode-account.js";
 export * from "./fetch-token-info.js";
+export * from "./fetch-token-info-for-mint.js";
 export * from "./get-confirmed-transaction.js";
 export * from "./get-signature-from-bytes.js";
 export * from "./get-solscan-explorer-link.js";
