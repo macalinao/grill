@@ -22,8 +22,8 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
 
-      - name: Setup ast-grep
-        uses: ast-grep/action@latest
+      - name: Run ast-grep
+        uses: ast-grep/action@v1
 
       - name: Setup Biome
         uses: biomejs/setup-biome@v2
