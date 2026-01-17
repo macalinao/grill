@@ -34,7 +34,6 @@ export function useTokenInfo({
     // eslint-disable-next-line @tanstack/query/exhaustive-deps
     queryKey: createTokenInfoQueryKey(mint),
     queryFn: async () => {
-      console.log({ mint, staticInfo, mintAccount, metadataAccount });
       if (!mint) {
         return null;
       }
