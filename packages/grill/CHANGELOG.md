@@ -1,5 +1,13 @@
 # @macalinao/grill
 
+## 0.9.1
+
+### Patch Changes
+
+- 0189ee8: remove debug logs
+- Updated dependencies [0189ee8]
+  - @macalinao/gill-extra@0.4.2
+
 ## 0.9.0
 
 ### Minor Changes
