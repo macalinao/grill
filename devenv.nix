@@ -6,7 +6,7 @@
     ast-grep
     biome
     git
-    nixfmt-rfc-style
+    nixfmt
   ];
 
   languages.javascript = {
