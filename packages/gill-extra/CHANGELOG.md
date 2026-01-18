@@ -1,5 +1,11 @@
 # @macalinao/gill-extra
 
+## 0.4.2
+
+### Patch Changes
+
+- 0189ee8: remove debug logs
+
 ## 0.4.1
 
 ### Patch Changes
