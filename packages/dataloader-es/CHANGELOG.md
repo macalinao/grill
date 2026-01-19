@@ -1,5 +1,11 @@
 # @macalinao/dataloader-es
 
+## 0.2.8
+
+### Patch Changes
+
+- 3e03157: Bump @solana/kit to 5.4.0
+
 ## 0.2.7
 
 ### Patch Changes

@@ -18,7 +18,7 @@
     },
     "apps/example-dapp": {
       "name": "example-dapp",
-      "version": "3.0.1",
+      "version": "3.0.2",
       "dependencies": {
         "@gillsdk/react": "catalog:",
         "@hookform/resolvers": "^5.2.2",
@@ -76,7 +76,7 @@
     },
     "packages/dataloader-es": {
       "name": "@macalinao/dataloader-es",
-      "version": "0.2.7",
+      "version": "0.2.8",
       "dependencies": {
         "tslib": "^2.8.1",
       },
@@ -90,7 +90,7 @@
     },
     "packages/gill-extra": {
       "name": "@macalinao/gill-extra",
-      "version": "0.4.2",
+      "version": "0.4.3",
       "dependencies": {
         "@macalinao/clients-token-metadata": "^0.4.6",
         "@macalinao/dataloader-es": "workspace:^",
@@ -116,7 +116,7 @@
     },
     "packages/grill": {
       "name": "@macalinao/grill",
-      "version": "0.9.1",
+      "version": "0.9.2",
       "dependencies": {
         "@gillsdk/react": "catalog:",
         "@macalinao/clients-token-metadata": "^0.4.6",
@@ -149,7 +149,7 @@
     },
     "packages/quarry": {
       "name": "@macalinao/quarry",
-      "version": "0.3.2",
+      "version": "0.3.3",
       "dependencies": {
         "@macalinao/clients-quarry": "^0.4.6",
         "@macalinao/gill-extra": "workspace:^",
@@ -171,7 +171,7 @@
     },
     "packages/react-quarry": {
       "name": "@macalinao/react-quarry",
-      "version": "4.0.0",
+      "version": "4.0.1",
       "dependencies": {
         "@macalinao/quarry": "workspace:^",
       },
@@ -192,7 +192,7 @@
     },
     "packages/solana-batch-accounts-loader": {
       "name": "@macalinao/solana-batch-accounts-loader",
-      "version": "0.2.9",
+      "version": "0.2.10",
       "dependencies": {
         "@macalinao/dataloader-es": "workspace:^",
         "lodash-es": "^4.17.22",
@@ -213,7 +213,7 @@
     },
     "packages/token-utils": {
       "name": "@macalinao/token-utils",
-      "version": "0.1.16",
+      "version": "0.1.17",
       "dependencies": {
         "dnum": "^2.17.0",
       },
@@ -231,7 +231,7 @@
     },
     "packages/wallet-adapter-compat": {
       "name": "@macalinao/wallet-adapter-compat",
-      "version": "6.0.0",
+      "version": "6.0.1",
       "dependencies": {
         "@solana/webcrypto-ed25519-polyfill": "5.4.0",
         "tslib": "catalog:",
@@ -259,7 +259,7 @@
     },
     "packages/zod-solana": {
       "name": "@macalinao/zod-solana",
-      "version": "0.2.2",
+      "version": "0.2.3",
       "devDependencies": {
         "@macalinao/eslint-config": "catalog:",
         "@macalinao/tsconfig": "catalog:",

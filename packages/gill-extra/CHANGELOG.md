@@ -1,5 +1,16 @@
 # @macalinao/gill-extra
 
+## 0.4.3
+
+### Patch Changes
+
+- 3e03157: Bump @solana/kit to 5.4.0
+- Updated dependencies [3e03157]
+  - @macalinao/zod-solana@0.2.3
+  - @macalinao/dataloader-es@0.2.8
+  - @macalinao/solana-batch-accounts-loader@0.2.10
+  - @macalinao/token-utils@0.1.17
+
 ## 0.4.2
 
 ### Patch Changes
