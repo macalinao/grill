@@ -1,5 +1,13 @@
 # @macalinao/solana-batch-accounts-loader
 
+## 0.2.10
+
+### Patch Changes
+
+- 3e03157: Bump @solana/kit to 5.4.0
+- Updated dependencies [3e03157]
+  - @macalinao/dataloader-es@0.2.8
+
 ## 0.2.9
 
 ### Patch Changes

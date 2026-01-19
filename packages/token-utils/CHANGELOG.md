@@ -1,5 +1,11 @@
 # @macalinao/token-utils
 
+## 0.1.17
+
+### Patch Changes
+
+- 3e03157: Bump @solana/kit to 5.4.0
+
 ## 0.1.16
 
 ### Patch Changes

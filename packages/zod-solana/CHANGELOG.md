@@ -1,5 +1,11 @@
 # @macalinao/zod-solana
 
+## 0.2.3
+
+### Patch Changes
+
+- 3e03157: Bump @solana/kit to 5.4.0
+
 ## 0.2.2
 
 ### Patch Changes

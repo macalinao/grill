@@ -1,5 +1,14 @@
 # @macalinao/quarry
 
+## 0.3.3
+
+### Patch Changes
+
+- 3e03157: Bump @solana/kit to 5.4.0
+- Updated dependencies [3e03157]
+  - @macalinao/gill-extra@0.4.3
+  - @macalinao/token-utils@0.1.17
+
 ## 0.3.2
 
 ### Patch Changes

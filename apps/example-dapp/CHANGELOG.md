@@ -1,5 +1,14 @@
 # example-dapp
 
+## 3.0.2
+
+### Patch Changes
+
+- 3e03157: Bump @solana/kit to 5.4.0
+- Updated dependencies [3e03157]
+  - @macalinao/wallet-adapter-compat@6.0.1
+  - @macalinao/grill@0.9.2
+
 ## 3.0.1
 
 ### Patch Changes
