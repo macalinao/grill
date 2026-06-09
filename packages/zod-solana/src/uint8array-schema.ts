@@ -22,6 +22,7 @@ export const jsonUint8ArraySchema: z.ZodType<Uint8Array> = z
     } catch (error) {
       throw new Error(
         `Invalid JSON: ${error instanceof Error ? error.message : "Unknown error"}`,
+        { cause: error },
       );
     }
   })
