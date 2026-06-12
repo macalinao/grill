@@ -54,7 +54,7 @@ describe("createTestTokenInfo", () => {
 
     // Type assertions to ensure generics are preserved
     const _mintType: "TestToken1111111111111111111111111111111111" =
-      tokenInfo.mint as "TestToken1111111111111111111111111111111111";
+      tokenInfo.mint;
     const _decimalsType: 6 = tokenInfo.decimals;
     void _mintType;
     void _decimalsType;

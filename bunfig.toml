@@ -1,0 +1,5 @@
+[install]
+# Supply-chain protection: only install package versions that have been
+# published for at least 7 days, giving time for malicious or broken
+# releases to be caught and yanked before they reach this repo.
+minimumReleaseAge = 604800
