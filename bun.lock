@@ -8,7 +8,7 @@
         "@biomejs/biome": "^2.4.16",
         "@changesets/cli": "^2.31.0",
         "@macalinao/biome-config": "^0.1.7",
-        "eslint": "^9.39.2",
+        "eslint": "^9.39.4",
         "husky": "^9.1.7",
         "lint-staged": "^17.0.7",
         "prettier": "^3.8.3",
