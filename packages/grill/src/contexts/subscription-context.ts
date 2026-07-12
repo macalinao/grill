@@ -1,4 +1,10 @@
-import type { Account, Address, EncodedAccount, Lamports } from "@solana/kit";
+import type {
+  Account,
+  Address,
+  Decoder,
+  EncodedAccount,
+  Lamports,
+} from "@solana/kit";
 import type { QueryClient } from "@tanstack/react-query";
 import type { RpcSubscriptions, SolanaRpcSubscriptionsApi } from "gill";
 import { getBase64Encoder } from "@solana/kit";
@@ -16,6 +22,36 @@ export type AccountData = object | Uint8Array;
 export type AccountDecoder<T extends AccountData> = (
   encodedAccount: EncodedAccount,
 ) => Account<T>;
+
+/**
+ * Adapts a `Decoder<TDecodedData>` to an `AccountDecoder<TDecodedData>` for use
+ * with the {@link SubscriptionManager}.
+ *
+ * The subscription manager hands decoders an `EncodedAccount` (address, lamports,
+ * raw `data` bytes, ...), whereas a plain `Decoder` only knows how to decode the
+ * `data` byte array. This wraps the plain decoder so it produces a full
+ * `Account<TDecodedData>`, mirroring how account reads are decoded.
+ *
+ * @param decoder - The decoder for the account's `data` byte array, or undefined.
+ * @returns An `AccountDecoder`, or undefined if no decoder was provided.
+ */
+export function createAccountDecoderFromDecoder<
+  TDecodedData extends AccountData,
+>(
+  decoder: Decoder<TDecodedData> | undefined,
+): AccountDecoder<TDecodedData> | undefined {
+  if (!decoder) {
+    return undefined;
+  }
+
+  return (encodedAccount: EncodedAccount): Account<TDecodedData> => {
+    const decoded = decoder.decode(encodedAccount.data);
+    return {
+      ...encodedAccount,
+      data: decoded,
+    };
+  };
+}
 
 /**
  * Internal subscription entry tracking the WebSocket subscription and reference count.

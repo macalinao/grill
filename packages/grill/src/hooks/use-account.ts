@@ -3,16 +3,15 @@ import type {
   Account,
   Address,
   Decoder,
-  EncodedAccount,
   FetchAccountConfig,
   Simplify,
 } from "gill";
-import type { AccountDecoder } from "../contexts/subscription-context.js";
 import type { GillUseRpcHook } from "./types.js";
 import { fetchAndDecodeAccount } from "@macalinao/gill-extra";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useGrillContext } from "../contexts/grill-context.js";
+import { createAccountDecoderFromDecoder } from "../contexts/subscription-context.js";
 import { createAccountQueryKey } from "../query-keys.js";
 import { useAccountSubscription } from "./use-account-subscription.js";
 
@@ -76,26 +75,6 @@ export type UseAccountResult<TDecodedData extends object> =
   UseQueryResult<Account<TDecodedData> | null> & {
     address: Address | null | undefined;
   };
-
-/**
- * Adapts a Decoder to an AccountDecoder for subscriptions.
- * The decoder needs to be wrapped to handle the EncodedAccount format from subscriptions.
- */
-function createAccountDecoderFromDecoder<TDecodedData extends object>(
-  decoder: Decoder<TDecodedData> | undefined,
-): AccountDecoder<TDecodedData> | undefined {
-  if (!decoder) {
-    return undefined;
-  }
-
-  return (encodedAccount: EncodedAccount): Account<TDecodedData> => {
-    const decoded = decoder.decode(encodedAccount.data);
-    return {
-      ...encodedAccount,
-      data: decoded,
-    };
-  };
-}
 
 /**
  * Get the account info for an address. Concurrent queries are batched using a DataLoader.

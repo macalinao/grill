@@ -5,6 +5,7 @@ export * from "./create-pdas-hook.js";
 export * from "./use-account.js";
 export * from "./use-account-subscription.js";
 export * from "./use-accounts.js";
+export * from "./use-accounts-subscription.js";
 export * from "./use-associated-token-account.js";
 export * from "./use-ata-balance.js";
 export { useConnectedWallet } from "./use-connected-wallet.js";
