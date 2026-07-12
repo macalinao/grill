@@ -6,10 +6,14 @@ import type {
   Simplify,
 } from "gill";
 import type { GillUseRpcHook } from "./types.js";
+import type { UseAccountOptions } from "./use-account.js";
 import { fetchAndDecodeAccount } from "@macalinao/gill-extra";
 import { useQueries } from "@tanstack/react-query";
+import { useMemo } from "react";
 import { useGrillContext } from "../contexts/grill-context.js";
+import { createAccountDecoderFromDecoder } from "../contexts/subscription-context.js";
 import { createAccountQueryKey } from "../query-keys.js";
+import { useAccountsSubscription } from "./use-accounts-subscription.js";
 
 type RpcConfig = Simplify<Omit<FetchAccountConfig, "abortSignal">>;
 
@@ -27,7 +31,7 @@ export type UseAccountsInput<
    * Note: if not provided, the account will be returned as a `Uint8Array`.
    */
   decoder?: Decoder<TDecodedData>;
-};
+} & UseAccountOptions;
 
 export type UseAccountsResult<TDecodedData extends object> =
   | {
@@ -67,8 +71,20 @@ export function useAccounts<
   options,
   addresses,
   decoder,
+  subscribeToUpdates = false,
 }: UseAccountsInput<TConfig, TDecodedData>): UseAccountsResult<TDecodedData> {
   const { accountLoader } = useGrillContext();
+
+  // Memoize the account decoder for subscriptions
+  const accountDecoder = useMemo(
+    () => createAccountDecoderFromDecoder(decoder),
+    [decoder],
+  );
+
+  // Set up subscriptions if enabled. Writes back to the same account query keys
+  // that the queries below read, so results update live.
+  useAccountsSubscription(addresses, accountDecoder, subscribeToUpdates);
+
   return useQueries({
     queries: addresses.map((address) => ({
       networkMode: "offlineFirst" as const,
