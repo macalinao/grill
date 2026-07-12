@@ -1,0 +1,67 @@
+{
+  "name": "@macalinao/das-api",
+  "version": "0.0.0",
+  "description": "Metaplex Digital Asset Standard (DAS) API client for @solana/kit - no umi dependency",
+  "type": "module",
+  "sideEffects": false,
+  "author": "Ian Macalinao <me@ianm.com>",
+  "homepage": "https://grill.ianm.com",
+  "license": "Apache-2.0",
+  "keywords": [
+    "solana",
+    "das",
+    "digital-asset-standard",
+    "metaplex",
+    "helius",
+    "nft",
+    "compressed-nft",
+    "rpc",
+    "kit",
+    "typescript",
+    "ian-macalinao"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist/",
+    "src/"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/macalinao/grill.git",
+    "directory": "packages/das-api"
+  },
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo .eslintcache",
+    "lint": "eslint . --cache",
+    "test": "bun test src/"
+  },
+  "peerDependencies": {
+    "@solana/kit": "catalog:peer"
+  },
+  "devDependencies": {
+    "@macalinao/eslint-config": "catalog:",
+    "@macalinao/tsconfig": "catalog:",
+    "@solana/kit": "catalog:",
+    "@types/bun": "catalog:",
+    "eslint": "catalog:",
+    "typescript": "catalog:"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}": [
+      "biome check --write --no-errors-on-unmatched",
+      "eslint --fix --cache"
+    ],
+    "*.{json,jsonc,html}": "biome format --write --no-errors-on-unmatched"
+  }
+}
