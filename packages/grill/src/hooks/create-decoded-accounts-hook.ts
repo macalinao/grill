@@ -5,14 +5,14 @@ import { useAccounts } from "./use-accounts.js";
 
 export type DecodedAccountsResult<TData extends object> =
   UseAccountsResult<TData> & {
-    addresses: (Address | null | undefined)[];
+    addresses: readonly (Address | null | undefined)[];
   };
 
 /**
  * Input for a decoded accounts hook.
  */
 export type UseDecodedAccountsInput = {
-  addresses: (Address | null | undefined)[];
+  addresses: readonly (Address | null | undefined)[] | null | undefined;
 } & UseAccountOptions;
 
 /**

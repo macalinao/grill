@@ -33,7 +33,7 @@ import { useSubscriptionManager } from "../contexts/subscription-context.js";
  * ```
  */
 export function useAccountsSubscription<T extends AccountData>(
-  addresses: (Address | null | undefined)[],
+  addresses: readonly (Address | null | undefined)[],
   decoder: AccountDecoder<T> | undefined,
   enabled: boolean,
 ): void {

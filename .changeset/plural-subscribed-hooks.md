@@ -6,3 +6,4 @@ Add real-time subscription support to the plural account hooks. `useAccounts` an
 
 - New `useAccountsSubscription(addresses, decoder, enabled)` hook — the plural counterpart to `useAccountSubscription`, stable against fresh array references.
 - Export `createAccountDecoderFromDecoder`, the `Decoder` → `AccountDecoder` adapter previously private to `useAccount`, so consumers of the raw `SubscriptionManager` no longer need to hand-write it.
+- The plural hooks' `addresses` now accepts a nullable, readonly array, so the result of a plural PDA hook like `useAssociatedTokenPdas` can be passed directly (`addresses: atas`) without `?? []`.

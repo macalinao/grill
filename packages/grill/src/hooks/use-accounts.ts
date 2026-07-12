@@ -23,8 +23,11 @@ export type UseAccountsInput<
 > = GillUseRpcHook<TConfig> & {
   /**
    * Addresses of the accounts to get the info of.
+   *
+   * Accepts `null`/`undefined` (treated as an empty list) so the result of a
+   * plural PDA hook such as `useAssociatedTokenPdas` can be passed directly.
    */
-  addresses: (Address | null | undefined)[];
+  addresses: readonly (Address | null | undefined)[] | null | undefined;
   /**
    * Account decoder that can decode the account's `data` byte array value.
    *
@@ -37,12 +40,12 @@ export type UseAccountsResult<TDecodedData extends object> =
   | {
       isLoading: true;
       data: (Account<TDecodedData> | null | undefined)[];
-      addresses: (Address | null | undefined)[];
+      addresses: readonly (Address | null | undefined)[];
     }
   | {
       isLoading: false;
       data: (Account<TDecodedData> | null)[];
-      addresses: (Address | null | undefined)[];
+      addresses: readonly (Address | null | undefined)[];
     };
 
 /**
@@ -75,6 +78,10 @@ export function useAccounts<
 }: UseAccountsInput<TConfig, TDecodedData>): UseAccountsResult<TDecodedData> {
   const { accountLoader } = useGrillContext();
 
+  // Normalize a nullable address list to an array so callers can pass the
+  // result of a plural PDA hook (which may be null/undefined) directly.
+  const addressList = addresses ?? [];
+
   // Memoize the account decoder for subscriptions
   const accountDecoder = useMemo(
     () => createAccountDecoderFromDecoder(decoder),
@@ -83,10 +90,10 @@ export function useAccounts<
 
   // Set up subscriptions if enabled. Writes back to the same account query keys
   // that the queries below read, so results update live.
-  useAccountsSubscription(addresses, accountDecoder, subscribeToUpdates);
+  useAccountsSubscription(addressList, accountDecoder, subscribeToUpdates);
 
   return useQueries({
-    queries: addresses.map((address) => ({
+    queries: addressList.map((address) => ({
       networkMode: "offlineFirst" as const,
       ...options,
       // eslint-disable-next-line @tanstack/query/exhaustive-deps
@@ -103,7 +110,7 @@ export function useAccounts<
         return {
           isLoading: true,
           data: results.map((result) => result.data),
-          addresses,
+          addresses: addressList,
         };
       }
       return {
@@ -111,7 +118,7 @@ export function useAccounts<
         data: results
           .map((result) => result.data)
           .filter((r) => r !== undefined),
-        addresses,
+        addresses: addressList,
       };
     },
   });
