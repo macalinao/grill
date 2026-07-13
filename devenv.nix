@@ -7,6 +7,9 @@
     biome
     git
     nixfmt
+    oxfmt
+    oxlint
+    tsgolint
   ];
 
   languages.javascript = {

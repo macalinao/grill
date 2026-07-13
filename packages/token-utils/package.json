@@ -38,29 +38,20 @@
   },
   "scripts": {
     "build": "tsc",
-    "lint": "eslint .",
-    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo .eslintcache",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo",
     "test": "bun test"
   },
   "dependencies": {
     "dnum": "^2.17.0"
   },
   "devDependencies": {
-    "@macalinao/eslint-config": "catalog:",
     "@macalinao/tsconfig": "catalog:",
     "@solana/kit": "catalog:",
     "@types/bun": "catalog:",
-    "typescript": "catalog:",
-    "eslint": "catalog:"
+    "typescript": "catalog:"
   },
   "peerDependencies": {
     "@solana/kit": "catalog:peer"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}": [
-      "biome check --write --no-errors-on-unmatched",
-      "eslint --fix --cache"
-    ],
-    "*.{json,jsonc,html}": "biome format --write --no-errors-on-unmatched"
   }
 }

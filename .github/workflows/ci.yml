@@ -45,7 +45,10 @@ jobs:
       - name: Build all packages
         run: bun run build
 
-      - name: Run linting
+      # Runs oxlint with type-aware rules (tsgolint), the oxfmt format check,
+      # and tsc --noEmit across every workspace. Must run after the build so
+      # that workspace .d.ts files exist for type-aware linting.
+      - name: Run linting, formatting and type checks
         run: bun run lint:ci
 
       - name: Run tests

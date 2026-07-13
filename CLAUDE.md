@@ -15,7 +15,7 @@ Grill is a modern Solana development kit monorepo that provides React components
 - **State Management**: @tanstack/react-query for caching
 - **Routing**: @tanstack/react-router (in example-dapp)
 - **Styling**: Tailwind CSS v4 with shadcn/ui components (in example-dapp)
-- **Code Quality**: Biome for formatting/linting, ESLint for additional linting, ast-grep for pattern enforcement
+- **Code Quality**: oxlint (with type-aware rules via tsgolint) for linting, oxfmt for JS/TS formatting, Biome for JSON/HTML formatting + import organization + additional lint rules, ast-grep for pattern enforcement
 - **Testing**: Bun Test via `bun run test`
 
 ## Essential Commands
@@ -29,7 +29,7 @@ bun run build:watch          # Watch mode for all packages
 bun run build:watch:packages # Watch mode for packages only
 
 # Code Quality
-bun run lint                 # Run biome check + ast-grep scan + eslint
+bun run lint                 # ast-grep scan + oxlint (type-aware) + oxfmt --check + biome check + tsc --noEmit
 bun run lint:fix             # Fix linting issues
 
 # Testing
@@ -150,7 +150,7 @@ Provides two contexts:
 - Use function components with hooks
 - Props interfaces should be explicitly defined
 
-### Biome/ESLint Configuration
+### Lint Rules (oxlint + Biome)
 
 - No floating promises (must be handled)
 - Use const assertions where applicable
@@ -158,6 +158,18 @@ Provides two contexts:
 - Simplified logic expressions required
 - No double equals (use === instead)
 - Imports are auto-organized on save
+
+There is a single oxlint config for the whole monorepo (`.oxlintrc.json`) — no
+per-package lint configs. It sets `options.typeAware: true`, so the type-aware
+rules (no-floating-promises, no-misused-promises, no-unsafe-*, ...) run through
+tsgolint. Those rules need the workspace `.d.ts` files to exist, so `bun run
+lint` runs `turbo build` first (cached, so it is nearly free). Running `oxlint`
+directly on a tree with no `dist/` resolves cross-package imports to error types
+and the unsafe-* rules produce hundreds of false positives -- build first.
+
+Formatting is split: oxfmt (`.oxfmtrc.json`) owns JS/TS/JSX, Biome owns
+JSON/HTML and the import organizer. Biome's JS formatter is turned off in
+`biome.jsonc` so the two never fight.
 
 ### AST-grep Rules
 
@@ -209,7 +221,7 @@ GitHub Actions workflow runs on push/PR to master:
 
 - Installs dependencies with frozen lockfile
 - Builds all packages
-- Runs linting (biome + ast-grep + eslint)
+- Runs linting (ast-grep + biome + oxlint type-aware + oxfmt + tsc --noEmit)
 - Runs tests
 
 Release workflow handles versioning and publishing via changesets.

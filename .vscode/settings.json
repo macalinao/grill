@@ -16,12 +16,14 @@
   "[json]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
-  "[typescript]": {
-    "editor.defaultFormatter": "biomejs.biome"
+  "[javascript][javascriptreact][typescript][typescriptreact]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode"
   },
+  "oxc.fmt.experimental": true,
+  "oxc.typeAware": true,
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit",
+    "source.fixAll.oxc": "explicit",
     "source.fixAll.biome": "explicit",
     "source.organizeImports.biome": "explicit"
   },
