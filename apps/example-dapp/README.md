@@ -155,8 +155,7 @@ bun run build      # Build for production
 bun run preview    # Preview production build
 
 # Code Quality
-bun run lint       # Run ESLint
-bun run typecheck  # Check TypeScript types
+bun run typecheck  # Check TypeScript types (lint runs from the repo root: bun run lint)
 ```
 
 ## Examples Section

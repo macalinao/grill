@@ -49,8 +49,8 @@
   },
   "scripts": {
     "build": "tsc",
-    "lint": "eslint .",
-    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo .eslintcache"
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo"
   },
   "dependencies": {
     "@macalinao/quarry": "workspace:^"
@@ -61,7 +61,6 @@
     "react": "catalog:peer"
   },
   "devDependencies": {
-    "@macalinao/eslint-config-react": "catalog:",
     "@macalinao/grill": "workspace:^",
     "@macalinao/tsconfig": "catalog:",
     "@solana/kit": "catalog:",

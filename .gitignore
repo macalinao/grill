@@ -40,7 +40,6 @@ coverage/
 .nyc_output
 
 # Cache
-.eslintcache
 .cache/
 
 # Temporary files
