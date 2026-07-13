@@ -141,7 +141,7 @@ Provides two contexts:
 
 **Always run these commands to ensure code quality:**
 
-1. `bun run build` - Check for TypeScript errors (also required before type-aware linting: tsgolint needs workspace `.d.ts` files)
+1. `bun run build` - Check for TypeScript errors
 2. `bun run lint:fix` - Fix linting and formatting issues
 
 ### React Components
@@ -162,9 +162,10 @@ Provides two contexts:
 There is a single oxlint config for the whole monorepo (`.oxlintrc.json`) — no
 per-package lint configs. It sets `options.typeAware: true`, so the type-aware
 rules (no-floating-promises, no-misused-promises, no-unsafe-*, ...) run through
-tsgolint. Those rules need the workspace `.d.ts` files, so **run `bun run build`
-before `bun run lint`**; otherwise imported workspace types resolve to `any` and
-the unsafe-* rules produce hundreds of false positives.
+tsgolint. Those rules need the workspace `.d.ts` files to exist, so `bun run
+lint` runs `turbo build` first (cached, so it is nearly free). Running `oxlint`
+directly on a tree with no `dist/` resolves cross-package imports to error types
+and the unsafe-* rules produce hundreds of false positives -- build first.
 
 Formatting is split: oxfmt (`.oxfmtrc.json`) owns JS/TS/JSX, Biome owns
 JSON/HTML and the import organizer. Biome's JS formatter is turned off in
