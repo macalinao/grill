@@ -6,11 +6,10 @@ import type {
 } from "@solana/kit";
 import type { CreateTransactionInput } from "gill";
 
-export interface SendTXOptions
-  extends Pick<
-    CreateTransactionInput<0>,
-    "computeUnitLimit" | "computeUnitPrice"
-  > {
+export interface SendTXOptions extends Pick<
+  CreateTransactionInput<0>,
+  "computeUnitLimit" | "computeUnitPrice"
+> {
   /**
    * Address lookup tables (optional)
    */
