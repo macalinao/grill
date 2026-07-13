@@ -14,13 +14,22 @@ import { Route as IndexRouteImport } from "./routes/index.tsx"
 import { Route as ExamplesIndexRouteImport } from "./routes/examples/index.tsx"
 import { Route as TokenInfoTokenMintRouteImport } from "./routes/token-info.$tokenMint.tsx"
 import { Route as ExamplesWrappedSolRouteImport } from "./routes/examples/wrapped-sol.tsx"
+import { Route as ExamplesWalletRouteImport } from "./routes/examples/wallet.tsx"
 import { Route as ExamplesTransferSolRouteImport } from "./routes/examples/transfer-sol.tsx"
 import { Route as ExamplesTokensRouteImport } from "./routes/examples/tokens.tsx"
+import { Route as ExamplesTokenMetadataRouteImport } from "./routes/examples/token-metadata.tsx"
+import { Route as ExamplesTokenInfosRouteImport } from "./routes/examples/token-infos.tsx"
 import { Route as ExamplesTokenBalancesRouteImport } from "./routes/examples/token-balances.tsx"
+import { Route as ExamplesSubscriptionsRouteImport } from "./routes/examples/subscriptions.tsx"
 import { Route as ExamplesStaticTokensRouteImport } from "./routes/examples/static-tokens.tsx"
 import { Route as ExamplesPoolSubscriptionRouteImport } from "./routes/examples/pool-subscription.tsx"
+import { Route as ExamplesPdasRouteImport } from "./routes/examples/pdas.tsx"
+import { Route as ExamplesHookFactoriesRouteImport } from "./routes/examples/hook-factories.tsx"
+import { Route as ExamplesHeadlessProviderRouteImport } from "./routes/examples/headless-provider.tsx"
+import { Route as ExamplesGrillContextRouteImport } from "./routes/examples/grill-context.tsx"
 import { Route as ExamplesDashboardRouteImport } from "./routes/examples/dashboard.tsx"
 import { Route as ExamplesBatchAccountsRouteImport } from "./routes/examples/batch-accounts.tsx"
+import { Route as ExamplesAccountHooksRouteImport } from "./routes/examples/account-hooks.tsx"
 
 const ExamplesRoute = ExamplesRouteImport.update({
   id: "/examples",
@@ -47,6 +56,11 @@ const ExamplesWrappedSolRoute = ExamplesWrappedSolRouteImport.update({
   path: "/wrapped-sol",
   getParentRoute: () => ExamplesRoute,
 } as any)
+const ExamplesWalletRoute = ExamplesWalletRouteImport.update({
+  id: "/wallet",
+  path: "/wallet",
+  getParentRoute: () => ExamplesRoute,
+} as any)
 const ExamplesTransferSolRoute = ExamplesTransferSolRouteImport.update({
   id: "/transfer-sol",
   path: "/transfer-sol",
@@ -57,9 +71,24 @@ const ExamplesTokensRoute = ExamplesTokensRouteImport.update({
   path: "/tokens",
   getParentRoute: () => ExamplesRoute,
 } as any)
+const ExamplesTokenMetadataRoute = ExamplesTokenMetadataRouteImport.update({
+  id: "/token-metadata",
+  path: "/token-metadata",
+  getParentRoute: () => ExamplesRoute,
+} as any)
+const ExamplesTokenInfosRoute = ExamplesTokenInfosRouteImport.update({
+  id: "/token-infos",
+  path: "/token-infos",
+  getParentRoute: () => ExamplesRoute,
+} as any)
 const ExamplesTokenBalancesRoute = ExamplesTokenBalancesRouteImport.update({
   id: "/token-balances",
   path: "/token-balances",
+  getParentRoute: () => ExamplesRoute,
+} as any)
+const ExamplesSubscriptionsRoute = ExamplesSubscriptionsRouteImport.update({
+  id: "/subscriptions",
+  path: "/subscriptions",
   getParentRoute: () => ExamplesRoute,
 } as any)
 const ExamplesStaticTokensRoute = ExamplesStaticTokensRouteImport.update({
@@ -73,6 +102,27 @@ const ExamplesPoolSubscriptionRoute =
     path: "/pool-subscription",
     getParentRoute: () => ExamplesRoute,
   } as any)
+const ExamplesPdasRoute = ExamplesPdasRouteImport.update({
+  id: "/pdas",
+  path: "/pdas",
+  getParentRoute: () => ExamplesRoute,
+} as any)
+const ExamplesHookFactoriesRoute = ExamplesHookFactoriesRouteImport.update({
+  id: "/hook-factories",
+  path: "/hook-factories",
+  getParentRoute: () => ExamplesRoute,
+} as any)
+const ExamplesHeadlessProviderRoute =
+  ExamplesHeadlessProviderRouteImport.update({
+    id: "/headless-provider",
+    path: "/headless-provider",
+    getParentRoute: () => ExamplesRoute,
+  } as any)
+const ExamplesGrillContextRoute = ExamplesGrillContextRouteImport.update({
+  id: "/grill-context",
+  path: "/grill-context",
+  getParentRoute: () => ExamplesRoute,
+} as any)
 const ExamplesDashboardRoute = ExamplesDashboardRouteImport.update({
   id: "/dashboard",
   path: "/dashboard",
@@ -83,30 +133,53 @@ const ExamplesBatchAccountsRoute = ExamplesBatchAccountsRouteImport.update({
   path: "/batch-accounts",
   getParentRoute: () => ExamplesRoute,
 } as any)
+const ExamplesAccountHooksRoute = ExamplesAccountHooksRouteImport.update({
+  id: "/account-hooks",
+  path: "/account-hooks",
+  getParentRoute: () => ExamplesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   "/": typeof IndexRoute
   "/examples": typeof ExamplesRouteWithChildren
+  "/examples/account-hooks": typeof ExamplesAccountHooksRoute
   "/examples/batch-accounts": typeof ExamplesBatchAccountsRoute
   "/examples/dashboard": typeof ExamplesDashboardRoute
+  "/examples/grill-context": typeof ExamplesGrillContextRoute
+  "/examples/headless-provider": typeof ExamplesHeadlessProviderRoute
+  "/examples/hook-factories": typeof ExamplesHookFactoriesRoute
+  "/examples/pdas": typeof ExamplesPdasRoute
   "/examples/pool-subscription": typeof ExamplesPoolSubscriptionRoute
   "/examples/static-tokens": typeof ExamplesStaticTokensRoute
+  "/examples/subscriptions": typeof ExamplesSubscriptionsRoute
   "/examples/token-balances": typeof ExamplesTokenBalancesRoute
+  "/examples/token-infos": typeof ExamplesTokenInfosRoute
+  "/examples/token-metadata": typeof ExamplesTokenMetadataRoute
   "/examples/tokens": typeof ExamplesTokensRoute
   "/examples/transfer-sol": typeof ExamplesTransferSolRoute
+  "/examples/wallet": typeof ExamplesWalletRoute
   "/examples/wrapped-sol": typeof ExamplesWrappedSolRoute
   "/token-info/$tokenMint": typeof TokenInfoTokenMintRoute
   "/examples/": typeof ExamplesIndexRoute
 }
 export interface FileRoutesByTo {
   "/": typeof IndexRoute
+  "/examples/account-hooks": typeof ExamplesAccountHooksRoute
   "/examples/batch-accounts": typeof ExamplesBatchAccountsRoute
   "/examples/dashboard": typeof ExamplesDashboardRoute
+  "/examples/grill-context": typeof ExamplesGrillContextRoute
+  "/examples/headless-provider": typeof ExamplesHeadlessProviderRoute
+  "/examples/hook-factories": typeof ExamplesHookFactoriesRoute
+  "/examples/pdas": typeof ExamplesPdasRoute
   "/examples/pool-subscription": typeof ExamplesPoolSubscriptionRoute
   "/examples/static-tokens": typeof ExamplesStaticTokensRoute
+  "/examples/subscriptions": typeof ExamplesSubscriptionsRoute
   "/examples/token-balances": typeof ExamplesTokenBalancesRoute
+  "/examples/token-infos": typeof ExamplesTokenInfosRoute
+  "/examples/token-metadata": typeof ExamplesTokenMetadataRoute
   "/examples/tokens": typeof ExamplesTokensRoute
   "/examples/transfer-sol": typeof ExamplesTransferSolRoute
+  "/examples/wallet": typeof ExamplesWalletRoute
   "/examples/wrapped-sol": typeof ExamplesWrappedSolRoute
   "/token-info/$tokenMint": typeof TokenInfoTokenMintRoute
   "/examples": typeof ExamplesIndexRoute
@@ -115,13 +188,22 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   "/": typeof IndexRoute
   "/examples": typeof ExamplesRouteWithChildren
+  "/examples/account-hooks": typeof ExamplesAccountHooksRoute
   "/examples/batch-accounts": typeof ExamplesBatchAccountsRoute
   "/examples/dashboard": typeof ExamplesDashboardRoute
+  "/examples/grill-context": typeof ExamplesGrillContextRoute
+  "/examples/headless-provider": typeof ExamplesHeadlessProviderRoute
+  "/examples/hook-factories": typeof ExamplesHookFactoriesRoute
+  "/examples/pdas": typeof ExamplesPdasRoute
   "/examples/pool-subscription": typeof ExamplesPoolSubscriptionRoute
   "/examples/static-tokens": typeof ExamplesStaticTokensRoute
+  "/examples/subscriptions": typeof ExamplesSubscriptionsRoute
   "/examples/token-balances": typeof ExamplesTokenBalancesRoute
+  "/examples/token-infos": typeof ExamplesTokenInfosRoute
+  "/examples/token-metadata": typeof ExamplesTokenMetadataRoute
   "/examples/tokens": typeof ExamplesTokensRoute
   "/examples/transfer-sol": typeof ExamplesTransferSolRoute
+  "/examples/wallet": typeof ExamplesWalletRoute
   "/examples/wrapped-sol": typeof ExamplesWrappedSolRoute
   "/token-info/$tokenMint": typeof TokenInfoTokenMintRoute
   "/examples/": typeof ExamplesIndexRoute
@@ -131,26 +213,44 @@ export interface FileRouteTypes {
   fullPaths:
     | "/"
     | "/examples"
+    | "/examples/account-hooks"
     | "/examples/batch-accounts"
     | "/examples/dashboard"
+    | "/examples/grill-context"
+    | "/examples/headless-provider"
+    | "/examples/hook-factories"
+    | "/examples/pdas"
     | "/examples/pool-subscription"
     | "/examples/static-tokens"
+    | "/examples/subscriptions"
     | "/examples/token-balances"
+    | "/examples/token-infos"
+    | "/examples/token-metadata"
     | "/examples/tokens"
     | "/examples/transfer-sol"
+    | "/examples/wallet"
     | "/examples/wrapped-sol"
     | "/token-info/$tokenMint"
     | "/examples/"
   fileRoutesByTo: FileRoutesByTo
   to:
     | "/"
+    | "/examples/account-hooks"
     | "/examples/batch-accounts"
     | "/examples/dashboard"
+    | "/examples/grill-context"
+    | "/examples/headless-provider"
+    | "/examples/hook-factories"
+    | "/examples/pdas"
     | "/examples/pool-subscription"
     | "/examples/static-tokens"
+    | "/examples/subscriptions"
     | "/examples/token-balances"
+    | "/examples/token-infos"
+    | "/examples/token-metadata"
     | "/examples/tokens"
     | "/examples/transfer-sol"
+    | "/examples/wallet"
     | "/examples/wrapped-sol"
     | "/token-info/$tokenMint"
     | "/examples"
@@ -158,13 +258,22 @@ export interface FileRouteTypes {
     | "__root__"
     | "/"
     | "/examples"
+    | "/examples/account-hooks"
     | "/examples/batch-accounts"
     | "/examples/dashboard"
+    | "/examples/grill-context"
+    | "/examples/headless-provider"
+    | "/examples/hook-factories"
+    | "/examples/pdas"
     | "/examples/pool-subscription"
     | "/examples/static-tokens"
+    | "/examples/subscriptions"
     | "/examples/token-balances"
+    | "/examples/token-infos"
+    | "/examples/token-metadata"
     | "/examples/tokens"
     | "/examples/transfer-sol"
+    | "/examples/wallet"
     | "/examples/wrapped-sol"
     | "/token-info/$tokenMint"
     | "/examples/"
@@ -213,6 +322,13 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof ExamplesWrappedSolRouteImport
       parentRoute: typeof ExamplesRoute
     }
+    "/examples/wallet": {
+      id: "/examples/wallet"
+      path: "/wallet"
+      fullPath: "/examples/wallet"
+      preLoaderRoute: typeof ExamplesWalletRouteImport
+      parentRoute: typeof ExamplesRoute
+    }
     "/examples/transfer-sol": {
       id: "/examples/transfer-sol"
       path: "/transfer-sol"
@@ -227,11 +343,32 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof ExamplesTokensRouteImport
       parentRoute: typeof ExamplesRoute
     }
+    "/examples/token-metadata": {
+      id: "/examples/token-metadata"
+      path: "/token-metadata"
+      fullPath: "/examples/token-metadata"
+      preLoaderRoute: typeof ExamplesTokenMetadataRouteImport
+      parentRoute: typeof ExamplesRoute
+    }
+    "/examples/token-infos": {
+      id: "/examples/token-infos"
+      path: "/token-infos"
+      fullPath: "/examples/token-infos"
+      preLoaderRoute: typeof ExamplesTokenInfosRouteImport
+      parentRoute: typeof ExamplesRoute
+    }
     "/examples/token-balances": {
       id: "/examples/token-balances"
       path: "/token-balances"
       fullPath: "/examples/token-balances"
       preLoaderRoute: typeof ExamplesTokenBalancesRouteImport
+      parentRoute: typeof ExamplesRoute
+    }
+    "/examples/subscriptions": {
+      id: "/examples/subscriptions"
+      path: "/subscriptions"
+      fullPath: "/examples/subscriptions"
+      preLoaderRoute: typeof ExamplesSubscriptionsRouteImport
       parentRoute: typeof ExamplesRoute
     }
     "/examples/static-tokens": {
@@ -248,6 +385,34 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof ExamplesPoolSubscriptionRouteImport
       parentRoute: typeof ExamplesRoute
     }
+    "/examples/pdas": {
+      id: "/examples/pdas"
+      path: "/pdas"
+      fullPath: "/examples/pdas"
+      preLoaderRoute: typeof ExamplesPdasRouteImport
+      parentRoute: typeof ExamplesRoute
+    }
+    "/examples/hook-factories": {
+      id: "/examples/hook-factories"
+      path: "/hook-factories"
+      fullPath: "/examples/hook-factories"
+      preLoaderRoute: typeof ExamplesHookFactoriesRouteImport
+      parentRoute: typeof ExamplesRoute
+    }
+    "/examples/headless-provider": {
+      id: "/examples/headless-provider"
+      path: "/headless-provider"
+      fullPath: "/examples/headless-provider"
+      preLoaderRoute: typeof ExamplesHeadlessProviderRouteImport
+      parentRoute: typeof ExamplesRoute
+    }
+    "/examples/grill-context": {
+      id: "/examples/grill-context"
+      path: "/grill-context"
+      fullPath: "/examples/grill-context"
+      preLoaderRoute: typeof ExamplesGrillContextRouteImport
+      parentRoute: typeof ExamplesRoute
+    }
     "/examples/dashboard": {
       id: "/examples/dashboard"
       path: "/dashboard"
@@ -262,29 +427,54 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof ExamplesBatchAccountsRouteImport
       parentRoute: typeof ExamplesRoute
     }
+    "/examples/account-hooks": {
+      id: "/examples/account-hooks"
+      path: "/account-hooks"
+      fullPath: "/examples/account-hooks"
+      preLoaderRoute: typeof ExamplesAccountHooksRouteImport
+      parentRoute: typeof ExamplesRoute
+    }
   }
 }
 
 interface ExamplesRouteChildren {
+  ExamplesAccountHooksRoute: typeof ExamplesAccountHooksRoute
   ExamplesBatchAccountsRoute: typeof ExamplesBatchAccountsRoute
   ExamplesDashboardRoute: typeof ExamplesDashboardRoute
+  ExamplesGrillContextRoute: typeof ExamplesGrillContextRoute
+  ExamplesHeadlessProviderRoute: typeof ExamplesHeadlessProviderRoute
+  ExamplesHookFactoriesRoute: typeof ExamplesHookFactoriesRoute
+  ExamplesPdasRoute: typeof ExamplesPdasRoute
   ExamplesPoolSubscriptionRoute: typeof ExamplesPoolSubscriptionRoute
   ExamplesStaticTokensRoute: typeof ExamplesStaticTokensRoute
+  ExamplesSubscriptionsRoute: typeof ExamplesSubscriptionsRoute
   ExamplesTokenBalancesRoute: typeof ExamplesTokenBalancesRoute
+  ExamplesTokenInfosRoute: typeof ExamplesTokenInfosRoute
+  ExamplesTokenMetadataRoute: typeof ExamplesTokenMetadataRoute
   ExamplesTokensRoute: typeof ExamplesTokensRoute
   ExamplesTransferSolRoute: typeof ExamplesTransferSolRoute
+  ExamplesWalletRoute: typeof ExamplesWalletRoute
   ExamplesWrappedSolRoute: typeof ExamplesWrappedSolRoute
   ExamplesIndexRoute: typeof ExamplesIndexRoute
 }
 
 const ExamplesRouteChildren: ExamplesRouteChildren = {
+  ExamplesAccountHooksRoute: ExamplesAccountHooksRoute,
   ExamplesBatchAccountsRoute: ExamplesBatchAccountsRoute,
   ExamplesDashboardRoute: ExamplesDashboardRoute,
+  ExamplesGrillContextRoute: ExamplesGrillContextRoute,
+  ExamplesHeadlessProviderRoute: ExamplesHeadlessProviderRoute,
+  ExamplesHookFactoriesRoute: ExamplesHookFactoriesRoute,
+  ExamplesPdasRoute: ExamplesPdasRoute,
   ExamplesPoolSubscriptionRoute: ExamplesPoolSubscriptionRoute,
   ExamplesStaticTokensRoute: ExamplesStaticTokensRoute,
+  ExamplesSubscriptionsRoute: ExamplesSubscriptionsRoute,
   ExamplesTokenBalancesRoute: ExamplesTokenBalancesRoute,
+  ExamplesTokenInfosRoute: ExamplesTokenInfosRoute,
+  ExamplesTokenMetadataRoute: ExamplesTokenMetadataRoute,
   ExamplesTokensRoute: ExamplesTokensRoute,
   ExamplesTransferSolRoute: ExamplesTransferSolRoute,
+  ExamplesWalletRoute: ExamplesWalletRoute,
   ExamplesWrappedSolRoute: ExamplesWrappedSolRoute,
   ExamplesIndexRoute: ExamplesIndexRoute,
 }
