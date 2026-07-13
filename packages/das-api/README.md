@@ -178,6 +178,47 @@ import type {
 } from "@macalinao/das-api";
 ```
 
+## Zod schemas
+
+Every response type has a matching [Zod](https://zod.dev) schema, useful when you
+want to validate what an indexer actually sent you (they are, after all, third
+parties) or when you are parsing DAS payloads that did not come from this client
+— a cache, a webhook, a fixture file:
+
+```typescript
+import { dasApiAssetSchema, dasApiAssetListSchema } from "@macalinao/das-api";
+
+const asset = dasApiAssetSchema.parse(await response.json());
+//    ^? DasApiAsset — addresses parsed into branded `Address`es
+
+const result = dasApiAssetListSchema.safeParse(payload);
+if (!result.success) {
+  console.error(result.error.issues);
+}
+```
+
+Each schema's output type is the interface of the same name, enforced at compile
+time, so a schema can never drift from the type it validates. The top-level
+schemas are `dasApiAssetSchema`, `dasApiAssetListSchema`,
+`getAssetProofResponseSchema`, `getAssetProofBatchResponseSchema`,
+`getSignaturesForAssetResponseSchema`, `getTokenAccountsResponseSchema`, and
+`getNftEditionsResponseSchema`; every nested type (`dasApiAssetContentSchema`,
+`dasApiTokenInfoSchema`, `dasApiMintExtensionsSchema`, …) is exported too, so you
+can validate a fragment or compose your own.
+
+Two deliberate concessions to how indexers really behave:
+
+- **Unknown keys are preserved, not stripped.** Providers add fields faster than
+  any type definition tracks them, so a `parse` will not silently drop data it
+  does not know about.
+- **Compression hashes accept the empty string.** Indexers return `""` for
+  `data_hash`, `creator_hash`, `asset_hash`, and `tree` on assets that are not
+  compressed, so validating those as addresses would reject every regular NFT.
+
+`zod` is a peer dependency. The schemas are re-exported from the package root, so
+`zod` is loaded whenever `@macalinao/das-api` is imported — install it alongside
+this package.
+
 ## License
 
 Copyright (c) 2025 Ian Macalinao. Licensed under the Apache-2.0 License.

@@ -46,8 +46,12 @@
     "lint": "eslint . --cache",
     "test": "bun test src/"
   },
+  "dependencies": {
+    "@macalinao/zod-solana": "workspace:^"
+  },
   "peerDependencies": {
-    "@solana/kit": "catalog:peer"
+    "@solana/kit": "catalog:peer",
+    "zod": "catalog:peer"
   },
   "devDependencies": {
     "@macalinao/eslint-config": "catalog:",
@@ -55,7 +59,8 @@
     "@solana/kit": "catalog:",
     "@types/bun": "catalog:",
     "eslint": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "zod": "^4.3.5"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}": [

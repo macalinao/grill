@@ -77,6 +77,9 @@
     "packages/das-api": {
       "name": "@macalinao/das-api",
       "version": "0.0.0",
+      "dependencies": {
+        "@macalinao/zod-solana": "workspace:^",
+      },
       "devDependencies": {
         "@macalinao/eslint-config": "catalog:",
         "@macalinao/tsconfig": "catalog:",
@@ -84,9 +87,11 @@
         "@types/bun": "catalog:",
         "eslint": "catalog:",
         "typescript": "catalog:",
+        "zod": "^4.3.5",
       },
       "peerDependencies": {
         "@solana/kit": "catalog:peer",
+        "zod": "catalog:peer",
       },
     },
     "packages/dataloader-es": {
