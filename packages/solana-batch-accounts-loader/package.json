@@ -38,7 +38,9 @@
     "directory": "packages/solana-batch-accounts-loader"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "typecheck": "tsc --noEmit",
     "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo .eslintcache",
     "lint": "eslint . --cache",
     "test": "bun test src/"
@@ -55,6 +57,7 @@
     "@types/bun": "catalog:",
     "@types/lodash-es": "^4.17.12",
     "eslint": "catalog:",
+    "tsdown": "catalog:",
     "typescript": "catalog:"
   },
   "peerDependencies": {

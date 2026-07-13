@@ -37,7 +37,9 @@
     "directory": "packages/zod-solana"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "typecheck": "tsc --noEmit",
     "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo .eslintcache",
     "lint": "eslint . --cache",
     "test": "bun test"
@@ -52,6 +54,7 @@
     "@solana/kit": "catalog:",
     "@types/bun": "catalog:",
     "eslint": "catalog:",
+    "tsdown": "catalog:",
     "typescript": "catalog:",
     "zod": "^4.3.5"
   },

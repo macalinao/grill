@@ -51,7 +51,9 @@
     "directory": "packages/quarry"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo .eslintcache",
     "test": "bun test || true"
@@ -68,8 +70,9 @@
     "@macalinao/tsconfig": "catalog:",
     "@solana/kit": "catalog:",
     "@types/bun": "catalog:",
-    "typescript": "catalog:",
-    "eslint": "catalog:"
+    "eslint": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:"
   },
   "peerDependencies": {
     "@solana/kit": "catalog:peer"

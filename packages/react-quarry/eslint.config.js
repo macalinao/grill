@@ -6,6 +6,13 @@ export default [
     languageOptions: {
       parserOptions: {
         tsconfigRootDir: import.meta.dirname,
+        projectService: {
+          allowDefaultProject: [
+            "eslint.config.*",
+            "tailwind.config.*",
+            "tsdown.config.*",
+          ],
+        },
       },
     },
   },
