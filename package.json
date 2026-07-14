@@ -31,7 +31,8 @@
       "react-dom": "^19.2.7",
       "gill": "^0.14.0",
       "@gillsdk/react": "^0.7.0",
-      "@types/bun": "^1.3.14"
+      "@types/bun": "^1.3.14",
+      "tsdown": "^0.22.3"
     }
   },
   "scripts": {
@@ -65,8 +66,10 @@
     "oxlint": "1.72.0",
     "oxlint-tsgolint": "0.24.0",
     "prettier": "^3.8.3",
+    "tsdown": "catalog:",
     "turbo": "^2.9.16",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "unrun": "^0.3.1"
   },
   "packageManager": "bun@1.3.13",
   "lint-staged": {

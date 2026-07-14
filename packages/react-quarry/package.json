@@ -48,7 +48,8 @@
     }
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsdown",
+    "dev": "tsdown --watch",
     "typecheck": "tsc --noEmit",
     "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo"
   },
@@ -66,6 +67,7 @@
     "@solana/kit": "catalog:",
     "@types/bun": "catalog:",
     "@types/react": "catalog:",
+    "tsdown": "catalog:",
     "typescript": "catalog:"
   }
 }

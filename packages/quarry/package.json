@@ -51,7 +51,8 @@
     "directory": "packages/quarry"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsdown",
+    "dev": "tsdown --watch",
     "typecheck": "tsc --noEmit",
     "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo",
     "test": "bun test || true"
@@ -67,6 +68,7 @@
     "@macalinao/tsconfig": "catalog:",
     "@solana/kit": "catalog:",
     "@types/bun": "catalog:",
+    "tsdown": "catalog:",
     "typescript": "catalog:"
   },
   "peerDependencies": {

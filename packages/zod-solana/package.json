@@ -37,7 +37,8 @@
     "directory": "packages/zod-solana"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsdown",
+    "dev": "tsdown --watch",
     "typecheck": "tsc --noEmit",
     "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo",
     "test": "bun test"
@@ -50,6 +51,7 @@
     "@macalinao/tsconfig": "catalog:",
     "@solana/kit": "catalog:",
     "@types/bun": "catalog:",
+    "tsdown": "catalog:",
     "typescript": "catalog:",
     "zod": "^4.3.5"
   }

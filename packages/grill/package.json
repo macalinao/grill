@@ -40,9 +40,9 @@
     "directory": "packages/grill"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsdown",
+    "dev": "tsdown --watch",
     "typecheck": "tsc --noEmit",
-    "dev": "tsc --watch",
     "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo"
   },
   "dependencies": {
@@ -64,6 +64,7 @@
     "@types/react": "catalog:",
     "gill": "catalog:",
     "react": "catalog:",
+    "tsdown": "catalog:",
     "typescript": "catalog:"
   },
   "peerDependencies": {

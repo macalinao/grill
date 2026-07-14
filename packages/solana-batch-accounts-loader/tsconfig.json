@@ -1,6 +1,8 @@
 {
   "extends": "@macalinao/tsconfig/tsconfig.base.json",
   "compilerOptions": {
-    "types": ["bun"]
+    "types": ["bun"],
+    "composite": false,
+    "incremental": false
   }
 }

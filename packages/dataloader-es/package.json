@@ -38,7 +38,8 @@
     "directory": "packages/dataloader-es"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsdown",
+    "dev": "tsdown --watch",
     "typecheck": "tsc --noEmit",
     "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo",
     "test": "bun test"
@@ -46,6 +47,7 @@
   "devDependencies": {
     "@macalinao/tsconfig": "catalog:",
     "@types/bun": "catalog:",
+    "tsdown": "catalog:",
     "typescript": "catalog:"
   },
   "dependencies": {
