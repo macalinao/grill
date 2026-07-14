@@ -11,14 +11,34 @@
   "arrowParens": "always",
   "bracketSameLine": false,
   "bracketSpacing": true,
+  // Replaces Biome's import organizer (assist.actions.source.organizeImports,
+  // groups: [{ type: true }]): type imports first, then value imports, each
+  // ordered builtin -> external -> internal -> relative. Keeping the selector
+  // split means `import type ... from "@solana/kit"` still sorts ahead of
+  // `import type ... from "./types.js"`, the way Biome ordered them.
+  "sortImports": {
+    "groups": [
+      ["type-builtin", "type-external"],
+      ["type-internal", "type-subpath"],
+      ["type-parent", "type-sibling", "type-index"],
+      "builtin",
+      "external",
+      ["internal", "subpath"],
+      ["parent", "sibling", "index"],
+      "style",
+      "unknown"
+    ],
+    "newlinesBetween": false
+  },
+  // oxfmt would otherwise reorder the keys of every package.json. Biome never
+  // did that, and it is not what this change is for.
+  "sortPackageJson": false,
   "ignorePatterns": [
-    "**/*.json",
-    "**/*.jsonc",
+    // Biome never formatted Markdown or YAML, so neither does oxfmt. oxfmt can,
+    // but turning it on here would churn every doc in the repo for no reason.
     "**/*.md",
     "**/*.yml",
     "**/*.yaml",
-    "**/*.css",
-    "**/*.html",
     "**/routeTree.gen.ts"
   ]
 }

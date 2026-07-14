@@ -12,20 +12,12 @@
     "**/.direnv": true
   },
   "typescript.tsdk": "node_modules/typescript/lib",
-  "editor.defaultFormatter": "biomejs.biome",
-  "[json]": {
-    "editor.defaultFormatter": "biomejs.biome"
-  },
-  "[javascript][javascriptreact][typescript][typescriptreact]": {
-    "editor.defaultFormatter": "oxc.oxc-vscode"
-  },
+  "editor.defaultFormatter": "oxc.oxc-vscode",
   "oxc.fmt.experimental": true,
   "oxc.typeAware": true,
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.oxc": "explicit",
-    "source.fixAll.biome": "explicit",
-    "source.organizeImports.biome": "explicit"
+    "source.fixAll.oxc": "explicit"
   },
   "cSpell.words": ["dnum", "tmath", "TKNA", "TKNB"]
 }

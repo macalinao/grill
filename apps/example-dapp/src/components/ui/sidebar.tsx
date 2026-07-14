@@ -84,7 +84,7 @@ function SidebarProvider({
       }
 
       // This sets the cookie to keep the sidebar state.
-      // biome-ignore lint/suspicious/noDocumentCookie: shadcn
+      // oxlint-disable-next-line unicorn/no-document-cookie -- shadcn
       document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState.toString()}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE.toString()}`;
     },
     [setOpenProp, open],
@@ -535,6 +535,7 @@ function SidebarMenuButton({
   }
 
   if (typeof tooltip === "string") {
+    // oxlint-disable-next-line no-param-reassign -- shadcn
     tooltip = {
       children: tooltip,
     };

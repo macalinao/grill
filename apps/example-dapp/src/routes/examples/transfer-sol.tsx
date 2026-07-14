@@ -11,8 +11,8 @@ import {
   useKitWallet,
   useSendTX,
 } from "@macalinao/grill";
-import { lamports } from "@solana/kit";
 import { getTransferSolInstruction } from "@solana-program/system";
+import { lamports } from "@solana/kit";
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, Wallet } from "lucide-react";
 import { useMemo } from "react";

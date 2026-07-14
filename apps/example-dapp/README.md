@@ -175,7 +175,7 @@ The app includes several examples accessible through the sidebar:
 - **TanStack Query** - Powerful data synchronization
 - **Tailwind CSS v4** - Modern styling
 - **shadcn/ui** - Beautiful, accessible components
-- **Biome** - Fast formatting and linting
+- **oxlint + oxfmt** - Fast linting and formatting
 
 ## Learn More
 

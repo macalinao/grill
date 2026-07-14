@@ -4,8 +4,8 @@ import type {
   TransactionMessageWithFeePayer,
 } from "@solana/kit";
 import type { SolanaCluster } from "./transaction.js";
-import { createTransactionInspectorUrlWithOptions } from "./transaction.js";
 import { parseTransactionError } from "./transaction-error.js";
+import { createTransactionInspectorUrlWithOptions } from "./transaction.js";
 
 /**
  * Simulation result from the RPC, containing error info and logs.

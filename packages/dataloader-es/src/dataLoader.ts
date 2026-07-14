@@ -1,4 +1,4 @@
-/** biome-ignore-all lint/style/noNonNullAssertion: copied from graphql/dataloader so it's ok */
+// oxlint-disable typescript/no-non-null-assertion -- copied from graphql/dataloader so it's ok
 import type { Batch, BatchLoadFn, CacheMap, Options } from "./types.js";
 
 /**
