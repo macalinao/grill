@@ -1,3 +1,6 @@
+// oxlint-disable typescript/no-unsafe-assignment, typescript/no-unsafe-argument -- tsgolint resolves
+// gill's createTransaction()/compressTransactionMessageUsingAddressLookupTables() to an error type;
+// tsc types them correctly. Re-enable once typescript-go handles these signatures.
 import type {
   GetExplorerLinkFunction,
   SendTXFunction,
@@ -209,7 +212,7 @@ export const createSendTX = ({
           err &&
           typeof err === "object" &&
           "logs" in err &&
-          Array.isArray((err as { logs: unknown }).logs)
+          Array.isArray(err.logs)
         ) {
           return (err as { logs: string[] }).logs;
         }
@@ -217,7 +220,7 @@ export const createSendTX = ({
           err &&
           typeof err === "object" &&
           "context" in err &&
-          typeof (err as { context: unknown }).context === "object" &&
+          typeof err.context === "object" &&
           (err as { context: { logs?: unknown } }).context.logs &&
           Array.isArray((err as { context: { logs: unknown } }).context.logs)
         ) {

@@ -1,6 +1,6 @@
 import type {
-  BaseTransactionMessage,
   CompiledTransactionMessage,
+  TransactionMessage,
   TransactionMessageWithFeePayer,
 } from "@solana/kit";
 import {
@@ -18,7 +18,7 @@ import {
  * @returns The base64-encoded transaction message string
  */
 export function encodeTransactionMessageToBase64(
-  transactionMessage: BaseTransactionMessage & TransactionMessageWithFeePayer,
+  transactionMessage: TransactionMessage & TransactionMessageWithFeePayer,
 ): string {
   const compiled = compileTransactionMessage(transactionMessage);
   return encodeCompiledTransactionMessageToBase64(compiled);
@@ -64,7 +64,7 @@ export interface TransactionInspectorUrlOptions {
  * @returns The Solana Explorer transaction inspector URL
  */
 export function createTransactionInspectorUrl(
-  transactionMessage: BaseTransactionMessage & TransactionMessageWithFeePayer,
+  transactionMessage: TransactionMessage & TransactionMessageWithFeePayer,
   cluster: SolanaCluster = "mainnet-beta",
 ): string {
   return createTransactionInspectorUrlWithOptions(transactionMessage, {
@@ -81,7 +81,7 @@ export function createTransactionInspectorUrl(
  * @returns The Solana Explorer transaction inspector URL
  */
 export function createTransactionInspectorUrlWithOptions(
-  transactionMessage: BaseTransactionMessage & TransactionMessageWithFeePayer,
+  transactionMessage: TransactionMessage & TransactionMessageWithFeePayer,
   options: TransactionInspectorUrlOptions = {},
 ): string {
   const { cluster = "mainnet-beta", customUrl } = options;

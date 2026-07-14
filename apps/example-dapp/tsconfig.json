@@ -1,13 +1,21 @@
 {
-  "extends": ["@macalinao/tsconfig/tsconfig.vite.json"],
+  // Extends tsconfig.react.json rather than tsconfig.vite.json because the latter
+  // still sets `baseUrl`, which TypeScript 7 removes and tsgolint (used by
+  // `oxlint --type-aware`) rejects. The vite-specific options are inlined below.
+  "extends": ["@macalinao/tsconfig/tsconfig.react.json"],
   "compilerOptions": {
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "noEmit": true,
     "rootDir": ".",
-    "baseUrl": ".",
+    "isolatedDeclarations": false,
+    "allowImportingTsExtensions": true,
+    "esModuleInterop": true,
     "paths": {
       "~/*": ["./src/*"],
       "@/*": ["./src/*"]
-    },
-    "esModuleInterop": true
+    }
   },
   "include": ["./vite.config.ts", "src/", "src/**/*.json"]
 }

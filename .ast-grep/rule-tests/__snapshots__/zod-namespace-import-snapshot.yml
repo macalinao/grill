@@ -1,0 +1,56 @@
+id: zod-namespace-import
+snapshots:
+  ? |
+    import type { z } from "zod"
+  : fixed: |
+      import * as zod from "zod"
+    labels:
+    - source: import type { z } from "zod"
+      style: primary
+      start: 0
+      end: 28
+  ? |
+    import type { z, infer } from "zod"
+  : fixed: |
+      import * as zod from "zod"
+    labels:
+    - source: import type { z, infer } from "zod"
+      style: primary
+      start: 0
+      end: 35
+  ? |
+    import { z as zod } from "zod"
+  : fixed: |
+      import * as zod from "zod"
+    labels:
+    - source: import { z as zod } from "zod"
+      style: primary
+      start: 0
+      end: 30
+  ? |
+    import { z } from "zod"
+  : fixed: |
+      import * as zod from "zod"
+    labels:
+    - source: import { z } from "zod"
+      style: primary
+      start: 0
+      end: 23
+  ? |
+    import { z } from "zod";
+  : fixed: |
+      import * as zod from "zod"
+    labels:
+    - source: import { z } from "zod";
+      style: primary
+      start: 0
+      end: 24
+  ? |
+    import { z, infer } from "zod"
+  : fixed: |
+      import * as zod from "zod"
+    labels:
+    - source: import { z, infer } from "zod"
+      style: primary
+      start: 0
+      end: 30

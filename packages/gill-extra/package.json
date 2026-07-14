@@ -1,6 +1,6 @@
 {
   "name": "@macalinao/gill-extra",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Additional utilities for Gill - Solana development without React dependencies",
   "type": "module",
   "sideEffects": false,
@@ -38,8 +38,8 @@
   },
   "scripts": {
     "build": "tsc",
-    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo .eslintcache",
-    "lint": "eslint . --cache",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo",
     "test": "bun test src/"
   },
   "dependencies": {
@@ -49,27 +49,18 @@
     "@macalinao/solana-errors": "workspace:^",
     "@macalinao/token-utils": "workspace:^",
     "@macalinao/zod-solana": "workspace:^",
-    "@solana-program/system": "^0.10.0",
-    "@solana-program/token": "^0.9.0"
+    "@solana-program/system": "^0.12.2",
+    "@solana-program/token": "^0.13.0"
   },
   "devDependencies": {
-    "@macalinao/eslint-config": "catalog:",
     "@macalinao/tsconfig": "catalog:",
     "@solana/kit": "catalog:",
     "@types/bun": "catalog:",
-    "eslint": "catalog:",
     "gill": "catalog:",
     "typescript": "catalog:"
   },
   "peerDependencies": {
     "@solana/kit": "catalog:peer",
     "gill": "catalog:"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}": [
-      "biome check --write --no-errors-on-unmatched",
-      "eslint --fix --cache"
-    ],
-    "*.{json,jsonc,html}": "biome format --write --no-errors-on-unmatched"
   }
 }

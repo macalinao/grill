@@ -1,0 +1,9 @@
+id: zod-namespace-import
+message: Use namespace import for zod instead of named import
+severity: error
+language: TypeScript
+rule:
+  any:
+    - pattern: import { $$$IMPORTS } from "zod"
+    - pattern: import type { $$$IMPORTS } from "zod"
+fix: import * as zod from "zod"

@@ -1,6 +1,6 @@
 {
   "name": "@macalinao/grill",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "Modern Solana development kit for React applications with automatic account batching, caching, and transaction notifications",
   "license": "Apache-2.0",
   "author": "Ian Macalinao <me@ianm.com>",
@@ -41,8 +41,9 @@
   },
   "scripts": {
     "build": "tsc",
+    "typecheck": "tsc --noEmit",
     "dev": "tsc --watch",
-    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo .eslintcache"
+    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo"
   },
   "dependencies": {
     "@gillsdk/react": "catalog:",
@@ -52,11 +53,10 @@
     "@macalinao/solana-batch-accounts-loader": "workspace:^",
     "@macalinao/token-utils": "workspace:^",
     "@macalinao/zod-solana": "workspace:^",
-    "@solana-program/token": "^0.9.0",
-    "@solana-program/address-lookup-table": "^0.10.0"
+    "@solana-program/token": "^0.13.0",
+    "@solana-program/address-lookup-table": "^0.11.0"
   },
   "devDependencies": {
-    "@macalinao/eslint-config-react": "catalog:",
     "@macalinao/tsconfig": "catalog:",
     "@solana/kit": "catalog:",
     "@tanstack/react-query": "catalog:",
@@ -68,16 +68,9 @@
   },
   "peerDependencies": {
     "@solana/kit": "catalog:peer",
-    "@tanstack/react-query": "^5.90.12",
+    "@tanstack/react-query": "^5.90.19",
     "gill": "catalog:",
     "react": "catalog:peer",
     "sonner": "^2"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}": [
-      "biome check --write --no-errors-on-unmatched",
-      "eslint --fix --cache"
-    ],
-    "*.{json,jsonc,html}": "biome format --write --no-errors-on-unmatched"
   }
 }

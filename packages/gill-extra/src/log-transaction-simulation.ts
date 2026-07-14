@@ -1,6 +1,6 @@
 import type {
-  BaseTransactionMessage,
   TransactionError,
+  TransactionMessage,
   TransactionMessageWithFeePayer,
 } from "@solana/kit";
 import type { SolanaCluster } from "./transaction.js";
@@ -35,7 +35,7 @@ export interface LogTransactionSimulationOptions {
   /**
    * The transaction message that was simulated.
    */
-  transactionMessage: BaseTransactionMessage & TransactionMessageWithFeePayer;
+  transactionMessage: TransactionMessage & TransactionMessageWithFeePayer;
   /**
    * The Solana cluster for explorer links.
    */

@@ -24,7 +24,7 @@ export async function fetchTokenInfo({
   mint,
   metadata,
   fetchFromCertifiedTokenList = true,
-}: FetchTokenInfoParams): Promise<TokenInfo | null> {
+}: FetchTokenInfoParams): Promise<TokenInfo> {
   const uri = metadata?.data.uri;
   const decimals = mint.data.decimals;
 
