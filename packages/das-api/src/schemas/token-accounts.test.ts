@@ -43,7 +43,7 @@ describe("dasApiTokenAccountSchema", () => {
     expect(account.delegated_amount).toBe(500);
     expect(account.delegate).toBe(address(DELEGATE));
     expect(account.close_authority).toBe(address(OWNER));
-    expect(account.token_extensions?.transfer_fee_amount).toEqual({
+    expect(account.token_extensions?.["transfer_fee_amount"]).toEqual({
       withheld_amount: 0,
     });
   });

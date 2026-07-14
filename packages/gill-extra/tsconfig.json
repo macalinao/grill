@@ -1,6 +1,16 @@
 {
-  "extends": "@macalinao/tsconfig/tsconfig.base.json",
+  "extends": [
+    "@macalinao/tsconfig/tsconfig.base.json",
+    "../../tsconfig.strict.json"
+  ],
   "compilerOptions": {
+    // The one package that still opts out of isolatedDeclarations.
+    // `getConfirmedTransaction` returns whatever
+    // `rpc.getTransaction(sig, { encoding: "jsonParsed", ... }).send()` returns,
+    // and `GetTransactionApi["getTransaction"]` is a four-way overload keyed on
+    // `encoding`. There is no sound way to name that type by hand:
+    // `ReturnType<>` resolves to the last overload (`encoding: "json"`), which
+    // is the wrong one. Inference is the only thing that gets it right.
     "isolatedDeclarations": false,
     "types": ["bun"],
     "composite": false,

@@ -104,7 +104,8 @@ export const useQuarryClaimMM = (): UseQuarryClaimMMResult => {
     sendTX,
   ]);
 
-  const isReady = !!signer && !!mergePool;
+  // mergePool is always present -- useMergeMinerContext throws without it.
+  const isReady = signer !== null;
 
   return {
     claimAll,

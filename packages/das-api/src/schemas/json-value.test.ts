@@ -55,8 +55,8 @@ describe("jsonObjectSchema", () => {
       object: { nested: true },
     });
 
-    expect(parsed.string).toBe("s");
-    expect(parsed.object).toEqual({ nested: true });
+    expect(parsed["string"]).toBe("s");
+    expect(parsed["object"]).toEqual({ nested: true });
   });
 
   it("rejects non-objects", () => {

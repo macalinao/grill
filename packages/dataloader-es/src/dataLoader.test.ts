@@ -137,14 +137,18 @@ describe("Primary API", () => {
     });
 
     // Move to next tick
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    await new Promise<void>((resolve) => {
+      setTimeout(resolve, 0);
+    });
 
     expect(promise1Resolved).toBe(false);
     expect(promise2Resolved).toBe(false);
 
     resolveBatch();
     // Move to next tick
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    await new Promise<void>((resolve) => {
+      setTimeout(resolve, 0);
+    });
 
     expect(promise1Resolved).toBe(true);
     expect(promise2Resolved).toBe(true);
@@ -189,7 +193,9 @@ describe("Primary API", () => {
     });
 
     // Move to next tick
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    await new Promise<void>((resolve) => {
+      setTimeout(resolve, 0);
+    });
 
     // Promise 1 resolves first since max batch size is 1,
     // but it still hasn't resolved yet.
@@ -198,7 +204,9 @@ describe("Primary API", () => {
 
     resolveBatch();
     // Move to next tick
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    await new Promise<void>((resolve) => {
+      setTimeout(resolve, 0);
+    });
 
     expect(promise1Resolved).toBe(true);
     expect(promise2Resolved).toBe(true);
@@ -511,7 +519,9 @@ describe("Represents Errors", () => {
     identityLoader.prime(1, new Error("Error: 1"));
 
     // Wait a bit.
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    await new Promise<void>((resolve) => {
+      setTimeout(resolve, 0);
+    });
 
     let caughtErrorA: unknown;
     try {

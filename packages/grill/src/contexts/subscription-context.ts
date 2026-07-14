@@ -90,15 +90,15 @@ export interface SubscriptionManager {
    * Multiple calls with the same address will share a single WebSocket subscription.
    * The subscription is automatically cleaned up when all subscribers unsubscribe.
    */
-  subscribe<T extends AccountData>(
+  subscribe: <T extends AccountData>(
     address: Address,
     decoder: AccountDecoder<T>,
-  ): () => void;
+  ) => () => void;
 
   /**
    * Get the current reference count for an address (for debugging).
    */
-  getSubscriptionCount(address: Address): number;
+  getSubscriptionCount: (address: Address) => number;
 }
 
 /**

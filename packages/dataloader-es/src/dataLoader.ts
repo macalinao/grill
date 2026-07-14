@@ -13,11 +13,11 @@ import type { Batch, BatchLoadFn, CacheMap, Options } from "./types.js";
  */
 export class DataLoader<K, V, C = K> {
   // Private
-  #batchLoadFn: BatchLoadFn<K, V>;
-  #maxBatchSize: number;
-  #batchScheduleFn: (callback: () => void) => void;
-  #cacheKeyFn: (key: K) => C;
-  #cacheMap: CacheMap<C, Promise<V>> | null;
+  readonly #batchLoadFn: BatchLoadFn<K, V>;
+  readonly #maxBatchSize: number;
+  readonly #batchScheduleFn: (callback: () => void) => void;
+  readonly #cacheKeyFn: (key: K) => C;
+  readonly #cacheMap: CacheMap<C, Promise<V>> | null;
   #batch: Batch<K, V> | null;
 
   /**
@@ -269,14 +269,16 @@ function getValidBatchScheduleFn<K, V, C>(
   const batchScheduleFn = options?.batchScheduleFn;
   if (batchScheduleFn === undefined) {
     // Unlike the original DataLoader, we assume `setTimeout` is available.
-    return (cb) => setTimeout(cb, 0);
+    return (cb) => {
+      setTimeout(cb, 0);
+    };
   }
   return batchScheduleFn;
 }
 
 // Private: given the DataLoader's options, produce a cache key function.
-function getValidCacheKeyFn<K, C>(
-  options?: Options<K, unknown, C>,
+function getValidCacheKeyFn<K, V, C>(
+  options?: Options<K, V, C>,
 ): (key: K) => C {
   const cacheKeyFn = options?.cacheKeyFn;
   if (cacheKeyFn === undefined) {

@@ -1,5 +1,8 @@
 {
-  "extends": "@macalinao/tsconfig/tsconfig.react.json",
+  "extends": [
+    "@macalinao/tsconfig/tsconfig.react.json",
+    "../../tsconfig.strict.json"
+  ],
   "compilerOptions": {
     "types": ["bun"],
     "composite": false,

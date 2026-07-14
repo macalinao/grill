@@ -13,7 +13,9 @@ export function createPdaQuery<TArgs, TResult>(
   return {
     queryKey: createPdaQueryKey(queryKeyPrefix, args),
     queryFn: async () => {
-      if (!args) {
+      // Nullish, not falsy: TArgs is unconstrained, so a falsy-but-valid seed
+      // (0, "") must still be passed through to pdaFn.
+      if (args === null || args === undefined) {
         return null;
       }
       const [pda] = await pdaFn(args);

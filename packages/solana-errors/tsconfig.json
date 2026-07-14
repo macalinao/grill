@@ -1,7 +1,9 @@
 {
-  "extends": "@macalinao/tsconfig/tsconfig.base.json",
+  "extends": [
+    "@macalinao/tsconfig/tsconfig.base.json",
+    "../../tsconfig.strict.json"
+  ],
   "compilerOptions": {
-    "isolatedDeclarations": false,
     "types": ["bun"],
     "composite": false,
     "incremental": false

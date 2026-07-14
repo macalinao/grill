@@ -530,7 +530,7 @@ function SidebarMenuButton({
     />
   );
 
-  if (!tooltip) {
+  if (tooltip === undefined || tooltip === "") {
     return button;
   }
 

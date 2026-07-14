@@ -9,7 +9,9 @@ export interface ThemeProviderState {
 
 const initialState: ThemeProviderState = {
   theme: "system",
-  setTheme: () => null,
+  setTheme: () => {
+    // Replaced by ThemeProvider; a bare context read is a no-op.
+  },
 };
 
 export const ThemeProviderContext =

@@ -7,4 +7,4 @@ export * from "./native-sol.js";
 export * from "./parse-token-amount.js";
 export * as tmath from "./tmath.js";
 export * from "./token-amount-to-bigint.js";
-export * from "./types.js";
+export type * from "./types.js";

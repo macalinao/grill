@@ -265,7 +265,7 @@ describe("dasApiAssetSchema", () => {
     expect(asset.inscription?.inscriptionDataAccount).toBe(
       address(SYSTEM_PROGRAM),
     );
-    expect(asset.spl20?.tick).toBe("test");
+    expect(asset.spl20?.["tick"]).toBe("test");
     expect(asset.last_indexed_slot).toBe(123_456_789);
     expect(asset.mpl_core_info?.num_minted).toBe(10);
   });

@@ -56,10 +56,10 @@ export interface Options<K, V, C = K> {
 
 // If a custom cache is provided, it must be of this type (a subset of ES6 Map).
 export interface CacheMap<K, V> {
-  get(key: K): V | undefined;
-  set(key: K, value: V): void;
-  delete(key: K): void;
-  clear(): void;
+  get: (key: K) => V | undefined;
+  set: (key: K, value: V) => void;
+  delete: (key: K) => void;
+  clear: () => void;
 }
 
 // Private: Describes a batch of requests
