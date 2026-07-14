@@ -1,6 +1,7 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalEnv": ["NODE_AUTH_TOKEN"],
+  "globalDependencies": ["tsdown.config.base.ts"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],

@@ -66,6 +66,7 @@
     "oxlint": "1.72.0",
     "oxlint-tsgolint": "0.24.0",
     "prettier": "^3.8.3",
+    "tsdown": "catalog:",
     "turbo": "^2.9.16",
     "typescript": "^6.0.3",
     "unrun": "^0.3.1"

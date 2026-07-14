@@ -1,12 +1,3 @@
-import { defineConfig } from "tsdown";
+import { defineGrillConfig } from "../../tsdown.config.base.ts";
 
-export default defineConfig({
-  entry: ["src/index.ts"],
-  outDir: "dist",
-  format: ["esm"],
-  platform: "neutral",
-  unbundle: true,
-  dts: true,
-  sourcemap: true,
-  clean: true,
-});
+export default defineGrillConfig();
