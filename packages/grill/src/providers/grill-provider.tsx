@@ -8,8 +8,10 @@ import { GrillHeadlessProvider } from "./grill-headless-provider.js";
 /**
  * Props for the GrillProvider component
  */
-export interface GrillProviderProps
-  extends Omit<GrillHeadlessProviderProps, "onTransactionStatusEvent"> {
+export interface GrillProviderProps extends Omit<
+  GrillHeadlessProviderProps,
+  "onTransactionStatusEvent"
+> {
   /**
    * Optional custom handler for transaction status events.
    * If not provided, will use default toast notifications.

@@ -1,6 +1,6 @@
 {
   "name": "@macalinao/wallet-adapter-compat",
-  "version": "6.0.0",
+  "version": "7.0.0",
   "description": "Compatibility layer that bridges @solana/wallet-adapter with @solana/kit and grill",
   "type": "module",
   "sideEffects": false,
@@ -39,22 +39,20 @@
   },
   "scripts": {
     "build": "tsc",
-    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo .eslintcache",
-    "lint": "eslint . --cache"
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "@solana/webcrypto-ed25519-polyfill": "5.4.0",
+    "@solana/webcrypto-ed25519-polyfill": "6.9.0",
     "tslib": "catalog:"
   },
   "devDependencies": {
-    "@macalinao/eslint-config-react": "catalog:",
     "@macalinao/grill": "workspace:^",
     "@macalinao/tsconfig": "catalog:",
     "@solana/kit": "catalog:",
     "@solana/web3.js": "^1.98.4",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "eslint": "catalog:",
     "typescript": "catalog:"
   },
   "peerDependencies": {
@@ -65,12 +63,5 @@
     "@solana/wallet-adapter-react": "catalog:",
     "react": "catalog:peer",
     "react-dom": "catalog:peer"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}": [
-      "biome check --write --no-errors-on-unmatched",
-      "eslint --fix --cache"
-    ],
-    "*.{json,jsonc,html}": "biome format --write --no-errors-on-unmatched"
   }
 }

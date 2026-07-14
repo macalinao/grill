@@ -12,8 +12,10 @@ import { getMintDecoder } from "@solana-program/token";
 import { decodeAccount, fetchEncodedAccounts } from "gill";
 import { fetchTokenInfo } from "./fetch-token-info.js";
 
-export interface FetchTokenInfoForMintParams
-  extends Omit<FetchTokenInfoParams, "mint" | "metadata"> {
+export interface FetchTokenInfoForMintParams extends Omit<
+  FetchTokenInfoParams,
+  "mint" | "metadata"
+> {
   /**
    * The RPC client to use for fetching accounts.
    */

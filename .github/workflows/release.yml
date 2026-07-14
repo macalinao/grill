@@ -20,6 +20,8 @@ jobs:
       contents: write
       packages: write
       pull-requests: write
+      # Required for npm OIDC trusted publishing (provenance attestations)
+      id-token: write
 
     steps:
       - name: Checkout Repo
@@ -32,6 +34,12 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: "22"
+          registry-url: "https://registry.npmjs.org"
+
+      # npm OIDC trusted publishing requires npm >= 11.5.1; Node 22 ships an
+      # older npm, so upgrade it explicitly.
+      - name: Upgrade npm for OIDC trusted publishing
+        run: npm install -g npm@latest
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -50,10 +58,6 @@ jobs:
       - name: Build packages
         run: bun run build
 
-      - name: Setup NPM authentication
-        run: |
-          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
-
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
@@ -64,9 +68,7 @@ jobs:
           commit: "chore: release packages"
           title: "chore: release packages"
         env:
-          NPM_CONFIG_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Send notification on release
         if: steps.changesets.outputs.published == 'true'

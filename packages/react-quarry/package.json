@@ -1,6 +1,6 @@
 {
   "name": "@macalinao/react-quarry",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "description": "React hooks for Quarry",
   "author": "Ian Macalinao <me@ianm.com>",
   "homepage": "https://grill.ianm.com",
@@ -49,8 +49,8 @@
   },
   "scripts": {
     "build": "tsc",
-    "lint": "eslint .",
-    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo .eslintcache"
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo"
   },
   "dependencies": {
     "@macalinao/quarry": "workspace:^"
@@ -61,7 +61,6 @@
     "react": "catalog:peer"
   },
   "devDependencies": {
-    "@macalinao/eslint-config-react": "catalog:",
     "@macalinao/grill": "workspace:^",
     "@macalinao/tsconfig": "catalog:",
     "@solana/kit": "catalog:",
