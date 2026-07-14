@@ -15,12 +15,11 @@ export type { TransactionError };
 export const TRANSACTION_ERROR_MESSAGES: Record<string, string> = {
   AccountInUse: "Account is already being processed in another transaction",
   AccountLoadedTwice: "Account loaded twice",
-  AccountNotFound: "Attempt to debit an account but found no record of a prior credit",
+  AccountNotFound:
+    "Attempt to debit an account but found no record of a prior credit",
   ProgramAccountNotFound: "Attempt to load a program that does not exist",
-  InsufficientFundsForFee:
-    "Insufficient funds for fee",
-  InvalidAccountForFee:
-    "This account may not be used to pay transaction fees",
+  InsufficientFundsForFee: "Insufficient funds for fee",
+  InvalidAccountForFee: "This account may not be used to pay transaction fees",
   AlreadyProcessed: "This transaction has already been processed",
   BlockhashNotFound:
     "Blockhash not found in recent blockhashes or in the blockhash queue",
@@ -36,27 +35,24 @@ export const TRANSACTION_ERROR_MESSAGES: Record<string, string> = {
     "Transactions are currently disabled due to cluster maintenance",
   AccountBorrowOutstanding:
     "Transaction processing left an account with an outstanding borrowed reference",
-  WouldExceedMaxBlockCostLimit:
-    "Transaction would exceed max block cost limit",
+  WouldExceedMaxBlockCostLimit: "Transaction would exceed max block cost limit",
   UnsupportedVersion: "Transaction version is unsupported",
-  InvalidWritableAccount: "Transaction loads a writable account that cannot be written",
+  InvalidWritableAccount:
+    "Transaction loads a writable account that cannot be written",
   WouldExceedMaxAccountCostLimit:
     "Transaction would exceed max account limit within the block",
   WouldExceedAccountDataBlockLimit:
     "Transaction would exceed account data block limit",
-  TooManyAccountLocks:
-    "Transaction locked too many accounts",
+  TooManyAccountLocks: "Transaction locked too many accounts",
   AddressLookupTableNotFound: "Address lookup table not found",
   InvalidAddressLookupTableOwner:
     "Attempted to lookup addresses from an account owned by the wrong program",
   InvalidAddressLookupTableData:
     "Attempted to lookup addresses from an invalid account",
-  InvalidAddressLookupTableIndex:
-    "Address table lookup uses an invalid index",
+  InvalidAddressLookupTableIndex: "Address table lookup uses an invalid index",
   InvalidRentPayingAccount:
     "Transaction leaves an account with a lower balance than rent-exempt minimum",
-  WouldExceedMaxVoteCostLimit:
-    "Transaction would exceed max vote cost limit",
+  WouldExceedMaxVoteCostLimit: "Transaction would exceed max vote cost limit",
   WouldExceedAccountDataTotalLimit:
     "Transaction would exceed account data total limit",
   MaxLoadedAccountsDataSizeExceeded:
@@ -66,7 +62,8 @@ export const TRANSACTION_ERROR_MESSAGES: Record<string, string> = {
   ResanitizationNeeded: "Transaction requires re-sanitization",
   ProgramExecutionTemporarilyRestricted:
     "Program execution temporarily restricted",
-  UnbalancedTransaction: "Sum of account balances before and after transaction do not match",
+  UnbalancedTransaction:
+    "Sum of account balances before and after transaction do not match",
 };
 
 /**
@@ -76,29 +73,32 @@ export const TRANSACTION_ERROR_MESSAGES: Record<string, string> = {
  * @returns The formatted error message
  */
 export function getTransactionErrorMessage(error: TransactionError): string {
-  if (error === null || error === undefined) {
+  // TransactionError describes what the RPC is expected to return, but the
+  // response is never validated at runtime, so narrow from `unknown` instead of
+  // trusting the declared type.
+  const raw: unknown = error;
+
+  if (raw === null || raw === undefined) {
     return "Unknown transaction error";
   }
 
   // Handle string error (simple variant like "AccountInUse")
-  if (typeof error === "string") {
-    return (
-      TRANSACTION_ERROR_MESSAGES[error] ?? `Transaction error: ${error}`
-    );
+  if (typeof raw === "string") {
+    return TRANSACTION_ERROR_MESSAGES[raw] ?? `Transaction error: ${raw}`;
   }
 
   // Handle object error (variant with data)
-  if (typeof error === "object") {
-    const entries = Object.entries(error);
-    if (entries.length === 0) {
+  if (typeof raw === "object") {
+    const entry = Object.entries(raw as Record<string, unknown>)[0];
+    if (entry === undefined) {
       return "Unknown transaction error";
     }
 
-    const [variant, value] = entries[0];
+    const [variant, value] = entry;
 
     // Special case for InstructionError
     if (variant === "InstructionError" && Array.isArray(value)) {
-      const [instructionIndex, instructionError] = value;
+      const [instructionIndex, instructionError] = value as [number, unknown];
       const instructionMessage = getInstructionErrorMessage(instructionError);
       return `Instruction ${instructionIndex} failed: ${instructionMessage}`;
     }
@@ -139,5 +139,5 @@ export function getTransactionErrorMessage(error: TransactionError): string {
     return baseMessage;
   }
 
-  return `Unknown transaction error: ${String(error)}`;
+  return `Unknown transaction error: ${JSON.stringify(raw)}`;
 }

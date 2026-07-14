@@ -10,12 +10,11 @@
  */
 
 export {
-  INSTRUCTION_ERROR_MESSAGES,
   getInstructionErrorMessage,
+  INSTRUCTION_ERROR_MESSAGES,
 } from "./instruction-error.js";
-
 export {
-  TRANSACTION_ERROR_MESSAGES,
   getTransactionErrorMessage,
+  TRANSACTION_ERROR_MESSAGES,
   type TransactionError,
 } from "./transaction-error.js";

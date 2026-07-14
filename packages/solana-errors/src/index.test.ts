@@ -1,3 +1,4 @@
+import type { TransactionError } from "./index.js";
 import { describe, expect, it } from "bun:test";
 import {
   getInstructionErrorMessage,
@@ -85,13 +86,14 @@ describe("getTransactionErrorMessage", () => {
       getTransactionErrorMessage({
         ProgramExecutionTemporarilyRestricted: { account_index: 1 },
       }),
-    ).toBe(
-      "Program execution temporarily restricted for account at index 1",
-    );
+    ).toBe("Program execution temporarily restricted for account at index 1");
   });
 
   it("handles unknown error variants", () => {
-    expect(getTransactionErrorMessage("SomeNewError")).toBe(
+    // TransactionError is a closed union, but the RPC can return variants added
+    // after this version of @solana/kit was published. Cast to exercise the
+    // runtime fallback path for such a variant.
+    expect(getTransactionErrorMessage("SomeNewError" as TransactionError)).toBe(
       "Transaction error: SomeNewError",
     );
   });

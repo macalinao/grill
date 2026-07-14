@@ -21,7 +21,8 @@ export const INSTRUCTION_ERROR_MESSAGES: Record<string, string> = {
   UninitializedAccount: "Instruction requires an initialized account",
   UnbalancedInstruction:
     "Sum of account balances before and after instruction do not match",
-  ModifiedProgramId: "Instruction illegally modified the program id of an account",
+  ModifiedProgramId:
+    "Instruction illegally modified the program id of an account",
   ExternalAccountLamportSpend:
     "Instruction spent from the balance of an account it does not own",
   ExternalAccountDataModified:
@@ -44,21 +45,22 @@ export const INSTRUCTION_ERROR_MESSAGES: Record<string, string> = {
     "The same account was multiply passed to an on-chain program but the program modified them differently",
   InvalidError: "Returned error code is not allowed from the program",
   ExecutableDataModified: "Executable account's data was modified",
-  ExecutableLamportChange:
-    "Executable account's lamports modified",
+  ExecutableLamportChange: "Executable account's lamports modified",
   ExecutableAccountNotRentExempt: "Executable account not rent-exempt",
   UnsupportedProgramId: "Unsupported program id",
   CallDepth: "Cross-program invocation call depth too deep",
   MissingAccount: "An account required by the instruction is missing",
   ReentrancyNotAllowed:
     "Cross-program invocation reentrancy not allowed for this instruction",
-  MaxSeedLengthExceeded: "Length of the seed is too long for address generation",
+  MaxSeedLengthExceeded:
+    "Length of the seed is too long for address generation",
   InvalidSeeds: "Provided seeds do not result in a valid address",
   InvalidRealloc: "Failed to reallocate account data",
   ComputationalBudgetExceeded: "Computational budget exceeded",
   PrivilegeEscalation:
     "Cross-program invocation with unauthorized signer or writable account",
-  ProgramEnvironmentSetupFailure: "Failed to create program execution environment",
+  ProgramEnvironmentSetupFailure:
+    "Failed to create program execution environment",
   ProgramFailedToComplete: "Program failed to complete",
   ProgramFailedToCompile: "Program failed to compile",
   Immutable: "Account is immutable",
@@ -79,6 +81,20 @@ export const INSTRUCTION_ERROR_MESSAGES: Record<string, string> = {
 };
 
 /**
+ * Renders an arbitrary RPC-supplied value as a string, without relying on
+ * `Object.prototype.toString` (which would yield "[object Object]").
+ */
+function stringifyValue(value: unknown): string {
+  if (typeof value === "string") {
+    return value;
+  }
+  if (typeof value === "number" || typeof value === "boolean") {
+    return String(value);
+  }
+  return JSON.stringify(value);
+}
+
+/**
  * Gets the human-readable message for an InstructionError.
  *
  * @param error - The InstructionError value from the RPC response
@@ -96,19 +112,19 @@ export function getInstructionErrorMessage(error: unknown): string {
 
   // Handle object error (variant with data like { Custom: 1 } or { BorshIoError: "..." })
   if (typeof error === "object") {
-    const entries = Object.entries(error as Record<string, unknown>);
-    if (entries.length === 0) {
+    const entry = Object.entries(error as Record<string, unknown>)[0];
+    if (entry === undefined) {
       return "Unknown instruction error";
     }
 
-    const [variant, value] = entries[0];
+    const [variant, value] = entry;
 
     // Special case for Custom errors
     if (variant === "Custom") {
       if (typeof value === "number") {
         return `Custom program error: 0x${value.toString(16)} (${value})`;
       }
-      return `Custom program error: ${String(value)}`;
+      return `Custom program error: ${stringifyValue(value)}`;
     }
 
     // Special case for BorshIoError with message
@@ -120,10 +136,10 @@ export function getInstructionErrorMessage(error: unknown): string {
     const baseMessage =
       INSTRUCTION_ERROR_MESSAGES[variant] ?? `Instruction error: ${variant}`;
     if (value !== null && value !== undefined) {
-      return `${baseMessage}: ${String(value)}`;
+      return `${baseMessage}: ${stringifyValue(value)}`;
     }
     return baseMessage;
   }
 
-  return `Unknown instruction error: ${String(error)}`;
+  return `Unknown instruction error: ${stringifyValue(error)}`;
 }

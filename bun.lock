@@ -93,6 +93,7 @@
         "@macalinao/clients-token-metadata": "^0.4.6",
         "@macalinao/dataloader-es": "workspace:^",
         "@macalinao/solana-batch-accounts-loader": "workspace:^",
+        "@macalinao/solana-errors": "workspace:^",
         "@macalinao/token-utils": "workspace:^",
         "@macalinao/zod-solana": "workspace:^",
         "@solana-program/system": "^0.12.2",
@@ -195,6 +196,19 @@
         "@solana/kit": "catalog:",
         "@types/bun": "catalog:",
         "@types/lodash-es": "^4.17.12",
+        "typescript": "catalog:",
+      },
+      "peerDependencies": {
+        "@solana/kit": "catalog:peer",
+      },
+    },
+    "packages/solana-errors": {
+      "name": "@macalinao/solana-errors",
+      "version": "0.1.0",
+      "devDependencies": {
+        "@macalinao/tsconfig": "catalog:",
+        "@solana/kit": "catalog:",
+        "@types/bun": "catalog:",
         "typescript": "catalog:",
       },
       "peerDependencies": {
@@ -527,6 +541,8 @@
     "@macalinao/react-quarry": ["@macalinao/react-quarry@workspace:packages/react-quarry"],
 
     "@macalinao/solana-batch-accounts-loader": ["@macalinao/solana-batch-accounts-loader@workspace:packages/solana-batch-accounts-loader"],
+
+    "@macalinao/solana-errors": ["@macalinao/solana-errors@workspace:packages/solana-errors"],
 
     "@macalinao/token-utils": ["@macalinao/token-utils@workspace:packages/token-utils"],
 
