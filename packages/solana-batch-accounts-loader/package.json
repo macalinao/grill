@@ -41,8 +41,7 @@
     "build": "tsdown",
     "dev": "tsdown --watch",
     "typecheck": "tsc --noEmit",
-    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo .eslintcache",
-    "lint": "eslint . --cache",
+    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo",
     "test": "bun test src/"
   },
   "dependencies": {
@@ -51,23 +50,14 @@
     "tslib": "catalog:"
   },
   "devDependencies": {
-    "@macalinao/eslint-config": "catalog:",
     "@macalinao/tsconfig": "catalog:",
     "@solana/kit": "catalog:",
     "@types/bun": "catalog:",
     "@types/lodash-es": "^4.17.12",
-    "eslint": "catalog:",
     "tsdown": "catalog:",
     "typescript": "catalog:"
   },
   "peerDependencies": {
     "@solana/kit": "catalog:peer"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}": [
-      "biome check --write --no-errors-on-unmatched",
-      "eslint --fix --cache"
-    ],
-    "*.{json,jsonc,html}": "biome format --write --no-errors-on-unmatched"
   }
 }

@@ -10,7 +10,7 @@ export const getConfirmedTransaction = async (
   rpc: Rpc<GetTransactionApi>,
   signature: Signature,
 ) => {
-  return await rpc
+  return rpc
     .getTransaction(signature, {
       commitment: "confirmed",
       maxSupportedTransactionVersion: 0,
