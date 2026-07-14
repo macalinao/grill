@@ -24,7 +24,14 @@ export const Route = createFileRoute("/examples/token-metadata")({
 });
 
 /** Metaplex pads its fixed-size strings with NUL bytes. */
-const trim = (value: string): string => value.replace(/\0+$/, "");
+const NUL = "\u0000";
+const trim = (value: string): string => {
+  let end = value.length;
+  while (end > 0 && value[end - 1] === NUL) {
+    end -= 1;
+  }
+  return value.slice(0, end);
+};
 
 /**
  * `useTokenMetadataAccount` takes a *mint* and does the PDA derivation for you.

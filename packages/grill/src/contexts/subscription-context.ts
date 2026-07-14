@@ -202,7 +202,7 @@ export function createSubscriptionManager(
     const entry: SubscriptionEntry = {
       abortController,
       refCount: 1,
-      decoder: decoder as AccountDecoder<AccountData>,
+      decoder,
     };
     subscriptions.set(key, entry);
 
