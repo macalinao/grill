@@ -1,0 +1,63 @@
+{
+  "name": "@macalinao/das-api",
+  "version": "0.0.0",
+  "description": "Metaplex Digital Asset Standard (DAS) API client for @solana/kit - no umi dependency",
+  "type": "module",
+  "sideEffects": false,
+  "author": "Ian Macalinao <me@ianm.com>",
+  "homepage": "https://grill.ianm.com",
+  "license": "Apache-2.0",
+  "keywords": [
+    "solana",
+    "das",
+    "digital-asset-standard",
+    "metaplex",
+    "helius",
+    "nft",
+    "compressed-nft",
+    "rpc",
+    "kit",
+    "typescript",
+    "ian-macalinao"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist/",
+    "src/"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/macalinao/grill.git",
+    "directory": "packages/das-api"
+  },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo",
+    "test": "bun test src/"
+  },
+  "dependencies": {
+    "@macalinao/zod-solana": "workspace:^"
+  },
+  "peerDependencies": {
+    "@solana/kit": "catalog:peer",
+    "zod": "catalog:peer"
+  },
+  "devDependencies": {
+    "@macalinao/tsconfig": "catalog:",
+    "@solana/kit": "catalog:",
+    "@types/bun": "catalog:",
+    "typescript": "catalog:",
+    "zod": "^4.3.5"
+  }
+}

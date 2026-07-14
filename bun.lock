@@ -74,6 +74,24 @@
         "@macalinao/grill": "workspace:^",
       },
     },
+    "packages/das-api": {
+      "name": "@macalinao/das-api",
+      "version": "0.0.0",
+      "dependencies": {
+        "@macalinao/zod-solana": "workspace:^",
+      },
+      "devDependencies": {
+        "@macalinao/tsconfig": "catalog:",
+        "@solana/kit": "catalog:",
+        "@types/bun": "catalog:",
+        "typescript": "catalog:",
+        "zod": "^4.3.5",
+      },
+      "peerDependencies": {
+        "@solana/kit": "catalog:peer",
+        "zod": "catalog:peer",
+      },
+    },
     "packages/dataloader-es": {
       "name": "@macalinao/dataloader-es",
       "version": "0.2.7",
@@ -515,6 +533,8 @@
     "@macalinao/clients-quarry": ["@macalinao/clients-quarry@0.4.6", "", { "peerDependencies": { "@solana/kit": "*" } }, "sha512-SvQZGgLzLdlbtXjyCLM6ewFI06sbFfz+TaRVcXORqtsunbiZrHt0cSHs5LLi5HqOpaRfuEancrLRJCRb+tME/A=="],
 
     "@macalinao/clients-token-metadata": ["@macalinao/clients-token-metadata@0.4.6", "", { "peerDependencies": { "@solana/kit": "*" } }, "sha512-FRUYkGAScAj/h/PiD/nEVTgfyCLPxSmvSrTTx+9vINJ8rZbVE9oFigsXomJKfJDGj3CrNu1sCq5Yfxlm85y4Uw=="],
+
+    "@macalinao/das-api": ["@macalinao/das-api@workspace:packages/das-api"],
 
     "@macalinao/dataloader-es": ["@macalinao/dataloader-es@workspace:packages/dataloader-es"],
 
