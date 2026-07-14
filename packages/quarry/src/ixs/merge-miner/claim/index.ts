@@ -5,4 +5,4 @@ export * from "./claim-primary-rewards.js";
 export * from "./claim-primary-rewards-no-withdraw.js";
 export * from "./claim-replica-rewards.js";
 export * from "./claim-replica-rewards-no-withdraw.js";
-export * from "./types.js";
+export type * from "./types.js";

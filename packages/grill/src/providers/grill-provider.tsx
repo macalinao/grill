@@ -71,7 +71,7 @@ export const GrillProvider: FC<GrillProviderProps> = ({
       switch (event.type) {
         case "error-wallet-not-connected": {
           // Clean up any existing toast
-          if (existingToastId) {
+          if (existingToastId !== undefined) {
             toast.dismiss(existingToastId);
             toastIds.current.delete(txId);
           }
@@ -86,7 +86,7 @@ export const GrillProvider: FC<GrillProviderProps> = ({
           console.error("Error sending transaction", event);
           const description = event.errorMessage;
 
-          if (existingToastId) {
+          if (existingToastId !== undefined) {
             // Update existing toast to error
             toast.error(event.title, {
               id: existingToastId,
@@ -107,7 +107,7 @@ export const GrillProvider: FC<GrillProviderProps> = ({
 
         case "preparing": {
           // Clean up any existing toast for this transaction
-          if (existingToastId) {
+          if (existingToastId !== undefined) {
             toast.dismiss(existingToastId);
             toastIds.current.delete(txId);
           }
@@ -122,7 +122,7 @@ export const GrillProvider: FC<GrillProviderProps> = ({
           // Update existing toast or create new one
           const description = "Please approve in your wallet";
 
-          if (existingToastId) {
+          if (existingToastId !== undefined) {
             toast.loading(event.title, {
               id: existingToastId,
               description,
@@ -141,7 +141,7 @@ export const GrillProvider: FC<GrillProviderProps> = ({
           const description = `Transaction: ${event.sig.slice(0, 8)}...${event.sig.slice(-8)}`;
           const action = createExplorerAction(event.explorerLink);
 
-          if (existingToastId) {
+          if (existingToastId !== undefined) {
             toast.loading(event.title, {
               id: existingToastId,
               description,
@@ -163,7 +163,7 @@ export const GrillProvider: FC<GrillProviderProps> = ({
 
           console.log({ event, existingToastId, description, action });
 
-          if (existingToastId) {
+          if (existingToastId !== undefined) {
             // Update existing toast to success
             toast.success(event.title, {
               id: existingToastId,
@@ -189,7 +189,7 @@ export const GrillProvider: FC<GrillProviderProps> = ({
           const description = event.errorMessage;
           const action = createExplorerAction(event.explorerLink);
 
-          if (existingToastId) {
+          if (existingToastId !== undefined) {
             // Update existing toast to error
             toast.error(event.title, {
               id: existingToastId,
@@ -212,7 +212,7 @@ export const GrillProvider: FC<GrillProviderProps> = ({
         case "error-simulation-failed": {
           console.error("Simulation failed", event);
           const description = `Simulation failed: ${event.errorMessage}`;
-          if (existingToastId) {
+          if (existingToastId !== undefined) {
             // Update existing toast to error
             toast.error(event.title, {
               id: existingToastId,

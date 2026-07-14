@@ -49,7 +49,8 @@ export const useQuarryDepositMM = (): UseQuarryDepositMMResult => {
     ],
   );
 
-  const isReady = !!signer && !!mergePool;
+  // mergePool is always present -- useMergeMinerContext throws without it.
+  const isReady = signer !== null;
 
   return {
     deposit,

@@ -42,7 +42,7 @@ export async function pollConfirmTransaction({
           status.confirmationStatus === "finalized"
         ) {
           confirmed = true;
-          if (status.err) {
+          if (status.err !== null) {
             confirmationError = new Error("Transaction failed on-chain");
           }
           break;
@@ -56,7 +56,9 @@ export async function pollConfirmTransaction({
       }
 
       // Wait before next attempt
-      await new Promise((resolve) => setTimeout(resolve, retryInterval));
+      await new Promise<void>((resolve) => {
+        setTimeout(resolve, retryInterval);
+      });
       retries++;
     } catch (error) {
       console.error("Error checking transaction status:", error);

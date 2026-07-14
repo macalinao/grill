@@ -68,7 +68,9 @@ export function createBatchAccountsLoader({
       ).flat();
     },
     {
-      batchScheduleFn: (callback) => setTimeout(callback, batchDurationMs),
+      batchScheduleFn: (callback) => {
+        setTimeout(callback, batchDurationMs);
+      },
       maxBatchSize,
     },
   );

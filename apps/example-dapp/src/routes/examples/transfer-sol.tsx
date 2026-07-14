@@ -130,14 +130,11 @@ const TransferSolPage: React.FC = () => {
       amount: lamports(parsedAmount.amount[0]),
     });
 
-    const signature = await sendTX(`Transfer ${amount.toString()} SOL`, [
-      instruction,
-    ]);
+    // sendTX throws if the transaction does not land.
+    await sendTX(`Transfer ${amount.toString()} SOL`, [instruction]);
 
-    if (signature) {
-      // Clear form after successful transaction
-      reset();
-    }
+    // Clear form after successful transaction
+    reset();
   };
 
   if (!signer) {

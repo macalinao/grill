@@ -109,7 +109,7 @@ export const createSendTX = ({
       const simulationResult = await simulateTransaction(
         finalTransactionMessage,
       );
-      if (simulationResult.value.err) {
+      if (simulationResult.value.err !== null) {
         // Log detailed debugging information to the console
         logTransactionSimulation({
           title: name,
@@ -207,24 +207,26 @@ export const createSendTX = ({
       console.error(`${name} transaction failed:`, error);
 
       // Extract error logs
+      const isLogs = (value: unknown): value is string[] =>
+        Array.isArray(value) && value.every((line) => typeof line === "string");
+
       const extractErrorLogs = (err: unknown): string[] => {
-        if (
-          err &&
-          typeof err === "object" &&
-          "logs" in err &&
-          Array.isArray(err.logs)
-        ) {
-          return (err as { logs: string[] }).logs;
+        if (typeof err !== "object" || err === null) {
+          return [];
         }
-        if (
-          err &&
-          typeof err === "object" &&
-          "context" in err &&
-          typeof err.context === "object" &&
-          (err as { context: { logs?: unknown } }).context.logs &&
-          Array.isArray((err as { context: { logs: unknown } }).context.logs)
-        ) {
-          return (err as { context: { logs: string[] } }).context.logs;
+        if ("logs" in err && isLogs(err.logs)) {
+          return err.logs;
+        }
+        if ("context" in err) {
+          const { context } = err;
+          if (
+            typeof context === "object" &&
+            context !== null &&
+            "logs" in context &&
+            isLogs(context.logs)
+          ) {
+            return context.logs;
+          }
         }
         return [];
       };

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig.json",
+  // Strictness layered on top of @macalinao/tsconfig, which already enables
+  // `strict`, `noUncheckedIndexedAccess`, `noUnusedLocals`, `noUnusedParameters`,
+  // `noImplicitOverride`, `noFallthroughCasesInSwitch` and `isolatedDeclarations`.
+  //
+  // Every package extends this as the second entry of its `extends` array, so
+  // these win over the base config. Anything listed here is enforced repo-wide.
+  //
+  // `exactOptionalPropertyTypes` is deliberately NOT here: it does not survive
+  // contact with @tanstack/react-query's option objects (`placeholderData`,
+  // `enabled`), which would have to be passed via conditional spreads. See the
+  // PR that introduced this file for the full breakdown.
+  "compilerOptions": {
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "erasableSyntaxOnly": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedSideEffectImports": true
+  }
+}

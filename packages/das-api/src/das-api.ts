@@ -33,33 +33,35 @@ import { dasApiResponseTransformer } from "./response-transformer.js";
  */
 export interface SolanaDasApi {
   /** Get a single asset by its id. */
-  getAsset(input: GetAssetRequest): DasApiAsset;
+  getAsset: (input: GetAssetRequest) => DasApiAsset;
   /** Get multiple assets by their ids. */
-  getAssetBatch(input: GetAssetBatchRequest): (DasApiAsset | null)[];
+  getAssetBatch: (input: GetAssetBatchRequest) => (DasApiAsset | null)[];
   /** Get a merkle proof for a compressed asset. */
-  getAssetProof(input: GetAssetProofRequest): GetAssetProofResponse;
+  getAssetProof: (input: GetAssetProofRequest) => GetAssetProofResponse;
   /** Get merkle proofs for multiple compressed assets. */
-  getAssetProofBatch(
+  getAssetProofBatch: (
     input: GetAssetProofBatchRequest,
-  ): GetAssetProofBatchResponse;
+  ) => GetAssetProofBatchResponse;
   /** Get a paginated list of assets owned by an address. */
-  getAssetsByOwner(input: GetAssetsByOwnerRequest): DasApiAssetList;
+  getAssetsByOwner: (input: GetAssetsByOwnerRequest) => DasApiAssetList;
   /** Get a paginated list of assets controlled by an authority. */
-  getAssetsByAuthority(input: GetAssetsByAuthorityRequest): DasApiAssetList;
+  getAssetsByAuthority: (input: GetAssetsByAuthorityRequest) => DasApiAssetList;
   /** Get a paginated list of assets created by an address. */
-  getAssetsByCreator(input: GetAssetsByCreatorRequest): DasApiAssetList;
+  getAssetsByCreator: (input: GetAssetsByCreatorRequest) => DasApiAssetList;
   /** Get a paginated list of assets belonging to a group. */
-  getAssetsByGroup(input: GetAssetsByGroupRequest): DasApiAssetList;
+  getAssetsByGroup: (input: GetAssetsByGroupRequest) => DasApiAssetList;
   /** Search for assets matching a set of criteria. */
-  searchAssets(input: SearchAssetsRequest): DasApiAssetList;
+  searchAssets: (input: SearchAssetsRequest) => DasApiAssetList;
   /** Get the transaction signatures associated with an asset. */
-  getSignaturesForAsset(
+  getSignaturesForAsset: (
     input: GetSignaturesForAssetRequest,
-  ): GetSignaturesForAssetResponse;
+  ) => GetSignaturesForAssetResponse;
   /** Get token accounts by owner and/or mint (Helius extension). */
-  getTokenAccounts(input: GetTokenAccountsRequest): GetTokenAccountsResponse;
+  getTokenAccounts: (
+    input: GetTokenAccountsRequest,
+  ) => GetTokenAccountsResponse;
   /** Get the printed editions of a master edition NFT (Helius extension). */
-  getNftEditions(input: GetNftEditionsRequest): GetNftEditionsResponse;
+  getNftEditions: (input: GetNftEditionsRequest) => GetNftEditionsResponse;
 }
 
 /**

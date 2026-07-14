@@ -6,5 +6,5 @@ export * from "./hooks/index.js";
 export * from "./pdas/index.js";
 export * from "./providers/index.js";
 export * from "./query-keys.js";
-export * from "./types.js";
+export type * from "./types.js";
 export * from "./utils/index.js";

@@ -5,4 +5,4 @@ export * from "./helpers.js";
 export * from "./init/index.js";
 export * from "./miner.js";
 export * from "./rescue.js";
-export * from "./types.js";
+export type * from "./types.js";

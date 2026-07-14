@@ -23,13 +23,13 @@ import {
 export interface WalletAdapter {
   publicKey: PublicKey | null;
   supportedTransactionVersions?: SupportedTransactionVersions;
-  sendTransaction(
+  sendTransaction: (
     transaction: TransactionOrVersionedTransaction<
       this["supportedTransactionVersions"]
     >,
     connection: Connection,
     options?: SendTransactionOptions,
-  ): Promise<TransactionSignature>;
+  ) => Promise<TransactionSignature>;
 }
 
 /**
