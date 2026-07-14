@@ -4,7 +4,6 @@
   dotenv.enable = true;
   packages = with pkgs; [
     ast-grep
-    biome
     git
     nixfmt
     oxfmt

@@ -85,6 +85,7 @@ export async function createWithdrawMergeMinerIxs({
         mint: mergePool.data.primaryMint,
       }),
     );
+    // oxlint-disable-next-line no-param-reassign -- defaulting an optional destructured param
     tokenDestination = destinationATA;
   }
 

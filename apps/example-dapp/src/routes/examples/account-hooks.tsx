@@ -3,9 +3,9 @@ import type {
   DecodedAccountsResult,
   UseDecodedAccountsInput,
 } from "@macalinao/grill";
-import type { Address } from "@solana/kit";
 import type { AddressLookupTable } from "@solana-program/address-lookup-table";
 import type { Mint, Token } from "@solana-program/token";
+import type { Address } from "@solana/kit";
 import { getPoolDecoder } from "@macalinao/clients-meteora-damm-v2";
 import {
   useAccount,

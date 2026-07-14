@@ -22,9 +22,6 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
 
-      - name: Setup Biome
-        uses: biomejs/setup-biome@v2
-
       - name: Cache dependencies
         uses: actions/cache@v5
         with:
@@ -39,15 +36,13 @@ jobs:
       - name: Run ast-grep
         uses: ast-grep/action@v1
 
-      - name: Run Biome
-        run: biome ci
-
       - name: Build all packages
         run: bun run build
 
-      # Runs oxlint with type-aware rules (tsgolint), the oxfmt format check,
-      # and tsc --noEmit across every workspace. Must run after the build so
-      # that workspace .d.ts files exist for type-aware linting.
+      # Runs oxlint with type-aware rules (tsgolint), the oxfmt format check
+      # (JS/TS/JSX plus JSON/HTML/CSS), and tsc --noEmit across every workspace.
+      # Must run after the build so that workspace .d.ts files exist for
+      # type-aware linting.
       - name: Run linting, formatting and type checks
         run: bun run lint:ci
 

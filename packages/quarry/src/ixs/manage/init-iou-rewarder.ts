@@ -12,12 +12,12 @@ import {
   getTransferAuthorityInstruction,
 } from "@macalinao/clients-quarry";
 import { U64_MAX } from "@macalinao/gill-extra";
-import { generateKeyPairSigner } from "@solana/kit";
 import {
   findAssociatedTokenPda,
   getCreateAssociatedTokenIdempotentInstruction,
   TOKEN_PROGRAM_ADDRESS,
 } from "@solana-program/token";
+import { generateKeyPairSigner } from "@solana/kit";
 
 /**
  * Initialize an IOU rewarder for an existing mint wrapper.

@@ -63,7 +63,6 @@
     "@macalinao/grill": "workspace:^"
   },
   "devDependencies": {
-    "@macalinao/biome-config": "^0.1.7",
     "@macalinao/gill-extra": "workspace:^",
     "@macalinao/grill": "workspace:^",
     "@macalinao/tsconfig": "catalog:",

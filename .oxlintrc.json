@@ -5,10 +5,11 @@
   },
   "plugins": ["typescript", "unicorn", "oxc", "import", "promise", "react"],
   // Only `correctness` is denied by category. The categories oxlint layers on
-  // top (suspicious/pedantic/style) are far wider than the ESLint config this
-  // replaced -- Biome already owns the stylistic side (no-non-null-assertion,
-  // no-unused-vars, ==, import type, as-const, ...), so the type-aware rules
-  // below are listed explicitly instead of pulling in whole categories.
+  // top (suspicious/pedantic/style) are far wider than anything this repo has
+  // enforced -- turning any of them on lights up hundreds of pre-existing
+  // violations (strict-boolean-expressions, prefer-readonly-parameter-types,
+  // no-unsafe-type-assertion, ...). Every rule beyond `correctness` is
+  // therefore listed explicitly below instead of pulling in whole categories.
   "categories": {
     "correctness": "error"
   },
@@ -67,6 +68,73 @@
     "react-hooks/exhaustive-deps": "error",
     // The repo targets the automatic JSX runtime (jsx: "react-jsx"), so React
     // does not need to be in scope. The old ESLint config turned this off too.
-    "react/react-in-jsx-scope": "off"
-  }
+    "react/react-in-jsx-scope": "off",
+
+    // Rules inherited from Biome (@macalinao/biome-config base + react), which
+    // used to lint alongside oxlint. Each line is the oxlint equivalent of a
+    // rule Biome had enabled; the Biome rule name is in the trailing comment.
+    "eqeqeq": "error", // suspicious/noDoubleEquals
+    "curly": "error", // style/useBlockStatements
+    "no-else-return": "error", // style/noUselessElse
+    "no-lonely-if": "error", // style/useCollapsedElseIf
+    "operator-assignment": "error", // style/useShorthandAssign
+    "no-param-reassign": "error", // style/noParameterAssign
+    "no-var": "error", // style/noVar (Biome recommended)
+    "prefer-const": "error", // style/useConst (Biome recommended)
+    // style/useImportType, style: "separatedType". disallowTypeAnnotations is
+    // off because Biome's rule never flagged inline `import()` types, and
+    // solana-batch-accounts-loader uses one deliberately.
+    "typescript/consistent-type-imports": [
+      "error",
+      { "fixStyle": "separate-type-imports", "disallowTypeAnnotations": false }
+    ],
+    "typescript/consistent-type-definitions": ["error", "interface"], // style/useConsistentTypeDefinitions
+    "typescript/array-type": ["error", { "default": "array" }], // style/useConsistentArrayType, syntax: "shorthand"
+    "typescript/prefer-as-const": "error", // style/useAsConstAssertion
+    "typescript/default-param-last": "error", // style/useDefaultParameterLast
+    "typescript/prefer-enum-initializers": "error", // style/useEnumInitializers
+    "typescript/no-inferrable-types": "error", // style/noInferrableTypes
+    "typescript/no-non-null-assertion": "error", // style/noNonNullAssertion (Biome recommended)
+    "typescript/no-explicit-any": "error", // suspicious/noExplicitAny (Biome recommended)
+    "typescript/no-unused-vars": "warn", // correctness/noUnusedVariables (Biome had this at warn)
+    "unicorn/prefer-number-properties": "error", // style/useNumberNamespace
+    "unicorn/no-document-cookie": "error", // suspicious/noDocumentCookie (Biome recommended)
+    "react/self-closing-comp": "error", // style/useSelfClosingElements
+    "react/prefer-function-component": "error", // style/useReactFunctionComponents (biome-config/react)
+
+    // Five Biome rules have no usable oxlint equivalent as of oxlint 1.72 and
+    // are lost in this migration. Revisit when oxlint ships equivalents:
+    //
+    //   correctness/noUndeclaredDependencies -- oxlint has no
+    //     import/no-extraneous-dependencies, import/no-unresolved, or
+    //     node/no-extraneous-import. Importing a package that is missing from
+    //     the importing workspace's package.json is no longer linted.
+    //
+    //   correctness/useImportExtensions (forceJsExtensions) -- oxlint's
+    //     import/extensions demands that the extension name a file that exists
+    //     on disk, so it rejects the `./foo.js`-resolving-to-`./foo.ts` ESM
+    //     convention used throughout this repo (311 false positives). tsc with
+    //     module/moduleResolution NodeNext already requires the extension in
+    //     packages/*, so `turbo run typecheck` still covers it there.
+    //
+    //   style/useSingleVarDeclarator -- oxlint has no `one-var`.
+    //   complexity/useSimplifiedLogicExpression -- no equivalent.
+    //   style/noUnusedTemplateLiteral -- no equivalent.
+    "react/only-export-components": "warn" // style/useComponentExportOnlyModules (biome-config/react had this at warn)
+  },
+  // Mirrors the per-path overrides that lived in apps/example-dapp/biome.jsonc.
+  "overrides": [
+    {
+      // TanStack Router route modules and the two shadcn/ui files below export
+      // non-components next to components by design; Fast Refresh copes here.
+      "files": [
+        "apps/example-dapp/src/routes/**/*.tsx",
+        "apps/example-dapp/src/components/ui/sidebar.tsx",
+        "apps/example-dapp/src/components/theme-provider.tsx"
+      ],
+      "rules": {
+        "react/only-export-components": "off"
+      }
+    }
+  ]
 }

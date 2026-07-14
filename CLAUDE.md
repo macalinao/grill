@@ -15,7 +15,7 @@ Grill is a modern Solana development kit monorepo that provides React components
 - **State Management**: @tanstack/react-query for caching
 - **Routing**: @tanstack/react-router (in example-dapp)
 - **Styling**: Tailwind CSS v4 with shadcn/ui components (in example-dapp)
-- **Code Quality**: oxlint (with type-aware rules via tsgolint) for linting, oxfmt for JS/TS formatting, Biome for JSON/HTML formatting + import organization + additional lint rules, ast-grep for pattern enforcement
+- **Code Quality**: oxlint (with type-aware rules via tsgolint) for linting, oxfmt for formatting and import sorting (JS/TS/JSX plus JSON/HTML/CSS), ast-grep for pattern enforcement
 - **Testing**: Bun Test via `bun run test`
 
 ## Essential Commands
@@ -29,7 +29,7 @@ bun run build:watch          # Watch mode for all packages
 bun run build:watch:packages # Watch mode for packages only
 
 # Code Quality
-bun run lint                 # ast-grep scan + oxlint (type-aware) + oxfmt --check + biome check + tsc --noEmit
+bun run lint                 # ast-grep scan + oxlint (type-aware) + oxfmt --check + tsc --noEmit
 bun run lint:fix             # Fix linting issues
 
 # Testing
@@ -133,7 +133,7 @@ Provides two contexts:
 
 - Use specific types, avoid `any`
 - Prefer interfaces over type aliases for objects
-- Use `import type` for type-only imports (enforced by Biome)
+- Use `import type` for type-only imports (enforced by oxlint's `typescript/consistent-type-imports`)
 - Arrays use shorthand syntax: `string[]` not `Array<string>`
 - **Use double quotes for strings** (not single quotes)
 
@@ -150,14 +150,13 @@ Provides two contexts:
 - Use function components with hooks
 - Props interfaces should be explicitly defined
 
-### Lint Rules (oxlint + Biome)
+### Lint Rules (oxlint)
 
 - No floating promises (must be handled)
 - Use const assertions where applicable
 - No non-null assertions are allowed
-- Simplified logic expressions required
 - No double equals (use === instead)
-- Imports are auto-organized on save
+- Imports are sorted by oxfmt on save
 
 There is a single oxlint config for the whole monorepo (`.oxlintrc.json`) — no
 per-package lint configs. It sets `options.typeAware: true`, so the type-aware
@@ -167,9 +166,20 @@ lint` runs `turbo build` first (cached, so it is nearly free). Running `oxlint`
 directly on a tree with no `dist/` resolves cross-package imports to error types
 and the unsafe-* rules produce hundreds of false positives -- build first.
 
-Formatting is split: oxfmt (`.oxfmtrc.json`) owns JS/TS/JSX, Biome owns
-JSON/HTML and the import organizer. Biome's JS formatter is turned off in
-`biome.jsonc` so the two never fight.
+Only the `correctness` category is enabled wholesale. Everything on top of it is
+listed rule by rule, because oxlint's `suspicious`/`pedantic`/`style` categories
+are much wider than what this repo enforces and light up hundreds of pre-existing
+violations. Suppress with `// oxlint-disable-next-line <rule> -- <reason>`.
+
+oxfmt (`.oxfmtrc.json`) owns all formatting — JS/TS/JSX plus JSON/JSONC/HTML/CSS
+— and sorts imports (type imports first, then builtin/external/internal/relative).
+Markdown and YAML are deliberately left unformatted. Biome used to own the
+JSON/HTML formatting and the import organizer; it was removed in favour of doing
+all of it in oxfmt. Two Biome lint rules were lost in that move and have no
+oxlint equivalent: `noUndeclaredDependencies` (importing a package missing from
+the workspace's package.json is no longer linted) and `useImportExtensions` (tsc
+with NodeNext still enforces the `.js` extension in `packages/*`). See the
+comments in `.oxlintrc.json`.
 
 ### AST-grep Rules
 
@@ -221,7 +231,7 @@ GitHub Actions workflow runs on push/PR to master:
 
 - Installs dependencies with frozen lockfile
 - Builds all packages
-- Runs linting (ast-grep + biome + oxlint type-aware + oxfmt + tsc --noEmit)
+- Runs linting (ast-grep + oxlint type-aware + oxfmt + tsc --noEmit)
 - Runs tests
 
 Release workflow handles versioning and publishing via changesets.

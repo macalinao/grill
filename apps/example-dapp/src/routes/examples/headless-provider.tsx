@@ -11,8 +11,8 @@ import {
   useConnectedWallet,
   useSendTX,
 } from "@macalinao/grill";
-import { lamports } from "@solana/kit";
 import { getTransferSolInstruction } from "@solana-program/system";
+import { lamports } from "@solana/kit";
 import { createFileRoute } from "@tanstack/react-router";
 import { BellOff, Send } from "lucide-react";
 import { useCallback, useState } from "react";
