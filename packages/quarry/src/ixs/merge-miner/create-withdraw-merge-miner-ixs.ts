@@ -50,15 +50,14 @@ export async function createWithdrawMergeMinerIxs({
   const ixs = [
     // Unstake all replica tokens from the merge miner
     ...(await Promise.all(
-      replicaRewarders.map(
-        async (replicaRewarder) =>
-          await createUnstakeAllReplicaMinerIx({
-            mmOwner: owner,
-            pool: mergePool.address,
-            mm: mmAddress,
-            rewarder: replicaRewarder,
-            replicaMint: mergePool.data.replicaMint,
-          }),
+      replicaRewarders.map(async (replicaRewarder) =>
+        createUnstakeAllReplicaMinerIx({
+          mmOwner: owner,
+          pool: mergePool.address,
+          mm: mmAddress,
+          rewarder: replicaRewarder,
+          replicaMint: mergePool.data.replicaMint,
+        }),
       ),
     )),
     await createUnstakePrimaryMinerIx({
@@ -100,15 +99,14 @@ export async function createWithdrawMergeMinerIxs({
   ixs.push(
     // Stake replica tokens back into the merge miner
     ...(await Promise.all(
-      replicaRewarders.map(
-        async (replicaRewarder) =>
-          await createStakeReplicaMinerIx({
-            mmOwner: owner,
-            pool: mergePool.address,
-            mm: mmAddress,
-            rewarder: replicaRewarder,
-            replicaMint: mergePool.data.replicaMint,
-          }),
+      replicaRewarders.map(async (replicaRewarder) =>
+        createStakeReplicaMinerIx({
+          mmOwner: owner,
+          pool: mergePool.address,
+          mm: mmAddress,
+          rewarder: replicaRewarder,
+          replicaMint: mergePool.data.replicaMint,
+        }),
       ),
     )),
   );
