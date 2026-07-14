@@ -16,6 +16,13 @@ jobs:
     runs-on: ubuntu-latest
     if: github.repository_owner == 'macalinao'
 
+    env:
+      # changesets commits the version bump, which fires the husky pre-commit hook
+      # and runs lint-staged against the whole release commit. That is a lint gate
+      # on the release, not on the change -- and when it trips, the release dies at
+      # `git commit` with no packages published. CI already lints on the PR.
+      HUSKY: 0
+
     permissions:
       contents: write
       packages: write
