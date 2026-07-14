@@ -1,7 +1,7 @@
 {
-  "name": "@macalinao/gill-extra",
-  "version": "0.5.0",
-  "description": "Additional utilities for Gill - Solana development without React dependencies",
+  "name": "@macalinao/solana-errors",
+  "version": "0.1.0",
+  "description": "Solana error message formatting - works in production without __DEV__ flag",
   "type": "module",
   "sideEffects": false,
   "author": "Ian Macalinao <me@ianm.com>",
@@ -9,9 +9,9 @@
   "license": "Apache-2.0",
   "keywords": [
     "solana",
-    "utilities",
-    "dataloader",
-    "batching",
+    "errors",
+    "transaction",
+    "simulation",
     "esm",
     "typescript",
     "ian-macalinao"
@@ -34,33 +34,21 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/macalinao/grill.git",
-    "directory": "packages/gill-extra"
+    "directory": "packages/solana-errors"
   },
   "scripts": {
     "build": "tsc",
     "typecheck": "tsc --noEmit",
     "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo",
-    "test": "bun test src/"
-  },
-  "dependencies": {
-    "@macalinao/clients-token-metadata": "^0.4.6",
-    "@macalinao/dataloader-es": "workspace:^",
-    "@macalinao/solana-batch-accounts-loader": "workspace:^",
-    "@macalinao/solana-errors": "workspace:^",
-    "@macalinao/token-utils": "workspace:^",
-    "@macalinao/zod-solana": "workspace:^",
-    "@solana-program/system": "^0.12.2",
-    "@solana-program/token": "^0.13.0"
+    "test": "bun test"
   },
   "devDependencies": {
     "@macalinao/tsconfig": "catalog:",
     "@solana/kit": "catalog:",
     "@types/bun": "catalog:",
-    "gill": "catalog:",
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "@solana/kit": "catalog:peer",
-    "gill": "catalog:"
+    "@solana/kit": "catalog:peer"
   }
 }
