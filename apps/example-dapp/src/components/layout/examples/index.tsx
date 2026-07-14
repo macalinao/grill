@@ -3,9 +3,15 @@ import { Link, Outlet, useLocation } from "@tanstack/react-router";
 import {
   Activity,
   ArrowRight,
+  BellOff,
+  Boxes,
   Coins,
   Database,
+  Factory,
+  FileText,
+  KeyRound,
   LayoutDashboard,
+  Radio,
   Wallet,
   Zap,
 } from "lucide-react";
@@ -34,42 +40,107 @@ interface ExampleNavItem {
   icon: React.ComponentType;
 }
 
-// Example navigation items - clean and simple for sidebar
-const exampleNavItems: ExampleNavItem[] = [
+interface ExampleNavGroup {
+  label: string;
+  items: ExampleNavItem[];
+}
+
+// Example navigation - grouped for the sidebar.
+const exampleNavGroups: ExampleNavGroup[] = [
   {
-    title: "Dashboard",
-    href: "/examples/dashboard",
-    icon: LayoutDashboard,
+    label: "Getting Started",
+    items: [
+      {
+        title: "Dashboard",
+        href: "/examples/dashboard",
+        icon: LayoutDashboard,
+      },
+      {
+        title: "Transfer SOL",
+        href: "/examples/transfer-sol",
+        icon: ArrowRight,
+      },
+      {
+        title: "Wrapped SOL",
+        href: "/examples/wrapped-sol",
+        icon: Coins,
+      },
+      {
+        title: "Token Information",
+        href: "/examples/tokens",
+        icon: Database,
+      },
+      {
+        title: "Token Balances",
+        href: "/examples/token-balances",
+        icon: Wallet,
+      },
+      {
+        title: "Batch Accounts",
+        href: "/examples/batch-accounts",
+        icon: Zap,
+      },
+      {
+        title: "Pool Subscription",
+        href: "/examples/pool-subscription",
+        icon: Activity,
+      },
+    ],
   },
   {
-    title: "Transfer SOL",
-    href: "/examples/transfer-sol",
-    icon: ArrowRight,
+    label: "Accounts & PDAs",
+    items: [
+      {
+        title: "Account Hooks",
+        href: "/examples/account-hooks",
+        icon: Database,
+      },
+      {
+        title: "PDA Hooks",
+        href: "/examples/pdas",
+        icon: KeyRound,
+      },
+      {
+        title: "Token Metadata",
+        href: "/examples/token-metadata",
+        icon: FileText,
+      },
+      {
+        title: "Token Info & Balances",
+        href: "/examples/token-infos",
+        icon: Coins,
+      },
+      {
+        title: "Hook Factories",
+        href: "/examples/hook-factories",
+        icon: Factory,
+      },
+    ],
   },
   {
-    title: "Wrapped SOL",
-    href: "/examples/wrapped-sol",
-    icon: Coins,
-  },
-  {
-    title: "Token Information",
-    href: "/examples/tokens",
-    icon: Database,
-  },
-  {
-    title: "Token Balances",
-    href: "/examples/token-balances",
-    icon: Wallet,
-  },
-  {
-    title: "Batch Accounts",
-    href: "/examples/batch-accounts",
-    icon: Zap,
-  },
-  {
-    title: "Pool Subscription",
-    href: "/examples/pool-subscription",
-    icon: Activity,
+    label: "Providers & Internals",
+    items: [
+      {
+        title: "Subscriptions",
+        href: "/examples/subscriptions",
+        icon: Radio,
+      },
+      {
+        title: "Context & Cache",
+        href: "/examples/grill-context",
+        icon: Boxes,
+      },
+      {
+        title: "Wallet Access",
+        href: "/examples/wallet",
+        icon: Wallet,
+      },
+      {
+        title: "Headless Provider",
+        href: "/examples/headless-provider",
+        icon: BellOff,
+      },
+    ],
   },
 ];
 
@@ -92,29 +163,31 @@ export const ExamplesLayout: React.FC<ExamplesLayoutProps> = ({
           </SidebarHeader>
 
           <SidebarContent>
-            <SidebarGroup>
-              <SidebarGroupLabel>Getting Started</SidebarGroupLabel>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {exampleNavItems.map((item) => {
-                    const Icon = item.icon;
-                    return (
-                      <SidebarMenuItem key={item.href}>
-                        <SidebarMenuButton
-                          asChild
-                          isActive={location.pathname === item.href}
-                        >
-                          <Link to={item.href}>
-                            <Icon />
-                            <span>{item.title}</span>
-                          </Link>
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    );
-                  })}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
+            {exampleNavGroups.map((group) => (
+              <SidebarGroup key={group.label}>
+                <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
+                <SidebarGroupContent>
+                  <SidebarMenu>
+                    {group.items.map((item) => {
+                      const Icon = item.icon;
+                      return (
+                        <SidebarMenuItem key={item.href}>
+                          <SidebarMenuButton
+                            asChild
+                            isActive={location.pathname === item.href}
+                          >
+                            <Link to={item.href}>
+                              <Icon />
+                              <span>{item.title}</span>
+                            </Link>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      );
+                    })}
+                  </SidebarMenu>
+                </SidebarGroupContent>
+              </SidebarGroup>
+            ))}
           </SidebarContent>
         </Sidebar>
 
