@@ -23,7 +23,8 @@
     "build": "tsc -b && vite build",
     "typecheck": "tsc --noEmit",
     "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "bun test src/"
   },
   "dependencies": {
     "@gillsdk/react": "catalog:",
@@ -35,6 +36,7 @@
     "@radix-ui/react-separator": "^1.1.8",
     "@radix-ui/react-slot": "^1.2.4",
     "@radix-ui/react-tooltip": "^1.2.8",
+    "@solana-program/address-lookup-table": "^0.11.0",
     "@solana-program/system": "^0.12.2",
     "@solana-program/token": "^0.13.0",
     "@solana-program/token-2022": "^0.9.0",
@@ -62,11 +64,13 @@
   },
   "devDependencies": {
     "@macalinao/biome-config": "^0.1.7",
+    "@macalinao/gill-extra": "workspace:^",
     "@macalinao/grill": "workspace:^",
     "@macalinao/tsconfig": "catalog:",
     "@tanstack/react-query-devtools": "^5.101.0",
     "@tanstack/react-router-devtools": "^1.167.0",
     "@tanstack/router-plugin": "^1.168.14",
+    "@types/bun": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "^6.0.2",
