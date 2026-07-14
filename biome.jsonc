@@ -1,4 +1,23 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.3.11/schema.json",
-  "extends": ["@macalinao/biome-config/base"]
+  "extends": ["@macalinao/biome-config/base"],
+  "javascript": {
+    // oxfmt owns JS/TS/JSX formatting (see .oxfmtrc.json). Biome still lints
+    // JS/TS and formats JSON/HTML, and its import organizer still runs.
+    "formatter": {
+      "enabled": false
+    }
+  },
+  "overrides": [
+    {
+      // oxlint reads JSON with comments, and the rule choices there need
+      // explaining, so let Biome parse the comments instead of erroring.
+      "includes": [".oxlintrc.json"],
+      "json": {
+        "parser": {
+          "allowComments": true
+        }
+      }
+    }
+  ]
 }
