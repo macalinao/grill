@@ -1,0 +1,19 @@
+[test]
+# Only the TypeScript sources are tested; dist/ holds their compiled copies.
+root = "src"
+# Registers happy-dom globals and the Privy SDK module mock before any test
+# module is imported. Module mocks must be installed from a preload so that
+# every test file shares one mock implementation.
+preload = ["./src/test-setup.ts"]
+coverage = true
+coverageSkipTestFiles = true
+coverageReporter = ["text"]
+# Every shipped source file must stay fully covered. Workspace dependencies come
+# in through @macalinao/grill and are covered by their own suites; test-setup.ts
+# is test scaffolding, not shipped logic.
+coveragePathIgnorePatterns = [
+  "../**",
+  "**/node_modules/**",
+  "src/test-setup.ts",
+]
+coverageThreshold = 1

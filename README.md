@@ -30,6 +30,14 @@ Compatibility layer between @solana/wallet-adapter and @solana/kit.
 bun add @macalinao/wallet-adapter-compat
 ```
 
+### [@macalinao/privy-compat](./packages/privy-compat)
+
+Sign grill transactions with a Privy embedded Solana wallet -- no browser extension required.
+
+```bash
+bun add @macalinao/privy-compat @privy-io/react-auth
+```
+
 ### [@macalinao/dataloader-es](./packages/dataloader-es)
 
 ES module compatible DataLoader implementation.

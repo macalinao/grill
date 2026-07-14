@@ -1,0 +1,71 @@
+{
+  "name": "@macalinao/privy-compat",
+  "version": "0.1.0",
+  "description": "Compatibility layer that bridges Privy embedded Solana wallets with @solana/kit and grill",
+  "type": "module",
+  "sideEffects": false,
+  "author": "Ian Macalinao <me@ianm.com>",
+  "homepage": "https://grill.ianm.com",
+  "license": "Apache-2.0",
+  "keywords": [
+    "solana",
+    "privy",
+    "embedded-wallet",
+    "wallet",
+    "kit",
+    "grill",
+    "blockchain",
+    "web3",
+    "ian-macalinao"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist/",
+    "src/"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/macalinao/grill.git",
+    "directory": "packages/privy-compat"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "tslib": "catalog:"
+  },
+  "devDependencies": {
+    "@happy-dom/global-registrator": "^18.0.1",
+    "@macalinao/grill": "workspace:^",
+    "@macalinao/tsconfig": "catalog:",
+    "@privy-io/react-auth": "^3.33.1",
+    "@solana/kit": "catalog:",
+    "@testing-library/react": "^16.3.0",
+    "@types/bun": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "@macalinao/grill": "workspace:^",
+    "@privy-io/react-auth": "^3",
+    "@solana/kit": "catalog:peer",
+    "react": "catalog:peer"
+  }
+}
