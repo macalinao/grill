@@ -1,6 +1,6 @@
 {
   "name": "@macalinao/solana-errors",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Solana error message formatting - works in production without __DEV__ flag",
   "type": "module",
   "sideEffects": false,
