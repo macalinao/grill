@@ -3,10 +3,23 @@ import type {
   AddressesByLookupTableAddress,
   Instruction,
   Signature,
+  Transaction,
+  TransactionMessageWithBlockhashLifetime,
 } from "@solana/kit";
 import type { CreateTransactionInput } from "gill";
 
-export interface SendTXOptions extends Pick<
+/**
+ * A blockhash lifetime constraint (`{ blockhash, lastValidBlockHeight }`),
+ * i.e. the `.value` returned by `rpc.getLatestBlockhash().send()`.
+ */
+export type LatestBlockhash =
+  TransactionMessageWithBlockhashLifetime["lifetimeConstraint"];
+
+/**
+ * Options shared by both signing and sending a transaction: how the
+ * transaction message is built and simulated.
+ */
+export interface BuildTXOptions extends Pick<
   CreateTransactionInput<0>,
   "computeUnitLimit" | "computeUnitPrice"
 > {
@@ -14,6 +27,23 @@ export interface SendTXOptions extends Pick<
    * Address lookup tables (optional)
    */
   lookupTables?: AddressesByLookupTableAddress;
+  /**
+   * If true, skips the pre-flight simulation.
+   */
+  skipPreflight?: boolean;
+  /**
+   * A pre-fetched blockhash to use for the transaction. When provided, the
+   * transaction is built with this blockhash instead of fetching a fresh one
+   * via `rpc.getLatestBlockhash()`. Useful when a caller maintains its own
+   * up-to-date blockhash (e.g. a background poll/cache) to avoid an RPC round
+   * trip on every transaction.
+   *
+   * When omitted, the latest blockhash is fetched from the RPC.
+   */
+  latestBlockhash?: LatestBlockhash;
+}
+
+export interface SendTXOptions extends BuildTXOptions {
   /**
    * Whether to wait for account refetch after transaction confirmation.
    * When true (default), the function will wait for all writable accounts
@@ -23,10 +53,6 @@ export interface SendTXOptions extends Pick<
    * @default true
    */
   waitForAccountRefetch?: boolean;
-  /**
-   * If true, skips the pre-flight simulation.
-   */
-  skipPreflight?: boolean;
 }
 
 export type SendTXFunction = (
@@ -34,6 +60,22 @@ export type SendTXFunction = (
   ixs: readonly Instruction[],
   options?: SendTXOptions,
 ) => Promise<Signature>;
+
+/**
+ * Options for signing a transaction without sending it.
+ */
+export type SignTXOptions = BuildTXOptions;
+
+/**
+ * Signs a transaction without broadcasting it, returning the fully-signed
+ * {@link Transaction}. Requires that the connected signer supports signing
+ * without sending (a `TransactionPartialSigner`).
+ */
+export type SignTXFunction = (
+  name: string,
+  ixs: readonly Instruction[],
+  options?: SignTXOptions,
+) => Promise<Transaction>;
 
 /**
  * Simplified account type that only includes data and address.

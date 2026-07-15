@@ -10,11 +10,12 @@ import {
   getSolscanExplorerLink,
   useConnectedWallet,
   useSendTX,
+  useSignTX,
 } from "@macalinao/grill";
 import { getTransferSolInstruction } from "@solana-program/system";
-import { lamports } from "@solana/kit";
+import { getBase64EncodedWireTransaction, lamports } from "@solana/kit";
 import { createFileRoute } from "@tanstack/react-router";
-import { BellOff, Send } from "lucide-react";
+import { BellOff, PenLine, Send } from "lucide-react";
 import { useCallback, useState } from "react";
 import { CodeBlock } from "@/components/examples/code-block";
 import { ConnectWalletGate } from "@/components/examples/connect-wallet-gate";
@@ -41,9 +42,11 @@ const EVENT_TYPES: { type: TransactionStatusEvent["type"]; when: string }[] = [
     when: "Submitted; awaiting confirmation",
   },
   { type: "confirmed", when: "Landed successfully" },
+  { type: "signed", when: "Signed but not sent (useSignTX)" },
   { type: "error-wallet-not-connected", when: "No signer available" },
   { type: "error-simulation-failed", when: "Simulation rejected it" },
   { type: "error-transaction-send-failed", when: "The RPC refused it" },
+  { type: "error-transaction-sign-failed", when: "The wallet refused to sign" },
   { type: "error-transaction-failed", when: "It landed, but reverted" },
 ];
 
@@ -85,6 +88,54 @@ const SendButton: React.FC = () => {
       <p className="text-xs text-muted-foreground">
         Transfers 0 SOL to yourself, so the only cost is the network fee (~5000
         lamports). Your wallet will ask you to sign.
+      </p>
+    </div>
+  );
+};
+
+/**
+ * Signs a zero-lamport self-transfer *without* sending it, logging the base64
+ * wire transaction. Only works when the connected wallet supports signing
+ * without sending; otherwise `useSignTX` rejects with `error-transaction-sign-failed`.
+ */
+const SignButton: React.FC = () => {
+  const signer = useConnectedWallet();
+  const signTX = useSignTX();
+  const [busy, setBusy] = useState(false);
+
+  const sign = useCallback(async () => {
+    setBusy(true);
+    try {
+      const signed = await signTX("Sign-only demo", [
+        getTransferSolInstruction({
+          source: signer,
+          destination: signer.address,
+          amount: lamports(0n),
+        }),
+      ]);
+      // The signed transaction is never broadcast; hand it to a backend, add
+      // co-signers, or send it later.
+      console.log("Signed wire tx:", getBase64EncodedWireTransaction(signed));
+    } finally {
+      setBusy(false);
+    }
+  }, [signTX, signer]);
+
+  return (
+    <div className="space-y-2">
+      <Button
+        variant="secondary"
+        disabled={busy}
+        onClick={() => {
+          void sign();
+        }}
+      >
+        <PenLine className="mr-2 h-4 w-4" />
+        {busy ? "Signing…" : "Sign without sending"}
+      </Button>
+      <p className="text-xs text-muted-foreground">
+        Signs the same 0 SOL self-transfer but does not broadcast it. The base64
+        wire transaction is logged to the console.
       </p>
     </div>
   );
@@ -180,6 +231,7 @@ const HeadlessScope: React.FC = () => {
         <CardContent className="space-y-4">
           <ConnectWalletGate reason="sign a transaction">
             <SendButton />
+            <SignButton />
           </ConnectWalletGate>
 
           <EventLog events={events} />
@@ -227,6 +279,7 @@ function HeadlessProviderPage() {
           "TransactionStatusEventCallback",
           "TransactionId",
           "useSendTX",
+          "useSignTX",
         ]}
       >
         <code className="font-mono">GrillProvider</code> renders sonner toasts

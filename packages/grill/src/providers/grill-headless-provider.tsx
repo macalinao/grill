@@ -14,6 +14,7 @@ import { useCallback, useMemo } from "react";
 import { GrillContext } from "../contexts/grill-context.js";
 import { useKitWallet } from "../hooks/use-kit-wallet.js";
 import { createSendTX } from "../utils/internal/create-send-tx.js";
+import { createSignTX } from "../utils/internal/create-sign-tx.js";
 import { refetchAccounts as doRefetchAccounts } from "../utils/refetch-accounts.js";
 import { SubscriptionProvider } from "./subscription-provider.js";
 
@@ -123,6 +124,18 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
     ],
   );
 
+  const signTX = useMemo(
+    () =>
+      createSignTX({
+        signer,
+        rpc,
+        onTransactionStatusEvent,
+        rpcUrl,
+        cluster,
+      }),
+    [signer, rpc, onTransactionStatusEvent, rpcUrl, cluster],
+  );
+
   const staticTokenInfoMap = useMemo(
     () => new Map(staticTokenInfo.map((info) => [info.mint, info])),
     [staticTokenInfo],
@@ -135,6 +148,7 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
           accountLoader,
           refetchAccounts,
           sendTX,
+          signTX,
           getExplorerLink,
           staticTokenInfo: staticTokenInfoMap,
           fetchFromCertifiedTokenList,

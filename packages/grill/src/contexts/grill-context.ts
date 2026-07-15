@@ -2,6 +2,7 @@ import type { DataLoader } from "@macalinao/dataloader-es";
 import type {
   GetExplorerLinkFunction,
   SendTXFunction,
+  SignTXFunction,
 } from "@macalinao/gill-extra";
 import type { TokenInfo } from "@macalinao/token-utils";
 import type { Address, EncodedAccount } from "@solana/kit";
@@ -25,6 +26,13 @@ export interface GrillContextValue {
    * Function to send transactions with batching and confirmation
    */
   sendTX: SendTXFunction;
+
+  /**
+   * Function to sign a transaction without sending it, returning the signed
+   * transaction. Only usable when the connected wallet supports signing without
+   * sending; otherwise the returned promise rejects.
+   */
+  signTX: SignTXFunction;
 
   /**
    * Function to get explorer link for a transaction signature
