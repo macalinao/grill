@@ -84,7 +84,8 @@ export const createSendTX = ({
       type: "preparing",
     });
 
-    const { value: latestBlockhash } = await rpc.getLatestBlockhash().send();
+    const latestBlockhash =
+      options.latestBlockhash ?? (await rpc.getLatestBlockhash().send()).value;
     const transactionMessage = createTransaction({
       version: 0,
       feePayer: signer,

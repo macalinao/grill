@@ -43,7 +43,8 @@
     "build": "tsdown",
     "dev": "tsdown --watch",
     "typecheck": "tsc --noEmit",
-    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo"
+    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo",
+    "test": "bun test src/"
   },
   "dependencies": {
     "@gillsdk/react": "catalog:",

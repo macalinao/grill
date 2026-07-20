@@ -1,6 +1,7 @@
 import type {
   Account,
   AddressesByLookupTableAddress,
+  BlockhashLifetimeConstraint,
   Instruction,
   Signature,
 } from "@solana/kit";
@@ -27,6 +28,14 @@ export interface SendTXOptions extends Pick<
    * If true, skips the pre-flight simulation.
    */
   skipPreflight?: boolean;
+  /**
+   * A pre-fetched blockhash to use for the transaction. When provided, the
+   * transaction is built with this blockhash instead of fetching a fresh one
+   * via `rpc.getLatestBlockhash()`. Useful when a caller maintains its own
+   * up-to-date blockhash (e.g. a background poll/cache) to avoid an RPC round
+   * trip on every transaction. When omitted, the latest blockhash is fetched.
+   */
+  latestBlockhash?: BlockhashLifetimeConstraint;
 }
 
 export type SendTXFunction = (
