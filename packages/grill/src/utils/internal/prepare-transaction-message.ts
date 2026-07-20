@@ -1,12 +1,12 @@
 // oxlint-disable typescript/no-unsafe-assignment, typescript/no-unsafe-argument, typescript/no-unsafe-return -- tsgolint resolves
 // gill's createTransaction()/compressTransactionMessageUsingAddressLookupTables() to an error type;
 // tsc types them correctly. Re-enable once typescript-go handles these signatures.
+import type { BuildTXOptions, SolanaCluster } from "@macalinao/gill-extra";
 import type {
-  BuildTXOptions,
-  LatestBlockhash,
-  SolanaCluster,
-} from "@macalinao/gill-extra";
-import type { Instruction, TransactionSigner } from "@solana/kit";
+  BlockhashLifetimeConstraint,
+  Instruction,
+  TransactionSigner,
+} from "@solana/kit";
 import type { SolanaClient, simulateTransactionFactory } from "gill";
 import {
   logTransactionSimulation,
@@ -53,7 +53,7 @@ export async function prepareTransactionMessage({
   onSimulationError,
 }: PrepareTransactionMessageParams): Promise<{
   finalTransactionMessage: ReturnType<typeof createTransaction>;
-  latestBlockhash: LatestBlockhash;
+  latestBlockhash: BlockhashLifetimeConstraint;
 }> {
   // Use the injected blockhash when provided to avoid an RPC round trip.
   const latestBlockhash =

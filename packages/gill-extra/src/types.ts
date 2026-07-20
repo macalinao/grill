@@ -1,19 +1,12 @@
 import type {
   Account,
   AddressesByLookupTableAddress,
+  BlockhashLifetimeConstraint,
   Instruction,
   Signature,
   Transaction,
-  TransactionMessageWithBlockhashLifetime,
 } from "@solana/kit";
 import type { CreateTransactionInput } from "gill";
-
-/**
- * A blockhash lifetime constraint (`{ blockhash, lastValidBlockHeight }`),
- * i.e. the `.value` returned by `rpc.getLatestBlockhash().send()`.
- */
-export type LatestBlockhash =
-  TransactionMessageWithBlockhashLifetime["lifetimeConstraint"];
 
 /**
  * Options shared by both signing and sending a transaction: how the
@@ -38,7 +31,7 @@ export interface BuildTXOptions extends Pick<
    * up-to-date blockhash (e.g. a background poll/cache) to avoid an RPC round
    * trip on every transaction. When omitted, the latest blockhash is fetched.
    */
-  latestBlockhash?: LatestBlockhash;
+  latestBlockhash?: BlockhashLifetimeConstraint;
 }
 
 export interface SendTXOptions extends BuildTXOptions {
