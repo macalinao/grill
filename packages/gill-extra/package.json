@@ -1,6 +1,6 @@
 {
   "name": "@macalinao/gill-extra",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Additional utilities for Gill - Solana development without React dependencies",
   "type": "module",
   "sideEffects": false,
@@ -44,14 +44,14 @@
     "test": "bun test src/"
   },
   "dependencies": {
-    "@macalinao/clients-token-metadata": "^0.4.6",
+    "@macalinao/clients-token-metadata": "^0.5.1",
     "@macalinao/dataloader-es": "workspace:^",
     "@macalinao/solana-batch-accounts-loader": "workspace:^",
     "@macalinao/solana-errors": "workspace:^",
     "@macalinao/token-utils": "workspace:^",
     "@macalinao/zod-solana": "workspace:^",
     "@solana-program/system": "^0.12.2",
-    "@solana-program/token": "^0.13.0"
+    "@solana-program/token": "^0.14.0"
   },
   "devDependencies": {
     "@macalinao/tsconfig": "catalog:",
