@@ -1,7 +1,7 @@
-import type { LatestBlockhash } from "@macalinao/gill-extra";
 import type {
   Address,
   Blockhash,
+  BlockhashLifetimeConstraint,
   Instruction,
   SignatureBytes,
   TransactionSendingSigner,
@@ -11,12 +11,12 @@ import { beforeAll, describe, expect, it, mock } from "bun:test";
 import * as gillExtra from "@macalinao/gill-extra";
 import { address, generateKeyPairSigner, getBase58Encoder } from "@solana/kit";
 
-const BLOCKHASH: LatestBlockhash = {
+const BLOCKHASH: BlockhashLifetimeConstraint = {
   blockhash: "11111111111111111111111111111111" as Blockhash,
   lastValidBlockHeight: 100n,
 };
 
-const INJECTED: LatestBlockhash = {
+const INJECTED: BlockhashLifetimeConstraint = {
   blockhash: "So11111111111111111111111111111111111111112" as Blockhash,
   lastValidBlockHeight: 200n,
 };

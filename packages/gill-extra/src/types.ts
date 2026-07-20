@@ -7,12 +7,6 @@ import type {
 } from "@solana/kit";
 import type { CreateTransactionInput } from "gill";
 
-/**
- * A blockhash lifetime constraint (`{ blockhash, lastValidBlockHeight }`),
- * i.e. the `.value` returned by `rpc.getLatestBlockhash().send()`.
- */
-export type LatestBlockhash = BlockhashLifetimeConstraint;
-
 export interface SendTXOptions extends Pick<
   CreateTransactionInput<0>,
   "computeUnitLimit" | "computeUnitPrice"
@@ -41,7 +35,7 @@ export interface SendTXOptions extends Pick<
    * up-to-date blockhash (e.g. a background poll/cache) to avoid an RPC round
    * trip on every transaction. When omitted, the latest blockhash is fetched.
    */
-  latestBlockhash?: LatestBlockhash;
+  latestBlockhash?: BlockhashLifetimeConstraint;
 }
 
 export type SendTXFunction = (
