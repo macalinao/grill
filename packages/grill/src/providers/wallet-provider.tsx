@@ -1,13 +1,15 @@
-import type { Address, TransactionSendingSigner } from "@solana/kit";
 import type { FC, ReactNode } from "react";
+import type { GrillSigner } from "../contexts/wallet-context.js";
 import { WalletContext } from "../contexts/wallet-context.js";
 
 export interface WalletProviderProps {
   children: ReactNode;
   /**
-   * The transaction sending signer, or null if wallet is not connected
+   * The transaction signer, or null if wallet is not connected.
+   * When the wallet supports signing without sending, the signer also enables
+   * `useSignTX`.
    */
-  signer: TransactionSendingSigner<Address> | null;
+  signer: GrillSigner | null;
 }
 
 /**
