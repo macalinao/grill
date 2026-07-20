@@ -63,7 +63,7 @@
     "oxfmt": "0.58.0",
     "oxlint": "1.73.0",
     "oxlint-tsgolint": "0.24.0",
-    "tsdown": "^0.22.5",
+    "tsdown": "^0.22.6",
     "turbo": "^2.10.4",
     "typescript": "^7.0.2",
     "unrun": "^0.3.1"
