@@ -18,16 +18,11 @@ import type { SolanaClient } from "gill";
 import type { TransactionStatusEvent } from "../../types.js";
 import {
   getSignatureFromBytes,
-  logTransactionSimulation,
-  parseTransactionError,
   pollConfirmTransaction,
 } from "@macalinao/gill-extra";
-import {
-  compressTransactionMessageUsingAddressLookupTables,
-  getSolanaErrorFromTransactionError,
-  signAndSendTransactionMessageWithSigners,
-} from "@solana/kit";
-import { createTransaction, simulateTransactionFactory } from "gill";
+import { signAndSendTransactionMessageWithSigners } from "@solana/kit";
+import { simulateTransactionFactory } from "gill";
+import { prepareTransactionMessage } from "./prepare-transaction-message.js";
 
 export interface CreateSendTXParams {
   signer: TransactionSendingSigner | null;
@@ -84,55 +79,24 @@ export const createSendTX = ({
       type: "preparing",
     });
 
-    const latestBlockhash =
-      options.latestBlockhash ?? (await rpc.getLatestBlockhash().send()).value;
-    const transactionMessage = createTransaction({
-      version: 0,
-      feePayer: signer,
-      instructions: [...ixs],
-      latestBlockhash,
-      computeUnitLimit: options.computeUnitLimit,
-      computeUnitPrice: options.computeUnitPrice,
-    });
-
-    // Apply address lookup tables if provided to compress the transaction
-    const addressLookupTables = options.lookupTables ?? {};
-    const finalTransactionMessage =
-      Object.keys(addressLookupTables).length > 0
-        ? compressTransactionMessageUsingAddressLookupTables(
-            transactionMessage,
-            addressLookupTables,
-          )
-        : transactionMessage;
-
-    // preflight
-    if (!options.skipPreflight) {
-      const simulationResult = await simulateTransaction(
-        finalTransactionMessage,
-      );
-      if (simulationResult.value.err !== null) {
-        // Log detailed debugging information to the console
-        logTransactionSimulation({
-          title: name,
-          simulationResult: simulationResult.value,
-          transactionMessage: finalTransactionMessage,
-          cluster,
-          rpcUrl,
-        });
-
-        const logs = simulationResult.value.logs ?? [];
-        const errorMessage = parseTransactionError(
-          simulationResult.value.err,
-          logs,
-        );
-        onTransactionStatusEvent({
-          ...baseEvent,
-          type: "error-simulation-failed",
-          errorMessage,
-        });
-        throw getSolanaErrorFromTransactionError(simulationResult.value.err);
-      }
-    }
+    const { finalTransactionMessage, latestBlockhash } =
+      await prepareTransactionMessage({
+        signer,
+        rpc,
+        simulateTransaction,
+        name,
+        ixs,
+        options,
+        cluster,
+        rpcUrl,
+        onSimulationError: (errorMessage) => {
+          onTransactionStatusEvent({
+            ...baseEvent,
+            type: "error-simulation-failed",
+            errorMessage,
+          });
+        },
+      });
 
     onTransactionStatusEvent({
       ...baseEvent,
