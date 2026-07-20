@@ -230,6 +230,43 @@ export const GrillProvider: FC<GrillProviderProps> = ({
           toastIds.current.delete(txId);
           break;
         }
+
+        case "signed": {
+          // Transaction was signed but not sent.
+          if (existingToastId !== undefined) {
+            toast.success(event.title, {
+              id: existingToastId,
+              description: "Transaction signed",
+              duration: successToastDuration,
+            });
+          } else {
+            toast.success(event.title, {
+              description: "Transaction signed",
+              duration: successToastDuration,
+            });
+          }
+          toastIds.current.delete(txId);
+          break;
+        }
+
+        case "error-transaction-sign-failed": {
+          console.error("Error signing transaction", event);
+          const description = event.errorMessage;
+          if (existingToastId !== undefined) {
+            toast.error(event.title, {
+              id: existingToastId,
+              description,
+              duration: errorToastDuration,
+            });
+          } else {
+            toast.error(event.title, {
+              description,
+              duration: errorToastDuration,
+            });
+          }
+          toastIds.current.delete(txId);
+          break;
+        }
       }
     },
     [
