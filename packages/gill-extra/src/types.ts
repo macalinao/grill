@@ -1,9 +1,9 @@
 import type {
   Account,
   AddressesByLookupTableAddress,
+  BlockhashLifetimeConstraint,
   Instruction,
   Signature,
-  TransactionMessageWithBlockhashLifetime,
 } from "@solana/kit";
 import type { CreateTransactionInput } from "gill";
 
@@ -11,8 +11,7 @@ import type { CreateTransactionInput } from "gill";
  * A blockhash lifetime constraint (`{ blockhash, lastValidBlockHeight }`),
  * i.e. the `.value` returned by `rpc.getLatestBlockhash().send()`.
  */
-export type LatestBlockhash =
-  TransactionMessageWithBlockhashLifetime["lifetimeConstraint"];
+export type LatestBlockhash = BlockhashLifetimeConstraint;
 
 export interface SendTXOptions extends Pick<
   CreateTransactionInput<0>,
