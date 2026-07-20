@@ -55,7 +55,9 @@ export async function prepareTransactionMessage({
   finalTransactionMessage: ReturnType<typeof createTransaction>;
   latestBlockhash: LatestBlockhash;
 }> {
-  const latestBlockhash = (await rpc.getLatestBlockhash().send()).value;
+  // Use the injected blockhash when provided to avoid an RPC round trip.
+  const latestBlockhash =
+    options.latestBlockhash ?? (await rpc.getLatestBlockhash().send()).value;
 
   const transactionMessage = createTransaction({
     version: 0,

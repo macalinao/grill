@@ -97,6 +97,25 @@ describe("createSignTX", () => {
     expect(getLatestBlockhashCalls()).toBe(1);
   });
 
+  it("uses the injected blockhash without an RPC round trip", async () => {
+    const { rpc, getLatestBlockhashCalls } = makeRpc();
+    const signTX = createSignTX({
+      signer,
+      rpc,
+      onTransactionStatusEvent: () => {},
+    });
+
+    await signTX("Injected", [makeIx(signer.address)], {
+      skipPreflight: true,
+      latestBlockhash: {
+        blockhash: "22222222222222222222222222222222" as Blockhash,
+        lastValidBlockHeight: 200n,
+      },
+    });
+
+    expect(getLatestBlockhashCalls()).toBe(0);
+  });
+
   it("throws when no wallet is connected", async () => {
     const { rpc } = makeRpc();
     const events: TransactionStatusEvent[] = [];

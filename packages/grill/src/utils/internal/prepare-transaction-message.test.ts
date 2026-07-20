@@ -15,6 +15,11 @@ const BLOCKHASH = {
   lastValidBlockHeight: 100n,
 };
 
+const INJECTED_BLOCKHASH = {
+  blockhash: "22222222222222222222222222222222" as Blockhash,
+  lastValidBlockHeight: 200n,
+};
+
 const MEMO_PROGRAM = address("MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr");
 
 function makeIx(signerAddress: Address): Instruction {
@@ -82,6 +87,20 @@ describe("prepareTransactionMessage", () => {
 
     expect(getLatestBlockhashCalls()).toBe(1);
     expect(latestBlockhash).toBe(BLOCKHASH);
+  });
+
+  it("uses the injected blockhash without an RPC round trip", async () => {
+    const { rpc, getLatestBlockhashCalls } = makeRpc();
+    const { simulate } = makeSimulate(null);
+
+    const { latestBlockhash } = await prepareTransactionMessage({
+      ...base(rpc),
+      simulateTransaction: simulate,
+      options: { latestBlockhash: INJECTED_BLOCKHASH, skipPreflight: true },
+    });
+
+    expect(getLatestBlockhashCalls()).toBe(0);
+    expect(latestBlockhash).toBe(INJECTED_BLOCKHASH);
   });
 
   it("skips simulation when skipPreflight is true", async () => {
