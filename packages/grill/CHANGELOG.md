@@ -1,5 +1,13 @@
 # @macalinao/grill
 
+## 0.11.1
+
+### Patch Changes
+
+- f46cd21: Update Solana program client dependencies to their latest versions: `@solana-program/token` (0.14.0), `@solana-program/token-2022` (0.12.0), `@solana-program/address-lookup-table` (0.12.1), and the `@macalinao/clients-*` codegen packages (0.5.1 / 0.2.1).
+- Updated dependencies [f46cd21]
+  - @macalinao/gill-extra@0.6.1
+
 ## 0.11.0
 
 ### Minor Changes

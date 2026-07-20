@@ -109,7 +109,7 @@
     },
     "packages/gill-extra": {
       "name": "@macalinao/gill-extra",
-      "version": "0.6.0",
+      "version": "0.6.1",
       "dependencies": {
         "@macalinao/clients-token-metadata": "^0.5.1",
         "@macalinao/dataloader-es": "workspace:^",
@@ -135,7 +135,7 @@
     },
     "packages/grill": {
       "name": "@macalinao/grill",
-      "version": "0.11.0",
+      "version": "0.11.1",
       "dependencies": {
         "@gillsdk/react": "catalog:",
         "@macalinao/clients-token-metadata": "^0.5.1",
@@ -168,7 +168,7 @@
     },
     "packages/quarry": {
       "name": "@macalinao/quarry",
-      "version": "0.4.1",
+      "version": "0.4.2",
       "dependencies": {
         "@macalinao/clients-quarry": "^0.5.1",
         "@macalinao/gill-extra": "workspace:^",
