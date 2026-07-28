@@ -1,3 +1,6 @@
+// oxlint-disable typescript/no-unsafe-assignment, typescript/no-unsafe-member-access -- tsgolint resolves
+// gill's createTransaction() return type (finalTransactionMessage) to an error type;
+// tsc types it correctly. Re-enable once typescript-go handles these signatures.
 import type {
   Address,
   Blockhash,
@@ -7,7 +10,12 @@ import type {
 import type { SolanaClient } from "gill";
 import type { simulateTransactionFactory } from "gill";
 import { beforeAll, describe, expect, it } from "bun:test";
-import { address, generateKeyPairSigner, getBase58Encoder } from "@solana/kit";
+import {
+  AccountRole,
+  address,
+  generateKeyPairSigner,
+  getBase58Encoder,
+} from "@solana/kit";
 import { prepareTransactionMessage } from "./prepare-transaction-message.js";
 
 const BLOCKHASH = {
@@ -101,6 +109,39 @@ describe("prepareTransactionMessage", () => {
 
     expect(getLatestBlockhashCalls()).toBe(0);
     expect(latestBlockhash).toBe(INJECTED_BLOCKHASH);
+  });
+
+  it("compresses the message using address lookup tables when provided", async () => {
+    const { rpc } = makeRpc();
+    const { simulate } = makeSimulate(null);
+
+    const lookupTableAddress = address(
+      "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    );
+    const accountInTable = address(
+      "So11111111111111111111111111111111111111112",
+    );
+    const ix: Instruction = {
+      programAddress: MEMO_PROGRAM,
+      accounts: [{ address: accountInTable, role: AccountRole.READONLY }],
+      data: getBase58Encoder().encode(signer.address),
+    };
+
+    const { finalTransactionMessage } = await prepareTransactionMessage({
+      ...base(rpc),
+      ixs: [ix],
+      simulateTransaction: simulate,
+      options: {
+        skipPreflight: true,
+        lookupTables: { [lookupTableAddress]: [accountInTable] },
+      },
+    });
+
+    const [compressedIx] = finalTransactionMessage.instructions;
+    expect(compressedIx?.accounts?.[0]).toMatchObject({
+      address: accountInTable,
+      lookupTableAddress,
+    });
   });
 
   it("skips simulation when skipPreflight is true", async () => {

@@ -132,37 +132,38 @@ export function createWalletTransactionSendingSigner(
           throw new Error("Wallet is not connected");
         }
 
-        return Promise.all(
-          transactions.map(async (transaction) => {
-            try {
-              const vt = toVersionedTransaction(transaction);
-              const signedVt = await signTransaction(vt);
+        // Sign sequentially: wallet adapters expect one signing prompt at a time.
+        const signatureDictionaries: Record<Address, SignatureBytes>[] = [];
+        for (const transaction of transactions) {
+          try {
+            const vt = toVersionedTransaction(transaction);
+            const signedVt = await signTransaction(vt);
 
-              // Find our signature within the signed transaction. Signatures are
-              // aligned to the first `numRequiredSignatures` static account keys.
-              const signerIndex = signedVt.message.staticAccountKeys.findIndex(
-                (key) => key.equals(publicKey),
-              );
-              const sigBytes = signedVt.signatures[signerIndex] as
-                | SignatureBytes
-                | undefined;
-              if (signerIndex === -1 || !sigBytes) {
-                throw new Error(
-                  "Wallet did not return a signature for the fee payer.",
-                );
-              }
-
-              return { [signerAddress]: sigBytes };
-            } catch (error) {
-              console.error("Failed to sign transaction:", error);
+            // Find our signature within the signed transaction. Signatures are
+            // aligned to the first `numRequiredSignatures` static account keys.
+            const signerIndex = signedVt.message.staticAccountKeys.findIndex(
+              (key) => key.equals(publicKey),
+            );
+            const sigBytes = signedVt.signatures[signerIndex] as
+              | SignatureBytes
+              | undefined;
+            if (signerIndex === -1 || !sigBytes) {
               throw new Error(
-                `Failed to sign transaction: ${
-                  error instanceof Error ? error.message : String(error)
-                }`,
+                "Wallet did not return a signature for the fee payer.",
               );
             }
-          }),
-        );
+
+            signatureDictionaries.push({ [signerAddress]: sigBytes });
+          } catch (error) {
+            console.error("Failed to sign transaction:", error);
+            throw new Error(
+              `Failed to sign transaction: ${
+                error instanceof Error ? error.message : String(error)
+              }`,
+            );
+          }
+        }
+        return signatureDictionaries;
       }
     : undefined;
 

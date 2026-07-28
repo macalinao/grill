@@ -116,6 +116,8 @@ const SignButton: React.FC = () => {
       // The signed transaction is never broadcast; hand it to a backend, add
       // co-signers, or send it later.
       console.log("Signed wire tx:", getBase64EncodedWireTransaction(signed));
+    } catch (error: unknown) {
+      console.error("Failed to sign transaction", error);
     } finally {
       setBusy(false);
     }
