@@ -7,6 +7,7 @@ import type {
 } from "@solana/kit";
 import type { QueryClient } from "@tanstack/react-query";
 import type { RpcSubscriptions, SolanaRpcSubscriptionsApi } from "gill";
+import { AccountDecodeError } from "@macalinao/gill-extra";
 import { getBase64Encoder } from "@solana/kit";
 import { createContext, useContext } from "react";
 import { createAccountQueryKey } from "../query-keys.js";
@@ -45,11 +46,17 @@ export function createAccountDecoderFromDecoder<
   }
 
   return (encodedAccount: EncodedAccount): Account<TDecodedData> => {
-    const decoded = decoder.decode(encodedAccount.data);
-    return {
-      ...encodedAccount,
-      data: decoded,
-    };
+    try {
+      const decoded = decoder.decode(encodedAccount.data);
+      return {
+        ...encodedAccount,
+        data: decoded,
+      };
+    } catch (cause) {
+      // Attach the account address/owner so callers (e.g. the subscription
+      // manager) can log or surface a traceable decode failure.
+      throw new AccountDecodeError(encodedAccount, { cause });
+    }
   };
 }
 
@@ -155,14 +162,32 @@ export function createSubscriptionManager(
             continue;
           }
 
-          // Parse and decode, then update cache
+          // Parse the notification into an EncodedAccount.
           const encodedAccount = parseAccountNotification(address, value);
-          const decoded = decoder(encodedAccount);
+
+          // Guard the decode itself: a single malformed notification must not
+          // tear down the subscription or clobber the last good cached value.
+          let decoded: Account<T>;
+          try {
+            decoded = decoder(encodedAccount);
+          } catch (decodeError) {
+            console.error(
+              `[SubscriptionManager] ${
+                decodeError instanceof AccountDecodeError
+                  ? decodeError.message
+                  : `Failed to decode account ${address}`
+              }; keeping last cached value`,
+              decodeError,
+            );
+            continue;
+          }
+
+          // Only update the cache once we have a successfully decoded value.
           queryClient.setQueryData(createAccountQueryKey(address), decoded);
-        } catch (decodeError) {
+        } catch (error) {
           console.error(
-            `[SubscriptionManager] Error decoding account ${address}:`,
-            decodeError,
+            `[SubscriptionManager] Error handling notification for ${address}:`,
+            error,
           );
         }
       }

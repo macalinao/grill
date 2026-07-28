@@ -17,7 +17,25 @@ export type PdaQueryKey<TArgs> = readonly [
 ];
 
 /**
- * Create a query key for the account query
+ * Create a query key for the account query.
+ *
+ * This is the canonical way to target an account in the React Query cache. It's
+ * a plain function, not a hook, so you can force a refresh from anywhere you
+ * have a `QueryClient` — a mutation callback, an event handler, a service
+ * module — with no React context involved:
+ *
+ * ```ts
+ * await queryClient.invalidateQueries({
+ *   queryKey: createAccountQueryKey(address),
+ *   exact: true,
+ * });
+ * ```
+ *
+ * React Query is the single source of truth for account data: grill's
+ * DataLoader only coalesces concurrent requests within its batch window and
+ * retains nothing afterwards, so an invalidated query really does refetch from
+ * the RPC.
+ *
  * @param address - The address of the account
  * @returns The query key
  */

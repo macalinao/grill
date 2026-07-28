@@ -3,6 +3,7 @@ export * from "@macalinao/token-utils";
 export * from "@macalinao/zod-solana";
 export { createSolanaClient, getExplorerLink } from "gill";
 // Export gill-extra specific utilities
+export * from "./account-decode-error.js";
 export * from "./build-get-explorer-link-function.js";
 export * from "./constants.js";
 export * from "./fetch-and-decode-account.js";
