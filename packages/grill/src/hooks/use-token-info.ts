@@ -59,6 +59,9 @@ export function useTokenInfo({
         (mintAccount !== undefined && metadataAccount !== undefined)),
     staleTime: staticInfo ? Number.POSITIVE_INFINITY : 5 * 60 * 1000, // Static info never goes stale
     gcTime: 60 * 60 * 1000, // Keep in cache for 1 hour
-    placeholderData: staticInfo ?? undefined,
+    // Spread conditionally: react-query types `placeholderData` without
+    // `| undefined`, so under exactOptionalPropertyTypes the key has to be absent
+    // rather than explicitly undefined (which would mean "no placeholder" anyway).
+    ...(staticInfo === undefined ? {} : { placeholderData: staticInfo }),
   });
 }

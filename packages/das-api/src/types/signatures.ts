@@ -14,13 +14,13 @@ export interface GetSignaturesForAssetResponse {
   /** The limit that was used to build this page. */
   limit: number;
   /** The page number of this result. */
-  page?: number;
+  page?: number | undefined;
   /** The cursor pointing before this page. */
-  before?: string;
+  before?: string | undefined;
   /** The cursor pointing after this page. */
-  after?: string;
+  after?: string | undefined;
   /** The id of the asset the signatures belong to. */
-  id?: string;
+  id?: string | undefined;
   /** The signatures, as `[signature, type]` tuples. */
   items: DasApiAssetSignature[];
 }

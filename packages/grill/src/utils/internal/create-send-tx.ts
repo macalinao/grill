@@ -39,12 +39,12 @@ export interface CreateSendTXParams {
    * The RPC URL used for creating transaction inspector URLs.
    * This is needed to generate correct inspector URLs for custom RPC endpoints.
    */
-  rpcUrl?: string;
+  rpcUrl?: string | undefined;
   /**
    * The Solana cluster for explorer links.
    * Defaults to "mainnet-beta".
    */
-  cluster?: SolanaCluster;
+  cluster?: SolanaCluster | undefined;
 }
 
 /**
@@ -91,8 +91,15 @@ export const createSendTX = ({
       feePayer: signer,
       instructions: [...ixs],
       latestBlockhash,
-      computeUnitLimit: options.computeUnitLimit,
-      computeUnitPrice: options.computeUnitPrice,
+      // Spread conditionally: gill types these as `computeUnitLimit?: number | bigint`
+      // without `| undefined`, so under exactOptionalPropertyTypes the keys have to be
+      // absent rather than explicitly undefined.
+      ...(options.computeUnitLimit === undefined
+        ? {}
+        : { computeUnitLimit: options.computeUnitLimit }),
+      ...(options.computeUnitPrice === undefined
+        ? {}
+        : { computeUnitPrice: options.computeUnitPrice }),
     });
 
     // Apply address lookup tables if provided to compress the transaction

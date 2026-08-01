@@ -18,13 +18,13 @@ import type { JsonValue } from "./json-value.js";
  */
 export interface DasApiAssetFile {
   /** The URI of the file. */
-  uri?: string;
+  uri?: string | undefined;
   /** The MIME type of the file. */
-  mime?: string;
+  mime?: string | undefined;
   /** The CDN-hosted URI of the file, if available. */
-  cdn_uri?: string;
+  cdn_uri?: string | undefined;
   /** The rendering contexts the file applies to. */
-  contexts?: string[];
+  contexts?: string[] | undefined;
 }
 
 /**
@@ -32,11 +32,11 @@ export interface DasApiAssetFile {
  */
 export interface DasApiMetadataAttribute {
   /** The trait type/category. */
-  trait_type?: string;
+  trait_type?: string | undefined;
   /** The trait value. */
-  value?: string | number;
+  value?: string | number | undefined;
   /** A hint for how the value should be displayed. */
-  display_type?: string;
+  display_type?: string | undefined;
 }
 
 /**
@@ -48,11 +48,11 @@ export interface DasApiMetadata {
   /** The symbol of the asset. */
   symbol: string;
   /** A description of the asset. */
-  description?: string;
+  description?: string | undefined;
   /** The Metaplex token standard, if applicable. */
-  token_standard?: string;
+  token_standard?: string | undefined;
   /** The attributes/traits of the asset. */
-  attributes?: DasApiMetadataAttribute[];
+  attributes?: DasApiMetadataAttribute[] | undefined;
 }
 
 /**
@@ -60,11 +60,11 @@ export interface DasApiMetadata {
  */
 export interface DasApiAssetLinks {
   /** The image URI. */
-  image?: string;
+  image?: string | undefined;
   /** The animation URI. */
-  animation_url?: string;
+  animation_url?: string | undefined;
   /** The external URI. */
-  external_url?: string;
+  external_url?: string | undefined;
 }
 
 /**
@@ -72,15 +72,15 @@ export interface DasApiAssetLinks {
  */
 export interface DasApiAssetContent {
   /** The JSON schema of the content. */
-  $schema?: string;
+  $schema?: string | undefined;
   /** The URI of the off-chain JSON metadata. */
   json_uri: string;
   /** The files referenced by the asset. */
-  files?: DasApiAssetFile[];
+  files?: DasApiAssetFile[] | undefined;
   /** The parsed off-chain metadata. */
   metadata: DasApiMetadata;
   /** Convenience links extracted from the metadata (e.g. image, animation). */
-  links?: DasApiAssetLinks;
+  links?: DasApiAssetLinks | undefined;
 }
 
 /**
@@ -106,11 +106,11 @@ export interface DasApiAssetCompression {
   /** The creator hash of the asset. */
   creator_hash: Address;
   /** The collection hash of the asset. */
-  collection_hash?: Address;
+  collection_hash?: Address | undefined;
   /** The asset data hash. */
-  asset_data_hash?: Address;
+  asset_data_hash?: Address | undefined;
   /** Bitflags describing the compressed asset. */
-  flags?: number;
+  flags?: number | undefined;
   /** The asset hash. */
   asset_hash: Address;
   /** The address of the merkle tree the asset belongs to. */
@@ -126,15 +126,15 @@ export interface DasApiAssetCompression {
  */
 export interface DasApiCollectionMetadata {
   /** The name of the collection. */
-  name?: string;
+  name?: string | undefined;
   /** The symbol of the collection. */
-  symbol?: string;
+  symbol?: string | undefined;
   /** The description of the collection. */
-  description?: string;
+  description?: string | undefined;
   /** The image URI of the collection. */
-  image?: string;
+  image?: string | undefined;
   /** The external URI of the collection. */
-  external_url?: string;
+  external_url?: string | undefined;
 }
 
 /**
@@ -146,9 +146,9 @@ export interface DasApiAssetGrouping {
   /** The value of the group (e.g. the collection address). */
   group_value: string;
   /** Whether the group membership is verified. */
-  verified?: boolean;
+  verified?: boolean | undefined;
   /** Collection metadata, present when `showCollectionMetadata` is enabled. */
-  collection_metadata?: DasApiCollectionMetadata;
+  collection_metadata?: DasApiCollectionMetadata | undefined;
 }
 
 /**
@@ -188,7 +188,7 @@ export interface DasApiAssetOwnership {
   /** Whether the asset is frozen. */
   frozen: boolean;
   /** Whether the asset is non-transferable. */
-  non_transferable?: boolean;
+  non_transferable?: boolean | undefined;
   /** Whether the asset is delegated. */
   delegated: boolean;
   /** The delegate address, if the asset is delegated. */
@@ -204,15 +204,15 @@ export interface DasApiAssetOwnership {
  */
 export interface DasApiAssetSupply {
   /** The maximum print supply. */
-  print_max_supply?: number;
+  print_max_supply?: number | undefined;
   /** The current print supply. */
-  print_current_supply?: number;
+  print_current_supply?: number | undefined;
   /** The edition nonce. */
-  edition_nonce?: number | null;
+  edition_nonce?: number | null | undefined;
   /** The address of the master edition, for printed editions. */
-  master_edition_mint?: Address;
+  master_edition_mint?: Address | undefined;
   /** The edition number, for printed editions. */
-  edition_number?: number;
+  edition_number?: number | undefined;
 }
 
 /**
@@ -234,9 +234,9 @@ export interface DasApiPriceInfo {
   /** The price per token. */
   price_per_token: number;
   /** The total price of the held balance. */
-  total_price?: number;
+  total_price?: number | undefined;
   /** The currency the price is denominated in. */
-  currency?: string;
+  currency?: string | undefined;
 }
 
 /**
@@ -244,23 +244,23 @@ export interface DasApiPriceInfo {
  */
 export interface DasApiTokenInfo {
   /** The symbol of the token. */
-  symbol?: string;
+  symbol?: string | undefined;
   /** The balance held by the queried owner, in base units. */
-  balance?: number;
+  balance?: number | undefined;
   /** The total supply of the token, in base units. */
-  supply?: number;
+  supply?: number | undefined;
   /** The number of decimals of the token. */
-  decimals?: number;
+  decimals?: number | undefined;
   /** The token program that owns the mint. */
-  token_program?: Address;
+  token_program?: Address | undefined;
   /** The associated token account for the queried owner. */
-  associated_token_address?: Address;
+  associated_token_address?: Address | undefined;
   /** Pricing information for the token. */
-  price_info?: DasApiPriceInfo;
+  price_info?: DasApiPriceInfo | undefined;
   /** The mint authority of the token. */
-  mint_authority?: Address;
+  mint_authority?: Address | undefined;
   /** The freeze authority of the token. */
-  freeze_authority?: Address;
+  freeze_authority?: Address | undefined;
 }
 
 /**
@@ -268,19 +268,19 @@ export interface DasApiTokenInfo {
  */
 export interface DasApiInscription {
   /** The inscription order. */
-  order?: number;
+  order?: number | undefined;
   /** The size of the inscription data, in bytes. */
-  size?: number;
+  size?: number | undefined;
   /** The content type of the inscription. */
-  contentType?: string;
+  contentType?: string | undefined;
   /** The encoding of the inscription. */
-  encoding?: string;
+  encoding?: string | undefined;
   /** The validation hash of the inscription. */
-  validationHash?: string;
+  validationHash?: string | undefined;
   /** The account holding the inscription data. */
-  inscriptionDataAccount?: Address;
+  inscriptionDataAccount?: Address | undefined;
   /** The authority of the inscription. */
-  authority?: Address;
+  authority?: Address | undefined;
 }
 
 /**
@@ -300,15 +300,15 @@ export interface DasApiTransferFee {
  */
 export interface DasApiTransferFeeConfig {
   /** The authority that can change the fee config. */
-  transfer_fee_config_authority?: Address;
+  transfer_fee_config_authority?: Address | undefined;
   /** The authority that can withdraw withheld tokens. */
-  withdraw_withheld_authority?: Address;
+  withdraw_withheld_authority?: Address | undefined;
   /** The amount of withheld tokens. */
-  withheld_amount?: number;
+  withheld_amount?: number | undefined;
   /** The currently active transfer fee. */
-  older_transfer_fee?: DasApiTransferFee;
+  older_transfer_fee?: DasApiTransferFee | undefined;
   /** The pending transfer fee. */
-  newer_transfer_fee?: DasApiTransferFee;
+  newer_transfer_fee?: DasApiTransferFee | undefined;
 }
 
 /**
@@ -316,9 +316,9 @@ export interface DasApiTransferFeeConfig {
  */
 export interface DasApiTransferHook {
   /** The authority that can change the transfer hook program. */
-  authority?: Address;
+  authority?: Address | undefined;
   /** The transfer hook program id. */
-  program_id?: Address;
+  program_id?: Address | undefined;
 }
 
 /**
@@ -326,9 +326,9 @@ export interface DasApiTransferHook {
  */
 export interface DasApiMetadataPointer {
   /** The authority that can change the metadata address. */
-  authority?: Address;
+  authority?: Address | undefined;
   /** The address holding the token metadata. */
-  metadata_address?: Address;
+  metadata_address?: Address | undefined;
 }
 
 /**
@@ -336,11 +336,11 @@ export interface DasApiMetadataPointer {
  */
 export interface DasApiGroupPointer {
   /** The authority that can change the pointer. */
-  authority?: Address;
+  authority?: Address | undefined;
   /** The address of the group. */
-  group_address?: Address;
+  group_address?: Address | undefined;
   /** The address of the group member. */
-  member_address?: Address;
+  member_address?: Address | undefined;
 }
 
 /**
@@ -348,7 +348,7 @@ export interface DasApiGroupPointer {
  */
 export interface DasApiMintCloseAuthority {
   /** The authority that can close the mint. */
-  close_authority?: Address;
+  close_authority?: Address | undefined;
 }
 
 /**
@@ -356,7 +356,7 @@ export interface DasApiMintCloseAuthority {
  */
 export interface DasApiPermanentDelegate {
   /** The permanent delegate over every token account. */
-  delegate?: Address;
+  delegate?: Address | undefined;
 }
 
 /**
@@ -364,7 +364,7 @@ export interface DasApiPermanentDelegate {
  */
 export interface DasApiDefaultAccountState {
   /** The default state of new token accounts. */
-  state?: string;
+  state?: string | undefined;
 }
 
 /**
@@ -372,15 +372,15 @@ export interface DasApiDefaultAccountState {
  */
 export interface DasApiInterestBearingConfig {
   /** The authority that can change the interest rate. */
-  rate_authority?: Address;
+  rate_authority?: Address | undefined;
   /** The timestamp the config was initialized. */
-  initialization_timestamp?: number;
+  initialization_timestamp?: number | undefined;
   /** The average rate before the last update. */
-  pre_update_average_rate?: number;
+  pre_update_average_rate?: number | undefined;
   /** The timestamp of the last update. */
-  last_update_timestamp?: number;
+  last_update_timestamp?: number | undefined;
   /** The current interest rate, in basis points. */
-  current_rate?: number;
+  current_rate?: number | undefined;
 }
 
 /**
@@ -388,17 +388,17 @@ export interface DasApiInterestBearingConfig {
  */
 export interface DasApiTokenMetadataExtension {
   /** The authority that can change the metadata. */
-  update_authority?: Address;
+  update_authority?: Address | undefined;
   /** The mint the metadata belongs to. */
-  mint?: Address;
+  mint?: Address | undefined;
   /** The name of the token. */
-  name?: string;
+  name?: string | undefined;
   /** The symbol of the token. */
-  symbol?: string;
+  symbol?: string | undefined;
   /** The URI of the off-chain metadata. */
-  uri?: string;
+  uri?: string | undefined;
   /** Arbitrary additional metadata, as `[key, value]` pairs. */
-  additional_metadata?: [key: string, value: string][];
+  additional_metadata?: [key: string, value: string][] | undefined;
 }
 
 /**
@@ -409,21 +409,21 @@ export interface DasApiTokenMetadataExtension {
  * type additional extensions.
  */
 export interface DasApiMintExtensions {
-  confidential_transfer_account?: JsonValue;
-  confidential_transfer_mint?: JsonValue;
-  confidential_transfer_fee_config?: JsonValue;
-  default_account_state?: DasApiDefaultAccountState;
-  group_member_pointer?: DasApiGroupPointer;
-  group_pointer?: DasApiGroupPointer;
-  interest_bearing_config?: DasApiInterestBearingConfig;
-  metadata?: DasApiTokenMetadataExtension;
-  metadata_pointer?: DasApiMetadataPointer;
-  mint_close_authority?: DasApiMintCloseAuthority;
-  permanent_delegate?: DasApiPermanentDelegate;
-  token_group?: JsonValue;
-  token_group_member?: JsonValue;
-  transfer_fee_config?: DasApiTransferFeeConfig;
-  transfer_hook?: DasApiTransferHook;
+  confidential_transfer_account?: JsonValue | undefined;
+  confidential_transfer_mint?: JsonValue | undefined;
+  confidential_transfer_fee_config?: JsonValue | undefined;
+  default_account_state?: DasApiDefaultAccountState | undefined;
+  group_member_pointer?: DasApiGroupPointer | undefined;
+  group_pointer?: DasApiGroupPointer | undefined;
+  interest_bearing_config?: DasApiInterestBearingConfig | undefined;
+  metadata?: DasApiTokenMetadataExtension | undefined;
+  metadata_pointer?: DasApiMetadataPointer | undefined;
+  mint_close_authority?: DasApiMintCloseAuthority | undefined;
+  permanent_delegate?: DasApiPermanentDelegate | undefined;
+  token_group?: JsonValue | undefined;
+  token_group_member?: JsonValue | undefined;
+  transfer_fee_config?: DasApiTransferFeeConfig | undefined;
+  transfer_hook?: DasApiTransferHook | undefined;
 }
 
 /**
@@ -435,22 +435,24 @@ export interface DasApiMintExtensions {
  */
 export interface DasApiCoreAssetFields {
   /** Plugins active on the asset or collection. */
-  plugins?: Record<string, JsonValue>;
+  plugins?: Record<string, JsonValue> | undefined;
   /** External plugins active on the asset or collection. */
-  external_plugins?: JsonValue[];
+  external_plugins?: JsonValue[] | undefined;
   /** Plugins that were unknown to the indexer at the time of indexing. */
-  unknown_plugins?: JsonValue[];
+  unknown_plugins?: JsonValue[] | undefined;
   /** External plugins that were unknown to the indexer at the time of indexing. */
-  unknown_external_plugins?: JsonValue[];
+  unknown_external_plugins?: JsonValue[] | undefined;
   /** Additional indexed fields for Core assets or collections. */
-  mpl_core_info?: {
-    /** Number of assets minted into this collection (collections only). */
-    num_minted?: number;
-    /** Current number of assets in this collection (collections only). */
-    current_size?: number;
-    /** The version of the plugins JSON schema. */
-    plugins_json_version?: number;
-  };
+  mpl_core_info?:
+    | undefined
+    | {
+        /** Number of assets minted into this collection (collections only). */
+        num_minted?: number | undefined;
+        /** Current number of assets in this collection (collections only). */
+        current_size?: number | undefined;
+        /** The version of the plugins JSON schema. */
+        plugins_json_version?: number | undefined;
+      };
 }
 
 /**
@@ -479,21 +481,21 @@ export interface DasApiAsset extends DasApiCoreAssetFields {
   /** Ownership information for the asset. */
   ownership: DasApiAssetOwnership;
   /** "Uses" information for the asset, if any. */
-  uses?: DasApiUses;
+  uses?: DasApiUses | undefined;
   /** Supply information for the asset, if any. */
-  supply?: DasApiAssetSupply | null;
+  supply?: DasApiAssetSupply | null | undefined;
   /** Whether the asset's metadata is mutable. */
   mutable: boolean;
   /** Whether the asset has been burnt. */
   burnt: boolean;
   /** Token information for a fungible asset (Helius extension). */
-  token_info?: DasApiTokenInfo;
+  token_info?: DasApiTokenInfo | undefined;
   /** Token-2022 mint extensions (Helius extension). */
-  mint_extensions?: DasApiMintExtensions;
+  mint_extensions?: DasApiMintExtensions | undefined;
   /** Inscription information (Helius extension). */
-  inscription?: DasApiInscription;
+  inscription?: DasApiInscription | undefined;
   /** SPL-20 data (Helius extension). */
-  spl20?: Record<string, JsonValue>;
+  spl20?: Record<string, JsonValue> | undefined;
   /** The most recent slot at which the asset was indexed (Helius extension). */
-  last_indexed_slot?: number;
+  last_indexed_slot?: number | undefined;
 }

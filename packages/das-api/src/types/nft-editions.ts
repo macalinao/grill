@@ -21,17 +21,17 @@ export interface GetNftEditionsResponse {
   /** The limit that was used to build this page. */
   limit: number;
   /** The page number of this result. */
-  page?: number;
+  page?: number | undefined;
   /** The cursor pointing before this page. */
-  before?: string;
+  before?: string | undefined;
   /** The cursor pointing after this page. */
-  after?: string;
+  after?: string | undefined;
   /** The address of the master edition. */
   master_edition_address: Address;
   /** The mint of the master edition supply. */
   supply: number;
   /** The maximum supply of the master edition, if capped. */
-  max_supply?: number;
+  max_supply?: number | undefined;
   /** The printed editions in this page. */
   editions: DasApiNftEdition[];
 }

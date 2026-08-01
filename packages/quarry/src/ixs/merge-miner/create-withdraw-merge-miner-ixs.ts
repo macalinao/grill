@@ -26,7 +26,7 @@ export interface WithdrawMergeMinerArgs extends MergeMinerAmountArgs {
    *
    * Note: this must be a token account.
    */
-  tokenDestination?: Address;
+  tokenDestination?: Address | undefined;
 }
 
 /**
