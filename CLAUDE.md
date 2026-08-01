@@ -144,6 +144,9 @@ Provides two contexts:
 1. `bun run build` - Check for TypeScript errors
 2. `bun run lint:fix` - Fix linting and formatting issues
 
+**Every PR that changes package source code must also include a changeset.** See
+[Changesets](#changesets).
+
 ### React Components
 
 - Small, focused components
@@ -235,6 +238,39 @@ GitHub Actions workflow runs on push/PR to master:
 - Runs tests
 
 Release workflow handles versioning and publishing via changesets.
+
+## Changesets
+
+Every pull request that touches source code in a published package must include a
+changeset. Without one the change ships to npm with no version bump and no changelog
+entry.
+
+Exception: PRs that only touch non-published files — docs, `CLAUDE.md`, CI workflows,
+lint/format config, or `apps/example-dapp` (private, never published) — do not need a
+changeset.
+
+Create one with `bun run changeset`, or write `.changeset/<slug>.md` directly:
+
+```markdown
+---
+"@macalinao/grill": minor
+"@macalinao/gill-extra": minor
+---
+
+Add an optional `latestBlockhash` to the transaction send options.
+```
+
+Conventions:
+
+- Use a descriptive kebab-case slug (`injectable-blockhash.md`, `tsdown-build.md`)
+  rather than the random name the CLI generates.
+- List every published package whose source changed. Dependents are bumped
+  automatically (`updateInternalDependents: "always"`), so do not list them.
+- `minor` for new features or new exports; `patch` for bug fixes, dependency bumps,
+  refactors, and internal changes. Most packages are pre-1.0, so breaking changes go
+  out as `minor` — no changeset in this repo has used `major`.
+- The summary becomes the changelog entry: write it for consumers, describing what
+  changed and why. Use a markdown list for multi-package or multi-part changes.
 
 ## Publishing Workflow
 
