@@ -13,6 +13,8 @@ import {
   useAddressLookupTables,
   useMintAccount,
   useMintAccounts,
+  useRefetchAccount,
+  useRefetchAccounts,
   useTokenAccount,
   useTokenAccounts,
 } from "@macalinao/grill";
@@ -21,6 +23,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { CodeBlock } from "@/components/examples/code-block";
 import { ExampleHeader } from "@/components/examples/example-header";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -317,6 +320,69 @@ const LookupTableCard: React.FC = () => {
   );
 };
 
+/** `useRefetchAccount` (singular) and `useRefetchAccounts` (plural). */
+const RefetchCard: React.FC = () => {
+  const refetchAccount = useRefetchAccount();
+  const refetchAccounts = useRefetchAccounts();
+
+  const [refreshedAt, setRefreshedAt] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+
+  const usdcMint = DEMO_TOKENS[0]?.mint;
+
+  const run = async (refetch: () => Promise<void>): Promise<void> => {
+    setBusy(true);
+    try {
+      await refetch();
+      setRefreshedAt(new Date().toLocaleTimeString());
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Refreshing accounts</CardTitle>
+        <CardDescription>
+          <code className="font-mono">useRefetchAccount</code> re-reads one
+          address from the RPC;{" "}
+          <code className="font-mono">useRefetchAccounts</code> takes several
+          and coalesces them into a single batched call. The mint cards above
+          update in place.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <div className="flex flex-wrap gap-2">
+          <Button
+            variant="outline"
+            disabled={busy || !usdcMint}
+            onClick={() => {
+              if (usdcMint) {
+                void run(() => refetchAccount(usdcMint));
+              }
+            }}
+          >
+            Refetch USDC mint
+          </Button>
+          <Button
+            variant="outline"
+            disabled={busy}
+            onClick={() => void run(() => refetchAccounts(DEMO_MINTS))}
+          >
+            Refetch all {DEMO_MINTS.length} mints
+          </Button>
+        </div>
+        <p className="text-sm text-muted-foreground">
+          {refreshedAt === null
+            ? "Not refetched yet."
+            : `Last refetched at ${refreshedAt}.`}
+        </p>
+      </CardContent>
+    </Card>
+  );
+};
+
 function AccountHooksPage() {
   return (
     <div className="container mx-auto py-6">
@@ -329,6 +395,8 @@ function AccountHooksPage() {
           "useTokenAccounts",
           "useAddressLookupTable",
           "useAddressLookupTables",
+          "useRefetchAccount",
+          "useRefetchAccounts",
         ]}
       >
         Grill ships typed hooks for the account types every Solana app touches.
@@ -343,6 +411,8 @@ function AccountHooksPage() {
         </div>
 
         <LookupTableCard />
+
+        <RefetchCard />
 
         <Card>
           <CardHeader>
