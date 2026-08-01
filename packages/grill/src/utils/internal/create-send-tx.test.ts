@@ -33,7 +33,7 @@ const SIG_BYTES = new Uint8Array(64).fill(7) as SignatureBytes;
  * used so control-flow narrowing does not collapse the value to `undefined`
  * across the awaited `sendTX` call.
  */
-const polled: { lastValidBlockHeight?: bigint } = {};
+const polled: { lastValidBlockHeight?: bigint | undefined } = {};
 
 await mock.module("@macalinao/gill-extra", () => ({
   ...gillExtra,

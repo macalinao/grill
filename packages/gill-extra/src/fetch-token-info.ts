@@ -12,7 +12,7 @@ export interface FetchTokenInfoParams {
    * Whether to fetch from the certified token list as a fallback.
    * Defaults to true for backwards compatibility.
    */
-  fetchFromCertifiedTokenList?: boolean;
+  fetchFromCertifiedTokenList?: boolean | undefined;
 }
 
 /**

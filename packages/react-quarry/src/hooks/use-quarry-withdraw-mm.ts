@@ -7,7 +7,7 @@ import { usePoolInfo } from "../contexts/pool-info.js";
 
 export interface QuarryWithdrawMMArgs {
   amount: bigint;
-  tokenDestination?: Address;
+  tokenDestination?: Address | undefined;
 }
 
 export interface UseQuarryWithdrawMMResult {

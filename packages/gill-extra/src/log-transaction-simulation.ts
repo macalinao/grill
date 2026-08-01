@@ -39,12 +39,12 @@ export interface LogTransactionSimulationOptions {
   /**
    * The Solana cluster for explorer links.
    */
-  cluster?: SolanaCluster;
+  cluster?: SolanaCluster | undefined;
   /**
    * Custom RPC URL for the transaction inspector.
    * Required when using localhost or custom RPC endpoints.
    */
-  rpcUrl?: string;
+  rpcUrl?: string | undefined;
 }
 
 /**
@@ -74,7 +74,7 @@ export function createSimulationDebugBlock(options: {
   success: boolean;
   inspectorUrl: string;
   logs: string[];
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }): string {
   const { title, success, inspectorUrl, logs, errorMessage } = options;
 

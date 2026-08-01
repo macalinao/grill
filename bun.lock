@@ -11,7 +11,7 @@
         "oxfmt": "0.58.0",
         "oxlint": "1.73.0",
         "oxlint-tsgolint": "0.24.0",
-        "tsdown": "^0.22.5",
+        "tsdown": "^0.22.6",
         "turbo": "^2.10.4",
         "typescript": "^7.0.2",
         "unrun": "^0.3.1",
@@ -311,7 +311,7 @@
   },
   "catalog": {
     "@gillsdk/react": "^0.7.0",
-    "@macalinao/tsconfig": "^3.2.5",
+    "@macalinao/tsconfig": "^4.0.0",
     "@solana/kit": "^6.10.0",
     "@solana/wallet-adapter-base": "^0.9.27",
     "@solana/wallet-adapter-react": "^0.15.39",
@@ -559,7 +559,7 @@
 
     "@macalinao/token-utils": ["@macalinao/token-utils@workspace:packages/token-utils"],
 
-    "@macalinao/tsconfig": ["@macalinao/tsconfig@3.2.5", "", {}, "sha512-qtP+OqdAXhGZFjRs9VM7NfwIFQA2ufGdw6GBmhqmS7qBkeEf1gW5fa23j2/RxvyqBPSQhTgR2lNGhpbYn9IzgQ=="],
+    "@macalinao/tsconfig": ["@macalinao/tsconfig@4.0.0", "", {}, "sha512-XRDcRVQOkrl1j6eqXJncuMIewGEAjRORDCkQ3fibI1UVN3o8UvrbT7HtFVuAl8RK5QzCNwHaNTdyw/lIPXQCQw=="],
 
     "@macalinao/wallet-adapter-compat": ["@macalinao/wallet-adapter-compat@workspace:packages/wallet-adapter-compat"],
 

@@ -98,17 +98,17 @@ export interface DasApiAssetSorting {
  */
 export interface DasApiPagination {
   /** Sorting criteria for the results. */
-  sortBy?: DasApiAssetSorting;
+  sortBy?: DasApiAssetSorting | undefined;
   /** The maximum number of assets to retrieve (max 1000). */
-  limit?: number;
+  limit?: number | undefined;
   /** The index of the page to retrieve. The first page has index `1`. */
-  page?: number;
+  page?: number | undefined;
   /** Retrieve assets before the specified `id` value. */
-  before?: string;
+  before?: string | undefined;
   /** Retrieve assets after the specified `id` value. */
-  after?: string;
+  after?: string | undefined;
   /** An opaque cursor for cursor-based pagination. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 
 /**
@@ -120,17 +120,17 @@ export interface DasApiPagination {
  */
 export interface DasApiDisplayOptions {
   /** Include assets that belong to unverified collections. */
-  showUnverifiedCollections?: boolean;
+  showUnverifiedCollections?: boolean | undefined;
   /** Include full collection metadata in the `grouping` field. */
-  showCollectionMetadata?: boolean;
+  showCollectionMetadata?: boolean | undefined;
   /** Include fungible tokens in the results. */
-  showFungible?: boolean;
+  showFungible?: boolean | undefined;
   /** Include inscription and SPL-20 data. */
-  showInscription?: boolean;
+  showInscription?: boolean | undefined;
   /** Include the owner's native SOL balance (list methods only). */
-  showNativeBalance?: boolean;
+  showNativeBalance?: boolean | undefined;
   /** Include token accounts with a zero balance. */
-  showZeroBalance?: boolean;
+  showZeroBalance?: boolean | undefined;
   /** Include a grand total count across all pages (list methods only). */
-  showGrandTotal?: boolean;
+  showGrandTotal?: boolean | undefined;
 }

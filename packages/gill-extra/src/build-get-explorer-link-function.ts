@@ -145,7 +145,7 @@ export function buildGetExplorerLinkFunction(
       url.pathname = `/${paths.transaction}/${args.transaction}`;
     } else if ("address" in args && args.address) {
       url.pathname = `/${paths.address}/${args.address}`;
-    } else if ("block" in args && args.block !== undefined) {
+    } else if ("block" in args) {
       url.pathname = `/${paths.block}/${String(args.block)}`;
     }
 
