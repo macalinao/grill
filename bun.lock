@@ -11,7 +11,7 @@
         "oxfmt": "0.58.0",
         "oxlint": "1.73.0",
         "oxlint-tsgolint": "0.24.0",
-        "tsdown": "^0.22.5",
+        "tsdown": "^0.22.6",
         "turbo": "^2.10.4",
         "typescript": "^7.0.2",
         "unrun": "^0.3.1",
@@ -263,7 +263,7 @@
       "name": "@macalinao/wallet-adapter-compat",
       "version": "9.0.0",
       "dependencies": {
-        "@solana/webcrypto-ed25519-polyfill": "6.9.0",
+        "@solana/webcrypto-ed25519-polyfill": "7.0.0",
         "tslib": "catalog:",
       },
       "devDependencies": {
@@ -579,7 +579,7 @@
 
     "@noble/curves": ["@noble/curves@1.9.7", "", { "dependencies": { "@noble/hashes": "1.8.0" } }, "sha512-gbKGcRUYIjA3/zCCNaWDciTMFI0dCkvou3TL8Zmy5Nc7sJ47a0jtOeZoTaMxkuqRo9cRhjOdZJXegxYE5FN/xw=="],
 
-    "@noble/ed25519": ["@noble/ed25519@3.0.0", "", {}, "sha512-QyteqMNm0GLqfa5SoYbSC3+Pvykwpn95Zgth4MFVSMKBB75ELl9tX1LAVsN4c3HXOrakHsF2gL4zWDAYCcsnzg=="],
+    "@noble/ed25519": ["@noble/ed25519@3.1.0", "", {}, "sha512-pfcObRY3CtvwfaG9Mt5XqZdKmAQppl37tHUeuBhDUbiwJBCVY4/A4lbMvb1xKhMDx96AqAqZpMWuBX1HulhX4g=="],
 
     "@noble/hashes": ["@noble/hashes@1.8.0", "", {}, "sha512-jCs9ldd7NwzpgXDIf6P3+NrHh9/sD6CQdxHyjQI+h/6rDNo88ypBxxz45UDuZHz9r3tNz7N/VInSVoVdtXEI4A=="],
 
@@ -1121,7 +1121,7 @@
 
     "@solana/web3.js": ["@solana/web3.js@1.98.4", "", { "dependencies": { "@babel/runtime": "^7.25.0", "@noble/curves": "^1.4.2", "@noble/hashes": "^1.4.0", "@solana/buffer-layout": "^4.0.1", "@solana/codecs-numbers": "^2.1.0", "agentkeepalive": "^4.5.0", "bn.js": "^5.2.1", "borsh": "^0.7.0", "bs58": "^4.0.1", "buffer": "6.0.3", "fast-stable-stringify": "^1.0.0", "jayson": "^4.1.1", "node-fetch": "^2.7.0", "rpc-websockets": "^9.0.2", "superstruct": "^2.0.2" } }, "sha512-vv9lfnvjUsRiq//+j5pBdXig0IQdtzA0BRZ3bXEP4KaIyF1CcaydWqgyzQgfZMNIsWNWmG+AUHwPy4AHOD6gpw=="],
 
-    "@solana/webcrypto-ed25519-polyfill": ["@solana/webcrypto-ed25519-polyfill@6.9.0", "", { "dependencies": { "@noble/ed25519": "^3.0.0" }, "peerDependencies": { "typescript": ">=5.4.0" }, "optionalPeers": ["typescript"] }, "sha512-ne7l1XY90X9HCqigu3DRtoUBRLHYwghQSqoqC1QAOBIHwntFDCVTDKOySsWl58uoKacJuBcq8S1QveE8tZsp4A=="],
+    "@solana/webcrypto-ed25519-polyfill": ["@solana/webcrypto-ed25519-polyfill@7.0.0", "", { "dependencies": { "@noble/ed25519": "^3.1.0" }, "peerDependencies": { "typescript": ">=5.4.0" }, "optionalPeers": ["typescript"] }, "sha512-cUcGPAyNNbJhocJrucgL0KR0TQsjK3Rt+93nD+R8mw7Xj8X19eaLH3RG++41Zf0G9Uw9xEyqwZVD0OWpG9X3sA=="],
 
     "@solflare-wallet/sdk": ["@solflare-wallet/sdk@1.4.2", "", { "dependencies": { "bs58": "^5.0.0", "eventemitter3": "^5.0.1", "uuid": "^9.0.0" }, "peerDependencies": { "@solana/web3.js": "*" } }, "sha512-jrseNWipwl9xXZgrzwZF3hhL0eIVxuEtoZOSLmuPuef7FgHjstuTtNJAeT4icA7pzdDV4hZvu54pI2r2f7SmrQ=="],
 
