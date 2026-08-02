@@ -166,6 +166,102 @@ Access the wallet signer and connection:
 const { signer, publicKey } = useKitWallet();
 ```
 
+### useRefetchAccount / useRefetchAccounts
+
+Convenience hooks to force-refresh accounts (e.g. balances) from inside a
+component:
+
+```tsx
+const refetchAccount = useRefetchAccount();
+await refetchAccount(tokenAccountAddress);
+```
+
+You don't have to use a hook — see [Refreshing Account Data](#refreshing-account-data)
+for the query-key approach, which works anywhere you have a `QueryClient`.
+
+## Refreshing Account Data
+
+**React Query is the single source of truth for account data.** Grill's
+DataLoader only coalesces concurrent requests inside its batch window (so N
+components asking for N accounts still make one RPC call) — it retains nothing
+afterwards. That means standard React Query invalidation just works.
+
+The canonical way to force a refresh is the query key. `createAccountQueryKey`
+is a plain function, not a hook, so you can use it anywhere you have a
+`QueryClient` — a mutation callback, an event handler, a plain service module —
+with no React context involved:
+
+```ts
+import { createAccountQueryKey } from "@macalinao/grill";
+
+// Refresh one account (e.g. a token balance) after a transaction
+await queryClient.invalidateQueries({
+  queryKey: createAccountQueryKey(address),
+  exact: true,
+});
+```
+
+Because the namespace is shared, you can also invalidate broadly:
+
+```ts
+import { GRILL_REACT_QUERY_NAMESPACE } from "@macalinao/grill";
+
+// Refresh every account grill knows about
+await queryClient.invalidateQueries({
+  queryKey: [GRILL_REACT_QUERY_NAMESPACE, "account"],
+});
+```
+
+Everything else follows from React Query too: `refetch()` from `useAccount`,
+`staleTime`, `refetchOnWindowFocus`, and `refetchOnMount` all behave normally
+and will actually hit the RPC.
+
+> 💡 Since accounts are no longer memoized forever, `staleTime` (React Query's
+> default is `0`) now governs how often they refetch. Set a `staleTime` on your
+> `QueryClient` if you want to trade freshness for fewer RPC calls.
+
+### Optional hooks
+
+If you're already inside a component, `useRefetchAccount` / `useRefetchAccounts`
+are thin sugar over the same thing (they also clear the DataLoader, which
+matters only if you opted into `cache: true`):
+
+```tsx
+const refetchAccount = useRefetchAccount();
+await refetchAccount(tokenAccountAddress);
+
+const refetchAccounts = useRefetchAccounts();
+await refetchAccounts([addressA, addressB]); // batched into one RPC call
+```
+
+Both only refresh the addresses you pass — they don't refresh the whole cache.
+
+Note that transactions sent via `useSendTX` **already refetch every writable
+account** automatically once confirmed, so you often don't need to refresh
+manually at all.
+
+To refresh a **token balance** (`useTokenBalance`), target the **token account
+address** — the balance is derived from that account plus its mint's token info.
+
+## Handling Decode Errors
+
+`useAccount`/`useAccounts` decode failures surface as the query's `error` (an
+`AccountDecodeError` carrying the offending `address` and `programAddress`), so
+one malformed account never crashes the tree:
+
+```tsx
+import { AccountDecodeError } from "@macalinao/grill";
+
+const { data, error } = useAccount({ address, decoder });
+if (error instanceof AccountDecodeError) {
+  console.warn(`Could not decode ${error.address} (owner ${error.programAddress})`);
+}
+```
+
+For live subscriptions (`subscribeToUpdates: true`), a notification that fails
+to decode is logged and skipped — the last successfully decoded value stays in
+the cache and the subscription keeps running.
+
 ## Transaction Status Events
 
 The provider emits the following transaction status events:

@@ -87,7 +87,7 @@ describe("createBatchAccountsLoader", () => {
     expect(account3).toBeNull();
   });
 
-  it("should cache results", async () => {
+  it("does not memoize across separate loads by default", async () => {
     const sendMock = mock(() =>
       Promise.resolve({
         value: [
@@ -115,15 +115,99 @@ describe("createBatchAccountsLoader", () => {
 
     const accountId = address("11111111111111111111111111111111");
 
-    // First load
-    const result1 = await loader.load(accountId);
+    // Two sequential (non-concurrent) loads. With caching off, the loader is a
+    // pure coalescer: nothing is retained between batches, so the second load
+    // hits the RPC again and observes fresh on-chain state.
+    await loader.load(accountId);
+    await loader.load(accountId);
 
-    // Second load (should use cache)
+    expect(getMultipleAccountsMock).toHaveBeenCalledTimes(2);
+  });
+
+  it("still coalesces concurrent loads of the same address into one RPC slot", async () => {
+    const sendMock = mock(() =>
+      Promise.resolve({
+        value: [
+          {
+            data: ["cached", "base64"],
+            executable: false,
+            lamports: 1000000n,
+            owner: "11111111111111111111111111111111",
+          },
+        ],
+      }),
+    );
+
+    const getMultipleAccountsMock = mock(() => ({
+      send: sendMock,
+    }));
+
+    const mockRpc = {
+      getMultipleAccounts: getMultipleAccountsMock,
+    };
+
+    const loader = createBatchAccountsLoader({
+      rpc: mockRpc as unknown as Rpc<GetMultipleAccountsApi>,
+    });
+
+    const accountId = address("11111111111111111111111111111111");
+
+    // Three concurrent loads of the SAME address within one batch window.
+    const [result1, result2, result3] = await Promise.all([
+      loader.load(accountId),
+      loader.load(accountId),
+      loader.load(accountId),
+    ]);
+
+    // Batching is unaffected by disabling the cache: one RPC call...
+    expect(getMultipleAccountsMock).toHaveBeenCalledTimes(1);
+    // ...and the duplicate keys are deduped, so the address is only requested
+    // once rather than consuming three slots of the 99-account limit.
+    expect(getMultipleAccountsMock).toHaveBeenCalledWith(
+      [accountId],
+      expect.anything(),
+    );
+    // Every caller still gets the value.
+    expect(result1).not.toBeNull();
+    expect(result2).toEqual(result1);
+    expect(result3).toEqual(result1);
+  });
+
+  it("memoizes for the loader's lifetime when cache is enabled", async () => {
+    const sendMock = mock(() =>
+      Promise.resolve({
+        value: [
+          {
+            data: ["cached", "base64"],
+            executable: false,
+            lamports: 1000000n,
+            owner: "11111111111111111111111111111111",
+          },
+        ],
+      }),
+    );
+
+    const getMultipleAccountsMock = mock(() => ({
+      send: sendMock,
+    }));
+
+    const mockRpc = {
+      getMultipleAccounts: getMultipleAccountsMock,
+    };
+
+    const loader = createBatchAccountsLoader({
+      rpc: mockRpc as unknown as Rpc<GetMultipleAccountsApi>,
+      cache: true,
+    });
+
+    const accountId = address("11111111111111111111111111111111");
+
+    const result1 = await loader.load(accountId);
     const result2 = await loader.load(accountId);
 
-    // Should only call RPC once
+    // Opt-in memoization: only one RPC call, same reference replayed.
     expect(getMultipleAccountsMock).toHaveBeenCalledTimes(1);
-    expect(result1).toBe(result2); // Same reference
+    expect(result1).toBe(result2);
   });
 
   it("should respect maxBatchSize", async () => {
