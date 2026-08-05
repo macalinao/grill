@@ -159,6 +159,12 @@
     "typescript/prefer-string-starts-ends-with": "error",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "error",
+    // React Compiler. Reports the same diagnostics the compiler emits when it
+    // refuses to optimize a component -- Rules of React violations, manual
+    // memoization it cannot verify, and bail-outs on library APIs that return
+    // values it cannot memoize safely. Kept on so the packages stay
+    // compiler-safe for downstream apps that do run the compiler.
+    "react/react-compiler": "error",
     // The repo targets the automatic JSX runtime (jsx: "react-jsx"), so React
     // does not need to be in scope. The old ESLint config turned this off too.
     "react/react-in-jsx-scope": "off",

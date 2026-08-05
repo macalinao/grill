@@ -1,3 +1,3 @@
-import { defineGrillConfig } from "../../tsdown.config.base.ts";
+import { defineGrillReactConfig } from "../../tsdown.config.base.ts";
 
-export default defineGrillConfig();
+export default defineGrillReactConfig();
