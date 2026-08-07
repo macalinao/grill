@@ -56,7 +56,7 @@ const SendButton: React.FC = () => {
   const sendTX = useSendTX();
   const [busy, setBusy] = useState(false);
 
-  const send = useCallback(async () => {
+  const send = async () => {
     setBusy(true);
     try {
       await sendTX("Headless provider demo", [
@@ -69,7 +69,7 @@ const SendButton: React.FC = () => {
     } finally {
       setBusy(false);
     }
-  }, [sendTX, signer]);
+  };
 
   return (
     <div className="space-y-2">

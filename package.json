@@ -57,7 +57,11 @@
     "typecheck": "turbo run typecheck"
   },
   "devDependencies": {
+    "@babel/core": "^8.0.1",
     "@changesets/cli": "^2.31.1",
+    "@rolldown/plugin-babel": "^0.2.3",
+    "@vitejs/plugin-react": "^6.0.4",
+    "babel-plugin-react-compiler": "^1.0.0",
     "husky": "^9.1.7",
     "lint-staged": "^17.2.0",
     "oxfmt": "0.58.0",

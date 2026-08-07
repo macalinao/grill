@@ -54,7 +54,8 @@
     "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "@macalinao/quarry": "workspace:^"
+    "@macalinao/quarry": "workspace:^",
+    "react-compiler-runtime": "^1.0.0"
   },
   "peerDependencies": {
     "@macalinao/grill": "workspace:^",

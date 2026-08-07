@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "@solana/webcrypto-ed25519-polyfill": "7.0.0",
+    "react-compiler-runtime": "^1.0.0",
     "tslib": "catalog:"
   },
   "devDependencies": {
