@@ -50,8 +50,8 @@
     "@macalinao/solana-errors": "workspace:^",
     "@macalinao/token-utils": "workspace:^",
     "@macalinao/zod-solana": "workspace:^",
-    "@solana-program/system": "^0.12.2",
-    "@solana-program/token": "^0.14.0"
+    "@solana-program/system": "^0.13.0",
+    "@solana-program/token": "^0.15.0"
   },
   "devDependencies": {
     "@macalinao/tsconfig": "catalog:",
