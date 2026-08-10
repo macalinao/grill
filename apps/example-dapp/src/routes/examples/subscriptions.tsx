@@ -3,6 +3,7 @@ import type {
   AccountDecoder,
   SubscriptionManager,
   SubscriptionProviderProps,
+  SubscriptionStatus,
 } from "@macalinao/grill";
 import type { Address } from "@solana/kit";
 import type { ReactNode } from "react";
@@ -76,6 +77,29 @@ const useLiveSubscriptionCount = (
   return count;
 };
 
+/** Same idea for the connection state, which moves on reconnects. */
+const useLiveSubscriptionStatus = (
+  manager: SubscriptionManager,
+  address: Address,
+): SubscriptionStatus | undefined => {
+  const [status, setStatus] = useState<SubscriptionStatus | undefined>(
+    undefined,
+  );
+
+  useEffect(() => {
+    const tick = () => {
+      setStatus(manager.getSubscriptionStatus(address));
+    };
+    tick();
+    const id = setInterval(tick, 500);
+    return () => {
+      clearInterval(id);
+    };
+  }, [manager, address]);
+
+  return status;
+};
+
 /**
  * `useAccountSubscription` — subscribe by hand, read with a separate hook.
  *
@@ -96,6 +120,7 @@ const ManualSubscriptionCard: React.FC = () => {
   });
 
   const count = useLiveSubscriptionCount(manager, SOL_USDC_POOL);
+  const status = useLiveSubscriptionStatus(manager, SOL_USDC_POOL);
 
   return (
     <Card>
@@ -103,7 +128,9 @@ const ManualSubscriptionCard: React.FC = () => {
         <CardTitle>useAccountSubscription</CardTitle>
         <CardDescription>
           Subscribing and reading are separate concerns. Toggle the subscription
-          and watch the manager’s reference count follow.
+          and watch the manager’s reference count follow. The socket re-opens
+          itself if the connection drops, so the status flips back to{" "}
+          <code className="font-mono">connected</code> on its own.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-3">
@@ -121,6 +148,12 @@ const ManualSubscriptionCard: React.FC = () => {
             getSubscriptionCount:{" "}
             <span className="font-mono font-medium text-foreground">
               {count}
+            </span>
+          </span>
+          <span className="text-sm text-muted-foreground">
+            getSubscriptionStatus:{" "}
+            <span className="font-mono font-medium text-foreground">
+              {status ?? "—"}
             </span>
           </span>
         </div>
