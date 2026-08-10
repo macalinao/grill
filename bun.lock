@@ -8,22 +8,22 @@
         "@babel/core": "^8.0.1",
         "@changesets/cli": "^2.31.1",
         "@rolldown/plugin-babel": "^0.2.3",
-        "@vitejs/plugin-react": "^6.0.4",
+        "@vitejs/plugin-react": "^6.0.5",
         "babel-plugin-react-compiler": "^1.0.0",
         "husky": "^9.1.7",
-        "lint-staged": "^17.2.0",
+        "lint-staged": "^17.3.0",
         "oxfmt": "0.58.0",
         "oxlint": "1.73.0",
         "oxlint-tsgolint": "0.24.0",
         "tsdown": "^0.22.14",
-        "turbo": "^2.10.7",
+        "turbo": "^2.10.8",
         "typescript": "^7.0.2",
         "unrun": "^0.3.1",
       },
     },
     "apps/example-dapp": {
       "name": "example-dapp",
-      "version": "7.0.0",
+      "version": "8.0.0",
       "dependencies": {
         "@gillsdk/react": "catalog:",
         "@hookform/resolvers": "^5.4.0",
@@ -81,7 +81,7 @@
     },
     "packages/das-api": {
       "name": "@macalinao/das-api",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "dependencies": {
         "@macalinao/zod-solana": "workspace:^",
       },
@@ -113,7 +113,7 @@
     },
     "packages/gill-extra": {
       "name": "@macalinao/gill-extra",
-      "version": "0.7.1",
+      "version": "0.8.0",
       "dependencies": {
         "@macalinao/clients-token-metadata": "^0.5.1",
         "@macalinao/dataloader-es": "workspace:^",
@@ -139,7 +139,7 @@
     },
     "packages/grill": {
       "name": "@macalinao/grill",
-      "version": "0.13.0",
+      "version": "0.14.0",
       "dependencies": {
         "@gillsdk/react": "catalog:",
         "@macalinao/clients-token-metadata": "^0.5.1",
@@ -173,7 +173,7 @@
     },
     "packages/quarry": {
       "name": "@macalinao/quarry",
-      "version": "0.4.4",
+      "version": "0.5.0",
       "dependencies": {
         "@macalinao/clients-quarry": "^0.5.1",
         "@macalinao/gill-extra": "workspace:^",
@@ -194,7 +194,7 @@
     },
     "packages/react-quarry": {
       "name": "@macalinao/react-quarry",
-      "version": "8.0.0",
+      "version": "9.0.0",
       "dependencies": {
         "@macalinao/quarry": "workspace:^",
         "react-compiler-runtime": "^1.0.0",
@@ -216,7 +216,7 @@
     },
     "packages/solana-batch-accounts-loader": {
       "name": "@macalinao/solana-batch-accounts-loader",
-      "version": "0.3.1",
+      "version": "0.4.0",
       "dependencies": {
         "@macalinao/dataloader-es": "workspace:^",
         "lodash-es": "^4.17.22",
@@ -236,7 +236,7 @@
     },
     "packages/solana-errors": {
       "name": "@macalinao/solana-errors",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "devDependencies": {
         "@macalinao/tsconfig": "catalog:",
         "@solana/kit": "catalog:",
@@ -250,7 +250,7 @@
     },
     "packages/token-utils": {
       "name": "@macalinao/token-utils",
-      "version": "0.2.1",
+      "version": "0.3.0",
       "dependencies": {
         "dnum": "^2.17.0",
       },
@@ -267,7 +267,7 @@
     },
     "packages/wallet-adapter-compat": {
       "name": "@macalinao/wallet-adapter-compat",
-      "version": "10.0.0",
+      "version": "11.0.0",
       "dependencies": {
         "@solana/webcrypto-ed25519-polyfill": "7.0.0",
         "react-compiler-runtime": "^1.0.0",
@@ -295,7 +295,7 @@
     },
     "packages/zod-solana": {
       "name": "@macalinao/zod-solana",
-      "version": "0.3.2",
+      "version": "0.4.0",
       "devDependencies": {
         "@macalinao/tsconfig": "catalog:",
         "@solana/kit": "catalog:",
