@@ -1,14 +1,11 @@
 {
   "search.exclude": {
-    "**/.devenv": true,
     "**/.direnv": true
   },
   "files.exclude": {
-    "**/.devenv": true,
     "**/.direnv": true
   },
   "files.watcherExclude": {
-    "**/.devenv": true,
     "**/.direnv": true
   },
   "typescript.tsdk": "node_modules/typescript/lib",
