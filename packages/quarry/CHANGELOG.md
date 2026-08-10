@@ -1,5 +1,18 @@
 # @macalinao/quarry
 
+## 0.5.1
+
+### Patch Changes
+
+- 4abe697: Update dependencies:
+
+  - `@macalinao/clients-token-metadata` to `^0.6.1` (`@macalinao/gill-extra`, `@macalinao/grill`)
+  - `@macalinao/clients-quarry` to `^0.5.2` (`@macalinao/quarry`)
+  - Raise the `@tanstack/react-query` peer dependency floor to `^5.101.4` (`@macalinao/grill`)
+
+- Updated dependencies [4abe697]
+  - @macalinao/gill-extra@0.8.1
+
 ## 0.5.0
 
 ### Minor Changes
