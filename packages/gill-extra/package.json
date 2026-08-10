@@ -44,7 +44,7 @@
     "test": "bun test src/"
   },
   "dependencies": {
-    "@macalinao/clients-token-metadata": "^0.5.1",
+    "@macalinao/clients-token-metadata": "^0.6.1",
     "@macalinao/dataloader-es": "workspace:^",
     "@macalinao/solana-batch-accounts-loader": "workspace:^",
     "@macalinao/solana-errors": "workspace:^",
