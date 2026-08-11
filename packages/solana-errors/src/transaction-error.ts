@@ -5,12 +5,16 @@
  */
 
 import type { TransactionError } from "@solana/kit";
+import { ERROR_MESSAGES_ENABLED } from "./flags.js";
 import { getInstructionErrorMessage } from "./instruction-error.js";
 
 export type { TransactionError };
 
 /**
  * TransactionError variant names mapped to their human-readable messages.
+ *
+ * Dropped from the bundle when `__GRILL_ERROR_MESSAGES__` is defined as
+ * `false`, provided you do not import this table directly.
  */
 export const TRANSACTION_ERROR_MESSAGES: Record<string, string> = {
   AccountInUse: "Account is already being processed in another transaction",
@@ -67,7 +71,24 @@ export const TRANSACTION_ERROR_MESSAGES: Record<string, string> = {
 };
 
 /**
+ * Looks up a variant's message, or returns `undefined` when message tables are
+ * disabled via `__GRILL_ERROR_MESSAGES__`.
+ *
+ * Routing every lookup through here is what lets bundlers drop
+ * {@link TRANSACTION_ERROR_MESSAGES}: with the flag defined as `false` this
+ * folds to `undefined` and the table loses its last reference.
+ */
+function lookupTransactionErrorMessage(variant: string): string | undefined {
+  return ERROR_MESSAGES_ENABLED
+    ? TRANSACTION_ERROR_MESSAGES[variant]
+    : undefined;
+}
+
+/**
  * Gets the human-readable message for a TransactionError.
+ *
+ * When message tables are stripped via `__GRILL_ERROR_MESSAGES__`, the variant
+ * name is returned instead of its prose description.
  *
  * @param error - The TransactionError value from the RPC response
  * @returns The formatted error message
@@ -84,7 +105,7 @@ export function getTransactionErrorMessage(error: TransactionError): string {
 
   // Handle string error (simple variant like "AccountInUse")
   if (typeof raw === "string") {
-    return TRANSACTION_ERROR_MESSAGES[raw] ?? `Transaction error: ${raw}`;
+    return lookupTransactionErrorMessage(raw) ?? `Transaction error: ${raw}`;
   }
 
   // Handle object error (variant with data)
@@ -132,7 +153,7 @@ export function getTransactionErrorMessage(error: TransactionError): string {
 
     // For other variants
     const baseMessage =
-      TRANSACTION_ERROR_MESSAGES[variant] ?? `Transaction error: ${variant}`;
+      lookupTransactionErrorMessage(variant) ?? `Transaction error: ${variant}`;
     if (value !== null && value !== undefined && value !== true) {
       return `${baseMessage}: ${JSON.stringify(value)}`;
     }

@@ -34,7 +34,7 @@ export type UseTokenInfosResult =
 export function useTokenInfos({
   mints,
 }: UseTokenInfosInput): UseTokenInfosResult {
-  const { staticTokenInfo } = useGrillContext();
+  const { staticTokenInfo, validateTokenMetadata } = useGrillContext();
 
   // Filter out null/undefined mints for account fetching
   const validMints = mints?.filter((mint): mint is Address => !!mint) ?? [];
@@ -91,6 +91,7 @@ export function useTokenInfos({
           return fetchTokenInfo({
             mint: mintAccount,
             metadata: metadataAccount?.data ?? null,
+            validateMetadata: validateTokenMetadata,
           });
         },
         enabled:

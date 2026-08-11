@@ -2,6 +2,7 @@ import type { DataLoader } from "@macalinao/dataloader-es";
 import type {
   GetExplorerLinkFunction,
   SendTXFunction,
+  TokenMetadataValidator,
 } from "@macalinao/gill-extra";
 import type { TokenInfo } from "@macalinao/token-utils";
 import type { Address, EncodedAccount } from "@solana/kit";
@@ -42,6 +43,11 @@ export interface GrillContextValue {
    * Defaults to true for backwards compatibility.
    */
   fetchFromCertifiedTokenList: boolean;
+
+  /**
+   * Validates the JSON fetched from a token's metadata URI.
+   */
+  validateTokenMetadata: TokenMetadataValidator;
 }
 
 /**

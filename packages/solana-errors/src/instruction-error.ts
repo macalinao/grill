@@ -4,8 +4,13 @@
  * https://docs.rs/solana-program/latest/solana_program/instruction/enum.InstructionError.html
  */
 
+import { ERROR_MESSAGES_ENABLED } from "./flags.js";
+
 /**
  * InstructionError variant names mapped to their human-readable messages.
+ *
+ * Dropped from the bundle when `__GRILL_ERROR_MESSAGES__` is defined as
+ * `false`, provided you do not import this table directly.
  */
 export const INSTRUCTION_ERROR_MESSAGES: Record<string, string> = {
   // Generic/deprecated errors
@@ -95,7 +100,24 @@ function stringifyValue(value: unknown): string {
 }
 
 /**
+ * Looks up a variant's message, or returns `undefined` when message tables are
+ * disabled via `__GRILL_ERROR_MESSAGES__`.
+ *
+ * Routing every lookup through here is what lets bundlers drop
+ * {@link INSTRUCTION_ERROR_MESSAGES}: with the flag defined as `false` this
+ * folds to `undefined` and the table loses its last reference.
+ */
+function lookupInstructionErrorMessage(variant: string): string | undefined {
+  return ERROR_MESSAGES_ENABLED
+    ? INSTRUCTION_ERROR_MESSAGES[variant]
+    : undefined;
+}
+
+/**
  * Gets the human-readable message for an InstructionError.
+ *
+ * When message tables are stripped via `__GRILL_ERROR_MESSAGES__`, the variant
+ * name is returned instead of its prose description.
  *
  * @param error - The InstructionError value from the RPC response
  * @returns The formatted error message
@@ -107,7 +129,9 @@ export function getInstructionErrorMessage(error: unknown): string {
 
   // Handle string error (simple variant like "GenericError")
   if (typeof error === "string") {
-    return INSTRUCTION_ERROR_MESSAGES[error] ?? `Instruction error: ${error}`;
+    return (
+      lookupInstructionErrorMessage(error) ?? `Instruction error: ${error}`
+    );
   }
 
   // Handle object error (variant with data like { Custom: 1 } or { BorshIoError: "..." })
@@ -134,7 +158,7 @@ export function getInstructionErrorMessage(error: unknown): string {
 
     // For other variants with additional data
     const baseMessage =
-      INSTRUCTION_ERROR_MESSAGES[variant] ?? `Instruction error: ${variant}`;
+      lookupInstructionErrorMessage(variant) ?? `Instruction error: ${variant}`;
     if (value !== null && value !== undefined) {
       return `${baseMessage}: ${stringifyValue(value)}`;
     }

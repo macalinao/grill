@@ -1,12 +1,14 @@
 import type {
   GetExplorerLinkFunction,
   SolanaCluster,
+  TokenMetadataValidator,
 } from "@macalinao/gill-extra";
 import type { TokenInfo } from "@macalinao/token-utils";
 import type { Address } from "gill";
 import type { FC, ReactNode } from "react";
 import type { TransactionStatusEventCallback } from "../types.js";
 import { useSolanaClient } from "@gillsdk/react";
+import { defaultTokenMetadataValidator } from "@macalinao/gill-extra";
 import { createBatchAccountsLoader } from "@macalinao/solana-batch-accounts-loader";
 import { useQueryClient } from "@tanstack/react-query";
 import { getExplorerLink as defaultGetExplorerLink } from "gill";
@@ -36,6 +38,15 @@ export interface GrillHeadlessProviderProps {
    * Defaults to true for backwards compatibility.
    */
   fetchFromCertifiedTokenList?: boolean;
+  /**
+   * Validates the JSON fetched from a token's metadata URI.
+   *
+   * Defaults to `defaultTokenMetadataValidator`, a dependency-free shallow
+   * check. Pass `zodTokenMetadataValidator` from `@macalinao/zod-solana` to
+   * validate the full Metaplex schema instead — note that doing so pulls zod
+   * into your bundle.
+   */
+  validateTokenMetadata?: TokenMetadataValidator;
   /**
    * The RPC URL used for creating transaction inspector URLs in error logs.
    * This is needed to generate correct inspector URLs for custom RPC endpoints.
@@ -73,6 +84,7 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
   getExplorerLink = defaultGetExplorerLink,
   staticTokenInfo = [],
   fetchFromCertifiedTokenList = true,
+  validateTokenMetadata = defaultTokenMetadataValidator,
   rpcUrl,
   cluster = "mainnet-beta",
 }) => {
@@ -138,6 +150,7 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
           getExplorerLink,
           staticTokenInfo: staticTokenInfoMap,
           fetchFromCertifiedTokenList,
+          validateTokenMetadata,
         }}
       >
         {children}
