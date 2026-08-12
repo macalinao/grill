@@ -9,6 +9,7 @@
  * applications.
  */
 
+export { ERROR_MESSAGES_ENABLED } from "./flags.js";
 export {
   getInstructionErrorMessage,
   INSTRUCTION_ERROR_MESSAGES,

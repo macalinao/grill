@@ -6,7 +6,20 @@ import type {
 } from "./types.js";
 import { DataLoader } from "@macalinao/dataloader-es";
 import { address, fetchEncodedAccounts } from "@solana/kit";
-import { chunk } from "lodash-es";
+
+/**
+ * Splits `items` into consecutive slices of at most `size`.
+ *
+ * Inlined rather than pulled from lodash-es: this is the only lodash usage in
+ * the package, and it accounted for roughly half of the package's bundled size.
+ */
+function chunk<T>(items: readonly T[], size: number): T[][] {
+  const chunks: T[][] = [];
+  for (let i = 0; i < items.length; i += size) {
+    chunks.push(items.slice(i, i + size));
+  }
+  return chunks;
+}
 
 /**
  * Creates a DataLoader for batching Solana RPC account fetches.
