@@ -1,6 +1,6 @@
 {
   "name": "@macalinao/das-api",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Metaplex Digital Asset Standard (DAS) API client for @solana/kit - no umi dependency",
   "type": "module",
   "sideEffects": false,

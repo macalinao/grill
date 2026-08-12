@@ -1,5 +1,13 @@
 # @macalinao/das-api
 
+## 0.2.1
+
+### Patch Changes
+
+- Updated dependencies [2d68f3c]
+- Updated dependencies [60965e2]
+  - @macalinao/zod-solana@0.5.0
+
 ## 0.2.0
 
 ### Minor Changes
