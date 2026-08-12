@@ -104,7 +104,7 @@ type Wallet = z.infer<typeof walletSchema>;
 ## Features
 
 - ✅ **Type-safe**: Validates and transforms strings to Solana `Address` type
-- ✅ **Zod v3 & v4 compatible**: Works with both major versions of Zod
+- ✅ **Built for Zod v4**: Uses the Zod v4 schema typings (`zod: ^4` peer dependency)
 - ✅ **Comprehensive validation**: Checks for valid base58 encoding and address format
 - ✅ **TypeScript support**: Full type inference and autocompletion
 - ✅ **Framework agnostic**: Use with any JavaScript/TypeScript framework

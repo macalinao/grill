@@ -4,8 +4,8 @@ import * as z from "zod";
  * Builds a Zod schema around one of @solana/kit's branded-string constructors.
  *
  * The constructor validates its input and throws on anything malformed, so the
- * schema catches that and reports `message` as a custom issue. Returning
- * `z.NEVER` on failure keeps the schema compatible with both Zod v3 and v4.
+ * schema catches that and reports `message` as a custom issue, returning
+ * `z.NEVER` to abort the transform.
  *
  * Internal helper -- shared by the address, signature, and blockhash schemas,
  * each of which stays in its own module so consumers only pull in the ones they
