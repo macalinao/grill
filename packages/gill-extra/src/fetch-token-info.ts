@@ -1,9 +1,11 @@
 import type { Metadata } from "@macalinao/clients-token-metadata";
 import type { TokenInfo } from "@macalinao/token-utils";
 import type { Mint } from "@solana-program/token";
+import type { Logger } from "./logger.js";
 import type { TokenMetadataValidator } from "./token-metadata-validator.js";
 import type { AccountInfo } from "./types.js";
 import { createTokenInfo } from "@macalinao/token-utils";
+import { defaultLogger } from "./logger.js";
 import { defaultTokenMetadataValidator } from "./token-metadata-validator.js";
 
 export interface FetchTokenInfoParams {
@@ -22,6 +24,10 @@ export interface FetchTokenInfoParams {
    * `@macalinao/zod-solana` to validate the full Metaplex schema instead.
    */
   validateMetadata?: TokenMetadataValidator | undefined;
+  /**
+   * Logger used for metadata fetch failures. Defaults to {@link defaultLogger}.
+   */
+  logger?: Logger | undefined;
 }
 
 /**
@@ -34,6 +40,7 @@ export async function fetchTokenInfo({
   metadata,
   fetchFromCertifiedTokenList = true,
   validateMetadata = defaultTokenMetadataValidator,
+  logger = defaultLogger,
 }: FetchTokenInfoParams): Promise<TokenInfo> {
   const uri = metadata?.data.uri;
   const decimals = mint.data.decimals;
@@ -73,12 +80,12 @@ export async function fetchTokenInfo({
               metadataUriJson = { image: parsed.image };
             }
           } else {
-            console.error("Invalid token metadata at URI:", uri);
+            logger.error("Invalid token metadata at URI:", uri);
           }
         }
       }
     } catch (error) {
-      console.error("Error fetching token info:", error);
+      logger.error("Error fetching token info:", error);
     }
   }
 
@@ -110,7 +117,7 @@ export async function fetchTokenInfo({
         tokenInfo.iconURL = data.logoURI;
       }
     } catch (error) {
-      console.warn("Could not fetch certified token info:", error);
+      logger.warn("Could not fetch certified token info:", error);
     }
   }
 

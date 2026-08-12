@@ -2,6 +2,7 @@ import type { Address, Lamports } from "@solana/kit";
 import type { RpcSubscriptions, SolanaRpcSubscriptionsApi } from "gill";
 import type { AccountDecoder } from "./subscription-context.js";
 import { afterEach, beforeEach, describe, expect, it, spyOn } from "bun:test";
+import { createLogger } from "@macalinao/gill-extra";
 import { address, getBase64Decoder, lamports } from "@solana/kit";
 import { QueryClient } from "@tanstack/react-query";
 import { createAccountQueryKey } from "../query-keys.js";
@@ -401,5 +402,33 @@ describe("createSubscriptionManager", () => {
     second();
     expect(manager.getSubscriptionCount(ACCOUNT)).toBe(0);
     expect(rpc.channels[0]?.abortSignal.aborted).toBe(true);
+  });
+
+  it("writes nothing to the console when the logger is off", async () => {
+    const consoleError = spyOn(console, "error").mockImplementation(() => {
+      // Nothing should reach this; the assertion below proves it.
+    });
+
+    try {
+      const rpc = createFakeRpcSubscriptions();
+      const manager = createSubscriptionManager(
+        rpc.rpcSubscriptions,
+        queryClient,
+        { ...FAST_RECONNECT, logger: createLogger("off") },
+      );
+
+      const unsubscribe = manager.subscribe(ACCOUNT, decoder);
+      await waitFor(() => rpc.channels.length === 1, "the first subscription");
+
+      // A dropped connection is the manager's loudest log line.
+      rpc.channels[0]?.fail(new Error("socket closed unexpectedly"));
+      await waitFor(() => rpc.channels.length === 2, "a reconnect");
+
+      expect(consoleError).not.toHaveBeenCalled();
+
+      unsubscribe();
+    } finally {
+      consoleError.mockRestore();
+    }
   });
 });

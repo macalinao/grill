@@ -81,6 +81,9 @@ export const App: React.FC = () => {
                   <GrillProvider
                     getExplorerLink={getSolscanExplorerLink}
                     staticTokenInfo={STATIC_TOKEN_INFO}
+                    // Verbose while developing; production builds only get the
+                    // failures. Use "off" to silence the library entirely.
+                    logLevel={import.meta.env.DEV ? "debug" : "warn"}
                   >
                     <div className="min-h-screen bg-background">
                       <RouterProvider router={router} />

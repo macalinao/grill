@@ -1,6 +1,7 @@
 import type { DataLoader } from "@macalinao/dataloader-es";
 import type {
   GetExplorerLinkFunction,
+  Logger,
   SendTXFunction,
   TokenMetadataValidator,
 } from "@macalinao/gill-extra";
@@ -48,6 +49,12 @@ export interface GrillContextValue {
    * Validates the JSON fetched from a token's metadata URI.
    */
   validateTokenMetadata: TokenMetadataValidator;
+
+  /**
+   * Level-aware console logger built from the provider's `logLevel` prop.
+   * Everything the library prints goes through it.
+   */
+  logger: Logger;
 }
 
 /**

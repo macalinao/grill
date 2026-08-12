@@ -7,6 +7,7 @@ import {
   useAccount,
   useAssociatedTokenAccount,
   useKitWallet,
+  useLogger,
   useSendTX,
 } from "@macalinao/grill";
 import { createFileRoute } from "@tanstack/react-router";
@@ -32,6 +33,9 @@ import {
 const WrappedSOLPage: React.FC = () => {
   const { signer } = useKitWallet();
   const sendTX = useSendTX();
+  // App logging routed through the provider's `logLevel`, so it goes quiet
+  // along with grill's own output.
+  const logger = useLogger();
   const { data: userAccount } = useAccount({
     address: signer ? signer.address : null,
   });
@@ -104,11 +108,11 @@ const WrappedSOLPage: React.FC = () => {
         transaction: signature,
         cluster: "mainnet",
       });
-      console.log("Transaction:", explorerLink);
+      logger.info("Transaction:", explorerLink);
 
       setWrapAmount("");
     } catch (error) {
-      console.error("Error wrapping SOL:", error);
+      logger.error("Error wrapping SOL:", error);
       // Error already handled by mutation
     } finally {
       setIsWrapping(false);
@@ -134,9 +138,9 @@ const WrappedSOLPage: React.FC = () => {
         transaction: signature,
         cluster: "mainnet",
       });
-      console.log("Transaction:", explorerLink);
+      logger.info("Transaction:", explorerLink);
     } catch (error) {
-      console.error("Error closing wSOL account:", error);
+      logger.error("Error closing wSOL account:", error);
       // Error already handled by mutation
     } finally {
       setIsClosing(false);

@@ -13,6 +13,7 @@ export * from "./get-signature-from-bytes.js";
 export * from "./get-solscan-explorer-link.js";
 export * from "./ixs/index.js";
 export * from "./log-transaction-simulation.js";
+export * from "./logger.js";
 export * from "./poll-confirm-transaction.js";
 export * from "./token-metadata-validator.js";
 export * from "./transaction.js";

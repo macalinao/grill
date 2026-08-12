@@ -3,6 +3,7 @@
 // tsc types them correctly. Re-enable once typescript-go handles these signatures.
 import type {
   GetExplorerLinkFunction,
+  Logger,
   SendTXFunction,
   SendTXOptions,
   SolanaCluster,
@@ -17,6 +18,7 @@ import type {
 import type { SolanaClient } from "gill";
 import type { TransactionStatusEvent } from "../../types.js";
 import {
+  defaultLogger,
   getSignatureFromBytes,
   logTransactionSimulation,
   parseTransactionError,
@@ -45,6 +47,10 @@ export interface CreateSendTXParams {
    * Defaults to "mainnet-beta".
    */
   cluster?: SolanaCluster | undefined;
+  /**
+   * Logger for transaction diagnostics. Defaults to {@link defaultLogger}.
+   */
+  logger?: Logger | undefined;
 }
 
 /**
@@ -59,6 +65,7 @@ export const createSendTX = ({
   getExplorerLink,
   rpcUrl,
   cluster = "mainnet-beta",
+  logger = defaultLogger,
 }: CreateSendTXParams): SendTXFunction => {
   const simulateTransaction = simulateTransactionFactory({ rpc });
   return async (
@@ -125,6 +132,7 @@ export const createSendTX = ({
           transactionMessage: finalTransactionMessage,
           cluster,
           rpcUrl,
+          logger,
         });
 
         const logs = simulationResult.value.logs ?? [];
@@ -180,6 +188,7 @@ export const createSendTX = ({
         signature: sig,
         lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
         rpc,
+        logger,
       });
 
       onTransactionStatusEvent({
@@ -199,20 +208,20 @@ export const createSendTX = ({
         } else {
           // Refetch in background without waiting
           refetchAccounts(writableAccounts).catch((error: unknown) => {
-            console.warn("Failed to refetch accounts in background:", error);
+            logger.warn("Failed to refetch accounts in background:", error);
           });
         }
       }
 
       if (result.meta?.logMessages) {
-        console.log(name, result.meta.logMessages.join("\n"));
+        logger.debug(name, result.meta.logMessages.join("\n"));
       }
 
       // Return the signature as a base58 string
       return sig;
     } catch (error: unknown) {
       // Log error details for debugging
-      console.error(`${name} transaction failed:`, error);
+      logger.error(`${name} transaction failed:`, error);
 
       // Extract error logs
       const isLogs = (value: unknown): value is string[] =>
@@ -241,9 +250,9 @@ export const createSendTX = ({
 
       const errorLogs = extractErrorLogs(error);
       if (errorLogs.length > 0) {
-        console.log("Transaction logs:");
+        logger.error("Transaction logs:");
         for (const log of errorLogs) {
-          console.log("  ", log);
+          logger.error("  ", log);
         }
       }
 

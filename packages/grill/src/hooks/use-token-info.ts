@@ -27,6 +27,7 @@ export function useTokenInfo({
     staticTokenInfo,
     fetchFromCertifiedTokenList,
     validateTokenMetadata,
+    logger,
   } = useGrillContext();
   const { data: metadataAccount } = useTokenMetadataAccount({ mint });
   const { data: mintAccount } = useMintAccount({ address: mint });
@@ -56,6 +57,7 @@ export function useTokenInfo({
         metadata: metadataAccount?.data ?? null,
         fetchFromCertifiedTokenList,
         validateMetadata: validateTokenMetadata,
+        logger,
       });
     },
     enabled:

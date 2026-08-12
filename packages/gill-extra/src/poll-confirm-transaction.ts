@@ -1,7 +1,9 @@
 import type { Signature } from "@solana/kit";
 import type { SolanaClient } from "gill";
 import type { ConfirmedTransaction } from "./get-confirmed-transaction.js";
+import type { Logger } from "./logger.js";
 import { getConfirmedTransaction } from "./get-confirmed-transaction.js";
+import { defaultLogger } from "./logger.js";
 
 export interface PollConfirmTransactionOptions {
   signature: Signature;
@@ -9,6 +11,10 @@ export interface PollConfirmTransactionOptions {
   rpc: SolanaClient["rpc"];
   maxRetries?: number;
   retryInterval?: number;
+  /**
+   * Logger used for status check failures. Defaults to {@link defaultLogger}.
+   */
+  logger?: Logger | undefined;
 }
 
 /**
@@ -24,6 +30,7 @@ export async function pollConfirmTransaction({
   rpc,
   maxRetries = 30,
   retryInterval = 1000,
+  logger = defaultLogger,
 }: PollConfirmTransactionOptions): Promise<ConfirmedTransaction> {
   let confirmed = false;
   let confirmationError: Error | null = null;
@@ -61,7 +68,7 @@ export async function pollConfirmTransaction({
       });
       retries++;
     } catch (error) {
-      console.error("Error checking transaction status:", error);
+      logger.error("Error checking transaction status:", error);
       throw error;
     }
   }
