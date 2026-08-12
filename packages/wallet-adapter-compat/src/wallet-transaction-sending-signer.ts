@@ -9,11 +9,7 @@ import type {
   TransactionOrVersionedTransaction,
 } from "@solana/wallet-adapter-base";
 import type { Connection, TransactionSignature } from "@solana/web3.js";
-import {
-  address,
-  getBase58Encoder,
-  getBase64EncodedWireTransaction,
-} from "@solana/kit";
+import { address, getBase58Encoder } from "@solana/kit";
 import {
   PublicKey,
   VersionedMessage,
@@ -66,7 +62,6 @@ export function createWalletTransactionSendingSigner(
       // Process each transaction
       for (const transaction of transactions) {
         try {
-          console.log("TX", getBase64EncodedWireTransaction(transaction));
           const msg = VersionedMessage.deserialize(
             Uint8Array.from(transaction.messageBytes),
           );
@@ -78,7 +73,6 @@ export function createWalletTransactionSendingSigner(
               vt.addSignature(new PublicKey(publicKey), signature);
             }
           }
-          // console.log("v1", Buffer.from(vt.serialize()).toString("base64"));
           const sig = await walletAdapter.sendTransaction(vt, connection);
           const sigBytes = getBase58Encoder().encode(sig) as SignatureBytes;
 
