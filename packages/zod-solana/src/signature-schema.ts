@@ -1,6 +1,7 @@
 import type { Signature } from "@solana/kit";
+import type * as z from "zod";
 import { signature } from "@solana/kit";
-import * as z from "zod";
+import { createBrandedStringSchema } from "./create-branded-string-schema.js";
 
 /**
  * A Zod schema for Solana transaction signatures.
@@ -8,16 +9,5 @@ import * as z from "zod";
  * transforms it to a Signature type.
  * Compatible with both Zod v3 and v4.
  */
-export const signatureSchema: z.ZodType<Signature, string> = z
-  .string()
-  .transform((val, ctx) => {
-    try {
-      return signature(val);
-    } catch {
-      ctx.addIssue({
-        code: "custom",
-        message: "Invalid Solana signature",
-      });
-      return z.NEVER;
-    }
-  });
+export const signatureSchema: z.ZodType<Signature, string> =
+  createBrandedStringSchema(signature, "Invalid Solana signature");
