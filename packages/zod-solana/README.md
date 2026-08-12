@@ -104,7 +104,7 @@ type Wallet = z.infer<typeof walletSchema>;
 ## Features
 
 - ✅ **Type-safe**: Validates and transforms strings to Solana `Address` type
-- ✅ **Zod v3 & v4 compatible**: Works with both major versions of Zod
+- ✅ **Built for Zod v4**: Uses the Zod v4 schema typings (`zod: ^4` peer dependency)
 - ✅ **Comprehensive validation**: Checks for valid base58 encoding and address format
 - ✅ **TypeScript support**: Full type inference and autocompletion
 - ✅ **Framework agnostic**: Use with any JavaScript/TypeScript framework
@@ -119,6 +119,22 @@ A Zod schema that validates Solana addresses.
 - **Input**: `string` - A potential Solana address
 - **Output**: `Address` - A validated Address type from @solana/kit
 - **Errors**: Throws/returns error with message "Invalid Solana address" for invalid inputs
+
+### `signatureSchema`
+
+A Zod schema that validates Solana transaction signatures.
+
+- **Input**: `string` - A potential base58-encoded 64-byte signature
+- **Output**: `Signature` - A validated Signature type from @solana/kit
+- **Errors**: Throws/returns error with message "Invalid Solana signature" for invalid inputs
+
+### `blockhashSchema`
+
+A Zod schema that validates Solana blockhashes.
+
+- **Input**: `string` - A potential base58-encoded 32-byte blockhash
+- **Output**: `Blockhash` - A validated Blockhash type from @solana/kit
+- **Errors**: Throws/returns error with message "Invalid Solana blockhash" for invalid inputs
 
 ## Examples
 
