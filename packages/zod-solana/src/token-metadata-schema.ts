@@ -52,7 +52,7 @@ export interface TokenMetadataAttribute {
   /** The trait value (string or number) */
   value: string | number;
   /** Optional display type for UI formatting */
-  display_type?: string;
+  display_type?: string | undefined;
 }
 
 /**
@@ -64,7 +64,7 @@ export interface TokenMetadataFile {
   /** File MIME type */
   type: string;
   /** Whether the file is CDN cached */
-  cdn?: boolean;
+  cdn?: boolean | undefined;
 }
 
 /**
@@ -82,11 +82,11 @@ export interface TokenMetadataCreator {
  */
 export interface TokenMetadataProperties {
   /** Optional array of file references */
-  files?: TokenMetadataFile[];
+  files?: TokenMetadataFile[] | undefined;
   /** Optional category classification */
-  category?: string;
+  category?: string | undefined;
   /** Optional array of creators with royalty shares */
-  creators?: TokenMetadataCreator[];
+  creators?: TokenMetadataCreator[] | undefined;
 }
 
 /**
@@ -96,7 +96,7 @@ export interface TokenMetadataCollection {
   /** Collection name */
   name: string;
   /** Optional collection family */
-  family?: string;
+  family?: string | undefined;
 }
 
 /**
@@ -108,21 +108,21 @@ export interface TokenMetadata {
   /** The symbol of the token */
   symbol: string;
   /** Optional description of the token */
-  description?: string;
+  description?: string | undefined;
   /** Optional image URI */
-  image?: string;
+  image?: string | undefined;
   /** Optional animation URL for multimedia content */
-  animation_url?: string;
+  animation_url?: string | undefined;
   /** Optional external URL for additional information */
-  external_url?: string;
+  external_url?: string | undefined;
   /** Optional array of attributes/traits */
-  attributes?: TokenMetadataAttribute[];
+  attributes?: TokenMetadataAttribute[] | undefined;
   /** Optional properties object */
-  properties?: TokenMetadataProperties;
+  properties?: TokenMetadataProperties | undefined;
   /** Optional seller fee basis points (royalty percentage * 100) */
-  seller_fee_basis_points?: number;
+  seller_fee_basis_points?: number | undefined;
   /** Optional collection information */
-  collection?: TokenMetadataCollection;
+  collection?: TokenMetadataCollection | undefined;
 }
 
 /**

@@ -1,12 +1,14 @@
 import type {
   GetExplorerLinkFunction,
   SolanaCluster,
+  TokenMetadataValidator,
 } from "@macalinao/gill-extra";
 import type { TokenInfo } from "@macalinao/token-utils";
 import type { Address } from "gill";
 import type { FC, ReactNode } from "react";
 import type { TransactionStatusEventCallback } from "../types.js";
 import { useSolanaClient } from "@gillsdk/react";
+import { defaultTokenMetadataValidator } from "@macalinao/gill-extra";
 import { createBatchAccountsLoader } from "@macalinao/solana-batch-accounts-loader";
 import { useQueryClient } from "@tanstack/react-query";
 import { getExplorerLink as defaultGetExplorerLink } from "gill";
@@ -14,7 +16,6 @@ import { useCallback, useMemo } from "react";
 import { GrillContext } from "../contexts/grill-context.js";
 import { useKitWallet } from "../hooks/use-kit-wallet.js";
 import { createSendTX } from "../utils/internal/create-send-tx.js";
-import { createSignTX } from "../utils/internal/create-sign-tx.js";
 import { refetchAccounts as doRefetchAccounts } from "../utils/refetch-accounts.js";
 import { SubscriptionProvider } from "./subscription-provider.js";
 
@@ -37,6 +38,15 @@ export interface GrillHeadlessProviderProps {
    * Defaults to true for backwards compatibility.
    */
   fetchFromCertifiedTokenList?: boolean;
+  /**
+   * Validates the JSON fetched from a token's metadata URI.
+   *
+   * Defaults to `defaultTokenMetadataValidator`, a dependency-free shallow
+   * check. Pass `zodTokenMetadataValidator` from `@macalinao/zod-solana` to
+   * validate the full Metaplex schema instead — note that doing so pulls zod
+   * into your bundle.
+   */
+  validateTokenMetadata?: TokenMetadataValidator;
   /**
    * The RPC URL used for creating transaction inspector URLs in error logs.
    * This is needed to generate correct inspector URLs for custom RPC endpoints.
@@ -74,6 +84,7 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
   getExplorerLink = defaultGetExplorerLink,
   staticTokenInfo = [],
   fetchFromCertifiedTokenList = true,
+  validateTokenMetadata = defaultTokenMetadataValidator,
   rpcUrl,
   cluster = "mainnet-beta",
 }) => {
@@ -124,18 +135,6 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
     ],
   );
 
-  const signTX = useMemo(
-    () =>
-      createSignTX({
-        signer,
-        rpc,
-        onTransactionStatusEvent,
-        rpcUrl,
-        cluster,
-      }),
-    [signer, rpc, onTransactionStatusEvent, rpcUrl, cluster],
-  );
-
   const staticTokenInfoMap = useMemo(
     () => new Map(staticTokenInfo.map((info) => [info.mint, info])),
     [staticTokenInfo],
@@ -148,10 +147,13 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
           accountLoader,
           refetchAccounts,
           sendTX,
-          signTX,
           getExplorerLink,
+          onTransactionStatusEvent,
+          rpcUrl,
+          cluster,
           staticTokenInfo: staticTokenInfoMap,
           fetchFromCertifiedTokenList,
+          validateTokenMetadata,
         }}
       >
         {children}

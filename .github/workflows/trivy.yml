@@ -3,10 +3,16 @@ name: Trivy
 on:
   push:
     branches: [master]
-  pull_request:
-    branches: [master]
   schedule:
     - cron: "51 5 * * 1"
+
+# Deliberately not run on pull_request. Every alert Trivy finds lives in
+# bun.lock and comes from transitive deps we do not control. On a PR, code
+# scanning tries to attribute alerts to changed lines, and any PR with a
+# sizeable lockfile diff trips its "code changes were too large" fallback --
+# it then reports every pre-existing alert in the file as new and fails the
+# check. Scanning still runs on master and weekly, so the alerts are tracked;
+# they just no longer block unrelated PRs.
 
 jobs:
   scan:
@@ -32,6 +38,6 @@ jobs:
           severity: CRITICAL,HIGH
 
       - name: Upload SARIF to GitHub code scanning
-        uses: github/codeql-action/upload-sarif@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v3
+        uses: github/codeql-action/upload-sarif@5595ccaf912efad79be6eef63a5619ff05969be3 # v3
         with:
           sarif_file: trivy-results.sarif

@@ -1,5 +1,5 @@
 import type { FC, ReactNode } from "react";
-import type { GrillSigner } from "../contexts/wallet-context.js";
+import type { GrillSigner } from "../types.js";
 import { WalletContext } from "../contexts/wallet-context.js";
 
 export interface WalletProviderProps {

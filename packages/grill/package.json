@@ -1,6 +1,6 @@
 {
   "name": "@macalinao/grill",
-  "version": "0.12.0",
+  "version": "0.16.0",
   "description": "Modern Solana development kit for React applications with automatic account batching, caching, and transaction notifications",
   "license": "Apache-2.0",
   "author": "Ian Macalinao <me@ianm.com>",
@@ -43,19 +43,20 @@
     "build": "tsdown",
     "dev": "tsdown --watch",
     "typecheck": "tsc --noEmit",
-    "test": "bun test src/",
-    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo"
+    "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo",
+    "test": "bun test src/"
   },
   "dependencies": {
     "@gillsdk/react": "catalog:",
-    "@macalinao/clients-token-metadata": "^0.5.1",
+    "@macalinao/clients-token-metadata": "^0.6.1",
     "@macalinao/dataloader-es": "workspace:^",
     "@macalinao/gill-extra": "workspace:^",
     "@macalinao/solana-batch-accounts-loader": "workspace:^",
     "@macalinao/token-utils": "workspace:^",
     "@macalinao/zod-solana": "workspace:^",
-    "@solana-program/token": "^0.14.0",
-    "@solana-program/address-lookup-table": "^0.12.1"
+    "@solana-program/address-lookup-table": "^0.13.0",
+    "@solana-program/token": "^0.15.0",
+    "react-compiler-runtime": "^1.0.0"
   },
   "devDependencies": {
     "@macalinao/tsconfig": "catalog:",
@@ -70,7 +71,7 @@
   },
   "peerDependencies": {
     "@solana/kit": "catalog:peer",
-    "@tanstack/react-query": "^5.90.19",
+    "@tanstack/react-query": "^5.101.4",
     "gill": "catalog:",
     "react": "catalog:peer",
     "sonner": "^2"

@@ -16,7 +16,7 @@ import { lamports } from "@solana/kit";
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, Wallet } from "lucide-react";
 import { useMemo } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
@@ -68,7 +68,7 @@ const TransferSolPage: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    watch,
+    control,
     setValue,
     reset,
   } = useForm({
@@ -79,7 +79,10 @@ const TransferSolPage: React.FC = () => {
     },
   });
 
-  const watchedAmount = watch("amount");
+  // `useWatch` rather than the `watch` returned by `useForm`: `watch` is a
+  // function whose result cannot be memoized safely, so React Compiler bails
+  // out of optimizing the whole component when it is called during render.
+  const watchedAmount = useWatch({ control, name: "amount" });
 
   const availableBalance = useMemo(() => {
     if (!userAccount) {
@@ -212,7 +215,7 @@ const TransferSolPage: React.FC = () => {
               </label>
               <InputTokenAmount
                 token={NATIVE_SOL}
-                value={watch("amount")}
+                value={watchedAmount}
                 onChange={(value) => {
                   setValue("amount", value);
                 }}

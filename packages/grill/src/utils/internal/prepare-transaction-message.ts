@@ -28,7 +28,7 @@ export interface PrepareTransactionMessageParams {
   ixs: readonly Instruction[];
   options: BuildTXOptions;
   cluster: SolanaCluster;
-  rpcUrl?: string;
+  rpcUrl?: string | undefined;
   /** Invoked when preflight simulation fails, before this function throws. */
   onSimulationError: (errorMessage: string) => void;
 }
@@ -64,8 +64,15 @@ export async function prepareTransactionMessage({
     feePayer: signer,
     instructions: [...ixs],
     latestBlockhash,
-    computeUnitLimit: options.computeUnitLimit,
-    computeUnitPrice: options.computeUnitPrice,
+    // Spread conditionally: gill types these as `computeUnitLimit?: number | bigint`
+    // without `| undefined`, so under exactOptionalPropertyTypes the keys have to be
+    // absent rather than explicitly undefined.
+    ...(options.computeUnitLimit === undefined
+      ? {}
+      : { computeUnitLimit: options.computeUnitLimit }),
+    ...(options.computeUnitPrice === undefined
+      ? {}
+      : { computeUnitPrice: options.computeUnitPrice }),
   });
 
   // Apply address lookup tables if provided to compress the transaction

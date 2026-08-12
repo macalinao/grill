@@ -1,5 +1,71 @@
 # @macalinao/quarry
 
+## 0.5.2
+
+### Patch Changes
+
+- Updated dependencies [2d68f3c]
+  - @macalinao/gill-extra@0.9.0
+
+## 0.5.1
+
+### Patch Changes
+
+- 4abe697: Update dependencies:
+
+  - `@macalinao/clients-token-metadata` to `^0.6.1` (`@macalinao/gill-extra`, `@macalinao/grill`)
+  - `@macalinao/clients-quarry` to `^0.5.2` (`@macalinao/quarry`)
+  - Raise the `@tanstack/react-query` peer dependency floor to `^5.101.4` (`@macalinao/grill`)
+
+- Updated dependencies [4abe697]
+  - @macalinao/gill-extra@0.8.1
+
+## 0.5.0
+
+### Minor Changes
+
+- 548a2d6: Add support for `@solana/kit` v7.
+
+  The `@solana/kit` peer dependency range widens from `^6` to `^6 || ^7`, so this is not a
+  breaking change — projects still on kit 6 keep working, and projects on kit 7 are now
+  supported. Every package is typechecked and tested against both majors.
+
+  The Solana program clients used internally move to their kit-7 releases:
+
+  - `@solana-program/address-lookup-table` `^0.12.1` -> `^0.13.0`
+  - `@solana-program/system` `^0.12.2` -> `^0.13.0`
+  - `@solana-program/token` `^0.14.0` -> `^0.15.0`
+
+  These declare `@solana/kit: ^7.0.0` as their own peer, so on kit 6 your package manager
+  will warn about an unsatisfied peer range for them. Their types are compatible with kit 6
+  in the ways Grill uses them, but kit 7 is the recommended target.
+
+  No Grill APIs changed. None of the APIs removed in kit 7 (`ReactiveStreamStore`'s
+  construction-time `abortSignal` and auto-connect, `getUnifiedState`,
+  `getMinimumBalanceForRentExemption` from `@solana/kit`, `createEmptyClient`) were used
+  by these packages.
+
+### Patch Changes
+
+- Updated dependencies [548a2d6]
+  - @macalinao/gill-extra@0.8.0
+  - @macalinao/token-utils@0.3.0
+
+## 0.4.4
+
+### Patch Changes
+
+- b009fb2: Upgrade `@macalinao/tsconfig` to v4, which turns on `exactOptionalPropertyTypes` (plus `allowImportingTsExtensions`, `rewriteRelativeImportExtensions` and `moduleDetection: "force"`) in the base config.
+
+  Optional properties on public option bags and DAS API response types are now declared as `?: T | undefined` rather than `?: T`. This matches what the zod schemas actually produce and what callers forwarding an optional value actually pass; it widens the accepted input, so it is not a breaking change for consumers.
+
+  `tsconfig.strict.json` drops `erasableSyntaxOnly`, `noImplicitReturns` and `noUncheckedSideEffectImports`, which the v4 base config now enables on its own.
+
+  `bunfig.toml` exempts `@macalinao/tsconfig` from the 7-day `minimumReleaseAge` soak. It is a first-party package, so the soak buys nothing; the 7-day default still applies to every other dependency.
+
+- Updated dependencies [b009fb2]
+  - @macalinao/gill-extra@0.7.1
+
 ## 0.4.3
 
 ### Patch Changes

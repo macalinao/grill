@@ -7,30 +7,35 @@ import type {
   SolanaCluster,
 } from "@macalinao/gill-extra";
 import type { Instruction, Transaction } from "@solana/kit";
-import type { SolanaClient } from "gill";
-import type { GrillSigner } from "../../contexts/wallet-context.js";
-import type { TransactionStatusEvent } from "../../types.js";
+import type { SolanaClient, simulateTransactionFactory } from "gill";
+import type { GrillSigner, TransactionStatusEvent } from "../../types.js";
 import {
   isTransactionModifyingSigner,
   isTransactionPartialSigner,
   signTransactionMessageWithSigners,
 } from "@solana/kit";
-import { simulateTransactionFactory } from "gill";
 import { prepareTransactionMessage } from "./prepare-transaction-message.js";
 
 export interface CreateSignTXParams {
   signer: GrillSigner | null;
   rpc: SolanaClient["rpc"];
+  /**
+   * Preflight simulation function, built once by the caller via gill's
+   * `simulateTransactionFactory`. Injected rather than created here so the
+   * caller controls its lifetime (and so this module stays free of a runtime
+   * dependency on gill).
+   */
+  simulateTransaction: ReturnType<typeof simulateTransactionFactory>;
   onTransactionStatusEvent: (event: TransactionStatusEvent) => void;
   /**
    * The RPC URL used for creating transaction inspector URLs.
    */
-  rpcUrl?: string;
+  rpcUrl?: string | undefined;
   /**
    * The Solana cluster for explorer links.
    * Defaults to "mainnet-beta".
    */
-  cluster?: SolanaCluster;
+  cluster?: SolanaCluster | undefined;
 }
 
 /**
@@ -44,11 +49,11 @@ export interface CreateSignTXParams {
 export const createSignTX = ({
   signer,
   rpc,
+  simulateTransaction,
   onTransactionStatusEvent,
   rpcUrl,
   cluster = "mainnet-beta",
 }: CreateSignTXParams): SignTXFunction => {
-  const simulateTransaction = simulateTransactionFactory({ rpc });
   return async (
     name: string,
     ixs: readonly Instruction[],

@@ -24,7 +24,10 @@ import type {
   PdaQueryKey,
   PdasHook,
   SubscriptionManager,
+  SubscriptionManagerOptions,
   SubscriptionProviderProps,
+  SubscriptionReconnectConfig,
+  SubscriptionStatus,
   TokenInfoQueryKey,
   TransactionId,
   TransactionStatusEvent,
@@ -104,6 +107,9 @@ export interface ProviderTypes {
 /** WebSocket subscription plumbing. */
 export interface SubscriptionTypes {
   manager: SubscriptionManager;
+  managerOptions: SubscriptionManagerOptions;
+  reconnect: SubscriptionReconnectConfig;
+  status: SubscriptionStatus;
   decoder: AccountDecoder<Mint>;
   data: AccountData;
 }

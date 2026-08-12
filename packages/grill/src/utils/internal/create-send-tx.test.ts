@@ -46,8 +46,11 @@ interface PollResult {
  * or rejects. Holder objects are used so control-flow narrowing does not
  * collapse the values across the awaited `sendTX` call.
  */
-const polled: { lastValidBlockHeight?: bigint } = {};
-const pollControl: { result?: PollResult; error?: Error } = {};
+const polled: { lastValidBlockHeight?: bigint | undefined } = {};
+const pollControl: {
+  result?: PollResult | undefined;
+  error?: Error | undefined;
+} = {};
 
 const EMPTY_RESULT: PollResult = {
   transaction: { message: { accountKeys: [] } },

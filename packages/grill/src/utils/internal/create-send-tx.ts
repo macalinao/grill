@@ -34,12 +34,12 @@ export interface CreateSendTXParams {
    * The RPC URL used for creating transaction inspector URLs.
    * This is needed to generate correct inspector URLs for custom RPC endpoints.
    */
-  rpcUrl?: string;
+  rpcUrl?: string | undefined;
   /**
    * The Solana cluster for explorer links.
    * Defaults to "mainnet-beta".
    */
-  cluster?: SolanaCluster;
+  cluster?: SolanaCluster | undefined;
 }
 
 /**

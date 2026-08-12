@@ -1,5 +1,58 @@
 # @macalinao/das-api
 
+## 0.2.1
+
+### Patch Changes
+
+- Updated dependencies [2d68f3c]
+- Updated dependencies [60965e2]
+  - @macalinao/zod-solana@0.5.0
+
+## 0.2.0
+
+### Minor Changes
+
+- 548a2d6: Add support for `@solana/kit` v7.
+
+  The `@solana/kit` peer dependency range widens from `^6` to `^6 || ^7`, so this is not a
+  breaking change — projects still on kit 6 keep working, and projects on kit 7 are now
+  supported. Every package is typechecked and tested against both majors.
+
+  The Solana program clients used internally move to their kit-7 releases:
+
+  - `@solana-program/address-lookup-table` `^0.12.1` -> `^0.13.0`
+  - `@solana-program/system` `^0.12.2` -> `^0.13.0`
+  - `@solana-program/token` `^0.14.0` -> `^0.15.0`
+
+  These declare `@solana/kit: ^7.0.0` as their own peer, so on kit 6 your package manager
+  will warn about an unsatisfied peer range for them. Their types are compatible with kit 6
+  in the ways Grill uses them, but kit 7 is the recommended target.
+
+  No Grill APIs changed. None of the APIs removed in kit 7 (`ReactiveStreamStore`'s
+  construction-time `abortSignal` and auto-connect, `getUnifiedState`,
+  `getMinimumBalanceForRentExemption` from `@solana/kit`, `createEmptyClient`) were used
+  by these packages.
+
+### Patch Changes
+
+- Updated dependencies [548a2d6]
+  - @macalinao/zod-solana@0.4.0
+
+## 0.1.1
+
+### Patch Changes
+
+- b009fb2: Upgrade `@macalinao/tsconfig` to v4, which turns on `exactOptionalPropertyTypes` (plus `allowImportingTsExtensions`, `rewriteRelativeImportExtensions` and `moduleDetection: "force"`) in the base config.
+
+  Optional properties on public option bags and DAS API response types are now declared as `?: T | undefined` rather than `?: T`. This matches what the zod schemas actually produce and what callers forwarding an optional value actually pass; it widens the accepted input, so it is not a breaking change for consumers.
+
+  `tsconfig.strict.json` drops `erasableSyntaxOnly`, `noImplicitReturns` and `noUncheckedSideEffectImports`, which the v4 base config now enables on its own.
+
+  `bunfig.toml` exempts `@macalinao/tsconfig` from the 7-day `minimumReleaseAge` soak. It is a first-party package, so the soak buys nothing; the 7-day default still applies to every other dependency.
+
+- Updated dependencies [b009fb2]
+  - @macalinao/zod-solana@0.3.2
+
 ## 0.1.0
 
 ### Minor Changes

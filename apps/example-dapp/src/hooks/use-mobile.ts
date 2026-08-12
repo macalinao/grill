@@ -2,24 +2,23 @@ import * as React from "react";
 
 const MOBILE_BREAKPOINT = 768;
 
-export function useIsMobile() {
-  const [isMobile, setIsMobile] = React.useState<boolean | undefined>(
-    undefined,
-  );
+const MOBILE_QUERY = `(max-width: ${(MOBILE_BREAKPOINT - 1).toString()}px)`;
 
-  React.useEffect(() => {
-    const mql = window.matchMedia(
-      `(max-width: ${(MOBILE_BREAKPOINT - 1).toString()}px)`,
-    );
-    const onChange = () => {
-      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
-    };
-    mql.addEventListener("change", onChange);
-    setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
-    return () => {
-      mql.removeEventListener("change", onChange);
-    };
-  }, []);
+const subscribe = (onStoreChange: () => void): (() => void) => {
+  const mql = window.matchMedia(MOBILE_QUERY);
+  mql.addEventListener("change", onStoreChange);
+  return () => {
+    mql.removeEventListener("change", onStoreChange);
+  };
+};
 
-  return !!isMobile;
+const getSnapshot = (): boolean => window.innerWidth < MOBILE_BREAKPOINT;
+
+// There is no viewport to measure outside the browser; matches the `false` the
+// previous `useState<boolean | undefined>(undefined)` implementation returned
+// on the first render.
+const getServerSnapshot = (): boolean => false;
+
+export function useIsMobile(): boolean {
+  return React.useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }

@@ -1,6 +1,6 @@
 {
   "name": "@macalinao/wallet-adapter-compat",
-  "version": "9.0.0",
+  "version": "13.0.0",
   "description": "Compatibility layer that bridges @solana/wallet-adapter with @solana/kit and grill",
   "type": "module",
   "sideEffects": false,
@@ -45,7 +45,8 @@
     "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "@solana/webcrypto-ed25519-polyfill": "6.9.0",
+    "@solana/webcrypto-ed25519-polyfill": "7.0.0",
+    "react-compiler-runtime": "^1.0.0",
     "tslib": "catalog:"
   },
   "devDependencies": {

@@ -1,7 +1,7 @@
 import type { Address, Blockhash, Instruction } from "@solana/kit";
 import type { SolanaClient } from "gill";
-import type { GrillSigner } from "../../contexts/wallet-context.js";
-import type { TransactionStatusEvent } from "../../types.js";
+import type { simulateTransactionFactory } from "gill";
+import type { GrillSigner, TransactionStatusEvent } from "../../types.js";
 import { beforeAll, describe, expect, it } from "bun:test";
 import { address, generateKeyPairSigner, getBase58Encoder } from "@solana/kit";
 import { createSignTX } from "./create-sign-tx.js";
@@ -42,6 +42,24 @@ function makeRpc(): {
   return { rpc, getLatestBlockhashCalls: () => calls };
 }
 
+type SimulateTransaction = ReturnType<typeof simulateTransactionFactory>;
+
+/**
+ * Builds a stub for the injected simulate function. `err` drives whether
+ * preflight passes; `calls` records how many times it ran.
+ */
+function makeSimulate(err: unknown = null): {
+  simulateTransaction: SimulateTransaction;
+  calls: () => number;
+} {
+  let calls = 0;
+  const simulateTransaction = (() => {
+    calls += 1;
+    return Promise.resolve({ value: { err, logs: [] } });
+  }) as unknown as SimulateTransaction;
+  return { simulateTransaction, calls: () => calls };
+}
+
 describe("createSignTX", () => {
   let signer: GrillSigner;
 
@@ -62,6 +80,7 @@ describe("createSignTX", () => {
     const signTX = createSignTX({
       signer,
       rpc,
+      simulateTransaction: makeSimulate().simulateTransaction,
       onTransactionStatusEvent: (e) => {
         events.push(e);
       },
@@ -89,6 +108,7 @@ describe("createSignTX", () => {
     const signTX = createSignTX({
       signer,
       rpc,
+      simulateTransaction: makeSimulate().simulateTransaction,
       onTransactionStatusEvent: () => {},
     });
 
@@ -102,6 +122,7 @@ describe("createSignTX", () => {
     const signTX = createSignTX({
       signer,
       rpc,
+      simulateTransaction: makeSimulate().simulateTransaction,
       onTransactionStatusEvent: () => {},
     });
 
@@ -116,12 +137,52 @@ describe("createSignTX", () => {
     expect(getLatestBlockhashCalls()).toBe(0);
   });
 
+  it("runs preflight through the injected simulate function", async () => {
+    const { rpc } = makeRpc();
+    const { simulateTransaction, calls } = makeSimulate();
+    const signTX = createSignTX({
+      signer,
+      rpc,
+      simulateTransaction,
+      onTransactionStatusEvent: () => {},
+    });
+
+    await signTX("Simulated", [makeIx(signer.address)]);
+
+    expect(calls()).toBe(1);
+  });
+
+  it("reports simulation failures from the injected simulate function", async () => {
+    const { rpc } = makeRpc();
+    const events: TransactionStatusEvent[] = [];
+    const { simulateTransaction } = makeSimulate({ InstructionError: [0, {}] });
+    const signTX = createSignTX({
+      signer,
+      rpc,
+      simulateTransaction,
+      onTransactionStatusEvent: (e) => {
+        events.push(e);
+      },
+    });
+
+    let caught: unknown;
+    try {
+      await signTX("Failing", [makeIx(signer.address)]);
+    } catch (e) {
+      caught = e;
+    }
+    expect(caught).toBeInstanceOf(Error);
+    expect(events.map((e) => e.type)).toContain("error-simulation-failed");
+    expect(events.map((e) => e.type)).not.toContain("signed");
+  });
+
   it("throws when no wallet is connected", async () => {
     const { rpc } = makeRpc();
     const events: TransactionStatusEvent[] = [];
     const signTX = createSignTX({
       signer: null,
       rpc,
+      simulateTransaction: makeSimulate().simulateTransaction,
       onTransactionStatusEvent: (e) => {
         events.push(e);
       },
@@ -151,6 +212,7 @@ describe("createSignTX", () => {
     const signTX = createSignTX({
       signer: sendingOnly,
       rpc,
+      simulateTransaction: makeSimulate().simulateTransaction,
       onTransactionStatusEvent: (e) => {
         events.push(e);
       },

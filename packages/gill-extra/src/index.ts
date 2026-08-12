@@ -14,6 +14,7 @@ export * from "./get-solscan-explorer-link.js";
 export * from "./ixs/index.js";
 export * from "./log-transaction-simulation.js";
 export * from "./poll-confirm-transaction.js";
+export * from "./token-metadata-validator.js";
 export * from "./transaction.js";
 export * from "./transaction-error.js";
 export type * from "./types.js";

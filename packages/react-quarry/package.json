@@ -1,6 +1,6 @@
 {
   "name": "@macalinao/react-quarry",
-  "version": "7.0.0",
+  "version": "11.0.0",
   "description": "React hooks for Quarry",
   "author": "Ian Macalinao <me@ianm.com>",
   "homepage": "https://grill.ianm.com",
@@ -54,7 +54,8 @@
     "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "@macalinao/quarry": "workspace:^"
+    "@macalinao/quarry": "workspace:^",
+    "react-compiler-runtime": "^1.0.0"
   },
   "peerDependencies": {
     "@macalinao/grill": "workspace:^",

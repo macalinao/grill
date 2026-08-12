@@ -49,7 +49,7 @@ export interface UseAccountOptions {
    * // The pool data will automatically update when the on-chain state changes
    * ```
    */
-  subscribeToUpdates?: boolean;
+  subscribeToUpdates?: boolean | undefined;
 }
 
 export type UseAccountInput<

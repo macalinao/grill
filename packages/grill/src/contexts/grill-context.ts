@@ -2,10 +2,12 @@ import type { DataLoader } from "@macalinao/dataloader-es";
 import type {
   GetExplorerLinkFunction,
   SendTXFunction,
-  SignTXFunction,
+  SolanaCluster,
+  TokenMetadataValidator,
 } from "@macalinao/gill-extra";
 import type { TokenInfo } from "@macalinao/token-utils";
 import type { Address, EncodedAccount } from "@solana/kit";
+import type { TransactionStatusEventCallback } from "../types.js";
 import { createContext, useContext } from "react";
 
 /**
@@ -28,16 +30,28 @@ export interface GrillContextValue {
   sendTX: SendTXFunction;
 
   /**
-   * Function to sign a transaction without sending it, returning the signed
-   * transaction. Only usable when the connected wallet supports signing without
-   * sending; otherwise the returned promise rejects.
-   */
-  signTX: SignTXFunction;
-
-  /**
    * Function to get explorer link for a transaction signature
    */
   getExplorerLink: GetExplorerLinkFunction;
+
+  /**
+   * Called for every transaction lifecycle event. `GrillProvider` uses this to
+   * render toasts; `GrillHeadlessProvider` forwards whatever the app passed.
+   *
+   * Hooks that build their own transaction functions (such as `useSignTX`)
+   * report through this callback so they participate in the same UI.
+   */
+  onTransactionStatusEvent: TransactionStatusEventCallback;
+
+  /**
+   * The RPC URL used for creating transaction inspector URLs in error logs.
+   */
+  rpcUrl: string | undefined;
+
+  /**
+   * The Solana cluster for explorer links. Defaults to "mainnet-beta".
+   */
+  cluster: SolanaCluster;
 
   /**
    * Static token information map where key is mint address.
@@ -50,6 +64,11 @@ export interface GrillContextValue {
    * Defaults to true for backwards compatibility.
    */
   fetchFromCertifiedTokenList: boolean;
+
+  /**
+   * Validates the JSON fetched from a token's metadata URI.
+   */
+  validateTokenMetadata: TokenMetadataValidator;
 }
 
 /**

@@ -1,9 +1,10 @@
 import type { Metadata } from "@macalinao/clients-token-metadata";
 import type { TokenInfo } from "@macalinao/token-utils";
 import type { Mint } from "@solana-program/token";
+import type { TokenMetadataValidator } from "./token-metadata-validator.js";
 import type { AccountInfo } from "./types.js";
 import { createTokenInfo } from "@macalinao/token-utils";
-import { tokenMetadataSchema } from "@macalinao/zod-solana";
+import { defaultTokenMetadataValidator } from "./token-metadata-validator.js";
 
 export interface FetchTokenInfoParams {
   mint: AccountInfo<Pick<Mint, "decimals">>;
@@ -12,7 +13,15 @@ export interface FetchTokenInfoParams {
    * Whether to fetch from the certified token list as a fallback.
    * Defaults to true for backwards compatibility.
    */
-  fetchFromCertifiedTokenList?: boolean;
+  fetchFromCertifiedTokenList?: boolean | undefined;
+  /**
+   * Validates the JSON fetched from the token's metadata URI.
+   *
+   * Defaults to {@link defaultTokenMetadataValidator}, a dependency-free
+   * shallow check. Pass `zodTokenMetadataValidator` from
+   * `@macalinao/zod-solana` to validate the full Metaplex schema instead.
+   */
+  validateMetadata?: TokenMetadataValidator | undefined;
 }
 
 /**
@@ -24,6 +33,7 @@ export async function fetchTokenInfo({
   mint,
   metadata,
   fetchFromCertifiedTokenList = true,
+  validateMetadata = defaultTokenMetadataValidator,
 }: FetchTokenInfoParams): Promise<TokenInfo> {
   const uri = metadata?.data.uri;
   const decimals = mint.data.decimals;
@@ -51,19 +61,19 @@ export async function fetchTokenInfo({
           metadataUriJson = { image: uri };
         } else {
           // Otherwise, try to parse it as JSON
-          const result = tokenMetadataSchema.safeParse(await response.json());
+          const parsed = validateMetadata(await response.json());
 
-          if (result.success) {
+          if (parsed) {
             // Override with data from URI JSON
             metadataAccountData = {
-              name: result.data.name,
-              symbol: result.data.symbol,
+              name: parsed.name,
+              symbol: parsed.symbol,
             };
-            if (result.data.image) {
-              metadataUriJson = { image: result.data.image };
+            if (parsed.image) {
+              metadataUriJson = { image: parsed.image };
             }
           } else {
-            console.error("Invalid token metadata:", result.error);
+            console.error("Invalid token metadata at URI:", uri);
           }
         }
       }

@@ -3,3 +3,6 @@
 # published for at least 7 days, giving time for malicious or broken
 # releases to be caught and yanked before they reach this repo.
 minimumReleaseAge = 604800
+# First-party package (published from macalinao/style-guide), so the soak period
+# buys us nothing here — exempt it to avoid a week-long wait on our own releases.
+minimumReleaseAgeExcludes = ["@macalinao/tsconfig"]

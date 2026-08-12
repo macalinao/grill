@@ -35,7 +35,7 @@ export interface WalletAdapter {
    * the created signer additionally implements {@link TransactionPartialSigner},
    * enabling sign-without-send flows.
    */
-  signTransaction?: SignerWalletAdapterProps["signTransaction"];
+  signTransaction?: SignerWalletAdapterProps["signTransaction"] | undefined;
 }
 
 /**

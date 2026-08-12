@@ -46,13 +46,13 @@ export interface TransactionInspectorUrlOptions {
    * The Solana cluster (defaults to "mainnet-beta").
    * Use "localnet" for local development with a custom RPC URL.
    */
-  cluster?: SolanaCluster;
+  cluster?: SolanaCluster | undefined;
   /**
    * Custom RPC URL for the transaction inspector.
    * Required when cluster is "localnet" or when using a custom RPC endpoint.
    * This will be URL-encoded and passed as the customUrl parameter.
    */
-  customUrl?: string;
+  customUrl?: string | undefined;
 }
 
 /**

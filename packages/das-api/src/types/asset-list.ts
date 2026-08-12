@@ -8,9 +8,9 @@ export interface DasApiNativeBalance {
   /** The native balance, in lamports. */
   lamports: number;
   /** The price per SOL, if pricing data is available. */
-  price_per_sol?: number;
+  price_per_sol?: number | undefined;
   /** The total value of the native balance. */
-  total_price?: number;
+  total_price?: number | undefined;
 }
 
 /**
@@ -22,17 +22,17 @@ export interface DasApiAssetList {
   /** The limit that was used to build this page. */
   limit: number;
   /** The page number of this result, for page-based pagination. */
-  page?: number;
+  page?: number | undefined;
   /** The cursor pointing before this page, for cursor-based pagination. */
-  before?: string;
+  before?: string | undefined;
   /** The cursor pointing after this page, for cursor-based pagination. */
-  after?: string;
+  after?: string | undefined;
   /** An opaque cursor for cursor-based pagination. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The assets in this page. */
   items: DasApiAsset[];
   /** The owner's native balance, when `showNativeBalance` is enabled. */
-  nativeBalance?: DasApiNativeBalance;
+  nativeBalance?: DasApiNativeBalance | undefined;
   /** The grand total across all pages, when `showGrandTotal` is enabled. */
-  grand_total?: number;
+  grand_total?: number | undefined;
 }

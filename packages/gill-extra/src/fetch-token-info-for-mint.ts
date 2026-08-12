@@ -37,6 +37,7 @@ export async function fetchTokenInfoForMint({
   rpc,
   mint,
   fetchFromCertifiedTokenList,
+  validateMetadata,
 }: FetchTokenInfoForMintParams): Promise<TokenInfo> {
   // Find the metadata PDA
   const [metadataPda] = await findMetadataPda({
@@ -71,5 +72,6 @@ export async function fetchTokenInfoForMint({
     mint: mintAccount,
     metadata,
     fetchFromCertifiedTokenList,
+    validateMetadata,
   });
 }

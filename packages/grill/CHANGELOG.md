@@ -1,5 +1,115 @@
 # @macalinao/grill
 
+## 0.16.0
+
+### Minor Changes
+
+- 2d68f3c: Make token metadata validation pluggable so zod is no longer pulled into every bundle.
+
+  - `fetchTokenInfo` and `fetchTokenInfoForMint` accept a new `validateMetadata` option, and `GrillProvider`/`GrillHeadlessProvider` accept a matching `validateTokenMetadata` prop.
+  - The default is `defaultTokenMetadataValidator` (exported from `@macalinao/gill-extra`), a dependency-free shallow check that requires `name` and `symbol` to be strings and passes through the well-known optional string fields.
+  - To keep full Metaplex schema validation, pass `zodTokenMetadataValidator` from `@macalinao/zod-solana`:
+
+    ```tsx
+    import { zodTokenMetadataValidator } from "@macalinao/zod-solana";
+
+    <GrillProvider validateTokenMetadata={zodTokenMetadataValidator}>
+    ```
+
+  Importing `useTokenInfo` no longer drags zod into the bundle: it drops from ~70 KB to ~13 KB minified for apps that do not otherwise use zod.
+
+  Note the behaviour change in the default path: nested fields (`attributes`, `properties`, `collection`) and `seller_fee_basis_points` are no longer validated and are omitted from the parsed result. Supply `zodTokenMetadataValidator` if you depend on them.
+
+### Patch Changes
+
+- Updated dependencies [2d68f3c]
+- Updated dependencies [2d68f3c]
+- Updated dependencies [60965e2]
+  - @macalinao/solana-batch-accounts-loader@0.4.1
+  - @macalinao/gill-extra@0.9.0
+  - @macalinao/zod-solana@0.5.0
+
+## 0.15.0
+
+### Minor Changes
+
+- 9abd01b: Account subscriptions are now resilient to connection loss.
+
+  - A subscription whose WebSocket errors out, or whose notification stream is closed by the server, is re-opened automatically with exponential backoff (equal jitter, capped at 30s) for as long as anyone is still subscribed. Previously the stream simply ended and the account silently stopped receiving updates.
+  - Reconnect waits are cut short by the browser's `online` event, so regaining connectivity or waking from sleep resubscribes immediately instead of sitting out the backoff.
+  - After a reconnect the account's query is invalidated, since notifications published while the socket was down are unrecoverable.
+  - `createSubscriptionManager` accepts an optional `{ reconnect: { baseDelayMs, maxDelayMs, stableConnectionMs } }` config to tune the backoff.
+  - `SubscriptionManager` gained `getSubscriptionStatus(address)`, returning `"connecting" | "connected" | "reconnecting"` for the address (or `undefined` when nothing is subscribed).
+  - Unsubscribe functions are idempotent: calling one twice no longer drops a reference another subscriber still holds, which could tear down a live subscription.
+
+### Patch Changes
+
+- 4abe697: Update dependencies:
+
+  - `@macalinao/clients-token-metadata` to `^0.6.1` (`@macalinao/gill-extra`, `@macalinao/grill`)
+  - `@macalinao/clients-quarry` to `^0.5.2` (`@macalinao/quarry`)
+  - Raise the `@tanstack/react-query` peer dependency floor to `^5.101.4` (`@macalinao/grill`)
+
+- Updated dependencies [4abe697]
+  - @macalinao/gill-extra@0.8.1
+
+## 0.14.0
+
+### Minor Changes
+
+- 548a2d6: Add support for `@solana/kit` v7.
+
+  The `@solana/kit` peer dependency range widens from `^6` to `^6 || ^7`, so this is not a
+  breaking change — projects still on kit 6 keep working, and projects on kit 7 are now
+  supported. Every package is typechecked and tested against both majors.
+
+  The Solana program clients used internally move to their kit-7 releases:
+
+  - `@solana-program/address-lookup-table` `^0.12.1` -> `^0.13.0`
+  - `@solana-program/system` `^0.12.2` -> `^0.13.0`
+  - `@solana-program/token` `^0.14.0` -> `^0.15.0`
+
+  These declare `@solana/kit: ^7.0.0` as their own peer, so on kit 6 your package manager
+  will warn about an unsatisfied peer range for them. Their types are compatible with kit 6
+  in the ways Grill uses them, but kit 7 is the recommended target.
+
+  No Grill APIs changed. None of the APIs removed in kit 7 (`ReactiveStreamStore`'s
+  construction-time `abortSignal` and auto-connect, `getUnifiedState`,
+  `getMinimumBalanceForRentExemption` from `@solana/kit`, `createEmptyClient`) were used
+  by these packages.
+
+### Patch Changes
+
+- Updated dependencies [548a2d6]
+  - @macalinao/gill-extra@0.8.0
+  - @macalinao/solana-batch-accounts-loader@0.4.0
+  - @macalinao/token-utils@0.3.0
+  - @macalinao/zod-solana@0.4.0
+
+## 0.13.0
+
+### Minor Changes
+
+- 5f9badc: Precompile components and hooks with the React Compiler. The three packages that ship React code now run the compiler as part of their tsdown build, so consumers get the automatic memoization whether or not they run the compiler themselves.
+
+  The compiler is configured with `target: "18"` to match these packages' `react: ^18 || ^19` peer range, so the emitted code imports from the `react-compiler-runtime` polyfill (a new dependency of each package) rather than from `react/compiler-runtime`, which only exists in React 19.
+
+## 0.12.1
+
+### Patch Changes
+
+- b009fb2: Upgrade `@macalinao/tsconfig` to v4, which turns on `exactOptionalPropertyTypes` (plus `allowImportingTsExtensions`, `rewriteRelativeImportExtensions` and `moduleDetection: "force"`) in the base config.
+
+  Optional properties on public option bags and DAS API response types are now declared as `?: T | undefined` rather than `?: T`. This matches what the zod schemas actually produce and what callers forwarding an optional value actually pass; it widens the accepted input, so it is not a breaking change for consumers.
+
+  `tsconfig.strict.json` drops `erasableSyntaxOnly`, `noImplicitReturns` and `noUncheckedSideEffectImports`, which the v4 base config now enables on its own.
+
+  `bunfig.toml` exempts `@macalinao/tsconfig` from the 7-day `minimumReleaseAge` soak. It is a first-party package, so the soak buys nothing; the 7-day default still applies to every other dependency.
+
+- Updated dependencies [b009fb2]
+  - @macalinao/gill-extra@0.7.1
+  - @macalinao/zod-solana@0.3.2
+
 ## 0.12.0
 
 ### Minor Changes
