@@ -1,6 +1,3 @@
-// oxlint-disable typescript/no-unsafe-assignment, typescript/no-unsafe-member-access -- tsgolint resolves
-// gill's createTransaction() return type (finalTransactionMessage) to an error type;
-// tsc types it correctly. Re-enable once typescript-go handles these signatures.
 import type {
   Address,
   Blockhash,
@@ -127,6 +124,7 @@ describe("prepareTransactionMessage", () => {
       data: getBase58Encoder().encode(signer.address),
     };
 
+    // oxlint-disable-next-line typescript/no-unsafe-assignment -- tsgolint resolves gill's createTransaction() return type to an error type; tsc types it correctly.
     const { finalTransactionMessage } = await prepareTransactionMessage({
       ...base(rpc),
       ixs: [ix],
@@ -137,7 +135,9 @@ describe("prepareTransactionMessage", () => {
       },
     });
 
+    // oxlint-disable-next-line typescript/no-unsafe-assignment, typescript/no-unsafe-member-access -- same error-typed createTransaction() result as above.
     const [compressedIx] = finalTransactionMessage.instructions;
+    // oxlint-disable-next-line typescript/no-unsafe-member-access -- same error-typed createTransaction() result as above.
     expect(compressedIx?.accounts?.[0]).toMatchObject({
       address: accountInTable,
       lookupTableAddress,

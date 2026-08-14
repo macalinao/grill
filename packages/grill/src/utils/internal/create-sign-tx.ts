@@ -2,6 +2,7 @@
 // gill's createTransaction()/compressTransactionMessageUsingAddressLookupTables() to an error type;
 // tsc types them correctly. Re-enable once typescript-go handles these signatures.
 import type {
+  Logger,
   SignTXFunction,
   SignTXOptions,
   SolanaCluster,
@@ -36,6 +37,10 @@ export interface CreateSignTXParams {
    * Defaults to "mainnet-beta".
    */
   cluster?: SolanaCluster | undefined;
+  /**
+   * Logger for simulation diagnostics. Defaults to `defaultLogger`.
+   */
+  logger?: Logger | undefined;
 }
 
 /**
@@ -53,6 +58,7 @@ export const createSignTX = ({
   onTransactionStatusEvent,
   rpcUrl,
   cluster = "mainnet-beta",
+  logger,
 }: CreateSignTXParams): SignTXFunction => {
   return async (
     name: string,
@@ -105,6 +111,7 @@ export const createSignTX = ({
       options,
       cluster,
       rpcUrl,
+      logger,
       onSimulationError: (errorMessage) => {
         onTransactionStatusEvent({
           ...baseEvent,

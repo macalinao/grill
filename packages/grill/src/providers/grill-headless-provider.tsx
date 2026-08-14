@@ -1,14 +1,22 @@
 import type {
   GetExplorerLinkFunction,
+  LogLevel,
   SolanaCluster,
   TokenMetadataValidator,
 } from "@macalinao/gill-extra";
 import type { TokenInfo } from "@macalinao/token-utils";
 import type { Address } from "gill";
 import type { FC, ReactNode } from "react";
-import type { TransactionStatusEventCallback } from "../types.js";
+import type {
+  TransactionStatusEvent,
+  TransactionStatusEventCallback,
+} from "../types.js";
 import { useSolanaClient } from "@gillsdk/react";
-import { defaultTokenMetadataValidator } from "@macalinao/gill-extra";
+import {
+  createLogger,
+  DEFAULT_LOG_LEVEL,
+  defaultTokenMetadataValidator,
+} from "@macalinao/gill-extra";
 import { createBatchAccountsLoader } from "@macalinao/solana-batch-accounts-loader";
 import { useQueryClient } from "@tanstack/react-query";
 import { getExplorerLink as defaultGetExplorerLink } from "gill";
@@ -58,6 +66,15 @@ export interface GrillHeadlessProviderProps {
    * Use "localnet" when developing locally.
    */
   cluster?: SolanaCluster;
+  /**
+   * How much the library is allowed to write to the console.
+   *
+   * Each level enables itself and everything more severe, so `"warn"` emits
+   * warnings and errors. `"off"` silences the library completely.
+   *
+   * @default "info"
+   */
+  logLevel?: LogLevel;
 }
 
 /**
@@ -78,19 +95,31 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
   children,
   maxBatchSize = 99,
   batchDurationMs = 10,
-  onTransactionStatusEvent = (e) => {
-    console.log(e);
-  },
+  onTransactionStatusEvent,
   getExplorerLink = defaultGetExplorerLink,
   staticTokenInfo = [],
   fetchFromCertifiedTokenList = true,
   validateTokenMetadata = defaultTokenMetadataValidator,
   rpcUrl,
   cluster = "mainnet-beta",
+  logLevel = DEFAULT_LOG_LEVEL,
 }) => {
-  const { rpc } = useSolanaClient();
+  const { rpc, rpcSubscriptions } = useSolanaClient();
   const queryClient = useQueryClient();
   const { signer } = useKitWallet();
+
+  const logger = useMemo(() => createLogger(logLevel), [logLevel]);
+
+  // Without a handler, transaction events are dumped to the console at the
+  // debug level -- they are a firehose, so they stay quiet by default.
+  const handleTransactionStatusEvent: TransactionStatusEventCallback = useMemo(
+    () =>
+      onTransactionStatusEvent ??
+      ((event: TransactionStatusEvent) => {
+        logger.debug(event);
+      }),
+    [onTransactionStatusEvent, logger],
+  );
 
   const accountLoader = useMemo(
     () =>
@@ -118,20 +147,24 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
       createSendTX({
         signer,
         rpc,
+        rpcSubscriptions,
         refetchAccounts,
-        onTransactionStatusEvent,
+        onTransactionStatusEvent: handleTransactionStatusEvent,
         getExplorerLink,
         rpcUrl,
         cluster,
+        logger,
       }),
     [
       signer,
       rpc,
+      rpcSubscriptions,
       refetchAccounts,
-      onTransactionStatusEvent,
+      handleTransactionStatusEvent,
       getExplorerLink,
       rpcUrl,
       cluster,
+      logger,
     ],
   );
 
@@ -141,19 +174,20 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
   );
 
   return (
-    <SubscriptionProvider>
+    <SubscriptionProvider logger={logger}>
       <GrillContext.Provider
         value={{
           accountLoader,
           refetchAccounts,
           sendTX,
           getExplorerLink,
-          onTransactionStatusEvent,
+          onTransactionStatusEvent: handleTransactionStatusEvent,
           rpcUrl,
           cluster,
           staticTokenInfo: staticTokenInfoMap,
           fetchFromCertifiedTokenList,
           validateTokenMetadata,
+          logger,
         }}
       >
         {children}

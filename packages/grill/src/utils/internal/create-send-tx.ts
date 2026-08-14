@@ -3,6 +3,7 @@
 // tsc types them correctly. Re-enable once typescript-go handles these signatures.
 import type {
   GetExplorerLinkFunction,
+  Logger,
   SendTXFunction,
   SendTXOptions,
   SolanaCluster,
@@ -17,16 +18,29 @@ import type {
 import type { SolanaClient } from "gill";
 import type { TransactionStatusEvent } from "../../types.js";
 import {
+  confirmTransaction,
+  defaultLogger,
+  getConfirmedTransaction,
   getSignatureFromBytes,
-  pollConfirmTransaction,
+  getWritableAccounts,
 } from "@macalinao/gill-extra";
-import { signAndSendTransactionMessageWithSigners } from "@solana/kit";
+import {
+  getSolanaErrorFromTransactionError,
+  signAndSendTransactionMessageWithSigners,
+} from "@solana/kit";
 import { simulateTransactionFactory } from "gill";
 import { prepareTransactionMessage } from "./prepare-transaction-message.js";
 
 export interface CreateSendTXParams {
   signer: TransactionSendingSigner | null;
   rpc: SolanaClient["rpc"];
+  /**
+   * WebSocket subscriptions client. When provided, a sent transaction is
+   * confirmed by subscribing to its signature instead of polling, so it settles
+   * as soon as the cluster reports a verdict. Confirmation falls back to
+   * polling when this is omitted or the subscription cannot be opened.
+   */
+  rpcSubscriptions?: SolanaClient["rpcSubscriptions"] | undefined;
   refetchAccounts: (addresses: Address[]) => Promise<void>;
   onTransactionStatusEvent: (event: TransactionStatusEvent) => void;
   getExplorerLink: GetExplorerLinkFunction;
@@ -40,6 +54,10 @@ export interface CreateSendTXParams {
    * Defaults to "mainnet-beta".
    */
   cluster?: SolanaCluster | undefined;
+  /**
+   * Logger for transaction diagnostics. Defaults to {@link defaultLogger}.
+   */
+  logger?: Logger | undefined;
 }
 
 /**
@@ -49,11 +67,13 @@ export interface CreateSendTXParams {
 export const createSendTX = ({
   signer,
   rpc,
+  rpcSubscriptions,
   refetchAccounts,
   onTransactionStatusEvent,
   getExplorerLink,
   rpcUrl,
   cluster = "mainnet-beta",
+  logger = defaultLogger,
 }: CreateSendTXParams): SendTXFunction => {
   const simulateTransaction = simulateTransactionFactory({ rpc });
   return async (
@@ -89,6 +109,7 @@ export const createSendTX = ({
         options,
         cluster,
         rpcUrl,
+        logger,
         onSimulationError: (errorMessage) => {
           onTransactionStatusEvent({
             ...baseEvent,
@@ -133,22 +154,28 @@ export const createSendTX = ({
     });
 
     try {
-      const result = await pollConfirmTransaction({
+      const { err } = await confirmTransaction({
         signature: sig,
         lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
         rpc,
+        rpcSubscriptions,
+        logger,
+        ...options.confirmation,
       });
+
+      if (err !== null) {
+        throw getSolanaErrorFromTransactionError(err);
+      }
 
       onTransactionStatusEvent({
         ...sentTxEvent,
         type: "confirmed",
       });
 
-      // Reload the accounts that were written to
-      const writableAccounts = result.transaction.message.accountKeys
-        .filter((key) => key.writable)
-
-        .map((k) => k.pubkey);
+      // Reload the accounts that were written to. The roles on the message we
+      // just sent already say which those are, so there is no need to fetch the
+      // confirmed transaction back to find out.
+      const writableAccounts = getWritableAccounts(finalTransactionMessage);
       if (writableAccounts.length > 0) {
         const waitForAccountRefetch = options.waitForAccountRefetch ?? true;
         if (waitForAccountRefetch) {
@@ -156,20 +183,25 @@ export const createSendTX = ({
         } else {
           // Refetch in background without waiting
           refetchAccounts(writableAccounts).catch((error: unknown) => {
-            console.warn("Failed to refetch accounts in background:", error);
+            logger.warn("Failed to refetch accounts in background:", error);
           });
         }
       }
 
-      if (result.meta?.logMessages) {
-        console.log(name, result.meta.logMessages.join("\n"));
+      // Opt-in only: this is the one thing the confirmed transaction was still
+      // being fetched for, and it costs a round trip that nothing else needs.
+      if (options.fetchTransactionLogs && logger.isEnabled("debug")) {
+        const confirmed = await getConfirmedTransaction(rpc, sig);
+        if (confirmed?.meta?.logMessages) {
+          logger.debug(name, confirmed.meta.logMessages.join("\n"));
+        }
       }
 
       // Return the signature as a base58 string
       return sig;
     } catch (error: unknown) {
       // Log error details for debugging
-      console.error(`${name} transaction failed:`, error);
+      logger.error(`${name} transaction failed:`, error);
 
       // Extract error logs
       const isLogs = (value: unknown): value is string[] =>
@@ -198,9 +230,9 @@ export const createSendTX = ({
 
       const errorLogs = extractErrorLogs(error);
       if (errorLogs.length > 0) {
-        console.log("Transaction logs:");
+        logger.error("Transaction logs:");
         for (const log of errorLogs) {
-          console.log("  ", log);
+          logger.error("  ", log);
         }
       }
 

@@ -20,7 +20,8 @@ import { useKitWallet } from "./use-kit-wallet.js";
 export const useSignTX = (): SignTXFunction => {
   const { rpc } = useSolanaClient();
   const { signer } = useKitWallet();
-  const { onTransactionStatusEvent, rpcUrl, cluster } = useGrillContext();
+  const { onTransactionStatusEvent, rpcUrl, cluster, logger } =
+    useGrillContext();
 
   const simulateTransaction = useMemo(
     () => simulateTransactionFactory({ rpc }),
@@ -36,6 +37,7 @@ export const useSignTX = (): SignTXFunction => {
         onTransactionStatusEvent,
         rpcUrl,
         cluster,
+        logger,
       }),
     [
       signer,
@@ -44,6 +46,7 @@ export const useSignTX = (): SignTXFunction => {
       onTransactionStatusEvent,
       rpcUrl,
       cluster,
+      logger,
     ],
   );
 };

@@ -1,7 +1,11 @@
 // oxlint-disable typescript/no-unsafe-assignment, typescript/no-unsafe-argument, typescript/no-unsafe-return -- tsgolint resolves
 // gill's createTransaction()/compressTransactionMessageUsingAddressLookupTables() to an error type;
 // tsc types them correctly. Re-enable once typescript-go handles these signatures.
-import type { BuildTXOptions, SolanaCluster } from "@macalinao/gill-extra";
+import type {
+  BuildTXOptions,
+  Logger,
+  SolanaCluster,
+} from "@macalinao/gill-extra";
 import type {
   BlockhashLifetimeConstraint,
   Instruction,
@@ -9,6 +13,7 @@ import type {
 } from "@solana/kit";
 import type { SolanaClient, simulateTransactionFactory } from "gill";
 import {
+  defaultLogger,
   logTransactionSimulation,
   parseTransactionError,
 } from "@macalinao/gill-extra";
@@ -29,6 +34,10 @@ export interface PrepareTransactionMessageParams {
   options: BuildTXOptions;
   cluster: SolanaCluster;
   rpcUrl?: string | undefined;
+  /**
+   * Logger used for simulation diagnostics. Defaults to {@link defaultLogger}.
+   */
+  logger?: Logger | undefined;
   /** Invoked when preflight simulation fails, before this function throws. */
   onSimulationError: (errorMessage: string) => void;
 }
@@ -50,6 +59,7 @@ export async function prepareTransactionMessage({
   options,
   cluster,
   rpcUrl,
+  logger = defaultLogger,
   onSimulationError,
 }: PrepareTransactionMessageParams): Promise<{
   finalTransactionMessage: ReturnType<typeof createTransaction>;
@@ -96,6 +106,7 @@ export async function prepareTransactionMessage({
         transactionMessage: finalTransactionMessage,
         cluster,
         rpcUrl,
+        logger,
       });
 
       const logs = simulationResult.value.logs ?? [];

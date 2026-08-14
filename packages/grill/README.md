@@ -100,6 +100,7 @@ The main provider with built-in toast notifications:
   showToasts={true} // Show transaction toasts (default: true)
   successToastDuration={5000} // Success toast duration (default: 5000)
   errorToastDuration={7000} // Error toast duration (default: 7000)
+  logLevel="info" // Console verbosity (default: "info")
   onTransactionStatusEvent={(event) => {
     // Optional: Handle transaction events manually
     console.log("Transaction event:", event);
@@ -107,6 +108,33 @@ The main provider with built-in toast notifications:
 >
   {children}
 </GrillProvider>
+```
+
+#### Console logging
+
+Everything grill writes to the console goes through the `logLevel` prop, which
+both providers accept:
+
+| Level     | What it emits                                                |
+| --------- | ------------------------------------------------------------ |
+| `"off"`   | Nothing at all                                               |
+| `"error"` | Failed transactions and simulations, dropped subscriptions   |
+| `"warn"`  | The above, plus recoverable problems                         |
+| `"info"`  | The above, plus notable lifecycle information (**default**)  |
+| `"debug"` | Everything, including per-event transaction status dumps     |
+
+```tsx
+<GrillProvider logLevel={import.meta.env.DEV ? "debug" : "error"}>
+  {children}
+</GrillProvider>
+```
+
+Use `useLogger()` to route your own logging through the same setting, so an app
+built on grill goes quiet with a single prop:
+
+```tsx
+const logger = useLogger();
+logger.debug("swap quote", quote);
 ```
 
 ### GrillHeadlessProvider

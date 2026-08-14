@@ -10,7 +10,13 @@ import type { SolanaClient } from "gill";
 import type { TransactionStatusEvent } from "../../types.js";
 import { beforeAll, beforeEach, describe, expect, it, mock } from "bun:test";
 import * as gillExtra from "@macalinao/gill-extra";
-import { address, generateKeyPairSigner, getBase58Encoder } from "@solana/kit";
+import { createLogger } from "@macalinao/gill-extra";
+import {
+  AccountRole,
+  address,
+  generateKeyPairSigner,
+  getBase58Encoder,
+} from "@solana/kit";
 
 const BLOCKHASH: BlockhashLifetimeConstraint = {
   blockhash: "11111111111111111111111111111111" as Blockhash,
@@ -23,52 +29,49 @@ const INJECTED: BlockhashLifetimeConstraint = {
 };
 
 const MEMO_PROGRAM = address("MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr");
-
-const WRITABLE_ACCOUNT = address("SysvarC1ock11111111111111111111111111111111");
-const READONLY_ACCOUNT = address("SysvarRent111111111111111111111111111111111");
+const WRITABLE = address("SysvarC1ock11111111111111111111111111111111");
+const READONLY = address("SysvarRent111111111111111111111111111111111");
 
 // A fixed 64-byte signature returned by the sending signer.
 const SIG_BYTES = new Uint8Array(64).fill(7) as SignatureBytes;
 
-interface PollResult {
-  transaction: {
-    message: {
-      accountKeys: { writable: boolean; pubkey: Address }[];
-    };
-  };
-  meta?: { logMessages?: string[] };
-}
-
 /**
- * Drives the mocked `pollConfirmTransaction`. `polled` captures the
- * `lastValidBlockHeight` baked into the transaction; `result`/`error` let each
- * test choose whether confirmation resolves (and with which writable accounts)
- * or rejects. Holder objects are used so control-flow narrowing does not
- * collapse the values across the awaited `sendTX` call.
+ * Captures what `confirmTransaction` was handed so we can assert which
+ * blockhash was baked into the transaction and which confirmation knobs the
+ * caller's options reached. A holder object is used so control-flow narrowing
+ * does not collapse the values to `undefined` across the awaited `sendTX` call.
  */
-const polled: { lastValidBlockHeight?: bigint | undefined } = {};
-const pollControl: {
-  result?: PollResult | undefined;
-  error?: Error | undefined;
+const confirmed: {
+  lastValidBlockHeight?: bigint | undefined;
+  hasSubscriptions?: boolean | undefined;
+  maxRetries?: number | undefined;
+  retryInterval?: number | undefined;
 } = {};
 
-const EMPTY_RESULT: PollResult = {
-  transaction: { message: { accountKeys: [] } },
-  meta: { logMessages: [] },
-};
+/** Lets a test make confirmation reject instead of resolving successfully. */
+const confirmControl: { error?: Error | undefined } = {};
 
 await mock.module("@macalinao/gill-extra", () => ({
   ...gillExtra,
-  pollConfirmTransaction: ({
+  confirmTransaction: ({
     lastValidBlockHeight,
+    rpcSubscriptions,
+    maxRetries,
+    retryInterval,
   }: {
     lastValidBlockHeight: bigint;
-  }): Promise<PollResult> => {
-    polled.lastValidBlockHeight = lastValidBlockHeight;
-    if (pollControl.error !== undefined) {
-      throw pollControl.error;
+    rpcSubscriptions?: unknown;
+    maxRetries?: number;
+    retryInterval?: number;
+  }) => {
+    confirmed.lastValidBlockHeight = lastValidBlockHeight;
+    confirmed.hasSubscriptions = rpcSubscriptions !== undefined;
+    confirmed.maxRetries = maxRetries;
+    confirmed.retryInterval = retryInterval;
+    if (confirmControl.error !== undefined) {
+      throw confirmControl.error;
     }
-    return Promise.resolve(pollControl.result ?? EMPTY_RESULT);
+    return Promise.resolve({ err: null });
   },
 }));
 
@@ -93,20 +96,45 @@ function makeIx(signerAddress: Address): Instruction {
   };
 }
 
+function makeIxWithAccounts(): Instruction {
+  return {
+    programAddress: MEMO_PROGRAM,
+    accounts: [
+      { address: WRITABLE, role: AccountRole.WRITABLE },
+      { address: READONLY, role: AccountRole.READONLY },
+    ],
+    data: new Uint8Array(),
+  };
+}
+
 function makeRpc(): {
   rpc: SolanaClient["rpc"];
   getLatestBlockhashCalls: () => number;
+  getTransactionCalls: () => number;
 } {
-  let calls = 0;
+  let blockhashCalls = 0;
+  let transactionCalls = 0;
   const rpc = {
     getLatestBlockhash: () => ({
       send: () => {
-        calls += 1;
+        blockhashCalls += 1;
         return Promise.resolve({ value: BLOCKHASH });
       },
     }),
+    getTransaction: () => ({
+      send: () => {
+        transactionCalls += 1;
+        return Promise.resolve({
+          meta: { logMessages: ["Program log: hello"] },
+        });
+      },
+    }),
   } as unknown as SolanaClient["rpc"];
-  return { rpc, getLatestBlockhashCalls: () => calls };
+  return {
+    rpc,
+    getLatestBlockhashCalls: () => blockhashCalls,
+    getTransactionCalls: () => transactionCalls,
+  };
 }
 
 function makeSendingSigner(addr: Address): TransactionSendingSigner {
@@ -149,9 +177,11 @@ describe("createSendTX", () => {
   });
 
   beforeEach(() => {
-    polled.lastValidBlockHeight = undefined;
-    pollControl.result = undefined;
-    pollControl.error = undefined;
+    confirmed.lastValidBlockHeight = undefined;
+    confirmed.hasSubscriptions = undefined;
+    confirmed.maxRetries = undefined;
+    confirmed.retryInterval = undefined;
+    confirmControl.error = undefined;
   });
 
   const params = (
@@ -177,7 +207,7 @@ describe("createSendTX", () => {
       });
 
       expect(getLatestBlockhashCalls()).toBe(0);
-      expect<bigint | undefined>(polled.lastValidBlockHeight).toBe(
+      expect<bigint | undefined>(confirmed.lastValidBlockHeight).toBe(
         INJECTED.lastValidBlockHeight,
       );
     });
@@ -191,7 +221,7 @@ describe("createSendTX", () => {
       });
 
       expect(getLatestBlockhashCalls()).toBe(1);
-      expect<bigint | undefined>(polled.lastValidBlockHeight).toBe(
+      expect<bigint | undefined>(confirmed.lastValidBlockHeight).toBe(
         BLOCKHASH.lastValidBlockHeight,
       );
     });
@@ -232,10 +262,10 @@ describe("createSendTX", () => {
       ]);
 
       // The explorer link is attached to the post-send events.
-      const confirmed = findEvent(events, "confirmed");
-      expect(confirmed).toBeDefined();
-      expect(confirmed?.sig).toBe(sig);
-      expect(confirmed?.explorerLink).toBe("https://explorer.example/tx");
+      const confirmedEvent = findEvent(events, "confirmed");
+      expect(confirmedEvent).toBeDefined();
+      expect(confirmedEvent?.sig).toBe(sig);
+      expect(confirmedEvent?.explorerLink).toBe("https://explorer.example/tx");
       expect(explorerLinks.length).toBeGreaterThan(0);
     });
   });
@@ -307,64 +337,68 @@ describe("createSendTX", () => {
     });
   });
 
-  describe("account refetching", () => {
-    it("refetches only writable accounts after confirmation", async () => {
+  describe("confirmation", () => {
+    it("passes the subscriptions client through when it has one", async () => {
       const { rpc } = makeRpc();
-      const { refetchAccounts, calls } = makeRefetch();
-      pollControl.result = {
-        transaction: {
-          message: {
-            accountKeys: [
-              { writable: true, pubkey: WRITABLE_ACCOUNT },
-              { writable: false, pubkey: READONLY_ACCOUNT },
-            ],
-          },
-        },
-        meta: { logMessages: [] },
-      };
-      const sendTX = createSendTX(params(rpc, { refetchAccounts }));
+      const sendTX = createSendTX(
+        params(rpc, {
+          rpcSubscriptions: {} as unknown as SolanaClient["rpcSubscriptions"],
+        }),
+      );
 
-      await sendTX("Refetch", [makeIx(signer.address)], {
-        skipPreflight: true,
-      });
+      await sendTX("Test", [makeIx(signer.address)], { skipPreflight: true });
 
-      expect(calls()).toEqual([[WRITABLE_ACCOUNT]]);
+      expect<boolean | undefined>(confirmed.hasSubscriptions).toBe(true);
     });
 
-    it("does not call refetch when there are no writable accounts", async () => {
+    it("confirms without a subscriptions client", async () => {
+      const { rpc } = makeRpc();
+      const sendTX = createSendTX(params(rpc));
+
+      await sendTX("Test", [makeIx(signer.address)], { skipPreflight: true });
+
+      expect<boolean | undefined>(confirmed.hasSubscriptions).toBe(false);
+    });
+
+    it("forwards the caller's confirmation tuning", async () => {
+      const { rpc } = makeRpc();
+      const sendTX = createSendTX(params(rpc));
+
+      await sendTX("Test", [makeIx(signer.address)], {
+        skipPreflight: true,
+        confirmation: { maxRetries: 3, retryInterval: 50 },
+      });
+
+      expect<number | undefined>(confirmed.maxRetries).toBe(3);
+      expect<number | undefined>(confirmed.retryInterval).toBe(50);
+    });
+  });
+
+  describe("account refetching", () => {
+    it("refetches the writable accounts derived from the message", async () => {
       const { rpc } = makeRpc();
       const { refetchAccounts, calls } = makeRefetch();
       const sendTX = createSendTX(params(rpc, { refetchAccounts }));
 
-      await sendTX("No writable", [makeIx(signer.address)], {
-        skipPreflight: true,
-      });
+      await sendTX("Test", [makeIxWithAccounts()], { skipPreflight: true });
 
-      expect(calls()).toEqual([]);
+      expect(calls()).toEqual([[signer.address, WRITABLE]]);
     });
 
     it("resolves without waiting when waitForAccountRefetch is false", async () => {
       const { rpc } = makeRpc();
       // A refetch that never resolves would hang the call if it were awaited.
       const { refetchAccounts, calls } = makeRefetch(true);
-      pollControl.result = {
-        transaction: {
-          message: {
-            accountKeys: [{ writable: true, pubkey: WRITABLE_ACCOUNT }],
-          },
-        },
-        meta: { logMessages: [] },
-      };
       const sendTX = createSendTX(params(rpc, { refetchAccounts }));
 
-      const sig = await sendTX("Background", [makeIx(signer.address)], {
+      const sig = await sendTX("Background", [makeIxWithAccounts()], {
         skipPreflight: true,
         waitForAccountRefetch: false,
       });
 
       expect(typeof sig).toBe("string");
       // Refetch was still kicked off, just not awaited.
-      expect(calls()).toEqual([[WRITABLE_ACCOUNT]]);
+      expect(calls()).toEqual([[signer.address, WRITABLE]]);
     });
   });
 
@@ -373,7 +407,7 @@ describe("createSendTX", () => {
       const { rpc } = makeRpc();
       const events: TransactionStatusEvent[] = [];
       // A Solana-style error carrying logs in a nested context.
-      pollControl.error = Object.assign(new Error("Transaction expired"), {
+      confirmControl.error = Object.assign(new Error("Transaction expired"), {
         context: { logs: ["Program log: boom"] },
       });
       const sendTX = createSendTX(
@@ -403,6 +437,47 @@ describe("createSendTX", () => {
       // It did reach the send/confirmation stage before failing.
       expect(events.map((e) => e.type)).toContain("waiting-for-confirmation");
       expect(events.map((e) => e.type)).not.toContain("confirmed");
+    });
+  });
+
+  describe("transaction logs", () => {
+    it("does not fetch the confirmed transaction by default", async () => {
+      const { rpc, getTransactionCalls } = makeRpc();
+      const sendTX = createSendTX(
+        params(rpc, { logger: createLogger("debug") }),
+      );
+
+      await sendTX("Test", [makeIx(signer.address)], { skipPreflight: true });
+
+      expect(getTransactionCalls()).toBe(0);
+    });
+
+    it("fetches them when the caller opts in at the debug level", async () => {
+      const { rpc, getTransactionCalls } = makeRpc();
+      const sendTX = createSendTX(
+        params(rpc, { logger: createLogger("debug") }),
+      );
+
+      await sendTX("Test", [makeIx(signer.address)], {
+        skipPreflight: true,
+        fetchTransactionLogs: true,
+      });
+
+      expect(getTransactionCalls()).toBe(1);
+    });
+
+    it("skips the fetch when the logger is quieter than debug", async () => {
+      const { rpc, getTransactionCalls } = makeRpc();
+      const sendTX = createSendTX(
+        params(rpc, { logger: createLogger("info") }),
+      );
+
+      await sendTX("Test", [makeIx(signer.address)], {
+        skipPreflight: true,
+        fetchTransactionLogs: true,
+      });
+
+      expect(getTransactionCalls()).toBe(0);
     });
   });
 });

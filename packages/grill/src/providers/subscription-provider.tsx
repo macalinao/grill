@@ -1,5 +1,7 @@
+import type { Logger } from "@macalinao/gill-extra";
 import type { FC, ReactNode } from "react";
 import { useSolanaClient } from "@gillsdk/react";
+import { defaultLogger } from "@macalinao/gill-extra";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
 import {
@@ -9,6 +11,12 @@ import {
 
 export interface SubscriptionProviderProps {
   children: ReactNode;
+  /**
+   * Logger used for subscription errors. Defaults to {@link defaultLogger}.
+   *
+   * `GrillHeadlessProvider` passes a logger built from its `logLevel` prop.
+   */
+  logger?: Logger;
 }
 
 /**
@@ -34,14 +42,15 @@ export interface SubscriptionProviderProps {
  */
 export const SubscriptionProvider: FC<SubscriptionProviderProps> = ({
   children,
+  logger = defaultLogger,
 }) => {
   const { rpcSubscriptions } = useSolanaClient();
   const queryClient = useQueryClient();
 
   // Create subscription manager for real-time account updates
   const subscriptionManager = useMemo(
-    () => createSubscriptionManager(rpcSubscriptions, queryClient),
-    [rpcSubscriptions, queryClient],
+    () => createSubscriptionManager(rpcSubscriptions, queryClient, { logger }),
+    [rpcSubscriptions, queryClient, logger],
   );
 
   return (

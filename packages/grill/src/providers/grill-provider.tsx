@@ -1,7 +1,8 @@
 import type { FC } from "react";
 import type { TransactionStatusEvent } from "../types.js";
 import type { GrillHeadlessProviderProps } from "./grill-headless-provider.js";
-import { useCallback, useRef } from "react";
+import { createLogger, DEFAULT_LOG_LEVEL } from "@macalinao/gill-extra";
+import { useCallback, useMemo, useRef } from "react";
 import { toast } from "sonner";
 import { GrillHeadlessProvider } from "./grill-headless-provider.js";
 
@@ -44,10 +45,15 @@ export const GrillProvider: FC<GrillProviderProps> = ({
   showToasts = true,
   successToastDuration = 5000,
   errorToastDuration = 7000,
+  logLevel = DEFAULT_LOG_LEVEL,
   ...props
 }) => {
   // Store toast IDs for each transaction
   const toastIds = useRef<Map<string, string | number>>(new Map());
+
+  // A separate logger from the headless provider's: this component sits above
+  // GrillContext, so it cannot read the one on the context.
+  const logger = useMemo(() => createLogger(logLevel), [logLevel]);
 
   const handleTransactionStatus = useCallback(
     (event: TransactionStatusEvent) => {
@@ -83,7 +89,7 @@ export const GrillProvider: FC<GrillProviderProps> = ({
         }
 
         case "error-transaction-send-failed": {
-          console.error("Error sending transaction", event);
+          logger.error("Error sending transaction", event);
           const description = event.errorMessage;
 
           if (existingToastId !== undefined) {
@@ -161,7 +167,7 @@ export const GrillProvider: FC<GrillProviderProps> = ({
           const description = `Transaction: ${event.sig.slice(0, 8)}...${event.sig.slice(-8)}`;
           const action = createExplorerAction(event.explorerLink);
 
-          console.log({ event, existingToastId, description, action });
+          logger.debug({ event, existingToastId, description, action });
 
           if (existingToastId !== undefined) {
             // Update existing toast to success
@@ -185,7 +191,7 @@ export const GrillProvider: FC<GrillProviderProps> = ({
         }
 
         case "error-transaction-failed": {
-          console.error("Transaction failed", event);
+          logger.error("Transaction failed", event);
           const description = event.errorMessage;
           const action = createExplorerAction(event.explorerLink);
 
@@ -210,7 +216,7 @@ export const GrillProvider: FC<GrillProviderProps> = ({
           break;
         }
         case "error-simulation-failed": {
-          console.error("Simulation failed", event);
+          logger.error("Simulation failed", event);
           const description = `Simulation failed: ${event.errorMessage}`;
           if (existingToastId !== undefined) {
             // Update existing toast to error
@@ -274,12 +280,14 @@ export const GrillProvider: FC<GrillProviderProps> = ({
       showToasts,
       successToastDuration,
       errorToastDuration,
+      logger,
     ],
   );
 
   return (
     <GrillHeadlessProvider
       onTransactionStatusEvent={handleTransactionStatus}
+      logLevel={logLevel}
       {...props}
     >
       {children}

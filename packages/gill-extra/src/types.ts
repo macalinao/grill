@@ -7,6 +7,7 @@ import type {
   Transaction,
 } from "@solana/kit";
 import type { CreateTransactionInput } from "gill";
+import type { TransactionConfirmationTuning } from "./confirm-transaction.js";
 
 /**
  * Options shared by both signing and sending a transaction: how the
@@ -32,6 +33,22 @@ export interface BuildTXOptions extends Pick<
    * trip on every transaction. When omitted, the latest blockhash is fetched.
    */
   latestBlockhash?: BlockhashLifetimeConstraint;
+  /**
+   * Tuning for how the sent transaction is confirmed: poll cadence and
+   * attempts, how often the blockhash is checked for expiry, and how a dropped
+   * signature subscription is re-established.
+   */
+  confirmation?: TransactionConfirmationTuning;
+  /**
+   * Fetch the confirmed transaction after it lands and log its program logs.
+   *
+   * Off by default: the logs cost a `getTransaction` round trip that nothing
+   * else in the send path needs. They are emitted at the `debug` level, so the
+   * fetch is skipped unless the logger is set to `"debug"`.
+   *
+   * @default false
+   */
+  fetchTransactionLogs?: boolean;
 }
 
 export interface SendTXOptions extends BuildTXOptions {
