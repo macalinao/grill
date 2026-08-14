@@ -104,7 +104,7 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
   cluster = "mainnet-beta",
   logLevel = DEFAULT_LOG_LEVEL,
 }) => {
-  const { rpc } = useSolanaClient();
+  const { rpc, rpcSubscriptions } = useSolanaClient();
   const queryClient = useQueryClient();
   const { signer } = useKitWallet();
 
@@ -147,6 +147,7 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
       createSendTX({
         signer,
         rpc,
+        rpcSubscriptions,
         refetchAccounts,
         onTransactionStatusEvent: handleTransactionStatusEvent,
         getExplorerLink,
@@ -157,6 +158,7 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
     [
       signer,
       rpc,
+      rpcSubscriptions,
       refetchAccounts,
       handleTransactionStatusEvent,
       getExplorerLink,

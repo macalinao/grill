@@ -1,4 +1,7 @@
-import type { Logger } from "@macalinao/gill-extra";
+import type {
+  Logger,
+  SubscriptionReconnectConfig,
+} from "@macalinao/gill-extra";
 import type {
   Account,
   Address,
@@ -8,7 +11,12 @@ import type {
 } from "@solana/kit";
 import type { QueryClient } from "@tanstack/react-query";
 import type { RpcSubscriptions, SolanaRpcSubscriptionsApi } from "gill";
-import { defaultLogger } from "@macalinao/gill-extra";
+import {
+  defaultLogger,
+  getReconnectDelayMs,
+  resolveReconnectConfig,
+  waitBeforeReconnect,
+} from "@macalinao/gill-extra";
 import { getBase64Encoder } from "@solana/kit";
 import { createContext, useContext } from "react";
 import { createAccountQueryKey } from "../query-keys.js";
@@ -65,34 +73,6 @@ export function createAccountDecoderFromDecoder<
 export type SubscriptionStatus = "connecting" | "connected" | "reconnecting";
 
 /**
- * Tuning for how a dropped subscription is re-established.
- */
-export interface SubscriptionReconnectConfig {
-  /**
-   * Delay before the first reconnect attempt, in milliseconds. Doubles on each
-   * consecutive failure, up to {@link maxDelayMs}.
-   *
-   * @default 500
-   */
-  baseDelayMs?: number;
-  /**
-   * Upper bound on the delay between reconnect attempts, in milliseconds.
-   *
-   * @default 30000
-   */
-  maxDelayMs?: number;
-  /**
-   * How long a connection must survive before it is considered healthy, in
-   * milliseconds. Dropping after this long resets the backoff, so an
-   * occasional disconnect reconnects promptly instead of inheriting the delay
-   * from an unrelated outage hours earlier.
-   *
-   * @default 30000
-   */
-  stableConnectionMs?: number;
-}
-
-/**
  * Options for {@link createSubscriptionManager}.
  */
 export interface SubscriptionManagerOptions {
@@ -109,10 +89,6 @@ export interface SubscriptionManagerOptions {
    */
   logger?: Logger | undefined;
 }
-
-const DEFAULT_BASE_DELAY_MS = 500;
-const DEFAULT_MAX_DELAY_MS = 30_000;
-const DEFAULT_STABLE_CONNECTION_MS = 30_000;
 
 /**
  * Internal subscription entry tracking the WebSocket subscription and reference count.
@@ -195,59 +171,6 @@ function parseAccountNotification(
 }
 
 /**
- * Backoff delay for the given number of consecutive failures, with equal
- * jitter so that a fleet of subscriptions dropped by one outage does not
- * reconnect in lockstep.
- */
-function getReconnectDelayMs(
-  failedAttempts: number,
-  baseDelayMs: number,
-  maxDelayMs: number,
-): number {
-  const exponential = Math.min(
-    maxDelayMs,
-    baseDelayMs * 2 ** Math.min(failedAttempts, 30),
-  );
-  return exponential / 2 + Math.random() * (exponential / 2);
-}
-
-/**
- * Waits `delayMs` before the next reconnect attempt, resolving early when the
- * subscription is torn down or when the browser reports the network coming
- * back. Waking from sleep or regaining connectivity should not have to sit out
- * the remainder of a 30 second backoff.
- */
-function waitBeforeReconnect(
-  delayMs: number,
-  abortSignal: AbortSignal,
-): Promise<void> {
-  return new Promise<void>((resolve) => {
-    const canListenForOnline =
-      typeof globalThis.addEventListener === "function";
-
-    let settled = false;
-    const finish = (): void => {
-      if (settled) {
-        return;
-      }
-      settled = true;
-      clearTimeout(timeout);
-      abortSignal.removeEventListener("abort", finish);
-      if (canListenForOnline) {
-        globalThis.removeEventListener("online", finish);
-      }
-      resolve();
-    };
-
-    const timeout = setTimeout(finish, delayMs);
-    abortSignal.addEventListener("abort", finish, { once: true });
-    if (canListenForOnline) {
-      globalThis.addEventListener("online", finish);
-    }
-  });
-}
-
-/**
  * Creates a subscription manager instance.
  *
  * Subscriptions created by this manager survive connection loss: when the
@@ -261,11 +184,8 @@ export function createSubscriptionManager(
   queryClient: QueryClient,
   options: SubscriptionManagerOptions = {},
 ): SubscriptionManager {
-  const {
-    baseDelayMs = DEFAULT_BASE_DELAY_MS,
-    maxDelayMs = DEFAULT_MAX_DELAY_MS,
-    stableConnectionMs = DEFAULT_STABLE_CONNECTION_MS,
-  } = options.reconnect ?? {};
+  const { baseDelayMs, maxDelayMs, stableConnectionMs } =
+    resolveReconnectConfig(options.reconnect);
   const logger = options.logger ?? defaultLogger;
 
   const subscriptions = new Map<string, SubscriptionEntry>();
