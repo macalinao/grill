@@ -2,15 +2,17 @@ import type { Signature } from "@solana/kit";
 import type { SolanaClient } from "gill";
 import type { ConfirmedTransaction } from "./get-confirmed-transaction.js";
 import type { Logger } from "./logger.js";
+import { getSolanaErrorFromTransactionError } from "@solana/kit";
 import { getConfirmedTransaction } from "./get-confirmed-transaction.js";
 import { defaultLogger } from "./logger.js";
+import { pollTransactionConfirmation } from "./poll-transaction-confirmation.js";
 
 export interface PollConfirmTransactionOptions {
   signature: Signature;
   lastValidBlockHeight: bigint;
   rpc: SolanaClient["rpc"];
-  maxRetries?: number;
-  retryInterval?: number;
+  maxRetries?: number | undefined;
+  retryInterval?: number | undefined;
   /**
    * Logger used for status check failures. Defaults to {@link defaultLogger}.
    */
@@ -18,67 +20,37 @@ export interface PollConfirmTransactionOptions {
 }
 
 /**
- * Polls for transaction confirmation status.
+ * Polls for transaction confirmation status, then fetches the confirmed
+ * transaction.
+ *
+ * Prefer `confirmTransaction` when you only need to know whether the
+ * transaction landed: it settles on a WebSocket notification where one is
+ * available, and skips the extra `getTransaction` round trip this function
+ * makes.
  *
  * @param options - Options for polling transaction confirmation
- * @returns Promise that resolves when transaction is confirmed or times out
- * @throws Error if transaction fails on-chain or expires
+ * @returns Promise that resolves with the confirmed transaction
+ * @throws If the transaction fails on-chain, expires, or the poll times out
  */
 export async function pollConfirmTransaction({
   signature,
   lastValidBlockHeight,
   rpc,
-  maxRetries = 30,
-  retryInterval = 1000,
+  maxRetries,
+  retryInterval,
   logger = defaultLogger,
 }: PollConfirmTransactionOptions): Promise<ConfirmedTransaction> {
-  let confirmed = false;
-  let confirmationError: Error | null = null;
-  let retries = 0;
+  const { err } = await pollTransactionConfirmation({
+    signature,
+    lastValidBlockHeight,
+    rpc,
+    maxRetries,
+    retryInterval,
+    logger,
+  });
 
-  while (retries < maxRetries) {
-    try {
-      const signatureStatus = await rpc
-        .getSignatureStatuses([signature])
-        .send();
-
-      if (signatureStatus.value[0]) {
-        const status = signatureStatus.value[0];
-        if (
-          status.confirmationStatus === "confirmed" ||
-          status.confirmationStatus === "finalized"
-        ) {
-          confirmed = true;
-          if (status.err !== null) {
-            confirmationError = new Error("Transaction failed on-chain");
-          }
-          break;
-        }
-      }
-
-      // Check if blockhash is still valid
-      const blockHeight = await rpc.getBlockHeight().send();
-      if (blockHeight > lastValidBlockHeight) {
-        throw new Error("Transaction expired - blockhash no longer valid");
-      }
-
-      // Wait before next attempt
-      await new Promise<void>((resolve) => {
-        setTimeout(resolve, retryInterval);
-      });
-      retries++;
-    } catch (error) {
-      logger.error("Error checking transaction status:", error);
-      throw error;
-    }
-  }
-
-  if (!confirmed) {
-    throw new Error("Transaction confirmation timeout");
-  }
-
-  if (confirmationError) {
-    throw confirmationError;
+  if (err !== null) {
+    throw getSolanaErrorFromTransactionError(err);
   }
 
   // Get transaction details
