@@ -1,3 +1,4 @@
+import type { Logger } from "@macalinao/gill-extra";
 import type {
   Account,
   Address,
@@ -7,6 +8,7 @@ import type {
 } from "@solana/kit";
 import type { QueryClient } from "@tanstack/react-query";
 import type { RpcSubscriptions, SolanaRpcSubscriptionsApi } from "gill";
+import { defaultLogger } from "@macalinao/gill-extra";
 import { getBase64Encoder } from "@solana/kit";
 import { createContext, useContext } from "react";
 import { createAccountQueryKey } from "../query-keys.js";
@@ -99,6 +101,13 @@ export interface SubscriptionManagerOptions {
    * how aggressively.
    */
   reconnect?: SubscriptionReconnectConfig;
+  /**
+   * Logger used for decode and connection failures. Defaults to
+   * {@link defaultLogger}.
+   *
+   * `GrillProvider` passes a logger built from its `logLevel` prop.
+   */
+  logger?: Logger | undefined;
 }
 
 const DEFAULT_BASE_DELAY_MS = 500;
@@ -257,6 +266,7 @@ export function createSubscriptionManager(
     maxDelayMs = DEFAULT_MAX_DELAY_MS,
     stableConnectionMs = DEFAULT_STABLE_CONNECTION_MS,
   } = options.reconnect ?? {};
+  const logger = options.logger ?? defaultLogger;
 
   const subscriptions = new Map<string, SubscriptionEntry>();
 
@@ -277,7 +287,7 @@ export function createSubscriptionManager(
       const decoded = decoder(encodedAccount);
       queryClient.setQueryData(createAccountQueryKey(address), decoded);
     } catch (decodeError) {
-      console.error(
+      logger.error(
         `[SubscriptionManager] Error decoding account ${address}:`,
         decodeError,
       );
@@ -340,7 +350,7 @@ export function createSubscriptionManager(
         if (isAborted()) {
           return;
         }
-        console.error(
+        logger.error(
           `[SubscriptionManager] Subscription error for ${address}, reconnecting:`,
           error,
         );
@@ -426,7 +436,7 @@ export function createSubscriptionManager(
     // bug in the manager itself can reject here.
     void runSubscription(address, entry, abortController.signal).catch(
       (error: unknown) => {
-        console.error(
+        logger.error(
           `[SubscriptionManager] Subscription loop for ${address} stopped:`,
           error,
         );

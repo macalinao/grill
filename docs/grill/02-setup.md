@@ -251,6 +251,8 @@ const SwapButton: React.FC = () => {
   showToasts={true} // Enable toast notifications (default: true)
   successToastDuration={5000} // Success toast duration (default: 5000ms)
   errorToastDuration={7000} // Error toast duration (default: 7000ms)
+  // Console verbosity: "off" | "error" | "warn" | "info" | "debug"
+  logLevel="info" // (default: "info")
   // Custom transaction status handler
   onTransactionStatusEvent={(event) => {
     console.log("Transaction status:", event);
@@ -260,6 +262,40 @@ const SwapButton: React.FC = () => {
   {children}
 </GrillProvider>
 ```
+
+### Console Logging
+
+Grill writes diagnostics to the console — failed simulations, dropped
+subscriptions, transaction logs. `logLevel` decides how much of it your users
+see. Each level enables itself and everything more severe, and `"off"` silences
+the library completely:
+
+```tsx
+<GrillProvider logLevel={import.meta.env.DEV ? "debug" : "error"}>
+  {children}
+</GrillProvider>
+```
+
+`useLogger()` returns the same level-aware logger for your own code:
+
+```tsx
+import { useLogger } from "@macalinao/grill";
+
+const SwapButton: React.FC = () => {
+  const logger = useLogger();
+
+  const onSwap = async () => {
+    logger.debug("submitting swap");
+    // ...
+  };
+
+  return <button onClick={onSwap}>Swap</button>;
+};
+```
+
+Outside React, the plain functions in `@macalinao/gill-extra` that log
+(`logTransactionSimulation`, `fetchTokenInfo`, `pollConfirmTransaction`) take an
+optional `logger`, so `createLogger("off")` silences those too.
 
 ### Headless Mode
 
