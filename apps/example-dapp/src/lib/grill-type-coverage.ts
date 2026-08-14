@@ -19,6 +19,7 @@ import type {
   GrillContextValue,
   GrillHeadlessProviderProps,
   GrillProviderProps,
+  GrillSigner,
   PdaHook,
   PdaQueryKey,
   PdasHook,
@@ -100,6 +101,7 @@ export interface ProviderTypes {
   wallet: WalletProviderProps;
   grillContext: GrillContextValue;
   walletContext: WalletContextState;
+  signer: GrillSigner;
 }
 
 /** WebSocket subscription plumbing. */

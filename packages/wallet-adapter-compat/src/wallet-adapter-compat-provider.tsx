@@ -21,7 +21,8 @@ export const WalletAdapterCompatProvider: React.FC<
   WalletAdapterCompatProviderProps
 > = ({ children }) => {
   const { connection } = useConnection();
-  const { publicKey, sendTransaction, connected } = useWallet();
+  const { publicKey, sendTransaction, signTransaction, connected } =
+    useWallet();
 
   // Create the signer when wallet is connected
   const signer = useMemo(() => {
@@ -31,14 +32,14 @@ export const WalletAdapterCompatProvider: React.FC<
 
     try {
       return createWalletTransactionSendingSigner(
-        { publicKey, sendTransaction },
+        { publicKey, sendTransaction, signTransaction },
         connection,
       );
     } catch (error) {
       console.error("Failed to create transaction sending signer:", error);
       return null;
     }
-  }, [connected, publicKey, sendTransaction, connection]);
+  }, [connected, publicKey, sendTransaction, signTransaction, connection]);
 
   return <WalletProvider signer={signer}>{children}</WalletProvider>;
 };

@@ -1,0 +1,185 @@
+import type {
+  Address,
+  Blockhash,
+  Instruction,
+  TransactionSigner,
+} from "@solana/kit";
+import type { SolanaClient } from "gill";
+import type { simulateTransactionFactory } from "gill";
+import { beforeAll, describe, expect, it } from "bun:test";
+import {
+  AccountRole,
+  address,
+  generateKeyPairSigner,
+  getBase58Encoder,
+} from "@solana/kit";
+import { prepareTransactionMessage } from "./prepare-transaction-message.js";
+
+const BLOCKHASH = {
+  blockhash: "11111111111111111111111111111111" as Blockhash,
+  lastValidBlockHeight: 100n,
+};
+
+const INJECTED_BLOCKHASH = {
+  blockhash: "22222222222222222222222222222222" as Blockhash,
+  lastValidBlockHeight: 200n,
+};
+
+const MEMO_PROGRAM = address("MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr");
+
+function makeIx(signerAddress: Address): Instruction {
+  return {
+    programAddress: MEMO_PROGRAM,
+    accounts: [],
+    data: getBase58Encoder().encode(signerAddress),
+  };
+}
+
+function makeRpc(): {
+  rpc: SolanaClient["rpc"];
+  getLatestBlockhashCalls: () => number;
+} {
+  let calls = 0;
+  const rpc = {
+    getLatestBlockhash: () => ({
+      send: () => {
+        calls += 1;
+        return Promise.resolve({ value: BLOCKHASH });
+      },
+    }),
+  } as unknown as SolanaClient["rpc"];
+  return { rpc, getLatestBlockhashCalls: () => calls };
+}
+
+/** A simulate fn that returns a fixed err value, spying on invocation. */
+function makeSimulate(err: unknown): {
+  simulate: ReturnType<typeof simulateTransactionFactory>;
+  calls: () => number;
+} {
+  let calls = 0;
+  const simulate = (() => {
+    calls += 1;
+    return Promise.resolve({ value: { err, logs: [] } });
+  }) as unknown as ReturnType<typeof simulateTransactionFactory>;
+  return { simulate, calls: () => calls };
+}
+
+describe("prepareTransactionMessage", () => {
+  let signer: TransactionSigner;
+
+  beforeAll(async () => {
+    signer = await generateKeyPairSigner();
+  });
+
+  const base = (rpc: SolanaClient["rpc"]) => ({
+    signer,
+    rpc,
+    name: "Test",
+    ixs: [makeIx(signer.address)],
+    cluster: "mainnet-beta" as const,
+    onSimulationError: () => {},
+  });
+
+  it("fetches the blockhash when not injected", async () => {
+    const { rpc, getLatestBlockhashCalls } = makeRpc();
+    const { simulate } = makeSimulate(null);
+
+    const { latestBlockhash } = await prepareTransactionMessage({
+      ...base(rpc),
+      simulateTransaction: simulate,
+      options: { skipPreflight: true },
+    });
+
+    expect(getLatestBlockhashCalls()).toBe(1);
+    expect(latestBlockhash).toBe(BLOCKHASH);
+  });
+
+  it("uses the injected blockhash without an RPC round trip", async () => {
+    const { rpc, getLatestBlockhashCalls } = makeRpc();
+    const { simulate } = makeSimulate(null);
+
+    const { latestBlockhash } = await prepareTransactionMessage({
+      ...base(rpc),
+      simulateTransaction: simulate,
+      options: { latestBlockhash: INJECTED_BLOCKHASH, skipPreflight: true },
+    });
+
+    expect(getLatestBlockhashCalls()).toBe(0);
+    expect(latestBlockhash).toBe(INJECTED_BLOCKHASH);
+  });
+
+  it("compresses the message using address lookup tables when provided", async () => {
+    const { rpc } = makeRpc();
+    const { simulate } = makeSimulate(null);
+
+    const lookupTableAddress = address(
+      "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    );
+    const accountInTable = address(
+      "So11111111111111111111111111111111111111112",
+    );
+    const ix: Instruction = {
+      programAddress: MEMO_PROGRAM,
+      accounts: [{ address: accountInTable, role: AccountRole.READONLY }],
+      data: getBase58Encoder().encode(signer.address),
+    };
+
+    // oxlint-disable-next-line typescript/no-unsafe-assignment -- tsgolint resolves gill's createTransaction() return type to an error type; tsc types it correctly.
+    const { finalTransactionMessage } = await prepareTransactionMessage({
+      ...base(rpc),
+      ixs: [ix],
+      simulateTransaction: simulate,
+      options: {
+        skipPreflight: true,
+        lookupTables: { [lookupTableAddress]: [accountInTable] },
+      },
+    });
+
+    // oxlint-disable-next-line typescript/no-unsafe-assignment, typescript/no-unsafe-member-access -- same error-typed createTransaction() result as above.
+    const [compressedIx] = finalTransactionMessage.instructions;
+    // oxlint-disable-next-line typescript/no-unsafe-member-access -- same error-typed createTransaction() result as above.
+    expect(compressedIx?.accounts?.[0]).toMatchObject({
+      address: accountInTable,
+      lookupTableAddress,
+    });
+  });
+
+  it("skips simulation when skipPreflight is true", async () => {
+    const { rpc } = makeRpc();
+    const { simulate, calls } = makeSimulate(null);
+
+    await prepareTransactionMessage({
+      ...base(rpc),
+      simulateTransaction: simulate,
+      options: { skipPreflight: true },
+    });
+
+    expect(calls()).toBe(0);
+  });
+
+  it("runs simulation and throws + reports on simulation error", async () => {
+    const { rpc } = makeRpc();
+    const { simulate, calls } = makeSimulate({
+      InstructionError: [0, "Custom"],
+    });
+    let reported: string | undefined;
+
+    let caught: unknown;
+    try {
+      await prepareTransactionMessage({
+        ...base(rpc),
+        simulateTransaction: simulate,
+        options: {},
+        onSimulationError: (msg) => {
+          reported = msg;
+        },
+      });
+    } catch (e) {
+      caught = e;
+    }
+
+    expect(caught).toBeDefined();
+    expect(calls()).toBe(1);
+    expect(reported).toBeDefined();
+  });
+});
