@@ -1,5 +1,14 @@
 # @macalinao/react-quarry
 
+## 12.0.0
+
+### Patch Changes
+
+- Updated dependencies [887d62d]
+- Updated dependencies [4a8fa03]
+  - @macalinao/grill@0.17.0
+  - @macalinao/quarry@0.5.3
+
 ## 11.0.0
 
 ### Patch Changes

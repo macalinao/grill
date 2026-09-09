@@ -1,5 +1,14 @@
 # example-dapp
 
+## 11.0.0
+
+### Patch Changes
+
+- Updated dependencies [887d62d]
+- Updated dependencies [4a8fa03]
+  - @macalinao/grill@0.17.0
+  - @macalinao/wallet-adapter-compat@14.0.0
+
 ## 10.0.0
 
 ### Patch Changes
