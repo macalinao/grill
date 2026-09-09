@@ -1,4 +1,10 @@
 import type { Address, Instruction, TransactionSigner } from "@solana/kit";
+import { U64_MAX } from "@macalinao/gill-extra";
+import {
+  findAssociatedTokenPda,
+  getCreateAssociatedTokenIdempotentInstruction,
+  TOKEN_PROGRAM_ADDRESS,
+} from "@solana-program/token";
 import {
   findMinterPda,
   findOperatorPda,
@@ -10,13 +16,7 @@ import {
   getNewMinterV2InstructionAsync,
   getNewRewarderV2InstructionAsync,
   getTransferAuthorityInstruction,
-} from "@macalinao/clients-quarry";
-import { U64_MAX } from "@macalinao/gill-extra";
-import {
-  findAssociatedTokenPda,
-  getCreateAssociatedTokenIdempotentInstruction,
-  TOKEN_PROGRAM_ADDRESS,
-} from "@solana-program/token";
+} from "@solana-programs/quarry";
 import { generateKeyPairSigner } from "@solana/kit";
 
 /**

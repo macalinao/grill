@@ -44,7 +44,7 @@
     "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "@solana/webcrypto-ed25519-polyfill": "7.0.0",
+    "@solana/webcrypto-ed25519-polyfill": "8.2.0",
     "react-compiler-runtime": "^1.0.0",
     "tslib": "catalog:"
   },

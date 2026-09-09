@@ -1,5 +1,5 @@
-import type { Rewarder } from "@macalinao/clients-quarry";
 import type { AccountInfo } from "@macalinao/gill-extra";
+import type { Rewarder } from "@solana-programs/quarry";
 import type { Instruction, TransactionSigner } from "@solana/kit";
 import type { PoolInfo } from "../../../types.js";
 import type { MergePoolAccount } from "../types.js";
