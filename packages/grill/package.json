@@ -71,7 +71,7 @@
   },
   "peerDependencies": {
     "@solana/kit": "catalog:peer",
-    "@tanstack/react-query": "^5.102.8",
+    "@tanstack/react-query": "catalog:peer",
     "gill": "catalog:",
     "react": "catalog:peer",
     "sonner": "^2"

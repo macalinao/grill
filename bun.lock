@@ -165,7 +165,7 @@
       },
       "peerDependencies": {
         "@solana/kit": "catalog:peer",
-        "@tanstack/react-query": "^5.102.8",
+        "@tanstack/react-query": "catalog:peer",
         "gill": "catalog:",
         "react": "catalog:peer",
         "sonner": "^2",
@@ -335,6 +335,7 @@
   "catalogs": {
     "peer": {
       "@solana/kit": "^6 || ^7 || ^8",
+      "@tanstack/react-query": "^5.66.9",
       "react": "^18 || ^19",
       "react-dom": "^18 || ^19",
       "zod": "^4",
