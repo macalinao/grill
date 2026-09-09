@@ -12,6 +12,7 @@ export { useConnectedWallet } from "./use-connected-wallet.js";
 export { useKitWallet } from "./use-kit-wallet.js";
 export * from "./use-logger.js";
 export * from "./use-send-tx.js";
+export * from "./use-sign-tx.js";
 export * from "./use-token-balance.js";
 export * from "./use-token-info.js";
 export * from "./use-token-infos.js";

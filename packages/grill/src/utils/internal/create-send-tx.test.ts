@@ -1,4 +1,3 @@
-import type { Logger } from "@macalinao/gill-extra";
 import type {
   Address,
   Blockhash,
@@ -8,7 +7,8 @@ import type {
   TransactionSendingSigner,
 } from "@solana/kit";
 import type { SolanaClient } from "gill";
-import { beforeAll, describe, expect, it, mock } from "bun:test";
+import type { TransactionStatusEvent } from "../../types.js";
+import { beforeAll, beforeEach, describe, expect, it, mock } from "bun:test";
 import * as gillExtra from "@macalinao/gill-extra";
 import { createLogger } from "@macalinao/gill-extra";
 import {
@@ -48,6 +48,9 @@ const confirmed: {
   retryInterval?: number | undefined;
 } = {};
 
+/** Lets a test make confirmation reject instead of resolving successfully. */
+const confirmControl: { error?: Error | undefined } = {};
+
 await mock.module("@macalinao/gill-extra", () => ({
   ...gillExtra,
   confirmTransaction: ({
@@ -65,9 +68,22 @@ await mock.module("@macalinao/gill-extra", () => ({
     confirmed.hasSubscriptions = rpcSubscriptions !== undefined;
     confirmed.maxRetries = maxRetries;
     confirmed.retryInterval = retryInterval;
+    if (confirmControl.error !== undefined) {
+      throw confirmControl.error;
+    }
     return Promise.resolve({ err: null });
   },
 }));
+
+/** Finds an emitted event and narrows it to its discriminated variant. */
+function findEvent<T extends TransactionStatusEvent["type"]>(
+  events: TransactionStatusEvent[],
+  type: T,
+): Extract<TransactionStatusEvent, { type: T }> | undefined {
+  return events.find(
+    (e): e is Extract<TransactionStatusEvent, { type: T }> => e.type === type,
+  );
+}
 
 // Imported after the module mock is installed so the mocked binding is used.
 const { createSendTX } = await import("./create-send-tx.js");
@@ -128,6 +144,30 @@ function makeSendingSigner(addr: Address): TransactionSendingSigner {
   };
 }
 
+/** A sending signer whose broadcast always rejects. */
+function makeFailingSigner(
+  addr: Address,
+  error: Error,
+): TransactionSendingSigner {
+  return {
+    address: addr,
+    signAndSendTransactions: () => Promise.reject(error),
+  };
+}
+
+/** Records the addresses handed to refetchAccounts and lets a test block it. */
+function makeRefetch(neverResolves = false): {
+  refetchAccounts: (addresses: Address[]) => Promise<void>;
+  calls: () => Address[][];
+} {
+  const calls: Address[][] = [];
+  const refetchAccounts = (addresses: Address[]): Promise<void> => {
+    calls.push(addresses);
+    return neverResolves ? new Promise<void>(() => {}) : Promise.resolve();
+  };
+  return { refetchAccounts, calls: () => calls };
+}
+
 describe("createSendTX", () => {
   let signer: TransactionSendingSigner;
 
@@ -136,25 +176,28 @@ describe("createSendTX", () => {
     signer = makeSendingSigner(kp.address);
   });
 
+  beforeEach(() => {
+    confirmed.lastValidBlockHeight = undefined;
+    confirmed.hasSubscriptions = undefined;
+    confirmed.maxRetries = undefined;
+    confirmed.retryInterval = undefined;
+    confirmControl.error = undefined;
+  });
+
   const params = (
     rpc: SolanaClient["rpc"],
-    extra: {
-      refetchAccounts?: (addresses: Address[]) => Promise<void>;
-      rpcSubscriptions?: SolanaClient["rpcSubscriptions"];
-      logger?: Logger;
-    } = {},
+    overrides: Partial<Parameters<typeof createSendTX>[0]> = {},
   ) => ({
     signer,
     rpc,
     refetchAccounts: () => Promise.resolve(),
     onTransactionStatusEvent: () => {},
     getExplorerLink: () => "https://example.com",
-    ...extra,
+    ...overrides,
   });
 
   describe("blockhash injection", () => {
     it("uses an injected blockhash without hitting the RPC", async () => {
-      confirmed.lastValidBlockHeight = undefined;
       const { rpc, getLatestBlockhashCalls } = makeRpc();
       const sendTX = createSendTX(params(rpc));
 
@@ -170,7 +213,6 @@ describe("createSendTX", () => {
     });
 
     it("fetches the blockhash when not injected", async () => {
-      confirmed.lastValidBlockHeight = undefined;
       const { rpc, getLatestBlockhashCalls } = makeRpc();
       const sendTX = createSendTX(params(rpc));
 
@@ -185,9 +227,118 @@ describe("createSendTX", () => {
     });
   });
 
+  describe("happy path", () => {
+    it("returns the signature and emits the full lifecycle", async () => {
+      const { rpc } = makeRpc();
+      const events: TransactionStatusEvent[] = [];
+      const explorerLinks: string[] = [];
+      const sendTX = createSendTX(
+        params(rpc, {
+          onTransactionStatusEvent: (e) => {
+            events.push(e);
+          },
+          getExplorerLink: () => {
+            const link = "https://explorer.example/tx";
+            explorerLinks.push(link);
+            return link;
+          },
+        }),
+      );
+
+      const sig = await sendTX("Send", [makeIx(signer.address)], {
+        skipPreflight: true,
+      });
+
+      // A base58 signature string is returned.
+      expect(typeof sig).toBe("string");
+      expect(sig.length).toBeGreaterThan(0);
+
+      // Lifecycle events fire in order, ending in confirmation.
+      expect(events.map((e) => e.type)).toEqual([
+        "preparing",
+        "awaiting-wallet-signature",
+        "waiting-for-confirmation",
+        "confirmed",
+      ]);
+
+      // The explorer link is attached to the post-send events.
+      const confirmedEvent = findEvent(events, "confirmed");
+      expect(confirmedEvent).toBeDefined();
+      expect(confirmedEvent?.sig).toBe(sig);
+      expect(confirmedEvent?.explorerLink).toBe("https://explorer.example/tx");
+      expect(explorerLinks.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe("wallet not connected", () => {
+    it("emits an error event and throws when there is no signer", async () => {
+      const { rpc } = makeRpc();
+      const events: TransactionStatusEvent[] = [];
+      const sendTX = createSendTX(
+        params(rpc, {
+          signer: null,
+          onTransactionStatusEvent: (e) => {
+            events.push(e);
+          },
+        }),
+      );
+
+      let caught: unknown;
+      try {
+        await sendTX("No wallet", [makeIx(signer.address)], {
+          skipPreflight: true,
+        });
+      } catch (e) {
+        caught = e;
+      }
+
+      expect(caught).toBeInstanceOf(Error);
+      expect((caught as Error).message).toContain("Wallet not connected");
+      expect(events.map((e) => e.type)).toEqual(["error-wallet-not-connected"]);
+    });
+  });
+
+  describe("send failure", () => {
+    it("emits error-transaction-send-failed and rethrows", async () => {
+      const { rpc } = makeRpc();
+      const events: TransactionStatusEvent[] = [];
+      const failingSigner = makeFailingSigner(
+        signer.address,
+        new Error("user rejected the request"),
+      );
+      const sendTX = createSendTX(
+        params(rpc, {
+          signer: failingSigner,
+          onTransactionStatusEvent: (e) => {
+            events.push(e);
+          },
+        }),
+      );
+
+      let caught: unknown;
+      try {
+        await sendTX("Rejected", [makeIx(signer.address)], {
+          skipPreflight: true,
+        });
+      } catch (e) {
+        caught = e;
+      }
+
+      expect(caught).toBeInstanceOf(Error);
+      expect((caught as Error).message).toContain("user rejected");
+
+      const sendFailed = findEvent(events, "error-transaction-send-failed");
+      expect(sendFailed).toBeDefined();
+      expect(sendFailed?.errorMessage).toContain("user rejected");
+      // Never reaches confirmation.
+      expect(events.map((e) => e.type)).not.toContain(
+        "waiting-for-confirmation",
+      );
+    });
+  });
+
   describe("confirmation", () => {
     it("passes the subscriptions client through when it has one", async () => {
-      confirmed.hasSubscriptions = undefined;
       const { rpc } = makeRpc();
       const sendTX = createSendTX(
         params(rpc, {
@@ -201,7 +352,6 @@ describe("createSendTX", () => {
     });
 
     it("confirms without a subscriptions client", async () => {
-      confirmed.hasSubscriptions = undefined;
       const { rpc } = makeRpc();
       const sendTX = createSendTX(params(rpc));
 
@@ -211,8 +361,6 @@ describe("createSendTX", () => {
     });
 
     it("forwards the caller's confirmation tuning", async () => {
-      confirmed.maxRetries = undefined;
-      confirmed.retryInterval = undefined;
       const { rpc } = makeRpc();
       const sendTX = createSendTX(params(rpc));
 
@@ -229,20 +377,66 @@ describe("createSendTX", () => {
   describe("account refetching", () => {
     it("refetches the writable accounts derived from the message", async () => {
       const { rpc } = makeRpc();
-      const refetched: Address[][] = [];
+      const { refetchAccounts, calls } = makeRefetch();
+      const sendTX = createSendTX(params(rpc, { refetchAccounts }));
+
+      await sendTX("Test", [makeIxWithAccounts()], { skipPreflight: true });
+
+      expect(calls()).toEqual([[signer.address, WRITABLE]]);
+    });
+
+    it("resolves without waiting when waitForAccountRefetch is false", async () => {
+      const { rpc } = makeRpc();
+      // A refetch that never resolves would hang the call if it were awaited.
+      const { refetchAccounts, calls } = makeRefetch(true);
+      const sendTX = createSendTX(params(rpc, { refetchAccounts }));
+
+      const sig = await sendTX("Background", [makeIxWithAccounts()], {
+        skipPreflight: true,
+        waitForAccountRefetch: false,
+      });
+
+      expect(typeof sig).toBe("string");
+      // Refetch was still kicked off, just not awaited.
+      expect(calls()).toEqual([[signer.address, WRITABLE]]);
+    });
+  });
+
+  describe("confirmation failure", () => {
+    it("emits error-transaction-failed and rethrows", async () => {
+      const { rpc } = makeRpc();
+      const events: TransactionStatusEvent[] = [];
+      // A Solana-style error carrying logs in a nested context.
+      confirmControl.error = Object.assign(new Error("Transaction expired"), {
+        context: { logs: ["Program log: boom"] },
+      });
       const sendTX = createSendTX(
         params(rpc, {
-          refetchAccounts: (addresses) => {
-            refetched.push(addresses);
-            return Promise.resolve();
+          onTransactionStatusEvent: (e) => {
+            events.push(e);
           },
         }),
       );
 
-      await sendTX("Test", [makeIxWithAccounts()], { skipPreflight: true });
+      let caught: unknown;
+      try {
+        await sendTX("Expired", [makeIx(signer.address)], {
+          skipPreflight: true,
+        });
+      } catch (e) {
+        caught = e;
+      }
 
-      expect(refetched).toHaveLength(1);
-      expect(refetched[0]).toEqual([signer.address, WRITABLE]);
+      expect(caught).toBeInstanceOf(Error);
+      expect((caught as Error).message).toContain("Transaction expired");
+
+      const failed = findEvent(events, "error-transaction-failed");
+      expect(failed).toBeDefined();
+      expect(failed?.errorMessage).toContain("Transaction expired");
+      expect(failed?.sig).toBeTruthy();
+      // It did reach the send/confirmation stage before failing.
+      expect(events.map((e) => e.type)).toContain("waiting-for-confirmation");
+      expect(events.map((e) => e.type)).not.toContain("confirmed");
     });
   });
 
