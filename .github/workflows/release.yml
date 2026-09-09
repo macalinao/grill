@@ -69,11 +69,14 @@ jobs:
         id: changesets
         uses: changesets/action@v2
         with:
-          # This expects you to have a script called release which does a build for your packages and calls changeset publish
-          publish: bun run ci:publish
-          version: bun run ci:version
-          commit: "chore: release packages"
-          title: "chore: release packages"
+          # Input names below are the changesets/action v2 spelling; v1 called
+          # these publish/version/commit/title. v2 ignores the old names
+          # silently, so a rename that misses one degrades to "open a release
+          # PR" instead of publishing.
+          publish-script: bun run ci:publish
+          version-script: bun run ci:version
+          commit-message: "chore: release packages"
+          pr-title: "chore: release packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
