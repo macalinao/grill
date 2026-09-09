@@ -1,16 +1,16 @@
-import type { Rewarder } from "@macalinao/clients-quarry";
+import type { Rewarder } from "@solana-programs/quarry";
 import type { Address, Instruction, TransactionSigner } from "@solana/kit";
 import type { MergePoolAccount } from "../types.js";
 import type { QuarryStakeAccounts } from "./types.js";
 import {
-  findMergeMinerPda,
-  findMinerPda,
-  findQuarryPda,
-} from "@macalinao/clients-quarry";
-import {
   findAssociatedTokenPda,
   TOKEN_PROGRAM_ADDRESS,
 } from "@solana-program/token";
+import {
+  findMergeMinerPda,
+  findMinerPda,
+  findQuarryPda,
+} from "@solana-programs/quarry";
 import { claimMMRewards } from "./claim-mm-rewards.js";
 
 /**

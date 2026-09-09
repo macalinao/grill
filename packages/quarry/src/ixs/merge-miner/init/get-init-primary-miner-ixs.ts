@@ -1,10 +1,10 @@
 import type { Address, Instruction, TransactionSigner } from "@solana/kit";
 import type { MergePoolAccount, MinerAddresses } from "../types.js";
-import { findMergeMinerPda } from "@macalinao/clients-quarry";
 import {
   getCreateAssociatedTokenIdempotentInstruction,
   TOKEN_PROGRAM_ADDRESS,
 } from "@solana-program/token";
+import { findMergeMinerPda } from "@solana-programs/quarry";
 import { getMinerAddresses } from "../helpers.js";
 import { createInitMinerForMergeMinerIxFromAddresses } from "./create-init-miner-for-merge-miner-from-addresses.js";
 

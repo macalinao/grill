@@ -30,7 +30,7 @@ export type UseDecodedAccountHook<TData extends object> = (
  * @example
  * ```tsx
  * import { createDecodedAccountHook } from "@macalinao/grill";
- * import { getPoolDecoder } from "@macalinao/clients-meteora-damm-v2";
+ * import { getPoolDecoder } from "@solana-programs/meteora-damm-v2";
  *
  * const usePool = createDecodedAccountHook(getPoolDecoder());
  *

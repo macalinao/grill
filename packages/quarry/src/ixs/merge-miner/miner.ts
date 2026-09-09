@@ -6,15 +6,15 @@ import type {
   UnstakePrimaryMinerArgs,
 } from "./types.js";
 import {
+  findAssociatedTokenPda,
+  TOKEN_PROGRAM_ADDRESS,
+} from "@solana-program/token";
+import {
   getStakePrimaryMinerInstruction,
   getStakeReplicaMinerInstruction,
   getUnstakeAllReplicaMinerInstruction,
   getUnstakePrimaryMinerInstruction,
-} from "@macalinao/clients-quarry";
-import {
-  findAssociatedTokenPda,
-  TOKEN_PROGRAM_ADDRESS,
-} from "@solana-program/token";
+} from "@solana-programs/quarry";
 import { getMinerAddresses } from "./helpers.js";
 
 /**

@@ -60,6 +60,6 @@
     "@types/bun": "catalog:",
     "tsdown": "catalog:",
     "typescript": "catalog:",
-    "zod": "^4.3.5"
+    "zod": "^4.5.4"
   }
 }

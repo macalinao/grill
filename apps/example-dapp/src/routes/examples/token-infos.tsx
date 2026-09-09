@@ -4,7 +4,6 @@ import type {
   UseTokenInfosInput,
   UseTokenInfosResult,
 } from "@macalinao/grill";
-import { getPoolDecoder } from "@macalinao/clients-meteora-damm-v2";
 import {
   formatTokenAmount,
   useAccount,
@@ -12,6 +11,7 @@ import {
   useTokenInfo,
   useTokenInfos,
 } from "@macalinao/grill";
+import { getPoolDecoder } from "@solana-programs/meteora-damm-v2";
 import { createFileRoute } from "@tanstack/react-router";
 import { CodeBlock } from "@/components/examples/code-block";
 import { ExampleHeader } from "@/components/examples/example-header";

@@ -1,12 +1,12 @@
 import type { Instruction, TransactionSigner } from "@solana/kit";
 import type { MergeMinerAmountArgs } from "./types.js";
-import { findMergeMinerPda } from "@macalinao/clients-quarry";
 import {
   findAssociatedTokenPda,
   getCreateAssociatedTokenIdempotentInstruction,
   getTransferInstruction,
   TOKEN_PROGRAM_ADDRESS,
 } from "@solana-program/token";
+import { findMergeMinerPda } from "@solana-programs/quarry";
 import { getCreateInitMergeMinerIxs } from "./init/get-create-init-merge-miner-ixs.js";
 import {
   createStakePrimaryMinerIx,

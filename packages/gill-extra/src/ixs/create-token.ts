@@ -1,15 +1,15 @@
 import type { Address, Instruction, TransactionSigner } from "@solana/kit";
-import {
-  findMetadataPda,
-  getCreateMetadataAccountV3Instruction,
-  TOKEN_METADATA_PROGRAM_ADDRESS,
-} from "@macalinao/clients-token-metadata";
 import { getCreateAccountInstruction } from "@solana-program/system";
 import {
   getInitializeMint2Instruction,
   getMintSize,
   TOKEN_PROGRAM_ADDRESS,
 } from "@solana-program/token";
+import {
+  findMetadataPda,
+  getCreateMetadataAccountV3Instruction,
+  TOKEN_METADATA_PROGRAM_ADDRESS,
+} from "@solana-programs/token-metadata";
 import { getMinimumBalanceForRentExemption } from "gill";
 
 /**

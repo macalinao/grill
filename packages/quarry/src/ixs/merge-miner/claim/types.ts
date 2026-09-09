@@ -1,4 +1,4 @@
-import type { Rewarder } from "@macalinao/clients-quarry";
+import type { Rewarder } from "@solana-programs/quarry";
 import type { Address, TransactionSigner } from "@solana/kit";
 
 export interface QuarryStakeAccounts {

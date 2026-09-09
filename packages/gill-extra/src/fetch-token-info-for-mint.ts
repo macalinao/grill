@@ -1,14 +1,14 @@
-import type { Metadata } from "@macalinao/clients-token-metadata";
 import type { RpcWithGetMultipleAccounts } from "@macalinao/solana-batch-accounts-loader";
 import type { TokenInfo } from "@macalinao/token-utils";
+import type { Metadata } from "@solana-programs/token-metadata";
 import type { Address } from "@solana/kit";
 import type { FetchTokenInfoParams } from "./fetch-token-info.js";
+import { getMintDecoder } from "@solana-program/token";
 import {
   findMetadataPda,
   getMetadataDecoder,
   TOKEN_METADATA_PROGRAM_ADDRESS,
-} from "@macalinao/clients-token-metadata";
-import { getMintDecoder } from "@solana-program/token";
+} from "@solana-programs/token-metadata";
 import { decodeAccount, fetchEncodedAccounts } from "gill";
 import { fetchTokenInfo } from "./fetch-token-info.js";
 
