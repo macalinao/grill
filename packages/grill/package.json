@@ -55,7 +55,7 @@
     "@macalinao/zod-solana": "workspace:^",
     "@solana-program/address-lookup-table": "^0.14.1",
     "@solana-program/token": "^0.16.1",
-    "@solana-programs/token-metadata": "^0.7.0",
+    "@solana-programs/token-metadata": "^0.8.0",
     "react-compiler-runtime": "^1.0.0"
   },
   "devDependencies": {
