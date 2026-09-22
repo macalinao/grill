@@ -28,8 +28,7 @@ import {
 } from "@solana/wallet-adapter-react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { SolanaProvider } from "@gillsdk/react";
-import { createSolanaClient } from "gill";
+import { createSolanaClient, SolanaProvider } from "@macalinao/grill";
 import { Toaster } from "sonner";
 
 const queryClient = new QueryClient();
@@ -72,7 +71,7 @@ export const App: React.FC = () => {
 3. **WalletAdapterProvider**: Manages wallet connections
 4. **WalletModalProvider**: UI for wallet selection
 5. **WalletAdapterCompatProvider**: Bridges wallet-adapter to @solana/kit and provides grill's WalletProvider
-6. **SolanaProvider**: Provides the gill client for RPC operations
+6. **SolanaProvider**: Provides the Solana client for RPC operations
 7. **GrillProvider**: Creates the DataLoader and provides Grill context
 
 Each layer builds on the previous. WalletAdapterCompatProvider wraps its children with grill's WalletProvider, which provides the TransactionSendingSigner. GrillProvider needs access to both the wallet (for transactions) and the RPC client (for fetching), which is why it comes last.

@@ -29,8 +29,7 @@ bun add @macalinao/grill sonner
 
 ```tsx
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { SolanaProvider } from "@gillsdk/react";
-import { GrillProvider } from "@macalinao/grill";
+import { GrillProvider, SolanaProvider } from "@macalinao/grill";
 import { Toaster } from "sonner";
 
 const queryClient = new QueryClient();

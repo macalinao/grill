@@ -8,7 +8,7 @@ This isn't just about performance—it's about architecture. When every componen
 
 ## Enter Grill
 
-Grill is a Solana development kit that solves these problems at their root. Built on top of [gill](https://github.com/gillsdk/gill) and the modern @solana/kit, Grill introduces a simple but powerful innovation: **automatic account batching**.
+Grill is a Solana development kit that solves these problems at their root. Built on the modern [@solana/kit](https://github.com/anza-xyz/kit), Grill introduces a simple but powerful innovation: **automatic account batching**.
 
 Here's what happens when you use Grill:
 
@@ -26,7 +26,7 @@ If you've built GraphQL servers, you know about DataLoader. It's Facebook's solu
 
 ```tsx
 import type { FC } from "react";
-import type { Address } from "gill";
+import type { Address } from "@solana/kit";
 import { useQuery } from "@tanstack/react-query";
 import { useAccount } from "@macalinao/grill";
 
@@ -77,7 +77,7 @@ Grill isn't just about performance. It's about developer experience:
 
 ```tsx
 import type { FC } from "react";
-import type { Address } from "gill";
+import type { Address } from "@solana/kit";
 import { useAccount } from "@macalinao/grill";
 import { getTokenAccountDecoder } from "@solana-program/token";
 
@@ -100,7 +100,7 @@ const TokenAccountDisplay: FC<TokenAccountDisplayProps> = ({ tokenAccountAddress
 
 ```tsx
 import type { FC } from "react";
-import type { Address } from "gill";
+import type { Address } from "@solana/kit";
 import { useAssociatedTokenAccount } from "@macalinao/grill";
 
 interface ATADisplayProps {
@@ -171,7 +171,7 @@ Grill follows React's philosophy of composition. Instead of a monolithic SDK wit
 
 ```tsx
 import type { FC } from "react";
-import type { Address, TokenAccount, TransactionInstruction } from "gill";
+import type { Address, TokenAccount, TransactionInstruction } from "@solana/kit";
 import { useKitWallet, useAssociatedTokenAccount, useAccount, useSendTX } from "@macalinao/grill";
 
 interface MyDeFiAppProps {

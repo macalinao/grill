@@ -2,16 +2,16 @@
 
 [![npm version](https://img.shields.io/npm/v/@macalinao/grill.svg)](https://www.npmjs.com/package/@macalinao/grill)
 
-A comprehensive toolkit for building Solana applications with React, featuring automatic account batching, type-safe account decoding, and seamless transaction management. Built on top of [gill](https://github.com/gillsdk/gill) and [@solana/kit](https://github.com/anza-xyz/kit).
+A comprehensive toolkit for building Solana applications with React, featuring automatic account batching, type-safe account decoding, and seamless transaction management. Built on top of [@solana/kit](https://github.com/anza-xyz/kit).
 
 ## Packages
 
 ### [@macalinao/grill](./packages/grill)
 
-React provider for Solana account management with automatic batching and caching, built on top of @gillsdk/react.
+React provider for Solana account management with automatic batching and caching, built on top of @solana/kit.
 
 ```bash
-bun add @macalinao/grill @gillsdk/react gill
+bun add @macalinao/grill
 ```
 
 ### [@macalinao/solana-batch-accounts-loader](./packages/solana-batch-accounts-loader)
@@ -43,8 +43,7 @@ bun add @macalinao/dataloader-es
 ```tsx
 import { GrillProvider } from "@macalinao/grill";
 import { WalletAdapterCompatProvider } from "@macalinao/wallet-adapter-compat";
-import { createSolanaClient } from "gill";
-import { SolanaProvider } from "@gillsdk/react";
+import { createSolanaClient, SolanaProvider } from "@macalinao/grill";
 import {
   ConnectionProvider,
   WalletProvider,
@@ -161,7 +160,7 @@ Traditional Solana development suffers from the N+1 query problem. Every compone
 - 🔄 **Automatic cache management** with React Query
 - 🎨 **Beautiful transaction UX** with toast notifications
 - 🏗️ **Incremental migration** - works alongside existing code
-- 📦 **Modern stack** - Built on @solana/kit and gill
+- 📦 **Modern stack** - Built on @solana/kit
 
 ## Works Great With
 

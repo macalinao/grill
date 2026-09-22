@@ -11,10 +11,10 @@
   //
   // `exactOptionalPropertyTypes` used to be deliberately excluded here because of
   // @tanstack/react-query's option objects. tsconfig v4 turns it on in the base
-  // config, so it is now enforced: the handful of third-party option bags that
-  // type their optional keys without `| undefined` (react-query's
-  // `placeholderData`, gill's `computeUnitLimit`/`computeUnitPrice`) are passed
-  // via conditional spreads at the call site.
+  // config, so it is now enforced: the handful of option bags that type their
+  // optional keys without `| undefined` (react-query's `placeholderData`,
+  // `CreateTransactionInput`'s `computeUnitLimit`/`computeUnitPrice`) are
+  // passed via conditional spreads at the call site.
   "compilerOptions": {
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

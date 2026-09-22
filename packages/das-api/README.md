@@ -2,7 +2,7 @@
 
 A [Metaplex Digital Asset Standard (DAS) API](https://github.com/metaplex-foundation/digital-asset-standard-api) client for [`@solana/kit`](https://github.com/anza-xyz/kit) — **with no [`umi`](https://github.com/metaplex-foundation/umi) dependency**.
 
-The official DAS API client is built on `umi`. This package is a clean-room port that speaks the same JSON-RPC protocol but is built entirely on `@solana/kit` primitives (`Rpc`, `RpcApi`, `Address`), so it drops straight into a modern kit/[gill](https://github.com/gillsdk/gill) stack. It also covers the [Helius DAS API](https://www.helius.dev/docs/api-reference/das) superset (`getAssetBatch`, `getAssetProofBatch`, `getSignaturesForAsset`, `getTokenAccounts`, `getNftEditions`).
+The official DAS API client is built on `umi`. This package is a clean-room port that speaks the same JSON-RPC protocol but is built entirely on `@solana/kit` primitives (`Rpc`, `RpcApi`, `Address`), so it drops straight into a modern kit stack. It also covers the [Helius DAS API](https://www.helius.dev/docs/api-reference/das) superset (`getAssetBatch`, `getAssetProofBatch`, `getSignaturesForAsset`, `getTokenAccounts`, `getNftEditions`).
 
 ## Installation
 
@@ -91,7 +91,7 @@ const { token_accounts } = await das
   .send();
 ```
 
-## Composing with gill / an existing transport
+## Composing with an existing transport
 
 `createDasRpc` builds a default transport for you. If you already have a
 `@solana/kit` transport (for example, to share connection pooling or custom
@@ -109,11 +109,11 @@ const transport = createDefaultRpcTransport({
 const das = createDasRpcFromTransport(transport);
 ```
 
-`gill`'s `createSolanaClient` exposes only the standard Solana JSON-RPC methods,
+`@macalinao/gill-extra`'s `createSolanaClient` exposes only the standard Solana JSON-RPC methods,
 so run a DAS client alongside it, pointed at the same DAS-enabled URL:
 
 ```typescript
-import { createSolanaClient } from "gill";
+import { createSolanaClient } from "@macalinao/gill-extra";
 import { createDasRpc } from "@macalinao/das-api";
 
 const { rpc } = createSolanaClient({ urlOrMoniker: RPC_URL });

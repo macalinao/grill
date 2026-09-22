@@ -2,6 +2,7 @@ import type { TokenInfo } from "@macalinao/grill";
 import type * as React from "react";
 import {
   formatTokenAmount,
+  getExplorerLink,
   NATIVE_SOL,
   parseTokenAmount,
   useAccount,
@@ -11,7 +12,6 @@ import {
   useSendTX,
 } from "@macalinao/grill";
 import { createFileRoute } from "@tanstack/react-router";
-import { getExplorerLink } from "gill";
 import { ArrowDownUp, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";

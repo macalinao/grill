@@ -1,7 +1,12 @@
 import type { TokenInfo } from "@macalinao/grill";
 import type * as React from "react";
-import { SolanaProvider } from "@gillsdk/react";
-import { GrillProvider, getSolscanExplorerLink } from "@macalinao/grill";
+import {
+  createSolanaClient,
+  getPublicSolanaRpcUrl,
+  getSolscanExplorerLink,
+  GrillProvider,
+  SolanaProvider,
+} from "@macalinao/grill";
 import { WalletAdapterCompatProvider } from "@macalinao/wallet-adapter-compat";
 import { address } from "@solana/kit";
 import {
@@ -16,7 +21,6 @@ import {
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
-import { createSolanaClient, getPublicSolanaRpcUrl } from "gill";
 import { useMemo } from "react";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "./components/theme-provider.js";
