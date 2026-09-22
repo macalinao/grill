@@ -9,7 +9,7 @@ import {
   getMetadataDecoder,
   TOKEN_METADATA_PROGRAM_ADDRESS,
 } from "@solana-programs/token-metadata";
-import { decodeAccount, fetchEncodedAccounts } from "gill";
+import { decodeAccount, fetchEncodedAccounts } from "@solana/kit";
 import { fetchTokenInfo } from "./fetch-token-info.js";
 
 export interface FetchTokenInfoForMintParams extends Omit<

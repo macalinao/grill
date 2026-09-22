@@ -1,6 +1,6 @@
 import type { DataLoader } from "@macalinao/dataloader-es";
-import type { Account, Address, Decoder, EncodedAccount } from "gill";
-import { decodeAccount } from "gill";
+import type { Account, Address, Decoder, EncodedAccount } from "@solana/kit";
+import { decodeAccount } from "@solana/kit";
 
 /**
  * Fetch and decode an account using the DataLoader

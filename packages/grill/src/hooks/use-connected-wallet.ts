@@ -1,4 +1,4 @@
-import type { TransactionSendingSigner } from "gill";
+import type { TransactionSendingSigner } from "@solana/kit";
 import { useKitWallet } from "./use-kit-wallet.js";
 
 /**

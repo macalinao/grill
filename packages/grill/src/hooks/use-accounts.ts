@@ -3,8 +3,8 @@ import type {
   Address,
   Decoder,
   FetchAccountConfig,
-  Simplify,
-} from "gill";
+} from "@solana/kit";
+import type { Simplify } from "gill";
 import type { GillUseRpcHook } from "./types.js";
 import type { UseAccountOptions } from "./use-account.js";
 import { fetchAndDecodeAccount } from "@macalinao/gill-extra";

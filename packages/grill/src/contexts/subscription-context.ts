@@ -8,9 +8,10 @@ import type {
   Decoder,
   EncodedAccount,
   Lamports,
+  RpcSubscriptions,
+  SolanaRpcSubscriptionsApi,
 } from "@solana/kit";
 import type { QueryClient } from "@tanstack/react-query";
-import type { RpcSubscriptions, SolanaRpcSubscriptionsApi } from "gill";
 import {
   defaultLogger,
   getReconnectDelayMs,
