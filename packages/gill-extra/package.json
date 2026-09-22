@@ -51,7 +51,7 @@
     "@macalinao/zod-solana": "workspace:^",
     "@solana-program/system": "^0.14.1",
     "@solana-program/token": "^0.16.1",
-    "@solana-programs/token-metadata": "^0.7.0"
+    "@solana-programs/token-metadata": "^0.8.0"
   },
   "devDependencies": {
     "@macalinao/tsconfig": "catalog:",
