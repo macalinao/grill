@@ -40,7 +40,7 @@ No loading states to manage. No error handling boilerplate. It just works.
 
 ## Building Instructions
 
-Grill works with standard Solana instructions. Use gill's modern instruction builders:
+Grill works with standard Solana instructions. Use the `@solana-program/*` instruction builders:
 
 ```tsx
 import { getTransferSolInstruction } from "@solana-program/system";
@@ -108,7 +108,7 @@ import {
   getCreateAssociatedTokenIdempotentInstruction,
   getSyncNativeInstruction,
 } from "@solana-program/token";
-import { address } from "gill";
+import { address } from "@solana/kit";
 
 const WSOL_MINT = address("So11111111111111111111111111111111111111112");
 
