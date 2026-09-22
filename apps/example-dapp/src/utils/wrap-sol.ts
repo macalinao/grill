@@ -8,7 +8,7 @@ import {
   getSyncNativeInstruction,
   TOKEN_PROGRAM_ADDRESS,
 } from "@solana-program/token";
-import { address } from "gill";
+import { address } from "@solana/kit";
 
 // Native mint (wSOL) address
 export const WSOL_MINT = address("So11111111111111111111111111111111111111112");

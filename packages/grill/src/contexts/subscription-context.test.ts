@@ -1,5 +1,9 @@
-import type { Address, Lamports } from "@solana/kit";
-import type { RpcSubscriptions, SolanaRpcSubscriptionsApi } from "gill";
+import type {
+  Address,
+  Lamports,
+  RpcSubscriptions,
+  SolanaRpcSubscriptionsApi,
+} from "@solana/kit";
 import type { AccountDecoder } from "./subscription-context.js";
 import { afterEach, beforeEach, describe, expect, it, spyOn } from "bun:test";
 import { createLogger } from "@macalinao/gill-extra";
