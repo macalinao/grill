@@ -1,6 +1,6 @@
 import type { BatchAccountsLoader } from "@macalinao/solana-batch-accounts-loader";
+import type { Address } from "@solana/kit";
 import type { QueryClient } from "@tanstack/react-query";
-import type { Address } from "gill";
 import { createAccountQueryKey } from "../query-keys.js";
 
 /**

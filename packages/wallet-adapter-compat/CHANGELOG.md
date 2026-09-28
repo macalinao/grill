@@ -1,5 +1,52 @@
 # @macalinao/wallet-adapter-compat
 
+## 14.0.2
+
+### Patch Changes
+
+- 7b8d812: Update dependencies:
+  
+  - `@solana/kit` to `^8.3.0` and `@solana/webcrypto-ed25519-polyfill` to `8.3.0` (`@macalinao/wallet-adapter-compat`). The `@solana/kit` peer range stays `^6 || ^7 || ^8`.
+  - `@solana-programs/token-metadata` to `^0.8.0` (`@macalinao/gill-extra`, `@macalinao/grill`) and `@solana-programs/quarry` to `^0.7.0` (`@macalinao/quarry`).
+  - `@solana/wallet-adapter-base` to `^0.9.28` and `@solana/wallet-adapter-react` to `^0.15.40` (`@macalinao/wallet-adapter-compat` peer deps), plus `@solana/web3.js` to `^1.99.0` for development.
+  - `zod` to `^4.6.5` (`@macalinao/das-api`, `@macalinao/zod-solana`). The `zod` peer range stays `^4`.
+  - React 19.3 and its type packages, and build tooling: `tsdown` to `^0.23.0`, `@types/bun` to `^1.4.2`.
+- Updated dependencies [7b8d812]
+- Updated dependencies [9ef9431]
+  - @macalinao/grill@0.17.2
+
+## 14.0.1
+
+### Patch Changes
+
+- 8501dce: Update dependencies to their latest versions:
+  
+  - Move to `@solana/kit` v8. The `@solana/kit` peer range widens to `^6 || ^7 || ^8`, so v7 consumers are unaffected.
+  - Migrate the Codama-generated program clients to their new `@solana-programs/*` scope: `@macalinao/clients-quarry` becomes `@solana-programs/quarry`, `@macalinao/clients-token-metadata` becomes `@solana-programs/token-metadata`, and `@macalinao/clients-meteora-damm-v2` becomes `@solana-programs/meteora-damm-v2`. The packages are identical apart from the name, so the generated types and instruction builders `@macalinao/quarry` re-exports are unchanged.
+  - Bump the SPL program clients that kit v8 requires: `@solana-program/system` to `^0.14.1`, `@solana-program/address-lookup-table` to `^0.14.1`, `@solana-program/token` to `^0.16.1`, and `@solana/webcrypto-ed25519-polyfill` to `8.2.0`.
+  - Bump `@tanstack/react-query` to `^5.102.8`, `zod` to `^4.5.4`, and the React 19 type packages.
+- Updated dependencies [8501dce]
+- Updated dependencies [307bcc3]
+  - @macalinao/grill@0.17.1
+
+## 14.0.0
+
+### Patch Changes
+
+- 887d62d: Make console logging configurable so apps built on grill can control (or silence) the library's output.
+
+  - `GrillProvider` and `GrillHeadlessProvider` accept a `logLevel` prop: `"off" | "error" | "warn" | "info" | "debug"`, defaulting to `"info"`. Each level enables itself and everything more severe; `"off"` emits no console output at all.
+  - Every `console.*` call in grill now goes through that level — failed transactions and simulations at `"error"`, background refetch failures at `"warn"`, and the per-event transaction status dump (previously an unconditional `console.log` for anyone without an `onTransactionStatusEvent` handler) at `"debug"`.
+  - New `useLogger()` hook returns the configured logger, so app-level logging can be silenced by the same prop.
+  - `@macalinao/wallet-adapter-compat` no longer logs every transaction's base64 wire bytes to the console — that was a leftover debug statement, now removed.
+  - `@macalinao/gill-extra` exports `createLogger`, `defaultLogger`, `DEFAULT_LOG_LEVEL` and the `LogLevel` / `Logger` types. `logTransactionSimulation`, `fetchTokenInfo`, `fetchTokenInfoForMint` and `pollConfirmTransaction` take an optional `logger`; they keep logging at the default level when none is passed.
+
+  Since the default level is `"info"`, existing apps mostly see the same output minus the transaction status firehose. Pass `logLevel="error"` (or `"off"`) to quiet things down in production.
+
+- Updated dependencies [887d62d]
+- Updated dependencies [4a8fa03]
+  - @macalinao/grill@0.17.0
+
 ## 13.0.0
 
 ### Patch Changes

@@ -23,6 +23,7 @@ import type {
   PdaHook,
   PdaQueryKey,
   PdasHook,
+  SolanaProviderProps,
   SubscriptionManager,
   SubscriptionManagerOptions,
   SubscriptionProviderProps,
@@ -97,6 +98,7 @@ export interface TokenTypes {
 export interface ProviderTypes {
   grill: GrillProviderProps;
   headless: GrillHeadlessProviderProps;
+  solana: SolanaProviderProps;
   subscription: SubscriptionProviderProps;
   wallet: WalletProviderProps;
   grillContext: GrillContextValue;

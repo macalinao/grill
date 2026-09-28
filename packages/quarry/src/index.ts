@@ -1,4 +1,4 @@
-export * from "@macalinao/clients-quarry";
+export * from "@solana-programs/quarry";
 export * from "@macalinao/token-utils";
 export * from "./get-quarry-miner-addresses.js";
 export * from "./ixs/index.js";

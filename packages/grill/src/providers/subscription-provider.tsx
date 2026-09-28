@@ -1,6 +1,5 @@
 import type { Logger } from "@macalinao/gill-extra";
 import type { FC, ReactNode } from "react";
-import { useSolanaClient } from "@gillsdk/react";
 import { defaultLogger } from "@macalinao/gill-extra";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
@@ -8,6 +7,7 @@ import {
   createSubscriptionManager,
   SubscriptionContext,
 } from "../contexts/subscription-context.js";
+import { useSolanaClient } from "../hooks/use-solana-client.js";
 
 export interface SubscriptionProviderProps {
   children: ReactNode;

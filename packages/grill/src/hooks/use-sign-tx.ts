@@ -1,10 +1,10 @@
 import type { SignTXFunction } from "@macalinao/gill-extra";
-import { useSolanaClient } from "@gillsdk/react";
-import { simulateTransactionFactory } from "gill";
+import { simulateTransactionFactory } from "@macalinao/gill-extra";
 import { useMemo } from "react";
 import { useGrillContext } from "../contexts/grill-context.js";
 import { createSignTX } from "../utils/internal/create-sign-tx.js";
 import { useKitWallet } from "./use-kit-wallet.js";
+import { useSolanaClient } from "./use-solana-client.js";
 
 /**
  * Hook that provides a function to sign a transaction without sending it,

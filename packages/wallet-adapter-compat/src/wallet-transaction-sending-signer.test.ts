@@ -3,18 +3,16 @@ import type {
   Connection,
   VersionedTransaction as Web3VersionedTransaction,
 } from "@solana/web3.js";
-// oxlint-disable typescript/no-unsafe-assignment, typescript/no-unsafe-argument, typescript/no-unsafe-call, typescript/no-unsafe-member-access, typescript/no-unsafe-return -- tsgolint resolves
-// gill's createTransaction() and kit's compileTransaction() to an error type in this
-// tree; tsc types them correctly. Re-enable once typescript-go handles these signatures.
 import type { WalletAdapter } from "./wallet-transaction-sending-signer.js";
 import { describe, expect, it } from "bun:test";
+import { createTransaction } from "@macalinao/gill-extra";
 import {
   address,
+  assertIsTransactionWithinSizeLimit,
   compileTransaction,
   isTransactionPartialSigner,
 } from "@solana/kit";
 import { Keypair } from "@solana/web3.js";
-import { createTransaction } from "gill";
 import { createWalletTransactionSendingSigner } from "./wallet-transaction-sending-signer.js";
 
 const BLOCKHASH = {
@@ -41,7 +39,9 @@ function buildTransaction(feePayer: string) {
     instructions: [ix],
     latestBlockhash: BLOCKHASH,
   });
-  return compileTransaction(message);
+  const tx = compileTransaction(message);
+  assertIsTransactionWithinSizeLimit(tx);
+  return tx;
 }
 
 describe("createWalletTransactionSendingSigner", () => {

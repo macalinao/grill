@@ -1,15 +1,15 @@
 import type { Instruction, TransactionSigner } from "@solana/kit";
 import type { PoolRewardsInfoWithIouMint } from "../types.js";
 import {
-  findRedeemerPda,
-  getRedeemAllTokensInstructionAsync,
-} from "@macalinao/clients-quarry";
-import {
   findAssociatedTokenPda,
   getCloseAccountInstruction,
   getCreateAssociatedTokenIdempotentInstruction,
   TOKEN_PROGRAM_ADDRESS,
 } from "@solana-program/token";
+import {
+  findRedeemerPda,
+  getRedeemAllTokensInstructionAsync,
+} from "@solana-programs/quarry";
 
 /**
  * Creates redemption instructions for redeeming all IOU tokens to the underlying tokens,

@@ -1,6 +1,3 @@
-// oxlint-disable typescript/no-unsafe-assignment, typescript/no-unsafe-argument -- tsgolint resolves
-// gill's createTransaction()/compressTransactionMessageUsingAddressLookupTables() to an error type;
-// tsc types them correctly. Re-enable once typescript-go handles these signatures.
 import type {
   GetExplorerLinkFunction,
   Logger,
@@ -8,6 +5,7 @@ import type {
   SendTXOptions,
   SolanaCluster,
 } from "@macalinao/gill-extra";
+import type { SolanaClient } from "@macalinao/gill-extra";
 import type {
   Address,
   Instruction,
@@ -15,7 +13,6 @@ import type {
   SignatureBytes,
   TransactionSendingSigner,
 } from "@solana/kit";
-import type { SolanaClient } from "gill";
 import type { TransactionStatusEvent } from "../../types.js";
 import {
   confirmTransaction,
@@ -23,12 +20,12 @@ import {
   getConfirmedTransaction,
   getSignatureFromBytes,
   getWritableAccounts,
+  simulateTransactionFactory,
 } from "@macalinao/gill-extra";
 import {
   getSolanaErrorFromTransactionError,
   signAndSendTransactionMessageWithSigners,
 } from "@solana/kit";
-import { simulateTransactionFactory } from "gill";
 import { prepareTransactionMessage } from "./prepare-transaction-message.js";
 
 export interface CreateSendTXParams {

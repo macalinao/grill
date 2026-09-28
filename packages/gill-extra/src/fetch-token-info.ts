@@ -1,6 +1,6 @@
-import type { Metadata } from "@macalinao/clients-token-metadata";
 import type { TokenInfo } from "@macalinao/token-utils";
 import type { Mint } from "@solana-program/token";
+import type { Metadata } from "@solana-programs/token-metadata";
 import type { Logger } from "./logger.js";
 import type { TokenMetadataValidator } from "./token-metadata-validator.js";
 import type { AccountInfo } from "./types.js";

@@ -1,11 +1,11 @@
 import type { Instruction } from "@solana/kit";
 import type { ClaimMMRewardsNoWithdrawArgs } from "./types.js";
-import { getClaimRewardsMMInstructionAsync } from "@macalinao/clients-quarry";
 import {
   findAssociatedTokenPda,
   getCreateAssociatedTokenIdempotentInstruction,
   TOKEN_PROGRAM_ADDRESS,
 } from "@solana-program/token";
+import { getClaimRewardsMMInstructionAsync } from "@solana-programs/quarry";
 
 /**
  * Creates instructions to claim rewards from a quarry through a merge miner without withdrawing.

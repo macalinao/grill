@@ -1,5 +1,5 @@
+import type { Simplify } from "@macalinao/gill-extra";
 import type { useQuery } from "@tanstack/react-query";
-import type { Simplify } from "gill";
 export type OmittedUseQueryFields = "queryKey" | "queryFn";
 
 export type GillUseQueryDefaultOptions = Omit<

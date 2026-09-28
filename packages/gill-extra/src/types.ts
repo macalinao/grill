@@ -6,8 +6,8 @@ import type {
   Signature,
   Transaction,
 } from "@solana/kit";
-import type { CreateTransactionInput } from "gill";
 import type { TransactionConfirmationTuning } from "./confirm-transaction.js";
+import type { CreateTransactionInput } from "./create-transaction.js";
 
 /**
  * Options shared by both signing and sending a transaction: how the

@@ -1,10 +1,10 @@
-import type { Metadata } from "@macalinao/clients-token-metadata";
 import type {
   PdaHook,
   PdasHook,
   UseDecodedAccountHook,
   UseDecodedAccountsHook,
 } from "@macalinao/grill";
+import type { Metadata } from "@solana-programs/token-metadata";
 import type { Address } from "@solana/kit";
 import type { UseAccountResult } from "./use-account.js";
 import type { UseAccountsResult } from "./use-accounts.js";
@@ -12,7 +12,7 @@ import {
   findMetadataPda,
   getMetadataDecoder,
   TOKEN_METADATA_PROGRAM_ADDRESS,
-} from "@macalinao/clients-token-metadata";
+} from "@solana-programs/token-metadata";
 import { createDecodedAccountHook } from "./create-decoded-account-hook.js";
 import { createDecodedAccountsHook } from "./create-decoded-accounts-hook.js";
 import { createPdaHook } from "./create-pda-hook.js";

@@ -1,11 +1,13 @@
 import type {
+  SolanaClient,
+  simulateTransactionFactory,
+} from "@macalinao/gill-extra";
+import type {
   Address,
   Blockhash,
   Instruction,
   TransactionSigner,
 } from "@solana/kit";
-import type { SolanaClient } from "gill";
-import type { simulateTransactionFactory } from "gill";
 import { beforeAll, describe, expect, it } from "bun:test";
 import {
   AccountRole,
@@ -124,7 +126,6 @@ describe("prepareTransactionMessage", () => {
       data: getBase58Encoder().encode(signer.address),
     };
 
-    // oxlint-disable-next-line typescript/no-unsafe-assignment -- tsgolint resolves gill's createTransaction() return type to an error type; tsc types it correctly.
     const { finalTransactionMessage } = await prepareTransactionMessage({
       ...base(rpc),
       ixs: [ix],
@@ -135,9 +136,7 @@ describe("prepareTransactionMessage", () => {
       },
     });
 
-    // oxlint-disable-next-line typescript/no-unsafe-assignment, typescript/no-unsafe-member-access -- same error-typed createTransaction() result as above.
     const [compressedIx] = finalTransactionMessage.instructions;
-    // oxlint-disable-next-line typescript/no-unsafe-member-access -- same error-typed createTransaction() result as above.
     expect(compressedIx?.accounts?.[0]).toMatchObject({
       address: accountInTable,
       lookupTableAddress,

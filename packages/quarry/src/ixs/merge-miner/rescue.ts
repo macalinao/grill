@@ -1,6 +1,6 @@
 import type { Instruction } from "@solana/kit";
 import type { RescueTokensMergeMinerArgs } from "./types.js";
-import { getRescueTokensMMInstruction } from "@macalinao/clients-quarry";
+import { getRescueTokensMMInstruction } from "@solana-programs/quarry";
 
 /**
  * Creates an instruction to rescue stuck tokens from a merge miner

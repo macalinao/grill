@@ -4,14 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Grill is a modern Solana development kit monorepo that provides React components and utilities for building Solana applications with automatic account batching and caching. It's built on top of @gillsdk/react and integrates with @solana/kit.
+Grill is a modern Solana development kit monorepo that provides React components and utilities for building Solana applications with automatic account batching and caching. It's built on @solana/kit.
 
 ## Technology Stack
 
 - **Package Manager**: Bun (v1.3.6)
 - **Build System**: Turbo v2 for monorepo orchestration
 - **Framework**: React 18/19 with TypeScript 5.9
-- **Solana**: @solana/kit, gill, @gillsdk/react
+- **Solana**: @solana/kit
 - **State Management**: @tanstack/react-query for caching
 - **Routing**: @tanstack/react-router (in example-dapp)
 - **Styling**: Tailwind CSS v4 with shadcn/ui components (in example-dapp)
@@ -82,7 +82,9 @@ The project uses Bun workspaces with packages in two directories:
 4. **@macalinao/dataloader-es** - ES module-native TypeScript implementation of the DataLoader pattern
    - Modern alternative to classic DataLoader
 
-5. **@macalinao/gill-extra** - Additional utilities for gill
+5. **@macalinao/gill-extra** - Solana client utilities built on @solana/kit
+   - The Solana client: `createSolanaClient`, `SolanaClient`, `getPublicSolanaRpcUrl`
+   - Transactions: `createTransaction`, `simulateTransactionFactory`, `sendAndConfirmTransactionWithSignersFactory`
    - Exports: `fetchAndDecodeAccount`, `fetchTokenInfo`, transaction utilities, explorer helpers
    - No React dependencies
 
@@ -104,7 +106,7 @@ When using Grill, providers must be set up in this order:
 
 ```tsx
 QueryClientProvider
-  -> SolanaProvider (@gillsdk/react)
+  -> SolanaProvider (@macalinao/grill)
     -> ConnectionProvider (@solana/wallet-adapter-react)
       -> WalletProvider (@solana/wallet-adapter-react)
         -> WalletModalProvider
@@ -219,14 +221,6 @@ When creating new features that need account data:
 2. Use `useAccount` hook for fetching account data
 3. Account requests are automatically batched
 4. React Query handles caching and refetching
-
-## Vendor Documentation
-
-The repository includes vendor documentation at `/docs/vendor/`:
-
-- `gill.md` - Complete documentation for the gill library (Solana client library)
-  - Includes transaction builders, token operations, and program clients
-  - Used as the foundation for Solana operations in Grill
 
 ## CI/CD
 

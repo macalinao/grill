@@ -1,5 +1,5 @@
-import type { Miner, Quarry } from "@macalinao/clients-quarry";
 import type { TokenInfo } from "@macalinao/token-utils";
+import type { Miner, Quarry } from "@solana-programs/quarry";
 import { calculateRewardsEarned } from "./payroll.js";
 
 const PRECISION_SECONDS = 100_000;

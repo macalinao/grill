@@ -84,6 +84,7 @@ fi
 # Only tag once every package is actually on the registry, so tags never claim a
 # release that did not happen. A failed run is retried in full by the next one.
 echo "Creating git tags..."
-changeset tag
+# `changeset tag` in CLI v2; renamed to `git-tag` in v3.
+changeset git-tag
 
 echo "Publishing complete!"

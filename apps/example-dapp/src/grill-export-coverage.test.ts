@@ -12,9 +12,9 @@ import * as grill from "@macalinao/grill";
  * each one is actually *imported* by the app.
  *
  * The export set is derived, not hand-maintained. Grill re-exports all of
- * `@macalinao/gill-extra` plus two symbols from `@gillsdk/react`, so subtracting
- * those leaves exactly what grill itself defines. Add an export to grill and
- * this test fails until the demo imports it.
+ * `@macalinao/gill-extra`, so subtracting those leaves exactly what grill
+ * itself defines. Add an export to grill and this test fails until the demo
+ * imports it.
  *
  * Why imports rather than "the name appears somewhere": a name can appear in a
  * comment, a code snippet, or a docs string without anything actually calling
@@ -25,9 +25,6 @@ import * as grill from "@macalinao/grill";
  * `src/lib/grill-type-coverage.ts` covers those at compile time instead: it
  * references every one, so renaming or deleting a type breaks `tsc -b`.
  */
-
-/** Re-exported from `@gillsdk/react` by grill's `src/index.ts`, not defined by grill. */
-const GILLSDK_REEXPORTS = new Set(["SolanaProvider", "useSolanaClient"]);
 
 const SRC_DIR = new URL("./", import.meta.url).pathname;
 
@@ -50,7 +47,6 @@ const listSourceFiles = (dir: string): string[] =>
 const grillOwnExports = (): string[] =>
   Object.keys(grill)
     .filter((name) => !(name in gillExtra))
-    .filter((name) => !GILLSDK_REEXPORTS.has(name))
     .sort();
 
 const IMPORT_FROM_GRILL =
@@ -92,7 +88,10 @@ describe("@macalinao/grill export coverage", () => {
     expect(exports).toContain("GrillProvider");
     // Symbols grill merely re-exports must have been filtered out.
     expect(exports).not.toContain("formatTokenAmount");
-    expect(exports).not.toContain("SolanaProvider");
+    expect(exports).not.toContain("getExplorerLink");
+    // Grill defines these itself now that `@gillsdk/react` is gone.
+    expect(exports).toContain("SolanaProvider");
+    expect(exports).toContain("useSolanaClient");
   });
 
   it("parses imports out of the demo's source", () => {

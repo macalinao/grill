@@ -6,7 +6,6 @@ import type {
 import type { AddressLookupTable } from "@solana-program/address-lookup-table";
 import type { Mint, Token } from "@solana-program/token";
 import type { Address } from "@solana/kit";
-import { getPoolDecoder } from "@macalinao/clients-meteora-damm-v2";
 import {
   useAccount,
   useAddressLookupTable,
@@ -16,6 +15,7 @@ import {
   useTokenAccount,
   useTokenAccounts,
 } from "@macalinao/grill";
+import { getPoolDecoder } from "@solana-programs/meteora-damm-v2";
 import { address, unwrapOption } from "@solana/kit";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";

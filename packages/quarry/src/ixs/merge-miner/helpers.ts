@@ -1,15 +1,15 @@
 import type { Address } from "@solana/kit";
 import type { MinerAddresses } from "./types.js";
 import {
+  findAssociatedTokenPda,
+  TOKEN_PROGRAM_ADDRESS,
+} from "@solana-program/token";
+import {
   findMergePoolPda,
   findMinerPda,
   findQuarryPda,
   findReplicaMintPda,
-} from "@macalinao/clients-quarry";
-import {
-  findAssociatedTokenPda,
-  TOKEN_PROGRAM_ADDRESS,
-} from "@solana-program/token";
+} from "@solana-programs/quarry";
 
 /**
  * Helper to get the merge pool and replica mint PDAs

@@ -1,12 +1,12 @@
 import type { Address, Instruction, TransactionSigner } from "@solana/kit";
 import {
-  findRedeemerPda,
-  getRedeemTokensInstruction,
-} from "@macalinao/clients-quarry";
-import {
   findAssociatedTokenPda,
   TOKEN_PROGRAM_ADDRESS,
 } from "@solana-program/token";
+import {
+  findRedeemerPda,
+  getRedeemTokensInstruction,
+} from "@solana-programs/quarry";
 
 export interface RedeemTokenArgs {
   tokenAmount: bigint;

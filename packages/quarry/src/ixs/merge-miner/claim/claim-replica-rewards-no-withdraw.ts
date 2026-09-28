@@ -1,4 +1,4 @@
-import type { Rewarder } from "@macalinao/clients-quarry";
+import type { Rewarder } from "@solana-programs/quarry";
 import type { Address, Instruction, TransactionSigner } from "@solana/kit";
 import type { MergePoolAccount } from "../types.js";
 import { claimMMRewardsNoWithdraw } from "./claim-mm-rewards-no-withdraw.js";

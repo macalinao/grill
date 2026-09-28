@@ -1,11 +1,11 @@
-import type { UseQueryResult } from "@tanstack/react-query";
+import type { Simplify } from "@macalinao/gill-extra";
 import type {
   Account,
   Address,
   Decoder,
   FetchAccountConfig,
-  Simplify,
-} from "gill";
+} from "@solana/kit";
+import type { UseQueryResult } from "@tanstack/react-query";
 import type { GillUseRpcHook } from "./types.js";
 import { fetchAndDecodeAccount } from "@macalinao/gill-extra";
 import { useQuery } from "@tanstack/react-query";

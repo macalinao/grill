@@ -1,4 +1,4 @@
-import type { Quarry } from "@macalinao/clients-quarry";
+import type { Quarry } from "@solana-programs/quarry";
 import { bigintMax, bigintMin } from "./bigint.js";
 
 export const MAX_U64: bigint = 2n ** 64n - 1n;

@@ -1,6 +1,6 @@
-import type { Pool } from "@macalinao/clients-meteora-damm-v2";
-import { getPoolDecoder } from "@macalinao/clients-meteora-damm-v2";
+import type { Pool } from "@solana-programs/meteora-damm-v2";
 import { useAccount, useTokenInfo } from "@macalinao/grill";
+import { getPoolDecoder } from "@solana-programs/meteora-damm-v2";
 import { address } from "@solana/kit";
 import { createFileRoute } from "@tanstack/react-router";
 import { Activity, Droplets, RefreshCw, TrendingUp } from "lucide-react";
@@ -269,7 +269,7 @@ function PoolSubscriptionPage() {
           <CardContent>
             <pre className="overflow-x-auto rounded-lg bg-muted p-4 text-sm">
               <code>{`import { useAccount } from "@macalinao/grill";
-import { getPoolDecoder } from "@macalinao/clients-meteora-damm-v2";
+import { getPoolDecoder } from "@solana-programs/meteora-damm-v2";
 import { address } from "@solana/kit";
 
 const poolDecoder = getPoolDecoder();

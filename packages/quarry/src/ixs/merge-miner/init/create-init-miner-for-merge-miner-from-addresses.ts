@@ -1,6 +1,6 @@
 import type { Address, Instruction, TransactionSigner } from "@solana/kit";
 import type { MinerAddresses } from "../types.js";
-import { getInitMinerMMV2Instruction } from "@macalinao/clients-quarry";
+import { getInitMinerMMV2Instruction } from "@solana-programs/quarry";
 
 /**
  * Creates an instruction to initialize a miner for a merge miner using pre-computed addresses

@@ -1,14 +1,12 @@
-// oxlint-disable typescript/no-unsafe-assignment, typescript/no-unsafe-argument -- tsgolint resolves
-// gill's createTransaction()/compressTransactionMessageUsingAddressLookupTables() to an error type;
-// tsc types them correctly. Re-enable once typescript-go handles these signatures.
 import type {
   Logger,
   SignTXFunction,
   SignTXOptions,
+  SolanaClient,
   SolanaCluster,
+  simulateTransactionFactory,
 } from "@macalinao/gill-extra";
 import type { Instruction, Transaction } from "@solana/kit";
-import type { SolanaClient, simulateTransactionFactory } from "gill";
 import type { GrillSigner, TransactionStatusEvent } from "../../types.js";
 import {
   isTransactionModifyingSigner,
@@ -21,10 +19,9 @@ export interface CreateSignTXParams {
   signer: GrillSigner | null;
   rpc: SolanaClient["rpc"];
   /**
-   * Preflight simulation function, built once by the caller via gill's
-   * `simulateTransactionFactory`. Injected rather than created here so the
-   * caller controls its lifetime (and so this module stays free of a runtime
-   * dependency on gill).
+   * Preflight simulation function, built once by the caller via
+   * `simulateTransactionFactory` from `@macalinao/gill-extra`. Injected rather
+   * than created here so the caller controls its lifetime.
    */
   simulateTransaction: ReturnType<typeof simulateTransactionFactory>;
   onTransactionStatusEvent: (event: TransactionStatusEvent) => void;

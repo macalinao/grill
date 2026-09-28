@@ -1,6 +1,6 @@
 # @macalinao/gill-extra
 
-Additional utilities for [Gill](https://github.com/gillsdk/gill) - a modern Solana client library.
+Solana client utilities built on [@solana/kit](https://github.com/anza-xyz/kit), with no React dependencies.
 
 ## Installation
 
@@ -12,6 +12,8 @@ bun add @macalinao/gill-extra
 
 ## Features
 
+- **Solana client**: `createSolanaClient` builds an `rpc`/`rpcSubscriptions` pair with transaction send and simulate helpers
+- **Transaction building**: `createTransaction` assembles a transaction message from instructions, a fee payer and optional compute budget settings
 - **Zod schemas**: Type-safe Solana data validation from `@macalinao/zod-solana`
 - **Transaction utilities**: Base64 encoding, transaction inspector URLs, signature conversion
 - **Polling utilities**: Transaction confirmation polling with configurable retries
@@ -23,10 +25,9 @@ bun add @macalinao/gill-extra
 
 ```typescript
 import {
-  // All gill exports are available
+  createSolanaClient,
   createTransaction,
   SolanaClient,
-  // Plus additional utilities
   pollConfirmTransaction,
   getSolscanExplorerLink,
   createTransactionInspectorUrl,

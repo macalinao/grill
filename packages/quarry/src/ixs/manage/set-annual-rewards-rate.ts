@@ -1,5 +1,5 @@
 import type { Address, Instruction, TransactionSigner } from "@solana/kit";
-import { getSetAnnualRewardsInstruction } from "@macalinao/clients-quarry";
+import { getSetAnnualRewardsInstruction } from "@solana-programs/quarry";
 
 /**
  * Creates an instruction to set the annual rewards rate for a rewarder

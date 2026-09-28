@@ -1,14 +1,14 @@
 import type { Address, Instruction, TransactionSigner } from "@solana/kit";
 import type { MergeMinerAmountArgs } from "./types.js";
 import {
-  findMergeMinerPda,
-  getWithdrawTokensMMInstructionAsync,
-} from "@macalinao/clients-quarry";
-import {
   findAssociatedTokenPda,
   getCreateAssociatedTokenIdempotentInstruction,
   TOKEN_PROGRAM_ADDRESS,
 } from "@solana-program/token";
+import {
+  findMergeMinerPda,
+  getWithdrawTokensMMInstructionAsync,
+} from "@solana-programs/quarry";
 import {
   createStakeReplicaMinerIx,
   createUnstakeAllReplicaMinerIx,

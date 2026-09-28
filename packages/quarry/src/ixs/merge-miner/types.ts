@@ -1,5 +1,5 @@
-import type { MergePool } from "@macalinao/clients-quarry";
 import type { AccountInfo } from "@macalinao/gill-extra";
+import type { MergePool } from "@solana-programs/quarry";
 import type { Address, TransactionSigner } from "@solana/kit";
 
 /**

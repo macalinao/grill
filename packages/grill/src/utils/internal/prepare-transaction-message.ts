@@ -1,18 +1,17 @@
-// oxlint-disable typescript/no-unsafe-assignment, typescript/no-unsafe-argument, typescript/no-unsafe-return -- tsgolint resolves
-// gill's createTransaction()/compressTransactionMessageUsingAddressLookupTables() to an error type;
-// tsc types them correctly. Re-enable once typescript-go handles these signatures.
 import type {
   BuildTXOptions,
   Logger,
+  SolanaClient,
   SolanaCluster,
+  simulateTransactionFactory,
 } from "@macalinao/gill-extra";
 import type {
   BlockhashLifetimeConstraint,
   Instruction,
   TransactionSigner,
 } from "@solana/kit";
-import type { SolanaClient, simulateTransactionFactory } from "gill";
 import {
+  createTransaction,
   defaultLogger,
   logTransactionSimulation,
   parseTransactionError,
@@ -21,7 +20,6 @@ import {
   compressTransactionMessageUsingAddressLookupTables,
   getSolanaErrorFromTransactionError,
 } from "@solana/kit";
-import { createTransaction } from "gill";
 
 export interface PrepareTransactionMessageParams {
   /** The fee payer signer for the transaction. */
@@ -74,9 +72,10 @@ export async function prepareTransactionMessage({
     feePayer: signer,
     instructions: [...ixs],
     latestBlockhash,
-    // Spread conditionally: gill types these as `computeUnitLimit?: number | bigint`
-    // without `| undefined`, so under exactOptionalPropertyTypes the keys have to be
-    // absent rather than explicitly undefined.
+    // Spread conditionally: `CreateTransactionInput` types these as
+    // `computeUnitLimit?: number | bigint` without `| undefined`, so under
+    // exactOptionalPropertyTypes the keys have to be absent rather than
+    // explicitly undefined.
     ...(options.computeUnitLimit === undefined
       ? {}
       : { computeUnitLimit: options.computeUnitLimit }),

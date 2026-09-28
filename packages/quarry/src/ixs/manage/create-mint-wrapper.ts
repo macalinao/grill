@@ -2,7 +2,7 @@ import type { Address, Instruction, TransactionSigner } from "@solana/kit";
 import {
   findMintWrapperPda,
   getNewWrapperInstructionAsync,
-} from "@macalinao/clients-quarry";
+} from "@solana-programs/quarry";
 import { generateKeyPairSigner } from "@solana/kit";
 
 /**

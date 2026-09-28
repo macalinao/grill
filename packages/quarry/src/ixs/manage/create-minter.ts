@@ -2,7 +2,7 @@ import type { Address, Instruction, TransactionSigner } from "@solana/kit";
 import {
   findMinterPda,
   getNewMinterV2Instruction,
-} from "@macalinao/clients-quarry";
+} from "@solana-programs/quarry";
 
 /**
  * Creates an instruction to create a new minter for a mint wrapper

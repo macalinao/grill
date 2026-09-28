@@ -7,7 +7,6 @@ import type {
 } from "@macalinao/grill";
 import type { Address } from "@solana/kit";
 import type { ReactNode } from "react";
-import { getPoolDecoder } from "@macalinao/clients-meteora-damm-v2";
 import {
   createAccountDecoderFromDecoder,
   createSubscriptionManager,
@@ -21,6 +20,7 @@ import {
   useTokenAccounts,
 } from "@macalinao/grill";
 import { getTokenDecoder } from "@solana-program/token";
+import { getPoolDecoder } from "@solana-programs/meteora-damm-v2";
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Radio } from "lucide-react";

@@ -1,3 +1,4 @@
+import type { SolanaClient } from "@macalinao/gill-extra";
 import type {
   Address,
   Blockhash,
@@ -6,7 +7,6 @@ import type {
   SignatureBytes,
   TransactionSendingSigner,
 } from "@solana/kit";
-import type { SolanaClient } from "gill";
 import type { TransactionStatusEvent } from "../../types.js";
 import { beforeAll, beforeEach, describe, expect, it, mock } from "bun:test";
 import * as gillExtra from "@macalinao/gill-extra";

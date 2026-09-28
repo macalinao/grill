@@ -1,6 +1,8 @@
+import type {
+  SolanaClient,
+  simulateTransactionFactory,
+} from "@macalinao/gill-extra";
 import type { Address, Blockhash, Instruction } from "@solana/kit";
-import type { SolanaClient } from "gill";
-import type { simulateTransactionFactory } from "gill";
 import type { GrillSigner, TransactionStatusEvent } from "../../types.js";
 import { beforeAll, describe, expect, it } from "bun:test";
 import { address, generateKeyPairSigner, getBase58Encoder } from "@solana/kit";

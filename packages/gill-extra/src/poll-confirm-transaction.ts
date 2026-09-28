@@ -1,7 +1,7 @@
 import type { Signature } from "@solana/kit";
-import type { SolanaClient } from "gill";
 import type { ConfirmedTransaction } from "./get-confirmed-transaction.js";
 import type { Logger } from "./logger.js";
+import type { SolanaClient } from "./solana-client.js";
 import { getSolanaErrorFromTransactionError } from "@solana/kit";
 import { getConfirmedTransaction } from "./get-confirmed-transaction.js";
 import { defaultLogger } from "./logger.js";

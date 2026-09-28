@@ -1,13 +1,13 @@
 import type { Address, Instruction, TransactionSigner } from "@solana/kit";
 import type { MergePoolAccount, MinerAddresses } from "../types.js";
 import {
-  findMergeMinerPda,
-  getInitMergeMinerV2InstructionAsync,
-} from "@macalinao/clients-quarry";
-import {
   getCreateAssociatedTokenIdempotentInstructionAsync,
   TOKEN_PROGRAM_ADDRESS,
 } from "@solana-program/token";
+import {
+  findMergeMinerPda,
+  getInitMergeMinerV2InstructionAsync,
+} from "@solana-programs/quarry";
 import { getInitPrimaryMinerIxs } from "./get-init-primary-miner-ixs.js";
 import { getInitReplicaMinerIxs } from "./get-init-replica-miner-ixs.js";
 

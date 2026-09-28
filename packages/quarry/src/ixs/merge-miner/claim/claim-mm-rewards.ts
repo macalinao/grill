@@ -1,11 +1,11 @@
 import type { Instruction } from "@solana/kit";
 import type { ClaimMMRewardsArgs } from "./types.js";
-import { getWithdrawTokensMMInstructionAsync } from "@macalinao/clients-quarry";
 import {
   findAssociatedTokenPda,
   getCreateAssociatedTokenIdempotentInstruction,
   TOKEN_PROGRAM_ADDRESS,
 } from "@solana-program/token";
+import { getWithdrawTokensMMInstructionAsync } from "@solana-programs/quarry";
 import { claimMMRewardsNoWithdraw } from "./claim-mm-rewards-no-withdraw.js";
 
 /**

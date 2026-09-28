@@ -8,7 +8,7 @@ import {
   findMinerPda,
   findQuarryPda,
   findReplicaMintPda,
-} from "@macalinao/clients-quarry";
+} from "@solana-programs/quarry";
 import { assertNEA } from "nonempty-array";
 
 export interface PoolRewardsAddresses {
