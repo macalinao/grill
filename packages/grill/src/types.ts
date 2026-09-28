@@ -3,7 +3,7 @@ import type {
   ClientWithRpc,
   ClientWithRpcSubscriptions,
   Signature,
-  SolanaRpcApi,
+  SolanaRpcApiMainnet,
   SolanaRpcSubscriptionsApi,
   TransactionPartialSigner,
   TransactionSendingSigner,
@@ -77,6 +77,11 @@ export type TransactionStatusEventCallback = (
  * `createClient().use(solanaRpcConnection({ rpcUrl }))` from
  * `@solana/kit-plugin-rpc`, or a fuller `solanaRpc(...)` client with extra
  * plugins installed. Provide it with `ClientProvider` from `@solana/react`.
+ *
+ * The RPC is typed with `SolanaRpcApiMainnet` -- the methods every cluster
+ * serves -- so clients for any cluster, including mainnet-branded ones built
+ * from `getPublicSolanaRpcUrl("mainnet")` (which lack `requestAirdrop`), are
+ * assignable.
  */
-export type GrillClient = ClientWithRpc<SolanaRpcApi> &
+export type GrillClient = ClientWithRpc<SolanaRpcApiMainnet> &
   ClientWithRpcSubscriptions<SolanaRpcSubscriptionsApi>;
