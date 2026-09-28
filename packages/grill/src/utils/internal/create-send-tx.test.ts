@@ -189,6 +189,7 @@ describe("createSendTX", () => {
   ) => ({
     signer,
     rpc,
+    simulateTransaction: gillExtra.simulateTransactionFactory({ rpc }),
     refetchAccounts: () => Promise.resolve(),
     onTransactionStatusEvent: () => {},
     getExplorerLink: () => "https://example.com",

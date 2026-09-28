@@ -4,6 +4,7 @@ import type {
   SendTXFunction,
   SendTXOptions,
   SolanaCluster,
+  simulateTransactionFactory,
 } from "@macalinao/gill-extra";
 import type {
   Address,
@@ -18,7 +19,6 @@ import {
   defaultLogger,
   getConfirmedTransaction,
   getWritableAccounts,
-  simulateTransactionFactory,
 } from "@macalinao/gill-extra";
 import {
   getBase58Decoder,
@@ -38,6 +38,12 @@ export interface CreateSendTXParams {
    * polling when this is omitted or the subscription cannot be opened.
    */
   rpcSubscriptions?: GrillClient["rpcSubscriptions"] | undefined;
+  /**
+   * Preflight simulation function, built by the caller via
+   * `simulateTransactionFactory` from `@macalinao/gill-extra`. Injected rather
+   * than created here so the caller controls its lifetime.
+   */
+  simulateTransaction: ReturnType<typeof simulateTransactionFactory>;
   refetchAccounts: (addresses: Address[]) => Promise<void>;
   onTransactionStatusEvent: (event: TransactionStatusEvent) => void;
   getExplorerLink: GetExplorerLinkFunction;
@@ -65,6 +71,7 @@ export const createSendTX = ({
   signer,
   rpc,
   rpcSubscriptions,
+  simulateTransaction,
   refetchAccounts,
   onTransactionStatusEvent,
   getExplorerLink,
@@ -72,7 +79,6 @@ export const createSendTX = ({
   cluster = "mainnet-beta",
   logger = defaultLogger,
 }: CreateSendTXParams): SendTXFunction => {
-  const simulateTransaction = simulateTransactionFactory({ rpc });
   return async (
     name: string,
     ixs: readonly Instruction[],
