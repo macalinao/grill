@@ -1,7 +1,6 @@
 import type {
   BuildTXOptions,
   Logger,
-  SolanaClient,
   SolanaCluster,
   simulateTransactionFactory,
 } from "@macalinao/gill-extra";
@@ -10,6 +9,7 @@ import type {
   Instruction,
   TransactionSigner,
 } from "@solana/kit";
+import type { GrillClient } from "../../types.js";
 import {
   createTransaction,
   defaultLogger,
@@ -24,7 +24,7 @@ import {
 export interface PrepareTransactionMessageParams {
   /** The fee payer signer for the transaction. */
   signer: TransactionSigner;
-  rpc: SolanaClient["rpc"];
+  rpc: GrillClient["rpc"];
   /** Reused simulate function (created once via simulateTransactionFactory). */
   simulateTransaction: ReturnType<typeof simulateTransactionFactory>;
   name: string;

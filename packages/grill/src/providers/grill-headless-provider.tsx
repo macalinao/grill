@@ -84,7 +84,7 @@ export interface GrillHeadlessProviderProps {
  * Headless provider component for Solana account batching functionality.
  * Creates and provides a batch account loader for efficient Solana account fetching.
  * This provider reads the RPC client from `useSolanaClient`, so it must be
- * rendered inside a `SolanaProvider`.
+ * rendered inside `ClientProvider` from `@solana/react`.
  *
  * For UI integration with toast notifications, use GrillProvider instead.
  *

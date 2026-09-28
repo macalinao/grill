@@ -1,13 +1,11 @@
-import type {
-  SolanaClient,
-  simulateTransactionFactory,
-} from "@macalinao/gill-extra";
+import type { simulateTransactionFactory } from "@macalinao/gill-extra";
 import type {
   Address,
   Blockhash,
   Instruction,
   TransactionSigner,
 } from "@solana/kit";
+import type { GrillClient } from "../../types.js";
 import { beforeAll, describe, expect, it } from "bun:test";
 import {
   AccountRole,
@@ -38,7 +36,7 @@ function makeIx(signerAddress: Address): Instruction {
 }
 
 function makeRpc(): {
-  rpc: SolanaClient["rpc"];
+  rpc: GrillClient["rpc"];
   getLatestBlockhashCalls: () => number;
 } {
   let calls = 0;
@@ -49,7 +47,7 @@ function makeRpc(): {
         return Promise.resolve({ value: BLOCKHASH });
       },
     }),
-  } as unknown as SolanaClient["rpc"];
+  } as unknown as GrillClient["rpc"];
   return { rpc, getLatestBlockhashCalls: () => calls };
 }
 
@@ -73,7 +71,7 @@ describe("prepareTransactionMessage", () => {
     signer = await generateKeyPairSigner();
   });
 
-  const base = (rpc: SolanaClient["rpc"]) => ({
+  const base = (rpc: GrillClient["rpc"]) => ({
     signer,
     rpc,
     name: "Test",

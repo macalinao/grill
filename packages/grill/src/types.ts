@@ -1,6 +1,10 @@
 import type {
   Address,
+  ClientWithRpc,
+  ClientWithRpcSubscriptions,
   Signature,
+  SolanaRpcApi,
+  SolanaRpcSubscriptionsApi,
   TransactionPartialSigner,
   TransactionSendingSigner,
 } from "@solana/kit";
@@ -65,3 +69,14 @@ export type TransactionStatusEvent = {
 export type TransactionStatusEventCallback = (
   e: TransactionStatusEvent,
 ) => void;
+
+/**
+ * The kit client grill needs: an `rpc` and an `rpcSubscriptions` connection.
+ *
+ * Any kit client with those two capabilities satisfies it -- for example
+ * `createClient().use(solanaRpcConnection({ rpcUrl }))` from
+ * `@solana/kit-plugin-rpc`, or a fuller `solanaRpc(...)` client with extra
+ * plugins installed. Provide it with `ClientProvider` from `@solana/react`.
+ */
+export type GrillClient = ClientWithRpc<SolanaRpcApi> &
+  ClientWithRpcSubscriptions<SolanaRpcSubscriptionsApi>;
