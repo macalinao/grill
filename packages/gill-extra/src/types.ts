@@ -42,8 +42,31 @@ export interface BuildTXOptions extends Pick<
   lookupTables?: AddressesByLookupTableAddress;
   /**
    * If true, skips the pre-flight simulation.
+   *
+   * When {@link estimateResourceLimits} has a limit to estimate, the
+   * estimation simulation still runs (it cannot be skipped) and reports
+   * failures exactly like the pre-flight simulation would.
    */
   skipPreflight?: boolean;
+  /**
+   * Estimate the transaction's resource limits by simulating it, instead of
+   * leaving them unset.
+   *
+   * - The compute unit limit is estimated unless {@link computeUnitLimit} is
+   *   given. The simulated `unitsConsumed` gets a safety margin (10% for small
+   *   transactions tapering to 2% at 500k CUs, at least 300 CUs, capped at
+   *   1.4M), matching `@solana/kit-plugin-rpc`'s default.
+   * - For version `1` transactions, the loaded accounts data size limit is
+   *   also estimated unless {@link loadedAccountsDataSizeLimit} is given, so
+   *   neither limit is required any more.
+   *
+   * Explicit limits are never overridden. The estimation simulation replaces
+   * the pre-flight simulation (there is only one simulation), and a failure is
+   * reported exactly like a pre-flight failure.
+   *
+   * @default false
+   */
+  estimateResourceLimits?: boolean;
   /**
    * A pre-fetched blockhash to use for the transaction. When provided, the
    * transaction is built with this blockhash instead of fetching a fresh one

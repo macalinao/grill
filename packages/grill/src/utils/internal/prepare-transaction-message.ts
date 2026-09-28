@@ -23,7 +23,11 @@ import {
 import {
   compressTransactionMessageUsingAddressLookupTables,
   getSolanaErrorFromTransactionError,
+  pipe,
+  setTransactionMessageComputeUnitLimit,
+  setTransactionMessageLoadedAccountsDataSizeLimit,
 } from "@solana/kit";
+import { planSingleTransactionMessage } from "./plan-single-transaction-message.js";
 
 export interface PrepareTransactionMessageParams {
   /** The fee payer signer for the transaction. */
@@ -59,64 +63,136 @@ export type PreparedTransactionMessage = FullTransaction<
   TransactionMessageWithBlockhashLifetime
 >;
 
-const buildTransactionMessage = ({
+/** A limit set only to reserve its space until it is estimated (kit's value). */
+const PROVISORY_LIMIT = 0;
+/** The compute unit limit the runtime allows at most. */
+const MAX_COMPUTE_UNIT_LIMIT = 1_400_000;
+/** The loaded accounts data size limit the runtime allows at most (64 MiB). */
+const MAX_LOADED_ACCOUNTS_DATA_SIZE_LIMIT = 64 * 1024 * 1024;
+
+/**
+ * Pads a simulated compute unit count, following `@solana/kit-plugin-rpc`'s
+ * default: a 10% margin for small transactions tapering to 2% at 500k CUs, at
+ * least 300 CUs, capped at the runtime maximum.
+ */
+const getComputeUnitLimitFromEstimate = (unitsConsumed: bigint): number => {
+  const units = Number(unitsConsumed);
+  const progress = Math.min(units / 500_000, 1);
+  const margin = 0.1 - (0.1 - 0.02) * progress;
+  const buffer = Math.max(300, Math.ceil(units * margin));
+  return Math.min(MAX_COMPUTE_UNIT_LIMIT, units + buffer);
+};
+
+/** Which resource limits {@link BuildTXOptions.estimateResourceLimits} fills. */
+interface LimitsToEstimate {
+  computeUnitLimit: boolean;
+  loadedAccountsDataSizeLimit: boolean;
+}
+
+/**
+ * Builds the message the instructions are planned into: fee payer, lifetime
+ * and compute budget, with no instructions yet. Limits that will be estimated
+ * get a provisory value so the planner accounts for their space.
+ */
+const buildBaseTransactionMessage = ({
   signer,
-  ixs,
   options,
   latestBlockhash,
+  estimate,
 }: {
   signer: TransactionSigner;
-  ixs: readonly Instruction[];
   options: BuildTXOptions;
   latestBlockhash: BlockhashLifetimeConstraint;
+  estimate: LimitsToEstimate;
 }): PreparedTransactionMessage => {
   const version = options.version ?? 0;
-  const addressLookupTables = options.lookupTables ?? {};
-  const hasLookupTables = Object.keys(addressLookupTables).length > 0;
-  if (hasLookupTables && version !== 0) {
+  if (hasLookupTables(options) && version !== 0) {
     throw new Error(
       `Address lookup tables are only supported for version 0 transactions (got version ${String(version)}).`,
     );
   }
 
-  const transactionMessage = createTransaction({
+  const computeUnitLimit = estimate.computeUnitLimit
+    ? PROVISORY_LIMIT
+    : options.computeUnitLimit;
+  const loadedAccountsDataSizeLimit = estimate.loadedAccountsDataSizeLimit
+    ? PROVISORY_LIMIT
+    : options.loadedAccountsDataSizeLimit;
+
+  return createTransaction({
     version,
     feePayer: signer,
-    instructions: [...ixs],
+    instructions: [],
     latestBlockhash,
     // Spread conditionally: `CreateTransactionInput` types these as
     // `computeUnitLimit?: number | bigint` without `| undefined`, so under
     // exactOptionalPropertyTypes the keys have to be absent rather than
     // explicitly undefined.
-    ...(options.computeUnitLimit === undefined
-      ? {}
-      : { computeUnitLimit: options.computeUnitLimit }),
+    ...(computeUnitLimit === undefined ? {} : { computeUnitLimit }),
     ...(options.computeUnitPrice === undefined
       ? {}
       : { computeUnitPrice: options.computeUnitPrice }),
     ...(options.priorityFeeLamports === undefined
       ? {}
       : { priorityFeeLamports: options.priorityFeeLamports }),
-    ...(options.loadedAccountsDataSizeLimit === undefined
+    ...(loadedAccountsDataSizeLimit === undefined
       ? {}
-      : { loadedAccountsDataSizeLimit: options.loadedAccountsDataSizeLimit }),
+      : { loadedAccountsDataSizeLimit }),
   });
+};
 
-  // Apply address lookup tables if provided to compress the transaction.
-  // Lookup tables were checked above to only be present for version 0.
-  return hasLookupTables && transactionMessage.version === 0
-    ? compressTransactionMessageUsingAddressLookupTables(
-        transactionMessage,
-        addressLookupTables,
-      )
-    : transactionMessage;
+const hasLookupTables = (options: BuildTXOptions): boolean =>
+  Object.keys(options.lookupTables ?? {}).length > 0;
+
+/**
+ * Plans the instructions into the base message with kit's transaction planner,
+ * compressing with the address lookup tables on every update so the planner's
+ * size checks see the compressed message. Throws if they do not fit in one
+ * transaction.
+ */
+const planTransactionMessage = async ({
+  signer,
+  ixs,
+  options,
+  latestBlockhash,
+  estimate,
+}: {
+  signer: TransactionSigner;
+  ixs: readonly Instruction[];
+  options: BuildTXOptions;
+  latestBlockhash: BlockhashLifetimeConstraint;
+  estimate: LimitsToEstimate;
+}): Promise<PreparedTransactionMessage> => {
+  const baseMessage = buildBaseTransactionMessage({
+    signer,
+    options,
+    latestBlockhash,
+    estimate,
+  });
+  const addressLookupTables = options.lookupTables ?? {};
+  return planSingleTransactionMessage({
+    baseMessage,
+    instructions: ixs,
+    // Lookup tables were checked above to only be present for version 0.
+    onTransactionMessageUpdated: hasLookupTables(options)
+      ? (message) =>
+          message.version === 0
+            ? compressTransactionMessageUsingAddressLookupTables(
+                message,
+                addressLookupTables,
+              )
+            : message
+      : undefined,
+  });
 };
 
 /**
  * Builds the final transaction message shared by the send and sign paths:
- * fetches the latest blockhash, creates the transaction (at `options.version`,
- * default `0`), applies address lookup table compression, and runs optional
- * preflight simulation.
+ * fetches the latest blockhash, plans the instructions into a single
+ * transaction (at `options.version`, default `0`) with kit's transaction
+ * planner, applies address lookup table compression, and runs the preflight
+ * simulation -- or, with `options.estimateResourceLimits`, the one simulation
+ * that estimates the resource limits and doubles as the preflight.
  *
  * @returns The final (possibly compressed) transaction message and the
  * resolved blockhash (needed by the send path for confirmation).
@@ -141,13 +217,25 @@ export async function prepareTransactionMessage({
   const latestBlockhash =
     options.latestBlockhash ?? (await rpc.getLatestBlockhash().send()).value;
 
-  let finalTransactionMessage: PreparedTransactionMessage;
+  // Explicit limits are never estimated.
+  const estimateResourceLimits = options.estimateResourceLimits ?? false;
+  const estimate: LimitsToEstimate = {
+    computeUnitLimit:
+      estimateResourceLimits && options.computeUnitLimit === undefined,
+    loadedAccountsDataSizeLimit:
+      estimateResourceLimits &&
+      options.version === 1 &&
+      options.loadedAccountsDataSizeLimit === undefined,
+  };
+
+  let plannedMessage: PreparedTransactionMessage;
   try {
-    finalTransactionMessage = buildTransactionMessage({
+    plannedMessage = await planTransactionMessage({
       signer,
       ixs,
       options,
       latestBlockhash,
+      estimate,
     });
   } catch (error: unknown) {
     // Report invalid options so the "preparing" status does not hang.
@@ -157,15 +245,15 @@ export async function prepareTransactionMessage({
     throw error;
   }
 
-  // preflight
-  if (!options.skipPreflight) {
-    const simulationResult = await simulateTransaction(finalTransactionMessage);
+  /** Simulates `message`, reporting and throwing if the simulation fails. */
+  const simulate = async (message: PreparedTransactionMessage) => {
+    const simulationResult = await simulateTransaction(message);
     if (simulationResult.value.err !== null) {
       // Log detailed debugging information to the console
       logTransactionSimulation({
         title: name,
         simulationResult: simulationResult.value,
-        transactionMessage: finalTransactionMessage,
+        transactionMessage: message,
         cluster,
         rpcUrl,
         logger,
@@ -179,7 +267,65 @@ export async function prepareTransactionMessage({
       onSimulationError(errorMessage);
       throw getSolanaErrorFromTransactionError(simulationResult.value.err);
     }
+    return simulationResult.value;
+  };
+
+  if (estimate.computeUnitLimit || estimate.loadedAccountsDataSizeLimit) {
+    // Simulate once with the limits being estimated at their maximum, so the
+    // simulation cannot run out of them; explicit limits are simulated as-is.
+    const simulationMessage = pipe(
+      plannedMessage,
+      (m) =>
+        estimate.computeUnitLimit
+          ? setTransactionMessageComputeUnitLimit(MAX_COMPUTE_UNIT_LIMIT, m)
+          : m,
+      (m) =>
+        estimate.loadedAccountsDataSizeLimit
+          ? setTransactionMessageLoadedAccountsDataSizeLimit(
+              MAX_LOADED_ACCOUNTS_DATA_SIZE_LIMIT,
+              m,
+            )
+          : m,
+    );
+    const { unitsConsumed, loadedAccountsDataSize } =
+      await simulate(simulationMessage);
+
+    if (
+      (estimate.computeUnitLimit && unitsConsumed === undefined) ||
+      (estimate.loadedAccountsDataSizeLimit &&
+        loadedAccountsDataSize === undefined)
+    ) {
+      const errorMessage =
+        "Failed to estimate resource limits: the RPC simulation did not report the resources consumed.";
+      onSimulationError(errorMessage);
+      throw new Error(errorMessage);
+    }
+
+    const finalTransactionMessage = pipe(
+      plannedMessage,
+      (m) =>
+        estimate.computeUnitLimit && unitsConsumed !== undefined
+          ? setTransactionMessageComputeUnitLimit(
+              getComputeUnitLimitFromEstimate(unitsConsumed),
+              m,
+            )
+          : m,
+      (m) =>
+        estimate.loadedAccountsDataSizeLimit &&
+        loadedAccountsDataSize !== undefined
+          ? setTransactionMessageLoadedAccountsDataSizeLimit(
+              loadedAccountsDataSize,
+              m,
+            )
+          : m,
+    );
+    return { finalTransactionMessage, latestBlockhash };
   }
 
-  return { finalTransactionMessage, latestBlockhash };
+  // preflight
+  if (!options.skipPreflight) {
+    await simulate(plannedMessage);
+  }
+
+  return { finalTransactionMessage: plannedMessage, latestBlockhash };
 }
