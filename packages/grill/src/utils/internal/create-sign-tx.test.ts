@@ -6,7 +6,14 @@ import type {
   TransactionStatusEvent,
 } from "../../types.js";
 import { beforeAll, describe, expect, it } from "bun:test";
-import { address, generateKeyPairSigner, getBase58Encoder } from "@solana/kit";
+import {
+  address,
+  decompileTransactionMessage,
+  generateKeyPairSigner,
+  getBase58Encoder,
+  getCompiledTransactionMessageDecoder,
+  getTransactionMessageComputeUnitLimit,
+} from "@solana/kit";
 import { createSignTX } from "./create-sign-tx.js";
 
 const BLOCKHASH = {
@@ -234,5 +241,66 @@ describe("createSignTX", () => {
     expect(events.map((e) => e.type)).toContain(
       "error-transaction-sign-failed",
     );
+  });
+
+  it("rethrows the signer's own error, not the executor's wrapper", async () => {
+    const { rpc } = makeRpc();
+    const events: TransactionStatusEvent[] = [];
+    const rejection = new Error("user rejected the request");
+    const rejecting: GrillSigner = {
+      address: signer.address,
+      signTransactions: () => Promise.reject(rejection),
+      signAndSendTransactions: () => Promise.resolve([]),
+    };
+    const signTX = createSignTX({
+      signer: rejecting,
+      rpc,
+      simulateTransaction: makeSimulate().simulateTransaction,
+      onTransactionStatusEvent: (e) => {
+        events.push(e);
+      },
+    });
+
+    const error = await signTX("Rejected", [makeIx(signer.address)], {
+      skipPreflight: true,
+    }).then(
+      () => undefined,
+      (err: unknown) => err,
+    );
+
+    expect(error).toBe(rejection);
+    expect(events.map((e) => e.type)).toEqual([
+      "preparing",
+      "awaiting-wallet-signature",
+      "error-transaction-sign-failed",
+    ]);
+  });
+
+  it("signs a transaction with estimated resource limits", async () => {
+    const { rpc } = makeRpc();
+    let simulations = 0;
+    const simulateTransaction = (() => {
+      simulations += 1;
+      return Promise.resolve({
+        value: { err: null, logs: [], unitsConsumed: 5_000n },
+      });
+    }) as unknown as SimulateTransaction;
+    const signTX = createSignTX({
+      signer,
+      rpc,
+      simulateTransaction,
+      onTransactionStatusEvent: () => {},
+    });
+
+    const signed = await signTX("Estimated", [makeIx(signer.address)], {
+      estimateResourceLimits: true,
+    });
+
+    expect(simulations).toBe(1);
+    const message = decompileTransactionMessage(
+      getCompiledTransactionMessageDecoder().decode(signed.messageBytes),
+    );
+    expect(getTransactionMessageComputeUnitLimit(message)).toBe(5_497);
+    expect(signed.signatures[signer.address]).toBeTruthy();
   });
 });

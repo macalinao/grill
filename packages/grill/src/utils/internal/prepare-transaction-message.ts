@@ -290,10 +290,11 @@ export async function prepareTransactionMessage({
     const { unitsConsumed, loadedAccountsDataSize } =
       await simulate(simulationMessage);
 
+    // Checked by type: an RPC may report these as absent or `null`.
     if (
-      (estimate.computeUnitLimit && unitsConsumed === undefined) ||
+      (estimate.computeUnitLimit && typeof unitsConsumed !== "bigint") ||
       (estimate.loadedAccountsDataSizeLimit &&
-        loadedAccountsDataSize === undefined)
+        typeof loadedAccountsDataSize !== "number")
     ) {
       const errorMessage =
         "Failed to estimate resource limits: the RPC simulation did not report the resources consumed.";
@@ -304,7 +305,7 @@ export async function prepareTransactionMessage({
     const finalTransactionMessage = pipe(
       plannedMessage,
       (m) =>
-        estimate.computeUnitLimit && unitsConsumed !== undefined
+        estimate.computeUnitLimit && typeof unitsConsumed === "bigint"
           ? setTransactionMessageComputeUnitLimit(
               getComputeUnitLimitFromEstimate(unitsConsumed),
               m,
@@ -312,7 +313,7 @@ export async function prepareTransactionMessage({
           : m,
       (m) =>
         estimate.loadedAccountsDataSizeLimit &&
-        loadedAccountsDataSize !== undefined
+        typeof loadedAccountsDataSize === "number"
           ? setTransactionMessageLoadedAccountsDataSizeLimit(
               loadedAccountsDataSize,
               m,
