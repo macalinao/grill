@@ -102,7 +102,7 @@ interface SubscriptionEntry {
 }
 
 /**
- * RPC subscriptions type from gill's SolanaClient
+ * RPC subscriptions type from `SolanaClient`
  */
 type RpcSubscriptionsType = RpcSubscriptions<SolanaRpcSubscriptionsApi>;
 

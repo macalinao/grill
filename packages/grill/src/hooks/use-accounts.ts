@@ -1,10 +1,10 @@
+import type { Simplify } from "@macalinao/gill-extra";
 import type {
   Account,
   Address,
   Decoder,
   FetchAccountConfig,
 } from "@solana/kit";
-import type { Simplify } from "gill";
 import type { GillUseRpcHook } from "./types.js";
 import type { UseAccountOptions } from "./use-account.js";
 import { fetchAndDecodeAccount } from "@macalinao/gill-extra";

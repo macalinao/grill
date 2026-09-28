@@ -27,7 +27,6 @@
     "test": "bun test src/"
   },
   "dependencies": {
-    "@gillsdk/react": "catalog:",
     "@hookform/resolvers": "^5.9.1",
     "@macalinao/wallet-adapter-compat": "workspace:^",
     "@radix-ui/react-dialog": "^1.1.23",
@@ -50,7 +49,6 @@
     "@tanstack/react-router": "^1.170.36",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "gill": "catalog:",
     "lucide-react": "^1.46.0",
     "react": "catalog:",
     "react-dom": "catalog:",

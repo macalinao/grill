@@ -5,8 +5,8 @@ import type {
   Instruction,
   Signature,
 } from "@solana/kit";
-import type { CreateTransactionInput } from "gill";
 import type { TransactionConfirmationTuning } from "./confirm-transaction.js";
+import type { CreateTransactionInput } from "./create-transaction.js";
 
 export interface SendTXOptions extends Pick<
   CreateTransactionInput<0>,

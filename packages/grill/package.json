@@ -13,7 +13,6 @@
     "dataloader",
     "batching",
     "caching",
-    "gill",
     "ian-macalinao"
   ],
   "type": "module",
@@ -47,7 +46,6 @@
     "test": "bun test src/"
   },
   "dependencies": {
-    "@gillsdk/react": "catalog:",
     "@macalinao/dataloader-es": "workspace:^",
     "@macalinao/gill-extra": "workspace:^",
     "@macalinao/solana-batch-accounts-loader": "workspace:^",
@@ -64,7 +62,6 @@
     "@tanstack/react-query": "catalog:",
     "@types/bun": "catalog:",
     "@types/react": "catalog:",
-    "gill": "catalog:",
     "react": "catalog:",
     "tsdown": "catalog:",
     "typescript": "catalog:"
@@ -72,7 +69,6 @@
   "peerDependencies": {
     "@solana/kit": "catalog:peer",
     "@tanstack/react-query": "catalog:peer",
-    "gill": "catalog:",
     "react": "catalog:peer",
     "sonner": "^2"
   }

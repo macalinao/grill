@@ -1,6 +1,3 @@
-// oxlint-disable typescript/no-unsafe-assignment, typescript/no-unsafe-argument -- tsgolint resolves
-// gill's createTransaction()/compressTransactionMessageUsingAddressLookupTables() to an error type;
-// tsc types them correctly. Re-enable once typescript-go handles these signatures.
 import type {
   GetExplorerLinkFunction,
   Logger,
@@ -8,6 +5,7 @@ import type {
   SendTXOptions,
   SolanaCluster,
 } from "@macalinao/gill-extra";
+import type { SolanaClient } from "@macalinao/gill-extra";
 import type {
   Address,
   Instruction,
@@ -15,23 +13,23 @@ import type {
   SignatureBytes,
   TransactionSendingSigner,
 } from "@solana/kit";
-import type { SolanaClient } from "gill";
 import type { TransactionStatusEvent } from "../../types.js";
 import {
   confirmTransaction,
+  createTransaction,
   defaultLogger,
   getConfirmedTransaction,
   getSignatureFromBytes,
   getWritableAccounts,
   logTransactionSimulation,
   parseTransactionError,
+  simulateTransactionFactory,
 } from "@macalinao/gill-extra";
 import {
   compressTransactionMessageUsingAddressLookupTables,
   getSolanaErrorFromTransactionError,
   signAndSendTransactionMessageWithSigners,
 } from "@solana/kit";
-import { createTransaction, simulateTransactionFactory } from "gill";
 
 export interface CreateSendTXParams {
   signer: TransactionSendingSigner | null;
@@ -108,9 +106,10 @@ export const createSendTX = ({
       feePayer: signer,
       instructions: [...ixs],
       latestBlockhash,
-      // Spread conditionally: gill types these as `computeUnitLimit?: number | bigint`
-      // without `| undefined`, so under exactOptionalPropertyTypes the keys have to be
-      // absent rather than explicitly undefined.
+      // Spread conditionally: `CreateTransactionInput` types these as
+      // `computeUnitLimit?: number | bigint` without `| undefined`, so under
+      // exactOptionalPropertyTypes the keys have to be absent rather than
+      // explicitly undefined.
       ...(options.computeUnitLimit === undefined
         ? {}
         : { computeUnitLimit: options.computeUnitLimit }),

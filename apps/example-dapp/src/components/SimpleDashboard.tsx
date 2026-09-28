@@ -1,6 +1,5 @@
 import type * as React from "react";
-import { useSolanaClient } from "@gillsdk/react";
-import { useAccount, useKitWallet } from "@macalinao/grill";
+import { useAccount, useKitWallet, useSolanaClient } from "@macalinao/grill";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -108,16 +107,14 @@ export const SimpleDashboard: React.FC = () => {
                 This example demonstrates how to use the Grill library with:
               </p>
               <ul className="list-disc pl-6 mt-2 space-y-1 text-sm text-muted-foreground">
-                <li>
-                  SolanaClientProvider with gill&apos;s createSolanaClient
-                </li>
+                <li>SolanaProvider with createSolanaClient</li>
                 <li>
                   GrillProvider with React Query for reactive account fetching
                 </li>
                 <li>
                   useAccount hook for automatic balance loading and caching
                 </li>
-                <li>RPC calls using the gill client</li>
+                <li>RPC calls using the Solana client</li>
               </ul>
             </CardContent>
           </Card>

@@ -68,7 +68,7 @@ Demonstrates core functionality:
 
 - Wallet connection and balance display
 - Account data fetching with automatic batching
-- Direct RPC calls using the gill client
+- Direct RPC calls using the Solana client
 - Real-time balance updates
 
 ## Usage Examples
@@ -113,7 +113,7 @@ function WalletInfo() {
 ### Making RPC Calls
 
 ```typescript
-import { useSolanaClient } from "@gillsdk/react";
+import { useSolanaClient } from "@macalinao/grill";
 
 function SlotDisplay() {
   const { rpc } = useSolanaClient();
@@ -180,7 +180,6 @@ The app includes several examples accessible through the sidebar:
 ## Learn More
 
 - [Grill Documentation](https://github.com/macalinao/grill)
-- [Gill Documentation](https://github.com/gillsdk/gill)
 - [Solana Kit](https://github.com/solana-developers/solana-kit)
 - [React Query](https://tanstack.com/query)
 

@@ -1,4 +1,4 @@
-import type { Logger } from "@macalinao/gill-extra";
+import type { Logger, SolanaClient } from "@macalinao/gill-extra";
 import type {
   Address,
   Blockhash,
@@ -7,7 +7,6 @@ import type {
   SignatureBytes,
   TransactionSendingSigner,
 } from "@solana/kit";
-import type { SolanaClient } from "gill";
 import { beforeAll, describe, expect, it, mock } from "bun:test";
 import * as gillExtra from "@macalinao/gill-extra";
 import { createLogger } from "@macalinao/gill-extra";

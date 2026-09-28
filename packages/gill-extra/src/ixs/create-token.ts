@@ -10,7 +10,7 @@ import {
   getCreateMetadataAccountV3Instruction,
   TOKEN_METADATA_PROGRAM_ADDRESS,
 } from "@solana-programs/token-metadata";
-import { getMinimumBalanceForRentExemption } from "gill";
+import { getMinimumBalanceForRentExemption } from "../get-minimum-balance-for-rent-exemption.js";
 
 /**
  * Creates a token with an optional freeze authority

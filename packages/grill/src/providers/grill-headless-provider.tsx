@@ -11,18 +11,18 @@ import type {
   TransactionStatusEvent,
   TransactionStatusEventCallback,
 } from "../types.js";
-import { useSolanaClient } from "@gillsdk/react";
 import {
   createLogger,
   DEFAULT_LOG_LEVEL,
   defaultTokenMetadataValidator,
+  getExplorerLink as defaultGetExplorerLink,
 } from "@macalinao/gill-extra";
 import { createBatchAccountsLoader } from "@macalinao/solana-batch-accounts-loader";
 import { useQueryClient } from "@tanstack/react-query";
-import { getExplorerLink as defaultGetExplorerLink } from "gill";
 import { useCallback, useMemo } from "react";
 import { GrillContext } from "../contexts/grill-context.js";
 import { useKitWallet } from "../hooks/use-kit-wallet.js";
+import { useSolanaClient } from "../hooks/use-solana-client.js";
 import { createSendTX } from "../utils/internal/create-send-tx.js";
 import { refetchAccounts as doRefetchAccounts } from "../utils/refetch-accounts.js";
 import { SubscriptionProvider } from "./subscription-provider.js";
@@ -34,7 +34,10 @@ export interface GrillHeadlessProviderProps {
   /** Duration in milliseconds to wait before sending a batch. Defaults to 10ms. */
   batchDurationMs?: number;
   onTransactionStatusEvent?: TransactionStatusEventCallback;
-  /** Custom function to get explorer link for a transaction signature. Defaults to gill's getExplorerLink. */
+  /**
+   * Custom function to get explorer link for a transaction signature.
+   * Defaults to `getExplorerLink`, which links to explorer.solana.com.
+   */
   getExplorerLink?: GetExplorerLinkFunction;
   /**
    * Static token information that overrides whatever is on-chain.
@@ -80,7 +83,8 @@ export interface GrillHeadlessProviderProps {
 /**
  * Headless provider component for Solana account batching functionality.
  * Creates and provides a batch account loader for efficient Solana account fetching.
- * This provider integrates with @gillsdk/react's useSolanaClient hook to access the RPC client.
+ * This provider reads the RPC client from `useSolanaClient`, so it must be
+ * rendered inside a `SolanaProvider`.
  *
  * For UI integration with toast notifications, use GrillProvider instead.
  *

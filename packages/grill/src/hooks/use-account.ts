@@ -1,3 +1,4 @@
+import type { Simplify } from "@macalinao/gill-extra";
 import type {
   Account,
   Address,
@@ -5,7 +6,6 @@ import type {
   FetchAccountConfig,
 } from "@solana/kit";
 import type { UseQueryResult } from "@tanstack/react-query";
-import type { Simplify } from "gill";
 import type { GillUseRpcHook } from "./types.js";
 import { fetchAndDecodeAccount } from "@macalinao/gill-extra";
 import { useQuery } from "@tanstack/react-query";
