@@ -25,6 +25,7 @@ import {
   getSolanaErrorFromTransactionError,
   signAndSendTransactionMessageWithSigners,
 } from "@solana/kit";
+import { executeSingleTransactionMessage } from "./execute-single-transaction-message.js";
 import { prepareTransactionMessage } from "./prepare-transaction-message.js";
 
 export interface CreateSendTXParams {
@@ -55,6 +56,31 @@ export interface CreateSendTXParams {
    */
   logger?: Logger | undefined;
 }
+
+const isLogs = (value: unknown): value is string[] =>
+  Array.isArray(value) && value.every((line) => typeof line === "string");
+
+/** Extracts program logs from an error, or from its `context`. */
+const extractErrorLogs = (err: unknown): string[] => {
+  if (typeof err !== "object" || err === null) {
+    return [];
+  }
+  if ("logs" in err && isLogs(err.logs)) {
+    return err.logs;
+  }
+  if ("context" in err) {
+    const { context } = err;
+    if (
+      typeof context === "object" &&
+      context !== null &&
+      "logs" in context &&
+      isLogs(context.logs)
+    ) {
+      return context.logs;
+    }
+  }
+  return [];
+};
 
 /**
  * Creates a function to send transactions using the modern @solana/kit API
@@ -122,132 +148,117 @@ export const createSendTX = ({
         },
       });
 
-    onTransactionStatusEvent({
-      ...baseEvent,
-      type: "awaiting-wallet-signature",
-    });
+    // Sign, send and confirm through kit's transaction plan executor. The
+    // prepared message is always exactly one transaction.
+    const { signature } = await executeSingleTransactionMessage(
+      finalTransactionMessage,
+      async (context: Partial<{ signature: Signature }>, message) => {
+        onTransactionStatusEvent({
+          ...baseEvent,
+          type: "awaiting-wallet-signature",
+        });
 
-    // Send transaction using wallet adapter
-    let sigBytes: SignatureBytes;
-    try {
-      sigBytes = await signAndSendTransactionMessageWithSigners(
-        finalTransactionMessage,
-      );
-    } catch (error: unknown) {
-      const errorMessage =
-        error instanceof Error ? error.message : "Failed to send transaction";
-      onTransactionStatusEvent({
-        ...baseEvent,
-        type: "error-transaction-send-failed",
-        errorMessage,
-      });
-      throw error;
-    }
-
-    const sig = getSignatureFromBytes(sigBytes);
-    const sentTxEvent = {
-      ...baseEvent,
-      sig,
-      explorerLink: getExplorerLink({ transaction: sig }),
-    };
-
-    onTransactionStatusEvent({
-      ...sentTxEvent,
-      type: "waiting-for-confirmation",
-    });
-
-    try {
-      const { err } = await confirmTransaction({
-        signature: sig,
-        lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
-        rpc,
-        rpcSubscriptions,
-        logger,
-        ...options.confirmation,
-      });
-
-      if (err !== null) {
-        throw getSolanaErrorFromTransactionError(err);
-      }
-
-      onTransactionStatusEvent({
-        ...sentTxEvent,
-        type: "confirmed",
-      });
-
-      // Reload the accounts that were written to. The roles on the message we
-      // just sent already say which those are, so there is no need to fetch the
-      // confirmed transaction back to find out.
-      const writableAccounts = getWritableAccounts(finalTransactionMessage);
-      if (writableAccounts.length > 0) {
-        const waitForAccountRefetch = options.waitForAccountRefetch ?? true;
-        if (waitForAccountRefetch) {
-          await refetchAccounts(writableAccounts);
-        } else {
-          // Refetch in background without waiting
-          refetchAccounts(writableAccounts).catch((error: unknown) => {
-            logger.warn("Failed to refetch accounts in background:", error);
+        // Send transaction using wallet adapter
+        let sigBytes: SignatureBytes;
+        try {
+          sigBytes = await signAndSendTransactionMessageWithSigners(message);
+        } catch (error: unknown) {
+          const errorMessage =
+            error instanceof Error
+              ? error.message
+              : "Failed to send transaction";
+          onTransactionStatusEvent({
+            ...baseEvent,
+            type: "error-transaction-send-failed",
+            errorMessage,
           });
+          throw error;
         }
-      }
 
-      // Opt-in only: this is the one thing the confirmed transaction was still
-      // being fetched for, and it costs a round trip that nothing else needs.
-      if (options.fetchTransactionLogs && logger.isEnabled("debug")) {
-        const confirmed = await getConfirmedTransaction(rpc, sig);
-        if (confirmed?.meta?.logMessages) {
-          logger.debug(name, confirmed.meta.logMessages.join("\n"));
-        }
-      }
+        const sig = getSignatureFromBytes(sigBytes);
+        // Recorded now so a failed plan result still carries the signature.
+        context.signature = sig;
+        const sentTxEvent = {
+          ...baseEvent,
+          sig,
+          explorerLink: getExplorerLink({ transaction: sig }),
+        };
 
-      // Return the signature as a base58 string
-      return sig;
-    } catch (error: unknown) {
-      // Log error details for debugging
-      logger.error(`${name} transaction failed:`, error);
+        onTransactionStatusEvent({
+          ...sentTxEvent,
+          type: "waiting-for-confirmation",
+        });
 
-      // Extract error logs
-      const isLogs = (value: unknown): value is string[] =>
-        Array.isArray(value) && value.every((line) => typeof line === "string");
+        try {
+          const { err } = await confirmTransaction({
+            signature: sig,
+            lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
+            rpc,
+            rpcSubscriptions,
+            logger,
+            ...options.confirmation,
+          });
 
-      const extractErrorLogs = (err: unknown): string[] => {
-        if (typeof err !== "object" || err === null) {
-          return [];
-        }
-        if ("logs" in err && isLogs(err.logs)) {
-          return err.logs;
-        }
-        if ("context" in err) {
-          const { context } = err;
-          if (
-            typeof context === "object" &&
-            context !== null &&
-            "logs" in context &&
-            isLogs(context.logs)
-          ) {
-            return context.logs;
+          if (err !== null) {
+            throw getSolanaErrorFromTransactionError(err);
           }
+
+          onTransactionStatusEvent({
+            ...sentTxEvent,
+            type: "confirmed",
+          });
+
+          // Reload the accounts that were written to. The roles on the message we
+          // just sent already say which those are, so there is no need to fetch the
+          // confirmed transaction back to find out.
+          const writableAccounts = getWritableAccounts(message);
+          if (writableAccounts.length > 0) {
+            const waitForAccountRefetch = options.waitForAccountRefetch ?? true;
+            if (waitForAccountRefetch) {
+              await refetchAccounts(writableAccounts);
+            } else {
+              // Refetch in background without waiting
+              refetchAccounts(writableAccounts).catch((error: unknown) => {
+                logger.warn("Failed to refetch accounts in background:", error);
+              });
+            }
+          }
+
+          // Opt-in only: this is the one thing the confirmed transaction was still
+          // being fetched for, and it costs a round trip that nothing else needs.
+          if (options.fetchTransactionLogs && logger.isEnabled("debug")) {
+            const confirmed = await getConfirmedTransaction(rpc, sig);
+            if (confirmed?.meta?.logMessages) {
+              logger.debug(name, confirmed.meta.logMessages.join("\n"));
+            }
+          }
+
+          // Return the signature as a base58 string
+          return { signature: sig };
+        } catch (error: unknown) {
+          // Log error details for debugging
+          logger.error(`${name} transaction failed:`, error);
+
+          const errorLogs = extractErrorLogs(error);
+          if (errorLogs.length > 0) {
+            logger.error("Transaction logs:");
+            for (const log of errorLogs) {
+              logger.error("  ", log);
+            }
+          }
+
+          const errorMessage =
+            error instanceof Error ? error.message : "Transaction failed.";
+
+          onTransactionStatusEvent({
+            ...sentTxEvent,
+            type: "error-transaction-failed",
+            errorMessage,
+          });
+          throw error;
         }
-        return [];
-      };
-
-      const errorLogs = extractErrorLogs(error);
-      if (errorLogs.length > 0) {
-        logger.error("Transaction logs:");
-        for (const log of errorLogs) {
-          logger.error("  ", log);
-        }
-      }
-
-      const errorMessage =
-        error instanceof Error ? error.message : "Transaction failed.";
-
-      onTransactionStatusEvent({
-        ...sentTxEvent,
-        type: "error-transaction-failed",
-        errorMessage,
-      });
-      throw error;
-    }
+      },
+    );
+    return signature;
   };
 };
