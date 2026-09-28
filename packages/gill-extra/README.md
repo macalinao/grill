@@ -16,7 +16,7 @@ bun add @macalinao/gill-extra
 - **Transaction sending**: `sendAndConfirmTransactionWithSignersFactory` and `simulateTransactionFactory` build send and simulate helpers from an `rpc`/`rpcSubscriptions` pair
 - **Transaction building**: `createTransaction` assembles a transaction message from instructions, a fee payer and optional compute budget settings
 - **Zod schemas**: Type-safe Solana data validation from `@macalinao/zod-solana`
-- **Transaction utilities**: Base64 encoding, transaction inspector URLs, signature conversion
+- **Transaction utilities**: Base64 encoding, transaction inspector URLs
 - **Polling utilities**: Transaction confirmation polling with configurable retries
 - **Explorer utilities**: Generate Solscan explorer links for transactions, addresses, and blocks
 - **Account utilities**: Batch account fetching and decoding helpers

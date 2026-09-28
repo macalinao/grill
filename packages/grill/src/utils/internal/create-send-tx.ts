@@ -17,13 +17,14 @@ import {
   confirmTransaction,
   defaultLogger,
   getConfirmedTransaction,
-  getSignatureFromBytes,
   getWritableAccounts,
   simulateTransactionFactory,
 } from "@macalinao/gill-extra";
 import {
+  getBase58Decoder,
   getSolanaErrorFromTransactionError,
   signAndSendTransactionMessageWithSigners,
+  signature,
 } from "@solana/kit";
 import { prepareTransactionMessage } from "./prepare-transaction-message.js";
 
@@ -144,7 +145,7 @@ export const createSendTX = ({
       throw error;
     }
 
-    const sig = getSignatureFromBytes(sigBytes);
+    const sig = signature(getBase58Decoder().decode(sigBytes));
     const sentTxEvent = {
       ...baseEvent,
       sig,

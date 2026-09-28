@@ -12,7 +12,6 @@ export * from "./get-confirmed-transaction.js";
 export * from "./get-explorer-link.js";
 export * from "./get-minimum-balance-for-rent-exemption.js";
 export * from "./get-public-solana-rpc-url.js";
-export * from "./get-signature-from-bytes.js";
 export * from "./get-solscan-explorer-link.js";
 export * from "./get-writable-accounts.js";
 export * from "./ixs/index.js";
