@@ -1,5 +1,5 @@
 import type { Signature } from "@solana/kit";
-import { useKitWallet, useSendTX } from "@macalinao/grill";
+import { useWalletSigner, useSendTX } from "@macalinao/grill";
 import { createDepositMergeMinerIxs } from "@macalinao/quarry";
 import { useCallback } from "react";
 import { useMergeMinerContext } from "../contexts/merge-miner.js";
@@ -17,7 +17,7 @@ export interface UseQuarryDepositMMResult {
 export const useQuarryDepositMM = (): UseQuarryDepositMMResult => {
   const { mergePool, mergeMiner } = useMergeMinerContext();
   const { poolInfo } = usePoolInfo();
-  const { signer } = useKitWallet();
+  const signer = useWalletSigner();
   const sendTX = useSendTX();
 
   const deposit = useCallback(
