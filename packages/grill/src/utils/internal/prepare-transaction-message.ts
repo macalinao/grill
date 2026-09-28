@@ -46,10 +46,14 @@ export interface PrepareTransactionMessageParams {
   logger?: Logger | undefined;
   /**
    * Invoked when the options cannot be built into a transaction (e.g. a v1
-   * transaction without a compute unit limit), before this function throws.
+   * transaction without a compute unit limit, or instructions that do not fit
+   * in a single transaction), before this function throws.
    */
   onBuildError: (errorMessage: string) => void;
-  /** Invoked when preflight simulation fails, before this function throws. */
+  /**
+   * Invoked when the preflight (or resource limit estimation) simulation
+   * fails, before this function throws.
+   */
   onSimulationError: (errorMessage: string) => void;
 }
 
