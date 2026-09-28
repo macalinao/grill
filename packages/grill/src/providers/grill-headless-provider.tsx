@@ -21,8 +21,8 @@ import { createBatchAccountsLoader } from "@macalinao/solana-batch-accounts-load
 import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useMemo } from "react";
 import { GrillContext } from "../contexts/grill-context.js";
-import { useKitWallet } from "../hooks/use-kit-wallet.js";
 import { useSolanaClient } from "../hooks/use-solana-client.js";
+import { useWalletSigner } from "../hooks/use-wallet-signer.js";
 import { createSendTX } from "../utils/internal/create-send-tx.js";
 import { refetchAccounts as doRefetchAccounts } from "../utils/refetch-accounts.js";
 import { SubscriptionProvider } from "./subscription-provider.js";
@@ -110,7 +110,7 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
 }) => {
   const { rpc, rpcSubscriptions } = useSolanaClient();
   const queryClient = useQueryClient();
-  const { signer } = useKitWallet();
+  const signer = useWalletSigner();
 
   const logger = useMemo(() => createLogger(logLevel), [logLevel]);
 
