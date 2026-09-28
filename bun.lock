@@ -23,7 +23,7 @@
     },
     "apps/example-dapp": {
       "name": "example-dapp",
-      "version": "11.0.2",
+      "version": "11.0.3",
       "dependencies": {
         "@hookform/resolvers": "^5.9.1",
         "@macalinao/wallet-adapter-compat": "workspace:^",
@@ -81,7 +81,7 @@
     },
     "packages/das-api": {
       "name": "@macalinao/das-api",
-      "version": "0.2.3",
+      "version": "0.3.0",
       "dependencies": {
         "@macalinao/zod-solana": "workspace:^",
       },
@@ -113,7 +113,7 @@
     },
     "packages/gill-extra": {
       "name": "@macalinao/gill-extra",
-      "version": "0.12.0",
+      "version": "0.13.0",
       "dependencies": {
         "@macalinao/dataloader-es": "workspace:^",
         "@macalinao/solana-batch-accounts-loader": "workspace:^",
@@ -138,7 +138,7 @@
     },
     "packages/grill": {
       "name": "@macalinao/grill",
-      "version": "0.19.0",
+      "version": "0.20.0",
       "dependencies": {
         "@macalinao/dataloader-es": "workspace:^",
         "@macalinao/gill-extra": "workspace:^",
@@ -173,7 +173,7 @@
     },
     "packages/quarry": {
       "name": "@macalinao/quarry",
-      "version": "0.5.7",
+      "version": "0.6.0",
       "dependencies": {
         "@macalinao/gill-extra": "workspace:^",
         "@macalinao/token-utils": "workspace:^",
@@ -194,7 +194,7 @@
     },
     "packages/react-quarry": {
       "name": "@macalinao/react-quarry",
-      "version": "12.0.3",
+      "version": "12.1.0",
       "dependencies": {
         "@macalinao/quarry": "workspace:^",
         "react-compiler-runtime": "^1.0.0",
@@ -216,7 +216,7 @@
     },
     "packages/solana-batch-accounts-loader": {
       "name": "@macalinao/solana-batch-accounts-loader",
-      "version": "0.4.2",
+      "version": "0.5.0",
       "dependencies": {
         "@macalinao/dataloader-es": "workspace:^",
         "tslib": "catalog:",
@@ -234,7 +234,7 @@
     },
     "packages/solana-errors": {
       "name": "@macalinao/solana-errors",
-      "version": "0.4.1",
+      "version": "0.5.0",
       "devDependencies": {
         "@macalinao/tsconfig": "catalog:",
         "@solana/kit": "catalog:",
@@ -248,7 +248,7 @@
     },
     "packages/token-utils": {
       "name": "@macalinao/token-utils",
-      "version": "0.3.1",
+      "version": "0.4.0",
       "dependencies": {
         "dnum": "^2.17.0",
       },
@@ -265,7 +265,7 @@
     },
     "packages/wallet-adapter-compat": {
       "name": "@macalinao/wallet-adapter-compat",
-      "version": "14.1.0",
+      "version": "14.2.0",
       "dependencies": {
         "@solana/webcrypto-ed25519-polyfill": "8.3.0",
         "react-compiler-runtime": "^1.0.0",
@@ -295,7 +295,7 @@
     },
     "packages/zod-solana": {
       "name": "@macalinao/zod-solana",
-      "version": "0.5.2",
+      "version": "0.6.0",
       "devDependencies": {
         "@macalinao/tsconfig": "catalog:",
         "@solana/kit": "catalog:",
@@ -322,7 +322,7 @@
     "@solana/react": "^8.3.0",
     "@solana/wallet-adapter-base": "^0.9.28",
     "@solana/wallet-adapter-react": "^0.15.40",
-    "@tanstack/react-query": "^5.103.1",
+    "@tanstack/react-query": "^5.103.2",
     "@types/bun": "^1.4.2",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
@@ -334,9 +334,9 @@
   },
   "catalogs": {
     "peer": {
-      "@solana/kit": "^8",
+      "@solana/kit": "^8.3.0",
       "@solana/react": "^8.3.0",
-      "@tanstack/react-query": "^5.103.1",
+      "@tanstack/react-query": "^5.103.2",
       "react": "^18 || ^19",
       "react-dom": "^18 || ^19",
       "zod": "^4.6.5",
@@ -1063,11 +1063,11 @@
 
     "@tanstack/history": ["@tanstack/history@1.162.4", "", {}, "sha512-utTS5L2OkeYUzXGohL1Z8sefu1GLNOJcxe8Hd6iIdc/Xo1K1nDB2JEp4iSFhvYh33xKC9V91TxrS8qfrpoKobQ=="],
 
-    "@tanstack/query-core": ["@tanstack/query-core@5.103.1", "", {}, "sha512-rms8HqTGp6zA00dM+cUQ2eBcgzNJefuu5CAMB37i/6MiGT1zulPOytCFu2a0qjLqVR2n1jENPj9woqFQNuCzWA=="],
+    "@tanstack/query-core": ["@tanstack/query-core@5.103.2", "", {}, "sha512-I8DkFXls5jXLqtm8+QpOhEmG07hIblhSZFzafg9wHsMSEvMzULy9hK17wU1T/ahfhMbtITJhbxutwwCoihkR7A=="],
 
     "@tanstack/query-devtools": ["@tanstack/query-devtools@5.102.8", "", {}, "sha512-ZgeMKuF5d/zOE+tgWm3cSbD6Zcbr6IugVsnbHzUcSismqLZDSUPBKM6ILUxExgwe6rPAOox2x5bA5T+PSOQG0Q=="],
 
-    "@tanstack/react-query": ["@tanstack/react-query@5.103.1", "", { "dependencies": { "@tanstack/query-core": "5.103.1" }, "peerDependencies": { "react": "^18 || ^19" } }, "sha512-rmAPPApNEK17VXRJhtE1rja53n23VV5w30C0saCgJhhX+EpdUnVqMGV/s5nnzV43X75KTHKzuoiuxSzGTBIkag=="],
+    "@tanstack/react-query": ["@tanstack/react-query@5.103.2", "", { "dependencies": { "@tanstack/query-core": "5.103.2" }, "peerDependencies": { "react": "^18 || ^19" } }, "sha512-B+fWiYZBc+0uUD5zDZAeLw9dKj7XEsdnuu6zRZ+no6LNKpeE3P3bJ+N6HINjcIlWR6fW3vUoTneEaGa2V6ehqw=="],
 
     "@tanstack/react-query-devtools": ["@tanstack/react-query-devtools@5.102.8", "", { "dependencies": { "@tanstack/query-devtools": "5.102.8" }, "peerDependencies": { "@tanstack/react-query": "^5.102.8", "react": "^18 || ^19" } }, "sha512-QKb7A44BZOU7nxsGA4gFN1fofjYovar5O0T83Ff4Y+2eRq09RGFrAzzutVdF/6/emfSaMDohp6e759BjB3fxEw=="],
 
