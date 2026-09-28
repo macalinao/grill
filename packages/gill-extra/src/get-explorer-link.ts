@@ -1,4 +1,4 @@
-import type { SolanaClusterMoniker } from "./solana-client.js";
+import type { SolanaClusterMoniker } from "./solana-cluster-moniker.js";
 
 /**
  * Arguments for {@link getExplorerLink}.
