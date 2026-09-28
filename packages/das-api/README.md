@@ -109,14 +109,15 @@ const transport = createDefaultRpcTransport({
 const das = createDasRpcFromTransport(transport);
 ```
 
-`@macalinao/gill-extra`'s `createSolanaClient` exposes only the standard Solana JSON-RPC methods,
+A kit client built with `solanaRpcConnection` exposes only the standard Solana JSON-RPC methods,
 so run a DAS client alongside it, pointed at the same DAS-enabled URL:
 
 ```typescript
-import { createSolanaClient } from "@macalinao/gill-extra";
+import { createClient } from "@solana/kit";
+import { solanaRpcConnection } from "@solana/kit-plugin-rpc";
 import { createDasRpc } from "@macalinao/das-api";
 
-const { rpc } = createSolanaClient({ urlOrMoniker: RPC_URL });
+const { rpc } = createClient().use(solanaRpcConnection({ rpcUrl: RPC_URL }));
 const das = createDasRpc(RPC_URL);
 
 const { value: blockhash } = await rpc.getLatestBlockhash().send();

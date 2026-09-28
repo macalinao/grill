@@ -16,35 +16,49 @@ Modern Solana development kit for React applications with automatic account batc
 ## Installation
 
 ```bash
-npm install @macalinao/grill sonner
+npm install @macalinao/grill @solana/react @solana/kit-plugin-rpc sonner
 # or
-yarn add @macalinao/grill sonner
+yarn add @macalinao/grill @solana/react @solana/kit-plugin-rpc sonner
 # or
-bun add @macalinao/grill sonner
+bun add @macalinao/grill @solana/react @solana/kit-plugin-rpc sonner
 ```
 
 ## Quick Start
 
 ### 1. Set up the provider hierarchy
 
+Grill reads its kit client from `ClientProvider` in `@solana/react`. The client
+needs `rpc` and `rpcSubscriptions`, which `solanaRpcConnection` from
+`@solana/kit-plugin-rpc` installs.
+
 ```tsx
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { GrillProvider, SolanaProvider } from "@macalinao/grill";
+import { getPublicSolanaRpcUrl, GrillProvider } from "@macalinao/grill";
+import { createClient } from "@solana/kit";
+import { solanaRpcConnection } from "@solana/kit-plugin-rpc";
+import { ClientProvider } from "@solana/react";
 import { Toaster } from "sonner";
 
 const queryClient = new QueryClient();
+const client = createClient().use(
+  solanaRpcConnection({ rpcUrl: getPublicSolanaRpcUrl("mainnet") }),
+);
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <SolanaProvider>
+      <ClientProvider client={client}>
         <GrillProvider>{/* Your app components */}</GrillProvider>
         <Toaster />
-      </SolanaProvider>
+      </ClientProvider>
     </QueryClientProvider>
   );
 }
 ```
+
+`ClientProvider` also accepts a promise of a client (for async plugins) and
+suspends until it resolves. Read the client anywhere below it with
+`useSolanaClient()`, which is typed with grill's `GrillClient` capabilities.
 
 ### 2. Fetch account data with automatic batching
 

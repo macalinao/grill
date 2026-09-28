@@ -49,7 +49,7 @@ The app uses a carefully orchestrated provider hierarchy in `App.tsx`:
 
 ```tsx
 QueryClientProvider         // React Query for caching
-  → SolanaProvider          // Gill client for RPC
+  → ClientProvider          // @solana/react; kit client from solanaRpcConnection
     → ConnectionProvider    // Wallet adapter connection
       → WalletProvider      // Wallet management
         → WalletModalProvider

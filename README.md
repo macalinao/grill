@@ -41,9 +41,11 @@ bun add @macalinao/dataloader-es
 ## Quick Start
 
 ```tsx
-import { GrillProvider } from "@macalinao/grill";
+import { getPublicSolanaRpcUrl, GrillProvider } from "@macalinao/grill";
 import { WalletAdapterCompatProvider } from "@macalinao/wallet-adapter-compat";
-import { createSolanaClient, SolanaProvider } from "@macalinao/grill";
+import { createClient } from "@solana/kit";
+import { solanaRpcConnection } from "@solana/kit-plugin-rpc";
+import { ClientProvider } from "@solana/react";
 import {
   ConnectionProvider,
   WalletProvider,
@@ -53,7 +55,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "sonner";
 
 const queryClient = new QueryClient();
-const solanaClient = createSolanaClient({ urlOrMoniker: "mainnet-beta" });
+const solanaClient = createClient().use(
+  solanaRpcConnection({ rpcUrl: getPublicSolanaRpcUrl("mainnet") }),
+);
 
 function App() {
   const wallets = useMemo(
@@ -63,7 +67,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SolanaProvider client={solanaClient}>
+      <ClientProvider client={solanaClient}>
         <ConnectionProvider endpoint="https://api.mainnet-beta.solana.com">
           <WalletProvider wallets={wallets} autoConnect>
             <WalletModalProvider>
@@ -76,7 +80,7 @@ function App() {
             </WalletModalProvider>
           </WalletProvider>
         </ConnectionProvider>
-      </SolanaProvider>
+      </ClientProvider>
     </QueryClientProvider>
   );
 }

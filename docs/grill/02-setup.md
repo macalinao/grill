@@ -4,7 +4,7 @@
 
 ```bash
 # Core packages
-npm install @macalinao/grill gill
+npm install @macalinao/grill @solana/kit @solana/react @solana/kit-plugin-rpc
 
 # Required peer dependencies
 npm install @tanstack/react-query sonner
@@ -28,13 +28,18 @@ import {
 } from "@solana/wallet-adapter-react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { createSolanaClient, SolanaProvider } from "@macalinao/grill";
+import { getPublicSolanaRpcUrl } from "@macalinao/grill";
+import { createClient } from "@solana/kit";
+import { solanaRpcConnection } from "@solana/kit-plugin-rpc";
+import { ClientProvider } from "@solana/react";
 import { Toaster } from "sonner";
 
 const queryClient = new QueryClient();
-const solanaClient = createSolanaClient({
-  urlOrMoniker: "mainnet-beta", // or your RPC URL
-});
+const solanaClient = createClient().use(
+  solanaRpcConnection({
+    rpcUrl: getPublicSolanaRpcUrl("mainnet"), // or your RPC URL
+  }),
+);
 
 export const App: React.FC = () => {
   const wallets = useMemo(
@@ -44,21 +49,21 @@ export const App: React.FC = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ConnectionProvider endpoint="https://api.mainnet-beta.solana.com">
-        <WalletAdapterProvider wallets={wallets} autoConnect>
-          <WalletModalProvider>
-            <WalletAdapterCompatProvider>
-              <SolanaProvider client={solanaClient}>
+      <ClientProvider client={solanaClient}>
+        <ConnectionProvider endpoint="https://api.mainnet-beta.solana.com">
+          <WalletAdapterProvider wallets={wallets} autoConnect>
+            <WalletModalProvider>
+              <WalletAdapterCompatProvider>
                 <GrillProvider>
                   {/* Your app */}
                   <YourApp />
                   <Toaster position="bottom-right" />
                 </GrillProvider>
-              </SolanaProvider>
-            </WalletAdapterCompatProvider>
-          </WalletModalProvider>
-        </WalletAdapterProvider>
-      </ConnectionProvider>
+              </WalletAdapterCompatProvider>
+            </WalletModalProvider>
+          </WalletAdapterProvider>
+        </ConnectionProvider>
+      </ClientProvider>
     </QueryClientProvider>
   );
 };
@@ -67,12 +72,14 @@ export const App: React.FC = () => {
 ### Why This Order Matters
 
 1. **QueryClientProvider**: Provides React Query context for caching
-2. **ConnectionProvider**: Legacy support for wallet-adapter
-3. **WalletAdapterProvider**: Manages wallet connections
-4. **WalletModalProvider**: UI for wallet selection
-5. **WalletAdapterCompatProvider**: Bridges wallet-adapter to @solana/kit and provides grill's WalletProvider
-6. **SolanaProvider**: Provides the Solana client for RPC operations
+2. **ClientProvider** (`@solana/react`): Provides the kit client. Grill needs its `rpc` and `rpcSubscriptions` capabilities, which `solanaRpcConnection` from `@solana/kit-plugin-rpc` installs. The same client is available to `@solana/react`'s own hooks. `ClientProvider` also accepts a promise of a client (for async plugins) and suspends until it resolves, so put a `<Suspense>` boundary above it if you pass one.
+3. **ConnectionProvider**: Legacy support for wallet-adapter
+4. **WalletAdapterProvider**: Manages wallet connections
+5. **WalletModalProvider**: UI for wallet selection
+6. **WalletAdapterCompatProvider**: Bridges wallet-adapter to @solana/kit and provides grill's WalletProvider
 7. **GrillProvider**: Creates the DataLoader and provides Grill context
+
+`solanaRpcConnection` derives the websocket URL from the RPC URL (`https` becomes `wss`, and the exact local validator URLs `http://127.0.0.1:8899` and `http://localhost:8899` map to port 8900). Pass `rpcSubscriptionsUrl` if your provider serves websockets elsewhere.
 
 Each layer builds on the previous. WalletAdapterCompatProvider wraps its children with grill's WalletProvider, which provides the TransactionSendingSigner. GrillProvider needs access to both the wallet (for transactions) and the RPC client (for fetching), which is why it comes last.
 
@@ -96,19 +103,19 @@ If you already have a wallet-adapter setup, just wrap it with the additional pro
 
 // Add Grill incrementally
 <QueryClientProvider client={queryClient}>
-  <ConnectionProvider endpoint={endpoint}>
-    <WalletProvider wallets={wallets} autoConnect>
-      <WalletModalProvider>
-        <WalletAdapterCompatProvider>
-          <SolanaProvider client={solanaClient}>
+  <ClientProvider client={solanaClient}>
+    <ConnectionProvider endpoint={endpoint}>
+      <WalletProvider wallets={wallets} autoConnect>
+        <WalletModalProvider>
+          <WalletAdapterCompatProvider>
             <GrillProvider>
               {/* Your existing app - unchanged! */}
             </GrillProvider>
-          </SolanaProvider>
-        </WalletAdapterCompatProvider>
-      </WalletModalProvider>
-    </WalletProvider>
-  </ConnectionProvider>
+          </WalletAdapterCompatProvider>
+        </WalletModalProvider>
+      </WalletProvider>
+    </ConnectionProvider>
+  </ClientProvider>
 </QueryClientProvider>
 ```
 
@@ -325,30 +332,38 @@ import { GrillHeadlessProvider } from "@macalinao/grill";
 
 ## Working with Multiple Clusters
 
+Create each client once, at module scope (or in a `useMemo`), so the
+connection is not rebuilt on every render:
+
 ```tsx
-const DevnetApp: React.FC = () => {
-  const devnetClient = createSolanaClient({
-    urlOrMoniker: "devnet",
-  });
+import { getPublicSolanaRpcUrl, GrillProvider } from "@macalinao/grill";
+import { createClient, mainnet } from "@solana/kit";
+import { solanaRpcConnection } from "@solana/kit-plugin-rpc";
+import { ClientProvider } from "@solana/react";
 
-  return (
-    <SolanaProvider client={devnetClient}>
-      <GrillProvider>{/* Your devnet app */}</GrillProvider>
-    </SolanaProvider>
-  );
-};
+const devnetClient = createClient().use(
+  solanaRpcConnection({ rpcUrl: getPublicSolanaRpcUrl("devnet") }),
+);
 
-const MainnetApp: React.FC = () => {
-  const mainnetClient = createSolanaClient({
-    urlOrMoniker: "https://your-rpc-provider.com",
-  });
+const mainnetClient = createClient().use(
+  solanaRpcConnection({
+    rpcUrl: mainnet("https://your-rpc-provider.com"),
+    // Only needed if websockets are not served from the same host:
+    // rpcSubscriptionsUrl: mainnet("wss://your-ws-provider.com"),
+  }),
+);
 
-  return (
-    <SolanaProvider client={mainnetClient}>
-      <GrillProvider>{/* Your mainnet app */}</GrillProvider>
-    </SolanaProvider>
-  );
-};
+const DevnetApp: React.FC = () => (
+  <ClientProvider client={devnetClient}>
+    <GrillProvider>{/* Your devnet app */}</GrillProvider>
+  </ClientProvider>
+);
+
+const MainnetApp: React.FC = () => (
+  <ClientProvider client={mainnetClient}>
+    <GrillProvider>{/* Your mainnet app */}</GrillProvider>
+  </ClientProvider>
+);
 ```
 
 ## TypeScript Configuration
