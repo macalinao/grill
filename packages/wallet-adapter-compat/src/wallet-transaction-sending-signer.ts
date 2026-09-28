@@ -12,7 +12,11 @@ import type {
   TransactionOrVersionedTransaction,
 } from "@solana/wallet-adapter-base";
 import type { Connection, TransactionSignature } from "@solana/web3.js";
-import { address, getBase58Encoder } from "@solana/kit";
+import {
+  address,
+  getBase58Encoder,
+  getTransactionVersionDecoder,
+} from "@solana/kit";
 import {
   PublicKey,
   VersionedMessage,
@@ -48,6 +52,25 @@ export type WalletAdapterSigner = TransactionSendingSigner<Address> &
   Partial<Pick<TransactionPartialSigner<Address>, "signTransactions">>;
 
 /**
+ * Throws when any of the transactions is version 1. Wallet adapters take
+ * `@solana/web3.js` transactions, and web3.js can parse version 1 messages but
+ * not serialize them, so a v1 transaction would otherwise fail inside the
+ * wallet. Checked up front so nothing in a batch is signed or sent.
+ */
+function assertNoV1Transactions(transactions: readonly Transaction[]): void {
+  const versionDecoder = getTransactionVersionDecoder();
+  for (const transaction of transactions) {
+    // Throws for versions kit does not know (> 1).
+    const version = versionDecoder.decode(transaction.messageBytes);
+    if (version === 1) {
+      throw new Error(
+        `Version ${version} transactions cannot be sent through a wallet adapter: @solana/web3.js cannot serialize them. Use a legacy or version 0 transaction, or a Wallet Standard / @solana/kit signer.`,
+      );
+    }
+  }
+}
+
+/**
  * Deserializes a @solana/kit transaction into a web3.js VersionedTransaction,
  * re-attaching any signatures that are already present.
  */
@@ -75,6 +98,10 @@ function toVersionedTransaction(
  * implements {@link TransactionPartialSigner} so callers can sign a transaction
  * without broadcasting it.
  *
+ * Only legacy and version 0 transactions are supported: web3.js can parse
+ * version 1 messages but not serialize them, so a version 1 transaction is
+ * rejected with a clear error rather than failing inside the wallet.
+ *
  * Note: modeling `signTransaction` as a partial signer is correct as long as the
  * wallet does not rewrite the transaction message while signing (legacy wallet
  * adapters do not); the returned signature is for the exact message we passed in.
@@ -99,6 +126,7 @@ export function createWalletTransactionSendingSigner(
       if (!walletAdapter.publicKey) {
         throw new Error("Wallet is not connected");
       }
+      assertNoV1Transactions(transactions);
 
       const signatures: SignatureBytes[] = [];
 
@@ -131,6 +159,7 @@ export function createWalletTransactionSendingSigner(
         if (!walletAdapter.publicKey) {
           throw new Error("Wallet is not connected");
         }
+        assertNoV1Transactions(transactions);
 
         // Sign sequentially: wallet adapters expect one signing prompt at a time.
         const signatureDictionaries: Record<Address, SignatureBytes>[] = [];

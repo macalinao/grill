@@ -40,11 +40,12 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v7
         with:
-          node-version: "22"
+          node-version: "24"
           registry-url: "https://registry.npmjs.org"
 
-      # npm OIDC trusted publishing requires npm >= 11.5.1; Node 22 ships an
-      # older npm, so upgrade it explicitly.
+      # npm OIDC trusted publishing requires npm >= 11.5.1. Node 24.5+ already
+      # bundles a new enough npm, but an older cached Node 24.x on the runner
+      # would not, so keep upgrading explicitly as a guard.
       - name: Upgrade npm for OIDC trusted publishing
         run: npm install -g npm@latest
 

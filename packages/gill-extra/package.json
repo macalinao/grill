@@ -1,6 +1,6 @@
 {
   "name": "@macalinao/gill-extra",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "Solana client utilities built on @solana/kit - no React dependencies",
   "type": "module",
   "sideEffects": false,
@@ -49,13 +49,13 @@
     "@macalinao/solana-errors": "workspace:^",
     "@macalinao/token-utils": "workspace:^",
     "@macalinao/zod-solana": "workspace:^",
-    "@solana-program/compute-budget": "^0.18.1",
     "@solana-program/system": "^0.14.1",
     "@solana-program/token": "^0.16.1",
     "@solana-programs/token-metadata": "^0.8.0"
   },
   "devDependencies": {
     "@macalinao/tsconfig": "catalog:",
+    "@solana-program/compute-budget": "^0.18.1",
     "@solana/kit": "catalog:",
     "@types/bun": "catalog:",
     "tsdown": "catalog:",

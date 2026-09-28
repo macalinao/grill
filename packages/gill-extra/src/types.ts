@@ -5,6 +5,7 @@ import type {
   Instruction,
   Signature,
   Transaction,
+  TransactionVersion,
 } from "@solana/kit";
 import type { TransactionConfirmationTuning } from "./confirm-transaction.js";
 import type { CreateTransactionInput } from "./create-transaction.js";
@@ -14,11 +15,29 @@ import type { CreateTransactionInput } from "./create-transaction.js";
  * transaction message is built and simulated.
  */
 export interface BuildTXOptions extends Pick<
-  CreateTransactionInput<0>,
-  "computeUnitLimit" | "computeUnitPrice"
+  CreateTransactionInput<TransactionVersion>,
+  | "computeUnitLimit"
+  | "computeUnitPrice"
+  | "priorityFeeLamports"
+  | "loadedAccountsDataSizeLimit"
 > {
   /**
-   * Address lookup tables (optional)
+   * Transaction version to build.
+   *
+   * - `0` (default) supports Address Lookup Tables via {@link lookupTables}.
+   * - `legacy` builds a legacy transaction.
+   * - `1` builds a v1 transaction, whose compute budget lives in the message
+   *   config: `computeUnitLimit` and `loadedAccountsDataSizeLimit` are
+   *   required, and the priority fee is set with `priorityFeeLamports` (a
+   *   total in lamports) rather than `computeUnitPrice`. v1 does not support
+   *   Address Lookup Tables.
+   *
+   * @default 0
+   */
+  version?: TransactionVersion;
+  /**
+   * Address lookup tables (optional). Only supported for version `0`
+   * transactions.
    */
   lookupTables?: AddressesByLookupTableAddress;
   /**

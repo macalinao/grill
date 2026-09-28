@@ -112,6 +112,13 @@ export const createSignTX = ({
       cluster,
       rpcUrl,
       logger,
+      onBuildError: (errorMessage) => {
+        onTransactionStatusEvent({
+          ...baseEvent,
+          type: "error-transaction-sign-failed",
+          errorMessage,
+        });
+      },
       onSimulationError: (errorMessage) => {
         onTransactionStatusEvent({
           ...baseEvent,

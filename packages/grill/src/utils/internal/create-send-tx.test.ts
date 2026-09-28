@@ -373,6 +373,99 @@ describe("createSendTX", () => {
     });
   });
 
+  describe("transaction version", () => {
+    /** A sending signer that records the first message byte it is handed. */
+    const makeRecordingSigner = (
+      addr: Address,
+    ): { signer: TransactionSendingSigner; prefixes: number[] } => {
+      const prefixes: number[] = [];
+      return {
+        prefixes,
+        signer: {
+          address: addr,
+          signAndSendTransactions: (transactions) => {
+            for (const tx of transactions) {
+              prefixes.push(tx.messageBytes[0] ?? -1);
+            }
+            return Promise.resolve([SIG_BYTES]);
+          },
+        },
+      };
+    };
+
+    it("sends a version 0 transaction by default", async () => {
+      const { rpc } = makeRpc();
+      const recording = makeRecordingSigner(signer.address);
+      const sendTX = createSendTX({
+        ...params(rpc),
+        signer: recording.signer,
+      });
+
+      await sendTX("Test", [makeIx(signer.address)], { skipPreflight: true });
+
+      // Versioned messages are prefixed with 0x80 | version.
+      expect(recording.prefixes).toEqual([0x80]);
+    });
+
+    it("sends a version 1 transaction when asked", async () => {
+      const { rpc } = makeRpc();
+      const recording = makeRecordingSigner(signer.address);
+      const sendTX = createSendTX({
+        ...params(rpc),
+        signer: recording.signer,
+      });
+
+      await sendTX("Test", [makeIx(signer.address)], {
+        skipPreflight: true,
+        version: 1,
+        computeUnitLimit: 200_000,
+        loadedAccountsDataSizeLimit: 64_000,
+        priorityFeeLamports: 5_000n,
+      });
+
+      expect(recording.prefixes).toEqual([0x81]);
+    });
+
+    it("reports invalid version 1 options instead of hanging", async () => {
+      const { rpc } = makeRpc();
+      const events: string[] = [];
+      const sendTX = createSendTX({
+        ...params(rpc),
+        onTransactionStatusEvent: (event) => {
+          events.push(event.type);
+        },
+      });
+
+      const error = await sendTX("Test", [makeIx(signer.address)], {
+        skipPreflight: true,
+        version: 1,
+      }).then(
+        () => undefined,
+        (err: unknown) => err,
+      );
+
+      expect(error).toBeInstanceOf(Error);
+      expect(String(error)).toMatch(/computeUnitLimit/);
+      expect(events).toEqual(["preparing", "error-transaction-send-failed"]);
+    });
+
+    it("rejects lookup tables on a non-v0 transaction", async () => {
+      const { rpc } = makeRpc();
+      const sendTX = createSendTX(params(rpc));
+
+      const error = await sendTX("Test", [makeIx(signer.address)], {
+        skipPreflight: true,
+        version: "legacy",
+        lookupTables: { [READONLY]: [WRITABLE] },
+      }).then(
+        () => undefined,
+        (err: unknown) => err,
+      );
+
+      expect(String(error)).toMatch(/lookup tables/);
+    });
+  });
+
   describe("account refetching", () => {
     it("refetches the writable accounts derived from the message", async () => {
       const { rpc } = makeRpc();

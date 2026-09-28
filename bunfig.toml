@@ -3,6 +3,34 @@
 # published for at least 7 days, giving time for malicious or broken
 # releases to be caught and yanked before they reach this repo.
 minimumReleaseAge = 604800
-# First-party package (published from macalinao/style-guide), so the soak period
-# buys us nothing here — exempt it to avoid a week-long wait on our own releases.
-minimumReleaseAgeExcludes = ["@macalinao/tsconfig"]
+# Exemptions:
+# - @macalinao/tsconfig: first-party package (published from macalinao/style-guide),
+#   so the soak period buys us nothing — avoid a week-long wait on our own releases.
+# - oxlint: pinned to the exact version the nix devshell provides, so the npm
+#   toolchain matches the devshell (nixpkgs has already vetted that release).
+#   Its per-platform @oxlint/binding-* optional deps must be listed too (bun
+#   does not accept globs here); otherwise bun silently drops the native
+#   binaries and oxlint fails to start.
+minimumReleaseAgeExcludes = [
+  "@macalinao/tsconfig",
+  "oxlint",
+  "@oxlint/binding-android-arm-eabi",
+  "@oxlint/binding-android-arm64",
+  "@oxlint/binding-darwin-arm64",
+  "@oxlint/binding-darwin-x64",
+  "@oxlint/binding-freebsd-x64",
+  "@oxlint/binding-linux-arm-gnueabihf",
+  "@oxlint/binding-linux-arm-musleabihf",
+  "@oxlint/binding-linux-arm64-gnu",
+  "@oxlint/binding-linux-arm64-musl",
+  "@oxlint/binding-linux-ppc64-gnu",
+  "@oxlint/binding-linux-riscv64-gnu",
+  "@oxlint/binding-linux-riscv64-musl",
+  "@oxlint/binding-linux-s390x-gnu",
+  "@oxlint/binding-linux-x64-gnu",
+  "@oxlint/binding-linux-x64-musl",
+  "@oxlint/binding-openharmony-arm64",
+  "@oxlint/binding-win32-arm64-msvc",
+  "@oxlint/binding-win32-ia32-msvc",
+  "@oxlint/binding-win32-x64-msvc",
+]
