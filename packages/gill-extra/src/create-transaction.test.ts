@@ -1,7 +1,13 @@
 import type { Address, Blockhash, Instruction } from "@solana/kit";
 import { describe, expect, it } from "bun:test";
 import { COMPUTE_BUDGET_PROGRAM_ADDRESS } from "@solana-program/compute-budget";
-import { address, generateKeyPairSigner } from "@solana/kit";
+import {
+  address,
+  generateKeyPairSigner,
+  getTransactionMessageComputeUnitLimit,
+  getTransactionMessageComputeUnitPrice,
+  getTransactionMessageLoadedAccountsDataSizeLimit,
+} from "@solana/kit";
 import { createTransaction } from "./create-transaction.js";
 
 const FEE_PAYER = address("So11111111111111111111111111111111111111112");
@@ -152,5 +158,122 @@ describe("createTransaction", () => {
         }).instructions,
       ),
     ).toEqual([MEMO_PROGRAM]);
+  });
+
+  it("encodes compute budget values as instructions for legacy/v0", () => {
+    const tx = createTransaction({
+      computeUnitLimit: 300_000,
+      computeUnitPrice: 5_000n,
+      feePayer: FEE_PAYER,
+      instructions: [memoIx()],
+      loadedAccountsDataSizeLimit: 64_000,
+      version: "legacy",
+    });
+    expect(tx.instructions.map((ix) => ix.programAddress)).toEqual([
+      COMPUTE_BUDGET_PROGRAM_ADDRESS,
+      COMPUTE_BUDGET_PROGRAM_ADDRESS,
+      COMPUTE_BUDGET_PROGRAM_ADDRESS,
+      MEMO_PROGRAM,
+    ]);
+    expect(getTransactionMessageComputeUnitLimit(tx)).toBe(300_000);
+    expect(getTransactionMessageComputeUnitPrice(tx)).toBe(5_000n);
+    expect(getTransactionMessageLoadedAccountsDataSizeLimit(tx)).toBe(64_000);
+    expect("config" in tx).toBe(false);
+  });
+
+  it("rejects priorityFeeLamports on legacy/v0 transactions", () => {
+    for (const version of ["legacy", 0, "auto"] as const) {
+      expect(() =>
+        createTransaction({
+          feePayer: FEE_PAYER,
+          instructions: [memoIx()],
+          priorityFeeLamports: 1_000n,
+          version,
+        }),
+      ).toThrow(/priorityFeeLamports/);
+    }
+  });
+
+  describe("version 1", () => {
+    it("writes the compute budget into the message config", () => {
+      const tx = createTransaction({
+        computeUnitLimit: 200_000n,
+        feePayer: FEE_PAYER,
+        instructions: [memoIx()],
+        latestBlockhash: BLOCKHASH,
+        loadedAccountsDataSizeLimit: 32_768,
+        priorityFeeLamports: 10_000,
+        version: 1,
+      });
+      expect(tx.version).toBe(1);
+      expect(tx.config).toEqual({
+        computeUnitLimit: 200_000,
+        loadedAccountsDataSizeLimit: 32_768,
+        priorityFeeLamports: 10_000n,
+      });
+      // No Compute Budget instructions: only the caller's instructions.
+      expect(tx.instructions.map((ix) => ix.programAddress)).toEqual([
+        MEMO_PROGRAM,
+      ]);
+      expect(tx.lifetimeConstraint).toEqual(BLOCKHASH);
+    });
+
+    it("omits the priority fee when none is given", () => {
+      const tx = createTransaction({
+        computeUnitLimit: 200_000,
+        feePayer: FEE_PAYER,
+        instructions: [memoIx()],
+        loadedAccountsDataSizeLimit: 32_768,
+        version: 1,
+      });
+      expect(tx.config?.priorityFeeLamports).toBeUndefined();
+      expect(tx.instructions).toHaveLength(1);
+    });
+
+    it("requires a compute unit limit", () => {
+      expect(() =>
+        createTransaction({
+          feePayer: FEE_PAYER,
+          instructions: [memoIx()],
+          loadedAccountsDataSizeLimit: 32_768,
+          version: 1,
+        }),
+      ).toThrow(/computeUnitLimit/);
+    });
+
+    it("requires a loaded accounts data size limit", () => {
+      expect(() =>
+        createTransaction({
+          computeUnitLimit: 200_000,
+          feePayer: FEE_PAYER,
+          instructions: [memoIx()],
+          version: 1,
+        }),
+      ).toThrow(/loadedAccountsDataSizeLimit/);
+    });
+
+    it("rejects computeUnitPrice", () => {
+      expect(() =>
+        createTransaction({
+          computeUnitLimit: 200_000,
+          computeUnitPrice: 1,
+          feePayer: FEE_PAYER,
+          instructions: [memoIx()],
+          loadedAccountsDataSizeLimit: 32_768,
+          version: 1,
+        }),
+      ).toThrow(/computeUnitPrice/);
+    });
+
+    it("is never chosen by auto version selection", () => {
+      expect(
+        createTransaction({
+          computeUnitLimit: 200_000,
+          feePayer: FEE_PAYER,
+          instructions: [memoIx()],
+          loadedAccountsDataSizeLimit: 32_768,
+        }).version,
+      ).toBe("legacy");
+    });
   });
 });
