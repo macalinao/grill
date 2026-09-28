@@ -3,7 +3,6 @@ import type {
   Logger,
   SendTXFunction,
   SendTXOptions,
-  SolanaClient,
   SolanaCluster,
   simulateTransactionFactory,
 } from "@macalinao/gill-extra";
@@ -14,7 +13,7 @@ import type {
   SignatureBytes,
   TransactionSendingSigner,
 } from "@solana/kit";
-import type { TransactionStatusEvent } from "../../types.js";
+import type { GrillClient, TransactionStatusEvent } from "../../types.js";
 import {
   confirmTransaction,
   defaultLogger,
@@ -30,14 +29,14 @@ import { prepareTransactionMessage } from "./prepare-transaction-message.js";
 
 export interface CreateSendTXParams {
   signer: TransactionSendingSigner | null;
-  rpc: SolanaClient["rpc"];
+  rpc: GrillClient["rpc"];
   /**
    * WebSocket subscriptions client. When provided, a sent transaction is
    * confirmed by subscribing to its signature instead of polling, so it settles
    * as soon as the cluster reports a verdict. Confirmation falls back to
    * polling when this is omitted or the subscription cannot be opened.
    */
-  rpcSubscriptions?: SolanaClient["rpcSubscriptions"] | undefined;
+  rpcSubscriptions?: GrillClient["rpcSubscriptions"] | undefined;
   /**
    * Preflight simulation function, built by the caller via
    * `simulateTransactionFactory` from `@macalinao/gill-extra`. Injected rather

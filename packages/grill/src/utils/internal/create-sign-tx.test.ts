@@ -1,9 +1,10 @@
-import type {
-  SolanaClient,
-  simulateTransactionFactory,
-} from "@macalinao/gill-extra";
+import type { simulateTransactionFactory } from "@macalinao/gill-extra";
 import type { Address, Blockhash, Instruction } from "@solana/kit";
-import type { GrillSigner, TransactionStatusEvent } from "../../types.js";
+import type {
+  GrillClient,
+  GrillSigner,
+  TransactionStatusEvent,
+} from "../../types.js";
 import { beforeAll, describe, expect, it } from "bun:test";
 import { address, generateKeyPairSigner, getBase58Encoder } from "@solana/kit";
 import { createSignTX } from "./create-sign-tx.js";
@@ -29,7 +30,7 @@ function makeIx(signerAddress: Address): Instruction {
 
 /** Builds a fake RPC whose getLatestBlockhash records how often it is called. */
 function makeRpc(): {
-  rpc: SolanaClient["rpc"];
+  rpc: GrillClient["rpc"];
   getLatestBlockhashCalls: () => number;
 } {
   let calls = 0;
@@ -40,7 +41,7 @@ function makeRpc(): {
         return Promise.resolve({ value: BLOCKHASH });
       },
     }),
-  } as unknown as SolanaClient["rpc"];
+  } as unknown as GrillClient["rpc"];
   return { rpc, getLatestBlockhashCalls: () => calls };
 }
 

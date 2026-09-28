@@ -1,4 +1,3 @@
-import type { SolanaClient } from "@macalinao/gill-extra";
 import type {
   Address,
   Blockhash,
@@ -7,7 +6,7 @@ import type {
   SignatureBytes,
   TransactionSendingSigner,
 } from "@solana/kit";
-import type { TransactionStatusEvent } from "../../types.js";
+import type { GrillClient, TransactionStatusEvent } from "../../types.js";
 import { beforeAll, beforeEach, describe, expect, it, mock } from "bun:test";
 import * as gillExtra from "@macalinao/gill-extra";
 import { createLogger } from "@macalinao/gill-extra";
@@ -108,7 +107,7 @@ function makeIxWithAccounts(): Instruction {
 }
 
 function makeRpc(): {
-  rpc: SolanaClient["rpc"];
+  rpc: GrillClient["rpc"];
   getLatestBlockhashCalls: () => number;
   getTransactionCalls: () => number;
 } {
@@ -129,7 +128,7 @@ function makeRpc(): {
         });
       },
     }),
-  } as unknown as SolanaClient["rpc"];
+  } as unknown as GrillClient["rpc"];
   return {
     rpc,
     getLatestBlockhashCalls: () => blockhashCalls,
@@ -185,7 +184,7 @@ describe("createSendTX", () => {
   });
 
   const params = (
-    rpc: SolanaClient["rpc"],
+    rpc: GrillClient["rpc"],
     overrides: Partial<Parameters<typeof createSendTX>[0]> = {},
   ) => ({
     signer,
@@ -343,7 +342,7 @@ describe("createSendTX", () => {
       const { rpc } = makeRpc();
       const sendTX = createSendTX(
         params(rpc, {
-          rpcSubscriptions: {} as unknown as SolanaClient["rpcSubscriptions"],
+          rpcSubscriptions: {} as unknown as GrillClient["rpcSubscriptions"],
         }),
       );
 

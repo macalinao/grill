@@ -1,12 +1,13 @@
-import type { SendTXFunction, SolanaClient } from "@macalinao/gill-extra";
+import type { SendTXFunction } from "@macalinao/gill-extra";
+import type { Client } from "@solana/kit";
 import type { FC } from "react";
-import type { TransactionStatusEvent } from "../types.js";
+import type { GrillClient, TransactionStatusEvent } from "../types.js";
 import { describe, expect, it } from "bun:test";
 import { address } from "@solana/kit";
-import { QueryClient } from "@tanstack/react-query";
+import { ClientProvider } from "@solana/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderToString } from "react-dom/server";
 import { GrillHeadlessProvider } from "../providers/grill-headless-provider.js";
-import { SolanaProvider } from "../providers/solana-provider.js";
 import { WalletProvider } from "../providers/wallet-provider.js";
 import { useSendTX } from "./use-send-tx.js";
 
@@ -28,24 +29,29 @@ function renderUseSendTX(
 ): SendTXFunction {
   // Nothing here touches the network: the tests below only exercise paths
   // that finish before any RPC call is made.
-  const client = { rpc: {}, rpcSubscriptions: {} } as unknown as SolanaClient;
+  const client = {
+    rpc: {},
+    rpcSubscriptions: {},
+  } as unknown as Client<GrillClient>;
   const captured: { sendTX?: SendTXFunction } = {};
 
   renderToString(
-    <SolanaProvider client={client} queryClient={new QueryClient()}>
-      <WalletProvider signer={null}>
-        <GrillHeadlessProvider
-          onTransactionStatusEvent={onTransactionStatusEvent}
-          logLevel="off"
-        >
-          <Capture
-            onRender={(sendTX) => {
-              captured.sendTX = sendTX;
-            }}
-          />
-        </GrillHeadlessProvider>
-      </WalletProvider>
-    </SolanaProvider>,
+    <QueryClientProvider client={new QueryClient()}>
+      <ClientProvider client={client}>
+        <WalletProvider signer={null}>
+          <GrillHeadlessProvider
+            onTransactionStatusEvent={onTransactionStatusEvent}
+            logLevel="off"
+          >
+            <Capture
+              onRender={(sendTX) => {
+                captured.sendTX = sendTX;
+              }}
+            />
+          </GrillHeadlessProvider>
+        </WalletProvider>
+      </ClientProvider>
+    </QueryClientProvider>,
   );
 
   if (!captured.sendTX) {

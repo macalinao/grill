@@ -24,8 +24,9 @@ import {
 } from "./reconnect.js";
 
 /**
- * The subscriptions client `confirmTransaction` needs. `SolanaClient["rpcSubscriptions"]`
- * satisfies it.
+ * The subscriptions client `confirmTransaction` needs. Any
+ * `RpcSubscriptions<SolanaRpcSubscriptionsApi>`, such as a kit client's
+ * `rpcSubscriptions`, satisfies it.
  */
 export type ConfirmationRpcSubscriptions =
   RpcSubscriptions<SignatureNotificationsApi>;

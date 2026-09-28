@@ -102,7 +102,7 @@ interface SubscriptionEntry {
 }
 
 /**
- * RPC subscriptions type from `SolanaClient`
+ * RPC subscriptions type from the kit client (`GrillClient["rpcSubscriptions"]`)
  */
 type RpcSubscriptionsType = RpcSubscriptions<SolanaRpcSubscriptionsApi>;
 

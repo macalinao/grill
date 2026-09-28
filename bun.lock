@@ -38,6 +38,8 @@
         "@solana-program/token-2022": "^0.17.0",
         "@solana-programs/meteora-damm-v2": "^0.4.0",
         "@solana/kit": "catalog:",
+        "@solana/kit-plugin-rpc": "^0.19.0",
+        "@solana/react": "catalog:",
         "@solana/spl-token": "^0.4.15",
         "@solana/wallet-adapter-react": "catalog:",
         "@solana/wallet-adapter-react-ui": "^0.9.40",
@@ -151,6 +153,7 @@
       "devDependencies": {
         "@macalinao/tsconfig": "catalog:",
         "@solana/kit": "catalog:",
+        "@solana/react": "catalog:",
         "@tanstack/react-query": "catalog:",
         "@types/bun": "catalog:",
         "@types/react": "catalog:",
@@ -161,7 +164,8 @@
         "typescript": "catalog:",
       },
       "peerDependencies": {
-        "@solana/kit": "catalog:peer",
+        "@solana/kit": "^8.3.0",
+        "@solana/react": "catalog:peer",
         "@tanstack/react-query": "catalog:peer",
         "react": "catalog:peer",
         "sonner": "^2",
@@ -206,7 +210,7 @@
       },
       "peerDependencies": {
         "@macalinao/grill": "workspace:^",
-        "@solana/kit": "catalog:peer",
+        "@solana/kit": "^8.3.0",
         "react": "catalog:peer",
       },
     },
@@ -281,7 +285,7 @@
       },
       "peerDependencies": {
         "@macalinao/grill": "workspace:^",
-        "@solana/kit": "catalog:peer",
+        "@solana/kit": "^8.3.0",
         "@solana/wallet-adapter-base": "catalog:",
         "@solana/wallet-adapter-react": "catalog:",
         "@solana/web3.js": "^1.98.4",
@@ -315,6 +319,7 @@
   "catalog": {
     "@macalinao/tsconfig": "^4.0.0",
     "@solana/kit": "^8.3.0",
+    "@solana/react": "^8.3.0",
     "@solana/wallet-adapter-base": "^0.9.28",
     "@solana/wallet-adapter-react": "^0.15.40",
     "@tanstack/react-query": "^5.103.1",
@@ -330,6 +335,7 @@
   "catalogs": {
     "peer": {
       "@solana/kit": "^8",
+      "@solana/react": "^8.3.0",
       "@tanstack/react-query": "^5.103.1",
       "react": "^18 || ^19",
       "react-dom": "^18 || ^19",
@@ -851,6 +857,10 @@
 
     "@solana/kit": ["@solana/kit@8.3.0", "", { "dependencies": { "@solana/accounts": "8.3.0", "@solana/addresses": "8.3.0", "@solana/codecs": "8.3.0", "@solana/errors": "8.3.0", "@solana/functional": "8.3.0", "@solana/instruction-plans": "8.3.0", "@solana/instructions": "8.3.0", "@solana/keys": "8.3.0", "@solana/offchain-messages": "8.3.0", "@solana/plugin-core": "8.3.0", "@solana/plugin-interfaces": "8.3.0", "@solana/program-client-core": "8.3.0", "@solana/programs": "8.3.0", "@solana/promises": "8.3.0", "@solana/rpc": "8.3.0", "@solana/rpc-api": "8.3.0", "@solana/rpc-parsed-types": "8.3.0", "@solana/rpc-spec-types": "8.3.0", "@solana/rpc-subscriptions": "8.3.0", "@solana/rpc-types": "8.3.0", "@solana/signers": "8.3.0", "@solana/subscribable": "8.3.0", "@solana/sysvars": "8.3.0", "@solana/transaction-confirmation": "8.3.0", "@solana/transaction-introspection": "8.3.0", "@solana/transaction-messages": "8.3.0", "@solana/transactions": "8.3.0" }, "peerDependencies": { "typescript": ">=5.4.0" }, "optionalPeers": ["typescript"] }, "sha512-2T2QaO+0/CeZnPMsjv/bGhBSEiBCMY6V/Qi0xhFF/+8yCH8tkzM/kgE7fX5JlrR3gZpl9Bu+C62KTqnvk/bcjw=="],
 
+    "@solana/kit-plugin-instruction-plan": ["@solana/kit-plugin-instruction-plan@0.19.0", "", { "peerDependencies": { "@solana/kit": "^8.2.0" } }, "sha512-62gh9R3jTMuU3UOPNuerQF9QRGM3TTRlVjD4Ukt78Vt3pdKpjx7g311DEDoP3SkKLw1q9UNc0KSKSbIsShFLwg=="],
+
+    "@solana/kit-plugin-rpc": ["@solana/kit-plugin-rpc@0.19.0", "", { "dependencies": { "@solana/kit-plugin-instruction-plan": "0.19.0" }, "peerDependencies": { "@solana/kit": "^8.2.0" } }, "sha512-N3nOdC4AEKJ5q9dT6pb7HEPpPelSHNWFkEUeKuf7fy9/9ErLAhYSZD7U6gOyRcCYK5oNyK5YZoCY5IHeqbOuOQ=="],
+
     "@solana/nominal-types": ["@solana/nominal-types@8.3.0", "", { "peerDependencies": { "typescript": ">=5.4.0" }, "optionalPeers": ["typescript"] }, "sha512-x2aCcMwe6C2tQNq4pAhx4bEd2zhrm3i7DjkdAJAPVCtPKd6ecO6iaV+53/RvE2ImZ0E9aVB41lPV8ZM0dMhRiw=="],
 
     "@solana/offchain-messages": ["@solana/offchain-messages@8.3.0", "", { "dependencies": { "@solana/addresses": "8.3.0", "@solana/codecs-core": "8.3.0", "@solana/codecs-data-structures": "8.3.0", "@solana/codecs-numbers": "8.3.0", "@solana/codecs-strings": "8.3.0", "@solana/errors": "8.3.0", "@solana/keys": "8.3.0", "@solana/nominal-types": "8.3.0" }, "peerDependencies": { "typescript": ">=5.4.0" }, "optionalPeers": ["typescript"] }, "sha512-zpwwQRTX+aBF97fgZW+T+grZWqKbCMa6moDnYHsCkQg67nCeb9OrPtZxMbCT5bP+kDgMTq2URQwS1NcZOwut+Q=="],
@@ -866,6 +876,8 @@
     "@solana/programs": ["@solana/programs@8.3.0", "", { "dependencies": { "@solana/addresses": "8.3.0", "@solana/errors": "8.3.0" }, "peerDependencies": { "typescript": ">=5.4.0" }, "optionalPeers": ["typescript"] }, "sha512-XosDh9GNaDUCvzpFE2e3M7iQ6tounwrhR16+KInjYNcvQDLgA5yeCbNfByai7OSz9iqEi5nlXjQFIQCckLANVw=="],
 
     "@solana/promises": ["@solana/promises@8.3.0", "", { "peerDependencies": { "typescript": ">=5.4.0" }, "optionalPeers": ["typescript"] }, "sha512-RekTh1UzvyD1EtF4hjenJDrnpGakJwTCE7cq6auQKtBxQUIJrKwDxmpyiJTJ00wvQYdMfMuyJEPQNuxgm6mxrg=="],
+
+    "@solana/react": ["@solana/react@8.3.0", "", { "dependencies": { "@solana/promises": "8.3.0", "@solana/signers": "8.3.0", "@solana/subscribable": "8.3.0", "@solana/transaction-messages": "8.3.0", "@solana/transactions": "8.3.0", "@solana/wallet-standard-features": "^1.4.0", "@wallet-standard/base": "^1.1.1", "@wallet-standard/errors": "^0.1.2", "@wallet-standard/react": "^1.0.3", "@wallet-standard/ui": "^1.0.3", "@wallet-standard/ui-registry": "^1.1.1" }, "peerDependencies": { "@solana/kit": "^8.3.0", "@tanstack/react-query": "^5.0.0", "react": ">=18", "swr": "^2.5.1" }, "optionalPeers": ["@tanstack/react-query", "react", "swr"] }, "sha512-vs5ui8QhAOb2GDBlrE8q1IIOiXC0ZJUtfbQePvDi3x1ZDu3FAgX7D07B8VyMCuPMx0rq8YpERjP1fsm8rZfXbQ=="],
 
     "@solana/rpc": ["@solana/rpc@8.3.0", "", { "dependencies": { "@solana/errors": "8.3.0", "@solana/fast-stable-stringify": "8.3.0", "@solana/functional": "8.3.0", "@solana/rpc-api": "8.3.0", "@solana/rpc-spec": "8.3.0", "@solana/rpc-spec-types": "8.3.0", "@solana/rpc-transformers": "8.3.0", "@solana/rpc-transport-http": "8.3.0", "@solana/rpc-types": "8.3.0" }, "peerDependencies": { "typescript": ">=5.4.0" }, "optionalPeers": ["typescript"] }, "sha512-giS/v09dby/VD77uDfNrhr5fLi5K5NIOp3jIFfKpdAnfPHgKLv050xdmL9ZltrWucrGuePinzUTLWkdkf4s/cw=="],
 
@@ -1235,7 +1247,23 @@
 
     "@wallet-standard/errors": ["@wallet-standard/errors@0.1.2", "", { "dependencies": { "chalk": "^5.4.1", "commander": "^13.1.0" }, "bin": { "errors": "bin/cli.mjs" } }, "sha512-oEzKUqJefKby6wcIvaJgrSEe/uNn/rnqkJ0P/85K+h0i5Tdo9E3L22VWq/j5K1e8hHMnZd6LgaIr8m/Wn7X/Ng=="],
 
+    "@wallet-standard/experimental-features": ["@wallet-standard/experimental-features@0.2.1", "", { "dependencies": { "@wallet-standard/base": "^1.1.1" } }, "sha512-GQ5fsg6Y64o/mOzRMKoannp0ArbQAybFcgxBJl896k0gC9NP9/RYUN/qWCZiwc+PYwmsGDCaF+MrnqhcGtl8dA=="],
+
     "@wallet-standard/features": ["@wallet-standard/features@1.1.1", "", { "dependencies": { "@wallet-standard/base": "^1.1.1" } }, "sha512-aCWYmVeSCGViyEU5k7GMoW8zxE4Gs+C1s1Pp2XLesvSNlnZ4PMES9HUnTB3hl0b3RVj7C61yze3IWyrncqg4MA=="],
+
+    "@wallet-standard/react": ["@wallet-standard/react@1.0.3", "", { "dependencies": { "@wallet-standard/react-core": "^1.0.3" } }, "sha512-stvjriEfuHnUwZ4PBqkm1/1z9YQpMH6KTHdAql9F3xFoIxm493Hg7IljRW7+5zBEtzwro4L1eQoxBLe34SdbfQ=="],
+
+    "@wallet-standard/react-core": ["@wallet-standard/react-core@1.0.3", "", { "dependencies": { "@wallet-standard/app": "^1.1.1", "@wallet-standard/base": "^1.1.1", "@wallet-standard/errors": "^0.1.2", "@wallet-standard/experimental-features": "^0.2.1", "@wallet-standard/features": "^1.1.1", "@wallet-standard/ui": "^1.0.3", "@wallet-standard/ui-registry": "^1.1.1" }, "peerDependencies": { "react": ">=18", "react-dom": ">=18" } }, "sha512-kN2Am5cNwIpqCSp+jvQu5J8bF6sdVNyYl9go4N8GDUpj+UJAg6Hfqx18ij7lWY3L8kF6Y9dwVH+DvVvj43elOA=="],
+
+    "@wallet-standard/ui": ["@wallet-standard/ui@1.0.3", "", { "dependencies": { "@wallet-standard/ui-compare": "^1.0.3", "@wallet-standard/ui-core": "^1.0.1", "@wallet-standard/ui-features": "^1.0.3" } }, "sha512-H2QJTR5m3PeHi06q8kj4TiRf3U+fEe6W+jw+hztPkjTRBVDeCIrwRhbdgAyI8yaGc7dBhzGYqhUQ9ecYj7x0rQ=="],
+
+    "@wallet-standard/ui-compare": ["@wallet-standard/ui-compare@1.0.3", "", { "dependencies": { "@wallet-standard/base": "1.1.1", "@wallet-standard/ui-core": "1.0.1", "@wallet-standard/ui-registry": "1.1.1" } }, "sha512-AXst7auT0+5eIaj8MyUXZLopKWN2HwqiQNTVgcF80u9X9a/fsiiHi8tlY0dc/y/AIOM654cMpvpJqsJEZNV9pg=="],
+
+    "@wallet-standard/ui-core": ["@wallet-standard/ui-core@1.0.1", "", { "dependencies": { "@wallet-standard/base": "1.1.1" } }, "sha512-LFmsSjMw3wXfZgZ5eAFGdIJ1512dGTWIEeoPDKsc6mHf7cMU18tvtpe4bOL76lT9Qh1Gc+4+kdtwSkTuJ9L+jw=="],
+
+    "@wallet-standard/ui-features": ["@wallet-standard/ui-features@1.0.3", "", { "dependencies": { "@wallet-standard/base": "1.1.1", "@wallet-standard/errors": "0.1.2", "@wallet-standard/ui-core": "1.0.1", "@wallet-standard/ui-registry": "1.1.1" } }, "sha512-3YgxBoDXZCsaSyCNMph7i7G57ap+C6Y+l3HmTEQKigzTGxPUJ2mvqpTPwdj8D2cVkTKBzu8/78wweV7I9eG1rA=="],
+
+    "@wallet-standard/ui-registry": ["@wallet-standard/ui-registry@1.1.1", "", { "dependencies": { "@wallet-standard/base": "1.1.1", "@wallet-standard/errors": "0.1.2", "@wallet-standard/ui-core": "1.0.1" } }, "sha512-vJDZ/K2xwIqkxiyWUhPb6s62bTMRbYPj0MCJa9lYsqHGZgMbKBI3ZjLJK5MzWow2VxoOfuR77HuJng+HDWt1hA=="],
 
     "@wallet-standard/wallet": ["@wallet-standard/wallet@1.1.1", "", { "dependencies": { "@wallet-standard/base": "^1.1.1" } }, "sha512-8WiRPaKk/wNNRZhB2eVhpR/JW7/aqTCMoZhgVUCujuzDmxxmGvsosMxdCG4NAdYkoyozAHCX8/xLtlWUn5mNdQ=="],
 

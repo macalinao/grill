@@ -1,24 +1,36 @@
+import type { DevnetUrl, MainnetUrl, TestnetUrl } from "@solana/kit";
 import { describe, expect, it } from "bun:test";
 import { getPublicSolanaRpcUrl } from "./get-public-solana-rpc-url.js";
 
 describe("getPublicSolanaRpcUrl", () => {
   it("resolves the public cluster endpoints", () => {
-    expect(getPublicSolanaRpcUrl("devnet")).toBe(
+    expect<string>(getPublicSolanaRpcUrl("devnet")).toBe(
       "https://api.devnet.solana.com",
     );
-    expect(getPublicSolanaRpcUrl("testnet")).toBe(
+    expect<string>(getPublicSolanaRpcUrl("testnet")).toBe(
       "https://api.testnet.solana.com",
     );
-    expect(getPublicSolanaRpcUrl("mainnet")).toBe(
+    expect<string>(getPublicSolanaRpcUrl("mainnet")).toBe(
       "https://api.mainnet-beta.solana.com",
     );
-    expect(getPublicSolanaRpcUrl("mainnet-beta")).toBe(
+    expect<string>(getPublicSolanaRpcUrl("mainnet-beta")).toBe(
       "https://api.mainnet-beta.solana.com",
     );
   });
 
-  it("resolves a local validator", () => {
-    expect(getPublicSolanaRpcUrl("localnet")).toBe("http://127.0.0.1:8899");
+  it("brands public cluster URLs with kit's cluster URL types", () => {
+    // Type-level assertions: each moniker resolves to kit's branded URL, so an
+    // RPC built from it is typed with that cluster's methods.
+    const mainnetUrl: MainnetUrl = getPublicSolanaRpcUrl("mainnet");
+    const mainnetBetaUrl: MainnetUrl = getPublicSolanaRpcUrl("mainnet-beta");
+    const devnetUrl: DevnetUrl = getPublicSolanaRpcUrl("devnet");
+    const testnetUrl: TestnetUrl = getPublicSolanaRpcUrl("testnet");
+    expect([mainnetUrl, mainnetBetaUrl, devnetUrl, testnetUrl]).toHaveLength(4);
+  });
+
+  it("resolves a local validator to the exact URL solanaRpcConnection maps to ws port 8900", () => {
+    const localnetUrl: string = getPublicSolanaRpcUrl("localnet");
+    expect(localnetUrl).toBe("http://127.0.0.1:8899");
     expect(getPublicSolanaRpcUrl("localhost")).toBe("http://127.0.0.1:8899");
   });
 
