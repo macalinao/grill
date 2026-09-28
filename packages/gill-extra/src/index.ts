@@ -17,7 +17,6 @@ export * from "./get-writable-accounts.js";
 export * from "./ixs/index.js";
 export * from "./log-transaction-simulation.js";
 export * from "./logger.js";
-export * from "./poll-confirm-transaction.js";
 export * from "./poll-transaction-confirmation.js";
 export * from "./reconnect.js";
 export * from "./send-and-confirm-transaction-with-signers-factory.js";

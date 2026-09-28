@@ -17,7 +17,7 @@ bun add @macalinao/gill-extra
 - **Transaction building**: `createTransaction` assembles a transaction message from instructions, a fee payer and optional compute budget settings
 - **Zod schemas**: Type-safe Solana data validation from `@macalinao/zod-solana`
 - **Transaction utilities**: Base64 encoding, transaction inspector URLs
-- **Polling utilities**: Transaction confirmation polling with configurable retries
+- **Confirmation utilities**: `confirmTransaction` (WebSocket with polling fallback) and `pollTransactionConfirmation`, with configurable retries
 - **Explorer utilities**: Generate Solscan explorer links for transactions, addresses, and blocks
 - **Account utilities**: Batch account fetching and decoding helpers
 - **Token utilities**: Re-exports from `@macalinao/token-utils`
@@ -28,7 +28,7 @@ bun add @macalinao/gill-extra
 import {
   createTransaction,
   getPublicSolanaRpcUrl,
-  pollConfirmTransaction,
+  confirmTransaction,
   getSolscanExplorerLink,
   createTransactionInspectorUrl,
   fetchAndDecodeAccount,
