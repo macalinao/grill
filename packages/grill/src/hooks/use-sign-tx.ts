@@ -3,8 +3,8 @@ import { simulateTransactionFactory } from "@macalinao/gill-extra";
 import { useMemo } from "react";
 import { useGrillContext } from "../contexts/grill-context.js";
 import { createSignTX } from "../utils/internal/create-sign-tx.js";
-import { useKitWallet } from "./use-kit-wallet.js";
 import { useSolanaClient } from "./use-solana-client.js";
+import { useWalletSigner } from "./use-wallet-signer.js";
 
 /**
  * Hook that provides a function to sign a transaction without sending it,
@@ -19,7 +19,7 @@ import { useSolanaClient } from "./use-solana-client.js";
  */
 export const useSignTX = (): SignTXFunction => {
   const { rpc } = useSolanaClient();
-  const { signer } = useKitWallet();
+  const signer = useWalletSigner();
   const { onTransactionStatusEvent, rpcUrl, cluster, logger } =
     useGrillContext();
 

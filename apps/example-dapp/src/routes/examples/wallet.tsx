@@ -1,14 +1,19 @@
-import type { WalletContextState, WalletProviderProps } from "@macalinao/grill";
+import type { ClientWithReactiveSigner } from "@macalinao/grill";
 import {
+  reactiveSigner,
   useConnectedWallet,
-  useKitWallet,
-  WalletContext,
-  WalletProvider,
+  useWalletSigner,
 } from "@macalinao/grill";
+import { createClient } from "@solana/kit";
+import {
+  ClientProvider,
+  useClient,
+  useIdentity,
+  usePayer,
+} from "@solana/react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { createFileRoute } from "@tanstack/react-router";
 import { CircleCheck, CircleX, Wallet } from "lucide-react";
-import { useContext } from "react";
 import { CodeBlock } from "@/components/examples/code-block";
 import { ErrorBoundary } from "@/components/examples/error-boundary";
 import { ExampleHeader } from "@/components/examples/example-header";
@@ -24,48 +29,53 @@ export const Route = createFileRoute("/examples/wallet")({
   component: WalletPage,
 });
 
-/** `useKitWallet` — the nullable read. Safe to call whether or not a wallet is connected. */
-const KitWalletCard: React.FC = () => {
-  const state: WalletContextState = useKitWallet();
+/** `useWalletSigner` — the nullable read. Safe to call whether or not a wallet is connected. */
+const WalletSignerCard: React.FC = () => {
+  const signer = useWalletSigner();
 
-  // The context object is exported too. `undefined` outside a WalletProvider.
-  const raw = useContext(WalletContext);
+  // The signer lives on the kit client, so @solana/react's own hooks see it
+  // too. The app installs `reactiveSigner()`, which sets payer and identity.
+  const client = useClient<ClientWithReactiveSigner>();
+  const payer = usePayer(client);
+  const identity = useIdentity(client);
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>useKitWallet</CardTitle>
+        <CardTitle>useWalletSigner</CardTitle>
         <CardDescription>
-          Returns <code className="font-mono">{"{ signer }"}</code>, where
-          signer is <code className="font-mono">null</code> when disconnected.
-          Use this when your component has something to render either way.
+          Returns the kit client&apos;s <code className="font-mono">payer</code>
+          , or <code className="font-mono">null</code> when disconnected. Use
+          this when your component has something to render either way.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-3">
         <div className="flex items-center gap-3 rounded-lg border p-3">
-          {state.signer ? (
+          {signer ? (
             <CircleCheck className="h-5 w-5 shrink-0 text-green-600" />
           ) : (
             <CircleX className="h-5 w-5 shrink-0 text-muted-foreground" />
           )}
           <div className="min-w-0">
             <div className="text-sm font-medium">
-              {state.signer ? "Connected" : "Not connected"}
+              {signer ? "Connected" : "Not connected"}
             </div>
             <div className="truncate font-mono text-xs text-muted-foreground">
-              signer: {state.signer ? state.signer.address : "null"}
+              signer: {signer ? signer.address : "null"}
             </div>
           </div>
         </div>
 
         <p className="text-xs text-muted-foreground">
-          useContext(WalletContext) is{" "}
+          usePayer(client) / useIdentity(client) from @solana/react:{" "}
           <code className="font-mono">
-            {raw === undefined ? "undefined (no provider)" : "the same state ✓"}
+            {(payer ?? null) === signer && (identity ?? null) === signer
+              ? "the same signer ✓"
+              : "differ"}
           </code>
         </p>
 
-        {!state.signer && <WalletMultiButton />}
+        {!signer && <WalletMultiButton />}
       </CardContent>
     </Card>
   );
@@ -126,14 +136,15 @@ const ConnectedWalletCard: React.FC = () => (
   </Card>
 );
 
-/** Typed with grill's exported props type. */
-const NullSignerScope: React.FC<Omit<WalletProviderProps, "signer">> = ({
-  children,
-}) => <WalletProvider signer={null}>{children}</WalletProvider>;
+/**
+ * A second kit client with its own, empty `reactiveSigner()`. Hooks read the
+ * signer from the nearest `ClientProvider`, so under it no wallet is connected.
+ */
+const signerlessClient = createClient().use(reactiveSigner());
 
-/** What `useKitWallet` sees inside the nested provider. */
+/** What `useWalletSigner` sees inside a given `ClientProvider`. */
 const NestedReadout: React.FC = () => {
-  const { signer } = useKitWallet();
+  const signer = useWalletSigner();
   return (
     <span className="font-mono text-xs">
       signer: {signer ? `${signer.address.slice(0, 12)}…` : "null"}
@@ -142,38 +153,42 @@ const NestedReadout: React.FC = () => {
 };
 
 /**
- * `WalletProvider` is what supplies the signer. It is normally mounted once,
- * near the root — here a second one is nested to show that `useKitWallet` reads
- * from the nearest provider, not from a global.
+ * `reactiveSigner()` is the kit plugin that holds the signer. It is installed
+ * once on the app's client — here a second client is nested to show that
+ * `useWalletSigner` reads from the nearest `ClientProvider`, not from a global.
  */
-const ProviderCard: React.FC = () => (
+const ClientSignerCard: React.FC = () => (
   <Card>
     <CardHeader>
-      <CardTitle>WalletProvider</CardTitle>
+      <CardTitle>reactiveSigner</CardTitle>
       <CardDescription>
-        The signer comes from context, so it can be scoped or overridden. In
-        this app the root provider is fed by{" "}
+        The signer is the kit client&apos;s{" "}
+        <code className="font-mono">payer</code> and{" "}
+        <code className="font-mono">identity</code>. In this app it is set by{" "}
+        <code className="font-mono">WalletAdapterCompatProvider</code> from{" "}
         <code className="font-mono">@macalinao/wallet-adapter-compat</code>,
         which adapts a wallet-adapter wallet into a kit{" "}
-        <code className="font-mono">TransactionSendingSigner</code>.
+        <code className="font-mono">TransactionSendingSigner</code> and calls{" "}
+        <code className="font-mono">client.setSigner(...)</code> as it connects
+        and disconnects.
       </CardDescription>
     </CardHeader>
     <CardContent className="space-y-3">
       <div className="flex items-center justify-between rounded-lg border p-3">
         <span className="text-sm text-muted-foreground">
-          Root provider (the real wallet)
+          App client (the real wallet)
         </span>
         <NestedReadout />
       </div>
 
-      <NullSignerScope>
+      <ClientProvider client={signerlessClient}>
         <div className="flex items-center justify-between rounded-lg border border-dashed p-3">
           <span className="text-sm text-muted-foreground">
-            Nested &lt;WalletProvider signer=&#123;null&#125;&gt;
+            Nested &lt;ClientProvider&gt; with an empty reactiveSigner()
           </span>
           <NestedReadout />
         </div>
-      </NullSignerScope>
+      </ClientProvider>
     </CardContent>
   </Card>
 );
@@ -184,12 +199,10 @@ function WalletPage() {
       <ExampleHeader
         title="Wallet access"
         exports={[
-          "useKitWallet",
+          "useWalletSigner",
           "useConnectedWallet",
-          "WalletProvider",
-          "WalletContext",
-          "WalletContextState",
-          "WalletProviderProps",
+          "reactiveSigner",
+          "ClientWithReactiveSigner",
         ]}
       >
         Two hooks read the wallet, and the difference is what they do when there
@@ -207,10 +220,10 @@ function WalletPage() {
           </CardHeader>
           <CardContent>
             <p className="text-sm">
-              <code className="font-mono">useKitWallet</code> for anything that
-              renders in both states — a header, a balance, a connect button.{" "}
-              <code className="font-mono">useConnectedWallet</code> for the code
-              behind the gate, so you are not threading{" "}
+              <code className="font-mono">useWalletSigner</code> for anything
+              that renders in both states — a header, a balance, a connect
+              button. <code className="font-mono">useConnectedWallet</code> for
+              the code behind the gate, so you are not threading{" "}
               <code className="font-mono">signer!</code> through every function
               that builds an instruction.
             </p>
@@ -218,21 +231,26 @@ function WalletPage() {
         </Card>
 
         <div className="grid gap-6 lg:grid-cols-2">
-          <KitWalletCard />
+          <WalletSignerCard />
           <ConnectedWalletCard />
         </div>
 
-        <ProviderCard />
+        <ClientSignerCard />
 
         <Card>
           <CardHeader>
             <CardTitle>Usage</CardTitle>
           </CardHeader>
           <CardContent>
-            <CodeBlock>{`import { useConnectedWallet, useKitWallet } from "@macalinao/grill";
+            <CodeBlock>{`import { reactiveSigner, useConnectedWallet, useWalletSigner } from "@macalinao/grill";
+
+// Once, where the client is built:
+const client = createClient()
+  .use(solanaRpcConnection({ rpcUrl }))
+  .use(reactiveSigner());
 
 function Page() {
-  const { signer } = useKitWallet();
+  const signer = useWalletSigner();
   if (!signer) {
     return <ConnectButton />;
   }
@@ -240,7 +258,7 @@ function Page() {
 }
 
 function Transfer() {
-  const signer = useConnectedWallet(); // TransactionSendingSigner, never null
+  const signer = useConnectedWallet(); // GrillSigner, never null
   const ix = getTransferSolInstruction({ source: signer, ... });
 }`}</CodeBlock>
           </CardContent>

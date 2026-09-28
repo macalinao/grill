@@ -2,7 +2,7 @@ import {
   TOKEN_PROGRAM_ADDRESS,
   useAssociatedTokenPda,
   useAssociatedTokenPdas,
-  useKitWallet,
+  useWalletSigner,
   useTokenMetadataPda,
   useTokenMetadataPdas,
 } from "@macalinao/grill";
@@ -41,7 +41,7 @@ const PdaRow: React.FC<{ label: string; pda: string | null | undefined }> = ({
 );
 
 function PdasPage() {
-  const { signer } = useKitWallet();
+  const signer = useWalletSigner();
 
   // Falls back to a well-known wallet so the page shows real derivations even
   // when nothing is connected.

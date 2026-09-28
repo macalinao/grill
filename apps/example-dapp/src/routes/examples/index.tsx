@@ -33,7 +33,7 @@ const SECTIONS: ExampleSection[] = [
         title: "Simple Dashboard",
         href: "/examples/dashboard",
         description: "Wallet connection and native balance display.",
-        exports: ["useAccount", "useKitWallet"],
+        exports: ["useAccount", "useWalletSigner"],
       },
       {
         title: "Transfer SOL",
@@ -164,8 +164,8 @@ const SECTIONS: ExampleSection[] = [
         title: "Wallet Access",
         href: "/examples/wallet",
         description:
-          "The nullable read, the throwing read, and the provider behind both.",
-        exports: ["useKitWallet", "useConnectedWallet", "WalletProvider"],
+          "The nullable read, the throwing read, and the client plugin behind both.",
+        exports: ["useWalletSigner", "useConnectedWallet", "reactiveSigner"],
       },
       {
         title: "Headless Provider",

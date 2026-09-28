@@ -60,6 +60,9 @@ function App() {
 suspends until it resolves. Read the client anywhere below it with
 `useSolanaClient()`, which is typed with grill's `GrillClient` capabilities.
 
+The connected wallet also lives on the client, as its `payer` (see
+[Wallet](#wallet) below). Read-only apps can skip it.
+
 ### 2. Fetch account data with automatic batching
 
 ```tsx
@@ -199,13 +202,37 @@ const signature = await sendTX("Transaction Name", instructions, {
 });
 ```
 
-### useKitWallet
+### Wallet
 
-Access the wallet signer and connection:
+The connected wallet's signer lives on the kit client as its `payer` (and
+`identity`), using the capabilities from `@solana/plugin-interfaces`. Install
+`reactiveSigner()` so the signer can change at runtime, and set it from your
+wallet integration -- `WalletAdapterCompatProvider` from
+`@macalinao/wallet-adapter-compat` does this for `@solana/wallet-adapter`:
 
 ```tsx
-const { signer, publicKey } = useKitWallet();
+import { reactiveSigner } from "@macalinao/grill";
+
+const client = createClient()
+  .use(solanaRpcConnection({ rpcUrl }))
+  .use(reactiveSigner());
+
+client.setSigner(signer); // on connect
+client.setSigner(null); // on disconnect
 ```
+
+Any plugin that sets a reactive `payer` works, e.g. `walletSigner()` from
+`@solana/kit-plugin-wallet`, as long as its signer can send transactions.
+
+Read the signer with:
+
+```tsx
+const signer = useWalletSigner(); // GrillSigner | null
+const signer = useConnectedWallet(); // GrillSigner, throws when disconnected
+```
+
+`usePayer(client)` / `useIdentity(client)` from `@solana/react` read the same
+signer.
 
 ## Transaction Status Events
 

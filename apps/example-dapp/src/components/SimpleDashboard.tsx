@@ -1,5 +1,5 @@
 import type * as React from "react";
-import { useAccount, useKitWallet, useSolanaClient } from "@macalinao/grill";
+import { useAccount, useWalletSigner, useSolanaClient } from "@macalinao/grill";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/card";
 
 export const SimpleDashboard: React.FC = () => {
-  const { signer } = useKitWallet();
+  const signer = useWalletSigner();
   const { rpc } = useSolanaClient();
   // Only fetch account if signer is available
   const accountQuery = useAccount({ address: signer ? signer.address : null });

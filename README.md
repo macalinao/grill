@@ -41,7 +41,11 @@ bun add @macalinao/dataloader-es
 ## Quick Start
 
 ```tsx
-import { getPublicSolanaRpcUrl, GrillProvider } from "@macalinao/grill";
+import {
+  getPublicSolanaRpcUrl,
+  GrillProvider,
+  reactiveSigner,
+} from "@macalinao/grill";
 import { WalletAdapterCompatProvider } from "@macalinao/wallet-adapter-compat";
 import { createClient } from "@solana/kit";
 import { solanaRpcConnection } from "@solana/kit-plugin-rpc";
@@ -55,9 +59,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "sonner";
 
 const queryClient = new QueryClient();
-const solanaClient = createClient().use(
-  solanaRpcConnection({ rpcUrl: getPublicSolanaRpcUrl("mainnet") }),
-);
+// `reactiveSigner()` makes the connected wallet the client's `payer`;
+// `WalletAdapterCompatProvider` keeps it in sync with wallet-adapter.
+const solanaClient = createClient()
+  .use(solanaRpcConnection({ rpcUrl: getPublicSolanaRpcUrl("mainnet") }))
+  .use(reactiveSigner());
 
 function App() {
   const wallets = useMemo(
@@ -67,20 +73,20 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ClientProvider client={solanaClient}>
-        <ConnectionProvider endpoint="https://api.mainnet-beta.solana.com">
-          <WalletProvider wallets={wallets} autoConnect>
-            <WalletModalProvider>
+      <ConnectionProvider endpoint="https://api.mainnet-beta.solana.com">
+        <WalletProvider wallets={wallets} autoConnect>
+          <WalletModalProvider>
+            <ClientProvider client={solanaClient}>
               <WalletAdapterCompatProvider>
                 <GrillProvider>
                   {/* Your app components */}
                   <Toaster position="bottom-right" />
                 </GrillProvider>
               </WalletAdapterCompatProvider>
-            </WalletModalProvider>
-          </WalletProvider>
-        </ConnectionProvider>
-      </ClientProvider>
+            </ClientProvider>
+          </WalletModalProvider>
+        </WalletProvider>
+      </ConnectionProvider>
     </QueryClientProvider>
   );
 }
@@ -117,10 +123,10 @@ function Dashboard() {
 Send transactions with automatic status notifications:
 
 ```tsx
-import { useSendTX, useKitWallet } from "@macalinao/grill";
+import { useSendTX, useWalletSigner } from "@macalinao/grill";
 
 function SwapButton() {
-  const { signer } = useKitWallet();
+  const signer = useWalletSigner();
   const sendTX = useSendTX();
 
   const handleSwap = async () => {

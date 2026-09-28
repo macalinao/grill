@@ -8,7 +8,7 @@ import {
   NATIVE_SOL,
   parseTokenAmount,
   useAccount,
-  useKitWallet,
+  useWalletSigner,
   useSendTX,
 } from "@macalinao/grill";
 import { getTransferSolInstruction } from "@solana-program/system";
@@ -57,7 +57,7 @@ const transferSolSchema = z.object({
 });
 
 const TransferSolPage: React.FC = () => {
-  const { signer } = useKitWallet();
+  const signer = useWalletSigner();
   const sendTX = useSendTX();
 
   const { data: userAccount } = useAccount({

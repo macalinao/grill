@@ -67,9 +67,9 @@ The project uses Bun workspaces with packages in two directories:
 1. **@macalinao/grill** - Main package providing React context and hooks
    - `GrillProvider`: Creates DataLoader for batching account requests with sonner toast notifications
    - `GrillHeadlessProvider`: Headless version without UI features (for custom implementations)
-   - `WalletProvider`: Kit wallet integration context
+   - `reactiveSigner()`: kit plugin that puts the connected wallet on the client as `payer`/`identity`
    - `SubscriptionProvider`: WebSocket subscription support for real-time account updates
-   - Key hooks: `useAccount`, `useTokenInfo`, `useTokenBalance`, `useAssociatedTokenAccount`, `useSendTx`
+   - Key hooks: `useAccount`, `useTokenInfo`, `useTokenBalance`, `useAssociatedTokenAccount`, `useSendTx`, `useWalletSigner`, `useConnectedWallet`
    - Note: sonner is a required peer dependency for transaction toast notifications
 
 2. **@macalinao/solana-batch-accounts-loader** - DataLoader implementation for batching Solana account fetches
@@ -106,11 +106,13 @@ When using Grill, providers must be set up in this order:
 
 ```tsx
 QueryClientProvider
-  -> ClientProvider (@solana/react, client = createClient().use(solanaRpcConnection(...)))
-    -> ConnectionProvider (@solana/wallet-adapter-react)
-      -> WalletProvider (@solana/wallet-adapter-react)
-        -> WalletModalProvider
-          -> GrillProvider (or GrillHeadlessProvider)
+  -> ConnectionProvider (@solana/wallet-adapter-react)
+    -> WalletProvider (@solana/wallet-adapter-react)
+      -> WalletModalProvider
+        -> ClientProvider (@solana/react, client = createClient()
+             .use(solanaRpcConnection(...)).use(reactiveSigner()))
+          -> WalletAdapterCompatProvider (@macalinao/wallet-adapter-compat)
+            -> GrillProvider (or GrillHeadlessProvider)
 ```
 
 Grill has no client provider of its own: it reads the kit client from
@@ -121,6 +123,10 @@ type); `solanaRpcConnection` from `@solana/kit-plugin-rpc` installs both.
 `ClientProvider` also accepts a promise of a client (for async plugins) and
 suspends until it resolves. `@solana/react` is a peer dependency of grill;
 `@solana/kit-plugin-rpc` is an app-level dependency only.
+
+`WalletAdapterCompatProvider` must sit inside both wallet-adapter's providers
+(it reads `useWallet`/`useConnection`) and `ClientProvider` (it writes the
+signer to the client).
 
 ### Account Batching Architecture
 
@@ -133,10 +139,20 @@ The core innovation is automatic batching of concurrent account requests:
 
 ### Kit Wallet Integration
 
-Provides two contexts:
+The connected wallet's signer lives on the kit client, not in a grill context:
 
-1. Account batching context (GrillProvider)
-2. Wallet context for TransactionSendingSigner (WalletProvider from grill)
+- `reactiveSigner()` (grill kit plugin) installs `payer` and `identity` (the
+  same `GrillSigner`, throwing `SOLANA_ERROR__WALLET__NO_SIGNER_CONNECTED` while
+  unset) plus `subscribeToPayer`/`subscribeToIdentity` from
+  `@solana/plugin-interfaces`, and a `setSigner(signer | null)` method.
+- `WalletAdapterCompatProvider` (`@macalinao/wallet-adapter-compat`) bridges
+  `@solana/wallet-adapter` to it: it builds a `TransactionSendingSigner` from
+  the connected adapter and calls `client.setSigner(...)`.
+- `useWalletSigner()` reads `client.payer` via `usePayer` from `@solana/react`
+  (reactive through `subscribeToPayer`) and returns it if it is a
+  `TransactionSendingSigner`, else `null`. `useConnectedWallet()` throws when it
+  is `null`. The send/sign paths (`useSendTX`, `useSignTX`) use the same signer
+  as fee payer. Grill reads `payer`, never `identity`.
 
 ## Code Style Guidelines
 

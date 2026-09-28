@@ -1,5 +1,5 @@
 import type { Signature } from "@solana/kit";
-import { useKitWallet, useSendTX } from "@macalinao/grill";
+import { useWalletSigner, useSendTX } from "@macalinao/grill";
 import {
   claimAndRedeemAllRewardsMM,
   claimPrimaryRewards,
@@ -18,7 +18,7 @@ export interface UseQuarryClaimMMResult {
 export const useQuarryClaimMM = (): UseQuarryClaimMMResult => {
   const { mergePool } = useMergeMinerContext();
   const { poolInfo } = usePoolInfo();
-  const { signer } = useKitWallet();
+  const signer = useWalletSigner();
   const sendTX = useSendTX();
 
   // Fetch primary rewarder data

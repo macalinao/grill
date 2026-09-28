@@ -54,6 +54,7 @@
     "@macalinao/grill": "workspace:^",
     "@macalinao/tsconfig": "catalog:",
     "@solana/kit": "catalog:",
+    "@solana/react": "catalog:",
     "@solana/web3.js": "^1.99.0",
     "@types/bun": "catalog:",
     "@types/react": "catalog:",
@@ -63,10 +64,11 @@
   },
   "peerDependencies": {
     "@macalinao/grill": "workspace:^",
-    "@solana/web3.js": "^1.98.4",
     "@solana/kit": "^8.3.0",
+    "@solana/react": "catalog:peer",
     "@solana/wallet-adapter-base": "catalog:",
     "@solana/wallet-adapter-react": "catalog:",
+    "@solana/web3.js": "^1.98.4",
     "react": "catalog:peer",
     "react-dom": "catalog:peer"
   }
