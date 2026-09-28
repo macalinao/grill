@@ -50,7 +50,7 @@ import {
 } from "@solana-program/token";
 
 const TransferPanel: React.FC = () => {
-  const { signer } = useKitWallet();
+  const signer = useWalletSigner();
   const sendTX = useSendTX();
   
   const handleTransferSOL = async (to: Address, amount: bigint): Promise<void> => {
@@ -99,7 +99,7 @@ const TransferPanel: React.FC = () => {
 Let's look at a complete example from the example-dapp:
 
 ```tsx
-import { useAccount, useAssociatedTokenAccount, useKitWallet, useSendTX } from "@macalinao/grill";
+import { useAccount, useAssociatedTokenAccount, useWalletSigner, useSendTX } from "@macalinao/grill";
 import { 
   getTransferSolInstruction 
 } from "@solana-program/system";
@@ -149,7 +149,7 @@ export async function getWrapSOLInstructions(
 
 // Using it in a component
 const WrapSOLButton: React.FC = () => {
-  const { signer } = useKitWallet();
+  const signer = useWalletSigner();
   const sendTX = useSendTX();
   const [amount, setAmount] = useState("");
   
@@ -286,7 +286,7 @@ Real DeFi operations often require multiple steps:
 
 ```tsx
 const ComplexDeFiOperation: React.FC = () => {
-  const { signer } = useKitWallet();
+  const signer = useWalletSigner();
   const sendTX = useSendTX();
   
   const executeDeFiStrategy = async (): Promise<void> => {
@@ -341,15 +341,15 @@ const VersionedTxExample: React.FC = () => {
 };
 ```
 
-## The Wallet Context
+## The Wallet Signer
 
-The `useKitWallet` hook provides access to the connected wallet's signer:
+The `useWalletSigner` hook returns the connected wallet's signer, which lives on the kit client as its `payer` (see [Setup](./02-setup.md)):
 
 ```tsx
-import { useKitWallet } from "@macalinao/grill";
+import { useWalletSigner } from "@macalinao/grill";
 
 const WalletInfo: React.FC = () => {
-  const { signer } = useKitWallet();
+  const signer = useWalletSigner();
   
   // signer is null when wallet is not connected
   if (!signer) return <div>Wallet not connected</div>;
@@ -429,7 +429,7 @@ const handleComplexOperation = async (): Promise<void> => {
 
 ```tsx
 const ActionButton: React.FC = () => {
-  const { signer } = useKitWallet();
+  const signer = useWalletSigner();
   const sendTX = useSendTX();
   
   const handleAction = async (): Promise<void> => {
