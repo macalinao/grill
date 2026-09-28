@@ -266,10 +266,12 @@
         "tslib": "catalog:",
       },
       "devDependencies": {
+        "@macalinao/gill-extra": "workspace:^",
         "@macalinao/grill": "workspace:^",
         "@macalinao/tsconfig": "catalog:",
         "@solana/kit": "catalog:",
         "@solana/web3.js": "^1.99.0",
+        "@types/bun": "catalog:",
         "@types/react": "catalog:",
         "@types/react-dom": "catalog:",
         "tsdown": "catalog:",

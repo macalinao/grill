@@ -4,6 +4,7 @@
     "../../tsconfig.strict.json"
   ],
   "compilerOptions": {
+    "types": ["bun"],
     "composite": false,
     "incremental": false
   }

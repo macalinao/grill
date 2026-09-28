@@ -41,6 +41,7 @@
     "build": "tsdown",
     "dev": "tsdown --watch",
     "typecheck": "tsc --noEmit",
+    "test": "bun test src/",
     "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo"
   },
   "dependencies": {
@@ -49,10 +50,12 @@
     "tslib": "catalog:"
   },
   "devDependencies": {
+    "@macalinao/gill-extra": "workspace:^",
     "@macalinao/grill": "workspace:^",
     "@macalinao/tsconfig": "catalog:",
     "@solana/kit": "catalog:",
     "@solana/web3.js": "^1.99.0",
+    "@types/bun": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "tsdown": "catalog:",
