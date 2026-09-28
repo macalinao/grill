@@ -101,27 +101,61 @@ export const createSendTX = ({
 
     const latestBlockhash =
       options.latestBlockhash ?? (await rpc.getLatestBlockhash().send()).value;
-    const transactionMessage = createTransaction({
-      version: 0,
-      feePayer: signer,
-      instructions: [...ixs],
-      latestBlockhash,
-      // Spread conditionally: `CreateTransactionInput` types these as
-      // `computeUnitLimit?: number | bigint` without `| undefined`, so under
-      // exactOptionalPropertyTypes the keys have to be absent rather than
-      // explicitly undefined.
-      ...(options.computeUnitLimit === undefined
-        ? {}
-        : { computeUnitLimit: options.computeUnitLimit }),
-      ...(options.computeUnitPrice === undefined
-        ? {}
-        : { computeUnitPrice: options.computeUnitPrice }),
-    });
-
-    // Apply address lookup tables if provided to compress the transaction
+    const version = options.version ?? 0;
     const addressLookupTables = options.lookupTables ?? {};
+    const hasLookupTables = Object.keys(addressLookupTables).length > 0;
+
+    const buildTransactionMessage = () => {
+      if (hasLookupTables && version !== 0) {
+        throw new Error(
+          `Address lookup tables are only supported for version 0 transactions (got version ${String(version)}).`,
+        );
+      }
+      return createTransaction({
+        version,
+        feePayer: signer,
+        instructions: [...ixs],
+        latestBlockhash,
+        // Spread conditionally: `CreateTransactionInput` types these as
+        // `computeUnitLimit?: number | bigint` without `| undefined`, so under
+        // exactOptionalPropertyTypes the keys have to be absent rather than
+        // explicitly undefined.
+        ...(options.computeUnitLimit === undefined
+          ? {}
+          : { computeUnitLimit: options.computeUnitLimit }),
+        ...(options.computeUnitPrice === undefined
+          ? {}
+          : { computeUnitPrice: options.computeUnitPrice }),
+        ...(options.priorityFeeLamports === undefined
+          ? {}
+          : { priorityFeeLamports: options.priorityFeeLamports }),
+        ...(options.loadedAccountsDataSizeLimit === undefined
+          ? {}
+          : {
+              loadedAccountsDataSizeLimit: options.loadedAccountsDataSizeLimit,
+            }),
+      });
+    };
+
+    let transactionMessage: ReturnType<typeof buildTransactionMessage>;
+    try {
+      transactionMessage = buildTransactionMessage();
+    } catch (error: unknown) {
+      // Invalid options (e.g. a v1 transaction without a compute unit limit).
+      // Report them so the "preparing" status does not hang.
+      onTransactionStatusEvent({
+        ...baseEvent,
+        type: "error-transaction-send-failed",
+        errorMessage:
+          error instanceof Error ? error.message : "Invalid transaction.",
+      });
+      throw error;
+    }
+
+    // Apply address lookup tables if provided to compress the transaction.
+    // Lookup tables were checked above to only be present for version 0.
     const finalTransactionMessage =
-      Object.keys(addressLookupTables).length > 0
+      hasLookupTables && transactionMessage.version === 0
         ? compressTransactionMessageUsingAddressLookupTables(
             transactionMessage,
             addressLookupTables,
