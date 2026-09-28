@@ -9,27 +9,16 @@ import type {
   TransactionOrVersionedTransaction,
 } from "@solana/wallet-adapter-base";
 import type { Connection, TransactionSignature } from "@solana/web3.js";
-import { address, getBase58Encoder } from "@solana/kit";
+import {
+  address,
+  getBase58Encoder,
+  getTransactionVersionDecoder,
+} from "@solana/kit";
 import {
   PublicKey,
   VersionedMessage,
   VersionedTransaction,
 } from "@solana/web3.js";
-
-/** Versioned messages start with `0x80 | version`. */
-const VERSION_PREFIX_MASK = 0x7f;
-
-/**
- * Returns the transaction version encoded in the first byte of a compiled
- * message: `"legacy"` when the high bit is clear, otherwise the version
- * number.
- */
-const getMessageVersion = (
-  messageBytes: ArrayLike<number>,
-): "legacy" | number => {
-  const prefix = messageBytes[0] ?? 0;
-  return (prefix & 0x80) === 0 ? "legacy" : prefix & VERSION_PREFIX_MASK;
-};
 
 export interface WalletAdapter {
   publicKey: PublicKey | null;
@@ -79,11 +68,13 @@ export function createWalletTransactionSendingSigner(
 
       const signatures: SignatureBytes[] = [];
 
+      const versionDecoder = getTransactionVersionDecoder();
       for (const transaction of transactions) {
-        const version = getMessageVersion(transaction.messageBytes);
-        if (version !== "legacy" && version !== 0) {
+        // Throws for versions kit does not know (> 1).
+        const version = versionDecoder.decode(transaction.messageBytes);
+        if (version === 1) {
           throw new Error(
-            `Version ${String(version)} transactions cannot be sent through a wallet adapter: @solana/web3.js cannot serialize them. Use a legacy or version 0 transaction, or a Wallet Standard / @solana/kit signer.`,
+            `Version ${version} transactions cannot be sent through a wallet adapter: @solana/web3.js cannot serialize them. Use a legacy or version 0 transaction, or a Wallet Standard / @solana/kit signer.`,
           );
         }
       }
