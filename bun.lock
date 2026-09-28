@@ -39,6 +39,7 @@
         "@solana-programs/meteora-damm-v2": "^0.4.0",
         "@solana/kit": "catalog:",
         "@solana/kit-plugin-rpc": "^0.19.0",
+        "@solana/react": "catalog:",
         "@solana/spl-token": "^0.4.15",
         "@solana/wallet-adapter-react": "catalog:",
         "@solana/wallet-adapter-react-ui": "^0.9.40",

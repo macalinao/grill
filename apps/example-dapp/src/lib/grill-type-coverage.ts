@@ -16,6 +16,7 @@ import type {
   AccountQueryKey,
   DecodedAccountResult,
   DecodedAccountsResult,
+  GrillClient,
   GrillContextValue,
   GrillHeadlessProviderProps,
   GrillProviderProps,
@@ -23,7 +24,6 @@ import type {
   PdaHook,
   PdaQueryKey,
   PdasHook,
-  SolanaProviderProps,
   SubscriptionManager,
   SubscriptionManagerOptions,
   SubscriptionProviderProps,
@@ -53,6 +53,9 @@ import type {
   WalletProviderProps,
 } from "@macalinao/grill";
 import type { Mint } from "@solana-program/token";
+import { getPublicSolanaRpcUrl } from "@macalinao/grill";
+import { createClient } from "@solana/kit";
+import { solanaRpcConnection } from "@solana/kit-plugin-rpc";
 
 /** Reading a single account. */
 export interface AccountReadTypes {
@@ -98,7 +101,7 @@ export interface TokenTypes {
 export interface ProviderTypes {
   grill: GrillProviderProps;
   headless: GrillHeadlessProviderProps;
-  solana: SolanaProviderProps;
+  client: GrillClient;
   subscription: SubscriptionProviderProps;
   wallet: WalletProviderProps;
   grillContext: GrillContextValue;
@@ -128,4 +131,22 @@ export interface TransactionTypes {
   id: TransactionId;
   event: TransactionStatusEvent;
   callback: TransactionStatusEventCallback;
+}
+
+/**
+ * Compile-time proof that a plain kit client built with `solanaRpcConnection`
+ * is a {@link GrillClient}, even when its RPC is branded for mainnet (and so
+ * lacks `requestAirdrop`). Never called; it only has to typecheck.
+ */
+export function createMainnetGrillClient(): GrillClient {
+  return createClient().use(
+    solanaRpcConnection({ rpcUrl: getPublicSolanaRpcUrl("mainnet") }),
+  );
+}
+
+/** Same proof for a devnet-branded client. */
+export function createDevnetGrillClient(): GrillClient {
+  return createClient().use(
+    solanaRpcConnection({ rpcUrl: getPublicSolanaRpcUrl("devnet") }),
+  );
 }
