@@ -1,12 +1,12 @@
-import type { TransactionSendingSigner } from "@solana/kit";
+import type { GrillSigner } from "../types.js";
 import { createContext } from "react";
 
 /**
  * Context state for providing Solana Kit wallet utilities throughout the app.
  */
 export interface WalletContextState {
-  /** The transaction sending signer, null when wallet is not connected */
-  signer: TransactionSendingSigner | null;
+  /** The transaction signer, null when wallet is not connected */
+  signer: GrillSigner | null;
 }
 
 /**

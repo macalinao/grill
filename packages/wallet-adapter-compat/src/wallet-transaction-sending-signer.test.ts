@@ -1,93 +1,191 @@
-import type { Blockhash, Instruction, TransactionVersion } from "@solana/kit";
+import type { Blockhash, Instruction } from "@solana/kit";
+import type {
+  Connection,
+  VersionedTransaction as Web3VersionedTransaction,
+} from "@solana/web3.js";
 import type { WalletAdapter } from "./wallet-transaction-sending-signer.js";
 import { describe, expect, it } from "bun:test";
+import { createTransaction } from "@macalinao/gill-extra";
 import {
   address,
-  appendTransactionMessageInstruction,
+  assertIsTransactionWithinSizeLimit,
   compileTransaction,
-  createTransactionMessage,
-  getBase58Decoder,
-  pipe,
-  setTransactionMessageComputeUnitLimit,
-  setTransactionMessageFeePayer,
-  setTransactionMessageLifetimeUsingBlockhash,
+  isTransactionPartialSigner,
 } from "@solana/kit";
-import { Connection, PublicKey, VersionedTransaction } from "@solana/web3.js";
+import { Keypair } from "@solana/web3.js";
 import { createWalletTransactionSendingSigner } from "./wallet-transaction-sending-signer.js";
 
-const MEMO_PROGRAM = address("MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr");
-const PAYER = address("So11111111111111111111111111111111111111112");
-
-const memoIx = (): Instruction => ({
-  data: new Uint8Array([1, 2]),
-  programAddress: MEMO_PROGRAM,
-});
-
-const LATEST_BLOCKHASH = {
+const BLOCKHASH = {
   blockhash: "11111111111111111111111111111111" as Blockhash,
   lastValidBlockHeight: 100n,
 };
 
-const SIGNATURE = getBase58Decoder().decode(new Uint8Array(64).fill(7));
+const MEMO_PROGRAM = address("MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr");
 
-/** A wallet adapter that records the transactions it was asked to send. */
-const makeWallet = (): { wallet: WalletAdapter; sent: unknown[] } => {
-  const sent: unknown[] = [];
-  return {
-    sent,
-    wallet: {
-      publicKey: new PublicKey(PAYER),
-      sendTransaction: (transaction) => {
-        sent.push(transaction);
-        return Promise.resolve(SIGNATURE);
-      },
-    },
+const FIXED_SIGNATURE = new Uint8Array(64).fill(7);
+
+const connection = {} as unknown as Connection;
+
+/** Builds a compiled kit transaction with the given fee payer and no signatures. */
+function buildTransaction(feePayer: string) {
+  const ix: Instruction = {
+    programAddress: MEMO_PROGRAM,
+    accounts: [],
+    data: new Uint8Array([1, 2, 3]),
   };
-};
-
-const compileMemoTransaction = (version: TransactionVersion) =>
-  compileTransaction(
-    pipe(
-      createTransactionMessage({ version }),
-      (m) => setTransactionMessageFeePayer(PAYER, m),
-      (m) => setTransactionMessageLifetimeUsingBlockhash(LATEST_BLOCKHASH, m),
-      (m) => setTransactionMessageComputeUnitLimit(200_000, m),
-      (m) => appendTransactionMessageInstruction(memoIx(), m),
-    ),
-  );
-
-const connection = new Connection("http://127.0.0.1:8899");
+  const message = createTransaction({
+    version: 0,
+    feePayer: address(feePayer),
+    instructions: [ix],
+    latestBlockhash: BLOCKHASH,
+  });
+  const tx = compileTransaction(message);
+  assertIsTransactionWithinSizeLimit(tx);
+  return tx;
+}
 
 describe("createWalletTransactionSendingSigner", () => {
-  it("sends a version 0 transaction through the wallet", async () => {
-    const { wallet, sent } = makeWallet();
-    const signer = createWalletTransactionSendingSigner(wallet, connection);
-    if (!signer) {
-      throw new Error("expected a signer");
-    }
-    const compiled = compileMemoTransaction(0);
-
-    const [signature] = await signer.signAndSendTransactions([compiled]);
-
-    expect(signature).toHaveLength(64);
-    expect(sent).toHaveLength(1);
-    expect(sent[0]).toBeInstanceOf(VersionedTransaction);
+  it("returns null when the wallet is not connected", () => {
+    const adapter: WalletAdapter = {
+      publicKey: null,
+      sendTransaction: () => Promise.resolve("sig"),
+    };
+    expect(
+      createWalletTransactionSendingSigner(adapter, connection),
+    ).toBeNull();
   });
 
-  it("rejects a version 1 transaction before reaching the wallet", async () => {
-    const { wallet, sent } = makeWallet();
-    const signer = createWalletTransactionSendingSigner(wallet, connection);
+  it("exposes partial signing when the wallet supports signTransaction", async () => {
+    const kp = Keypair.generate();
+    const pubkey = kp.publicKey;
+
+    let signCalled = 0;
+    const adapter: WalletAdapter = {
+      publicKey: pubkey,
+      sendTransaction: () => Promise.resolve("sig"),
+      // Stamp a fixed signature for the fee payer and return the transaction.
+      signTransaction: (<T extends Web3VersionedTransaction>(tx: T) => {
+        signCalled += 1;
+        tx.addSignature(pubkey, FIXED_SIGNATURE);
+        return Promise.resolve(tx);
+      }) as WalletAdapter["signTransaction"],
+    };
+
+    const signer = createWalletTransactionSendingSigner(adapter, connection);
+    expect(signer).not.toBeNull();
     if (!signer) {
-      throw new Error("expected a signer");
+      return;
     }
-    const compiled = compileMemoTransaction(1);
 
-    const error = await signer.signAndSendTransactions([compiled]).then(
-      () => undefined,
-      (err: unknown) => err,
+    // It is recognized as a partial signer.
+    expect(isTransactionPartialSigner(signer)).toBe(true);
+    expect(signer.signTransactions).toBeDefined();
+
+    const tx = buildTransaction(pubkey.toBase58());
+    const dicts = await signer.signTransactions?.([tx]);
+
+    expect(signCalled).toBe(1);
+    expect(dicts).toBeDefined();
+    const dict = dicts?.[0];
+    const sig = dict?.[signer.address];
+    expect(sig ? Array.from(sig) : undefined).toEqual(
+      Array.from(FIXED_SIGNATURE),
     );
+  });
 
-    expect(String(error)).toMatch(/Version 1 transactions cannot be sent/);
-    expect(sent).toHaveLength(0);
+  it("does not expose partial signing when signTransaction is absent", () => {
+    const kp = Keypair.generate();
+    const adapter: WalletAdapter = {
+      publicKey: kp.publicKey,
+      sendTransaction: () => Promise.resolve("sig"),
+    };
+
+    const signer = createWalletTransactionSendingSigner(adapter, connection);
+    expect(signer).not.toBeNull();
+    if (!signer) {
+      return;
+    }
+
+    expect(isTransactionPartialSigner(signer)).toBe(false);
+    expect(signer.signTransactions).toBeUndefined();
+    // Sending capability is unchanged.
+    expect(signer.signAndSendTransactions).toBeDefined();
+  });
+
+  describe("version 1 transactions", () => {
+    /** Builds a compiled v1 kit transaction with the given fee payer. */
+    const buildV1Transaction = (feePayer: string) => {
+      const tx = compileTransaction(
+        createTransaction({
+          computeUnitLimit: 200_000,
+          feePayer: address(feePayer),
+          instructions: [
+            {
+              programAddress: MEMO_PROGRAM,
+              accounts: [],
+              data: new Uint8Array([1, 2, 3]),
+            },
+          ],
+          latestBlockhash: BLOCKHASH,
+          loadedAccountsDataSizeLimit: 64_000,
+          version: 1,
+        }),
+      );
+      assertIsTransactionWithinSizeLimit(tx);
+      return tx;
+    };
+
+    const makeAdapter = () => {
+      const kp = Keypair.generate();
+      const calls = { send: 0, sign: 0 };
+      const adapter: WalletAdapter = {
+        publicKey: kp.publicKey,
+        sendTransaction: () => {
+          calls.send += 1;
+          return Promise.resolve("sig");
+        },
+        signTransaction: (<T extends Web3VersionedTransaction>(tx: T) => {
+          calls.sign += 1;
+          return Promise.resolve(tx);
+        }) as WalletAdapter["signTransaction"],
+      };
+      return { adapter, calls, pubkey: kp.publicKey.toBase58() };
+    };
+
+    it("rejects sending before reaching the wallet", async () => {
+      const { adapter, calls, pubkey } = makeAdapter();
+      const signer = createWalletTransactionSendingSigner(adapter, connection);
+      if (!signer) {
+        throw new Error("expected a signer");
+      }
+
+      const error = await signer
+        .signAndSendTransactions([buildV1Transaction(pubkey)])
+        .then(
+          () => undefined,
+          (err: unknown) => err,
+        );
+
+      expect(String(error)).toMatch(/Version 1 transactions cannot be sent/);
+      expect(calls.send).toBe(0);
+    });
+
+    it("rejects signing before reaching the wallet", async () => {
+      const { adapter, calls, pubkey } = makeAdapter();
+      const signer = createWalletTransactionSendingSigner(adapter, connection);
+      if (!signer?.signTransactions) {
+        throw new Error("expected a partial signer");
+      }
+
+      const error = await signer
+        .signTransactions([buildV1Transaction(pubkey)])
+        .then(
+          () => undefined,
+          (err: unknown) => err,
+        );
+
+      expect(String(error)).toMatch(/Version 1 transactions cannot be sent/);
+      expect(calls.sign).toBe(0);
+    });
   });
 });

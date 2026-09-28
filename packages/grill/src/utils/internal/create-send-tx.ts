@@ -16,20 +16,17 @@ import type {
 import type { TransactionStatusEvent } from "../../types.js";
 import {
   confirmTransaction,
-  createTransaction,
   defaultLogger,
   getConfirmedTransaction,
   getSignatureFromBytes,
   getWritableAccounts,
-  logTransactionSimulation,
-  parseTransactionError,
   simulateTransactionFactory,
 } from "@macalinao/gill-extra";
 import {
-  compressTransactionMessageUsingAddressLookupTables,
   getSolanaErrorFromTransactionError,
   signAndSendTransactionMessageWithSigners,
 } from "@solana/kit";
+import { prepareTransactionMessage } from "./prepare-transaction-message.js";
 
 export interface CreateSendTXParams {
   signer: TransactionSendingSigner | null;
@@ -99,98 +96,32 @@ export const createSendTX = ({
       type: "preparing",
     });
 
-    const latestBlockhash =
-      options.latestBlockhash ?? (await rpc.getLatestBlockhash().send()).value;
-    const version = options.version ?? 0;
-    const addressLookupTables = options.lookupTables ?? {};
-    const hasLookupTables = Object.keys(addressLookupTables).length > 0;
-
-    const buildTransactionMessage = () => {
-      if (hasLookupTables && version !== 0) {
-        throw new Error(
-          `Address lookup tables are only supported for version 0 transactions (got version ${String(version)}).`,
-        );
-      }
-      return createTransaction({
-        version,
-        feePayer: signer,
-        instructions: [...ixs],
-        latestBlockhash,
-        // Spread conditionally: `CreateTransactionInput` types these as
-        // `computeUnitLimit?: number | bigint` without `| undefined`, so under
-        // exactOptionalPropertyTypes the keys have to be absent rather than
-        // explicitly undefined.
-        ...(options.computeUnitLimit === undefined
-          ? {}
-          : { computeUnitLimit: options.computeUnitLimit }),
-        ...(options.computeUnitPrice === undefined
-          ? {}
-          : { computeUnitPrice: options.computeUnitPrice }),
-        ...(options.priorityFeeLamports === undefined
-          ? {}
-          : { priorityFeeLamports: options.priorityFeeLamports }),
-        ...(options.loadedAccountsDataSizeLimit === undefined
-          ? {}
-          : {
-              loadedAccountsDataSizeLimit: options.loadedAccountsDataSizeLimit,
-            }),
+    const { finalTransactionMessage, latestBlockhash } =
+      await prepareTransactionMessage({
+        signer,
+        rpc,
+        simulateTransaction,
+        name,
+        ixs,
+        options,
+        cluster,
+        rpcUrl,
+        logger,
+        onBuildError: (errorMessage) => {
+          onTransactionStatusEvent({
+            ...baseEvent,
+            type: "error-transaction-send-failed",
+            errorMessage,
+          });
+        },
+        onSimulationError: (errorMessage) => {
+          onTransactionStatusEvent({
+            ...baseEvent,
+            type: "error-simulation-failed",
+            errorMessage,
+          });
+        },
       });
-    };
-
-    let transactionMessage: ReturnType<typeof buildTransactionMessage>;
-    try {
-      transactionMessage = buildTransactionMessage();
-    } catch (error: unknown) {
-      // Invalid options (e.g. a v1 transaction without a compute unit limit).
-      // Report them so the "preparing" status does not hang.
-      onTransactionStatusEvent({
-        ...baseEvent,
-        type: "error-transaction-send-failed",
-        errorMessage:
-          error instanceof Error ? error.message : "Invalid transaction.",
-      });
-      throw error;
-    }
-
-    // Apply address lookup tables if provided to compress the transaction.
-    // Lookup tables were checked above to only be present for version 0.
-    const finalTransactionMessage =
-      hasLookupTables && transactionMessage.version === 0
-        ? compressTransactionMessageUsingAddressLookupTables(
-            transactionMessage,
-            addressLookupTables,
-          )
-        : transactionMessage;
-
-    // preflight
-    if (!options.skipPreflight) {
-      const simulationResult = await simulateTransaction(
-        finalTransactionMessage,
-      );
-      if (simulationResult.value.err !== null) {
-        // Log detailed debugging information to the console
-        logTransactionSimulation({
-          title: name,
-          simulationResult: simulationResult.value,
-          transactionMessage: finalTransactionMessage,
-          cluster,
-          rpcUrl,
-          logger,
-        });
-
-        const logs = simulationResult.value.logs ?? [];
-        const errorMessage = parseTransactionError(
-          simulationResult.value.err,
-          logs,
-        );
-        onTransactionStatusEvent({
-          ...baseEvent,
-          type: "error-simulation-failed",
-          errorMessage,
-        });
-        throw getSolanaErrorFromTransactionError(simulationResult.value.err);
-      }
-    }
 
     onTransactionStatusEvent({
       ...baseEvent,
