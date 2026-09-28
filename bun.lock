@@ -118,13 +118,13 @@
         "@macalinao/solana-errors": "workspace:^",
         "@macalinao/token-utils": "workspace:^",
         "@macalinao/zod-solana": "workspace:^",
-        "@solana-program/compute-budget": "^0.18.1",
         "@solana-program/system": "^0.14.1",
         "@solana-program/token": "^0.16.1",
         "@solana-programs/token-metadata": "^0.8.0",
       },
       "devDependencies": {
         "@macalinao/tsconfig": "catalog:",
+        "@solana-program/compute-budget": "^0.18.1",
         "@solana/kit": "catalog:",
         "@types/bun": "catalog:",
         "tsdown": "catalog:",
@@ -327,7 +327,7 @@
   },
   "catalogs": {
     "peer": {
-      "@solana/kit": "^6 || ^7 || ^8",
+      "@solana/kit": "^8",
       "@tanstack/react-query": "^5.103.1",
       "react": "^18 || ^19",
       "react-dom": "^18 || ^19",

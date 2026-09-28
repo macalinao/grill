@@ -13,7 +13,9 @@ export const getConfirmedTransaction = async (
   return rpc
     .getTransaction(signature, {
       commitment: "confirmed",
-      maxSupportedTransactionVersion: 0,
+      // 1 is the highest version kit understands; lower versions (legacy, 0)
+      // are still returned as-is.
+      maxSupportedTransactionVersion: 1,
       encoding: "jsonParsed",
     })
     .send();

@@ -107,6 +107,13 @@ export const createSendTX = ({
         cluster,
         rpcUrl,
         logger,
+        onBuildError: (errorMessage) => {
+          onTransactionStatusEvent({
+            ...baseEvent,
+            type: "error-transaction-send-failed",
+            errorMessage,
+          });
+        },
         onSimulationError: (errorMessage) => {
           onTransactionStatusEvent({
             ...baseEvent,

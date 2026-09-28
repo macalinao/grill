@@ -111,4 +111,81 @@ describe("createWalletTransactionSendingSigner", () => {
     // Sending capability is unchanged.
     expect(signer.signAndSendTransactions).toBeDefined();
   });
+
+  describe("version 1 transactions", () => {
+    /** Builds a compiled v1 kit transaction with the given fee payer. */
+    const buildV1Transaction = (feePayer: string) => {
+      const tx = compileTransaction(
+        createTransaction({
+          computeUnitLimit: 200_000,
+          feePayer: address(feePayer),
+          instructions: [
+            {
+              programAddress: MEMO_PROGRAM,
+              accounts: [],
+              data: new Uint8Array([1, 2, 3]),
+            },
+          ],
+          latestBlockhash: BLOCKHASH,
+          loadedAccountsDataSizeLimit: 64_000,
+          version: 1,
+        }),
+      );
+      assertIsTransactionWithinSizeLimit(tx);
+      return tx;
+    };
+
+    const makeAdapter = () => {
+      const kp = Keypair.generate();
+      const calls = { send: 0, sign: 0 };
+      const adapter: WalletAdapter = {
+        publicKey: kp.publicKey,
+        sendTransaction: () => {
+          calls.send += 1;
+          return Promise.resolve("sig");
+        },
+        signTransaction: (<T extends Web3VersionedTransaction>(tx: T) => {
+          calls.sign += 1;
+          return Promise.resolve(tx);
+        }) as WalletAdapter["signTransaction"],
+      };
+      return { adapter, calls, pubkey: kp.publicKey.toBase58() };
+    };
+
+    it("rejects sending before reaching the wallet", async () => {
+      const { adapter, calls, pubkey } = makeAdapter();
+      const signer = createWalletTransactionSendingSigner(adapter, connection);
+      if (!signer) {
+        throw new Error("expected a signer");
+      }
+
+      const error = await signer
+        .signAndSendTransactions([buildV1Transaction(pubkey)])
+        .then(
+          () => undefined,
+          (err: unknown) => err,
+        );
+
+      expect(String(error)).toMatch(/Version 1 transactions cannot be sent/);
+      expect(calls.send).toBe(0);
+    });
+
+    it("rejects signing before reaching the wallet", async () => {
+      const { adapter, calls, pubkey } = makeAdapter();
+      const signer = createWalletTransactionSendingSigner(adapter, connection);
+      if (!signer?.signTransactions) {
+        throw new Error("expected a partial signer");
+      }
+
+      const error = await signer
+        .signTransactions([buildV1Transaction(pubkey)])
+        .then(
+          () => undefined,
+          (err: unknown) => err,
+        );
+
+      expect(String(error)).toMatch(/Version 1 transactions cannot be sent/);
+      expect(calls.sign).toBe(0);
+    });
+  });
 });

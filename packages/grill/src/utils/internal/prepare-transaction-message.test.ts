@@ -79,6 +79,7 @@ describe("prepareTransactionMessage", () => {
     name: "Test",
     ixs: [makeIx(signer.address)],
     cluster: "mainnet-beta" as const,
+    onBuildError: () => {},
     onSimulationError: () => {},
   });
 
@@ -180,5 +181,65 @@ describe("prepareTransactionMessage", () => {
     expect(caught).toBeDefined();
     expect(calls()).toBe(1);
     expect(reported).toBeDefined();
+  });
+
+  it("builds a version 0 message by default and honours options.version", async () => {
+    const { rpc } = makeRpc();
+    const { simulate } = makeSimulate(null);
+
+    const v0 = await prepareTransactionMessage({
+      ...base(rpc),
+      simulateTransaction: simulate,
+      options: { skipPreflight: true },
+    });
+    expect(v0.finalTransactionMessage.version).toBe(0);
+
+    const v1 = await prepareTransactionMessage({
+      ...base(rpc),
+      simulateTransaction: simulate,
+      options: {
+        skipPreflight: true,
+        version: 1,
+        computeUnitLimit: 200_000,
+        loadedAccountsDataSizeLimit: 64_000,
+        priorityFeeLamports: 5_000n,
+      },
+    });
+    expect(v1.finalTransactionMessage.version).toBe(1);
+  });
+
+  it("reports and throws on options that cannot be built", async () => {
+    const { rpc } = makeRpc();
+    const { simulate, calls } = makeSimulate(null);
+    const lookupTableAddress = address(
+      "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    );
+
+    for (const options of [
+      // v1 without a compute unit limit
+      { version: 1 as const },
+      // lookup tables on a non-v0 transaction
+      {
+        version: "legacy" as const,
+        lookupTables: { [lookupTableAddress]: [MEMO_PROGRAM] },
+      },
+    ]) {
+      const reported: string[] = [];
+      const error = await prepareTransactionMessage({
+        ...base(rpc),
+        simulateTransaction: simulate,
+        options,
+        onBuildError: (msg) => {
+          reported.push(msg);
+        },
+      }).then(
+        () => undefined,
+        (err: unknown) => err,
+      );
+
+      expect(error).toBeInstanceOf(Error);
+      expect(reported).toEqual([(error as Error).message]);
+    }
+    expect(calls()).toBe(0);
   });
 });
