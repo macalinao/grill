@@ -162,7 +162,7 @@
         "typescript": "catalog:",
       },
       "peerDependencies": {
-        "@solana/kit": "catalog:peer",
+        "@solana/kit": "^8.3.0",
         "@solana/react": "catalog:peer",
         "@tanstack/react-query": "catalog:peer",
         "react": "catalog:peer",
