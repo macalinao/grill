@@ -48,12 +48,14 @@ Open [http://localhost:5173](http://localhost:5173) to view the app.
 The app uses a carefully orchestrated provider hierarchy in `App.tsx`:
 
 ```tsx
-QueryClientProvider         // React Query for caching
-  → ClientProvider          // @solana/react; kit client from solanaRpcConnection
-    → ConnectionProvider    // Wallet adapter connection
-      → WalletProvider      // Wallet management
-        → WalletModalProvider
-          → GrillProvider   // Account batching with DataLoader
+QueryClientProvider                   // React Query for caching
+  → ConnectionProvider                // Wallet adapter connection
+    → WalletProvider                  // Wallet adapter wallet management
+      → WalletModalProvider
+        → ClientProvider              // @solana/react; kit client from
+                                      // solanaRpcConnection + reactiveSigner
+          → WalletAdapterCompatProvider // wallet-adapter -> client.payer
+            → GrillProvider           // Account batching with DataLoader
 ```
 
 ### Key Components
@@ -97,10 +99,10 @@ function MyComponent() {
 ### Using the Wallet
 
 ```typescript
-import { useKitWallet } from "@macalinao/grill";
+import { useWalletSigner } from "@macalinao/grill";
 
 function WalletInfo() {
-  const { signer, rpc } = useKitWallet();
+  const signer = useWalletSigner();
 
   if (!signer) {
     return <div>Please connect your wallet</div>;

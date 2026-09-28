@@ -7,7 +7,7 @@ import {
   parseTokenAmount,
   useAccount,
   useAssociatedTokenAccount,
-  useKitWallet,
+  useWalletSigner,
   useLogger,
   useSendTX,
 } from "@macalinao/grill";
@@ -31,7 +31,7 @@ import {
 } from "@/utils/wrap-sol";
 
 const WrappedSOLPage: React.FC = () => {
-  const { signer } = useKitWallet();
+  const signer = useWalletSigner();
   const sendTX = useSendTX();
   // App logging routed through the provider's `logLevel`, so it goes quiet
   // along with grill's own output.

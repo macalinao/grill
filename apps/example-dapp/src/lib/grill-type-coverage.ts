@@ -14,6 +14,7 @@ import type {
   AccountData,
   AccountDecoder,
   AccountQueryKey,
+  ClientWithReactiveSigner,
   DecodedAccountResult,
   DecodedAccountsResult,
   GrillClient,
@@ -49,8 +50,6 @@ import type {
   UseTokenInfoInput,
   UseTokenInfosInput,
   UseTokenInfosResult,
-  WalletContextState,
-  WalletProviderProps,
 } from "@macalinao/grill";
 import type { Mint } from "@solana-program/token";
 import { getPublicSolanaRpcUrl } from "@macalinao/grill";
@@ -103,9 +102,8 @@ export interface ProviderTypes {
   headless: GrillHeadlessProviderProps;
   client: GrillClient;
   subscription: SubscriptionProviderProps;
-  wallet: WalletProviderProps;
   grillContext: GrillContextValue;
-  walletContext: WalletContextState;
+  signerClient: ClientWithReactiveSigner;
   signer: GrillSigner;
 }
 
