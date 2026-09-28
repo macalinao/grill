@@ -1,11 +1,12 @@
 import type {
+  Address,
   ClientWithIdentity,
   ClientWithPayer,
   ClientWithSubscribeToIdentity,
   ClientWithSubscribeToPayer,
   ExtendedClient,
+  TransactionSendingSigner,
 } from "@solana/kit";
-import type { GrillSigner } from "../types.js";
 import {
   extendClient,
   SOLANA_ERROR__WALLET__NO_SIGNER_CONNECTED,
@@ -29,14 +30,16 @@ export interface ClientWithReactiveSigner
     ClientWithIdentity,
     ClientWithSubscribeToPayer,
     ClientWithSubscribeToIdentity {
-  readonly payer: GrillSigner;
-  readonly identity: GrillSigner;
+  readonly payer: TransactionSendingSigner<Address>;
+  readonly identity: TransactionSendingSigner<Address>;
   /**
    * Replaces the signer exposed as `payer` and `identity`, or clears it with
    * `null` when the wallet disconnects. Notifies `subscribeToPayer` and
    * `subscribeToIdentity` listeners when the signer changes.
    */
-  readonly setSigner: (signer: GrillSigner | null) => void;
+  readonly setSigner: (
+    signer: TransactionSendingSigner<Address> | null,
+  ) => void;
 }
 
 /**
@@ -63,7 +66,7 @@ export interface ClientWithReactiveSigner
  * ```
  */
 export function reactiveSigner(
-  initialSigner: GrillSigner | null = null,
+  initialSigner: TransactionSendingSigner<Address> | null = null,
 ): <T extends object>(
   client: T,
 ) => ExtendedClient<T, ClientWithReactiveSigner> {
@@ -83,7 +86,7 @@ export function reactiveSigner(
       };
     };
 
-    const getSigner = (): GrillSigner => {
+    const getSigner = (): TransactionSendingSigner<Address> => {
       if (!current) {
         throw new SolanaError(SOLANA_ERROR__WALLET__NO_SIGNER_CONNECTED, {
           status: "disconnected",
@@ -92,7 +95,9 @@ export function reactiveSigner(
       return current;
     };
 
-    const setSigner = (signer: GrillSigner | null): void => {
+    const setSigner = (
+      signer: TransactionSendingSigner<Address> | null,
+    ): void => {
       if (signer === current) {
         return;
       }

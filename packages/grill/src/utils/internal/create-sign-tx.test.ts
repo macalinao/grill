@@ -1,10 +1,12 @@
 import type { simulateTransactionFactory } from "@macalinao/gill-extra";
-import type { Address, Blockhash, Instruction } from "@solana/kit";
 import type {
-  GrillClient,
-  GrillSigner,
-  TransactionStatusEvent,
-} from "../../types.js";
+  Address,
+  Blockhash,
+  Instruction,
+  TransactionPartialSigner,
+  TransactionSendingSigner,
+} from "@solana/kit";
+import type { GrillClient, TransactionStatusEvent } from "../../types.js";
 import { beforeAll, describe, expect, it } from "bun:test";
 import { address, generateKeyPairSigner, getBase58Encoder } from "@solana/kit";
 import { createSignTX } from "./create-sign-tx.js";
@@ -64,7 +66,8 @@ function makeSimulate(err: unknown = null): {
 }
 
 describe("createSignTX", () => {
-  let signer: GrillSigner;
+  let signer: TransactionPartialSigner<Address> &
+    TransactionSendingSigner<Address>;
 
   beforeAll(async () => {
     // A realistic composite signer: a real keypair (partial signer) plus a stub
@@ -208,7 +211,7 @@ describe("createSignTX", () => {
     const { rpc } = makeRpc();
     const events: TransactionStatusEvent[] = [];
     // A sending-only signer: no signTransactions method.
-    const sendingOnly: GrillSigner = {
+    const sendingOnly: TransactionSendingSigner<Address> = {
       address: signer.address,
       signAndSendTransactions: () => Promise.resolve([]),
     };

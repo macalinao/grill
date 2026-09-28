@@ -258,7 +258,7 @@ function Page() {
 }
 
 function Transfer() {
-  const signer = useConnectedWallet(); // GrillSigner, never null
+  const signer = useConnectedWallet(); // TransactionSendingSigner, never null
   const ix = getTransferSolInstruction({ source: signer, ... });
 }`}</CodeBlock>
           </CardContent>

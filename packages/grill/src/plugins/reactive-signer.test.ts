@@ -1,4 +1,4 @@
-import type { GrillSigner } from "../types.js";
+import type { Address, TransactionSendingSigner } from "@solana/kit";
 import { describe, expect, it } from "bun:test";
 import {
   address,
@@ -8,7 +8,7 @@ import {
 } from "@solana/kit";
 import { reactiveSigner } from "./reactive-signer.js";
 
-function makeSigner(addr: string): GrillSigner {
+function makeSigner(addr: string): TransactionSendingSigner<Address> {
   return {
     address: address(addr),
     signAndSendTransactions: () => Promise.resolve([]),

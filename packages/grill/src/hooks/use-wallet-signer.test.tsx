@@ -1,5 +1,9 @@
-import type { Client, TransactionSigner } from "@solana/kit";
-import type { GrillSigner } from "../types.js";
+import type {
+  Address,
+  Client,
+  TransactionSendingSigner,
+  TransactionSigner,
+} from "@solana/kit";
 import { describe, expect, it } from "bun:test";
 import { address, createClient } from "@solana/kit";
 import { ClientProvider } from "@solana/react";
@@ -10,7 +14,7 @@ import { useWalletSigner } from "./use-wallet-signer.js";
 
 const ADDRESS = address("11111111111111111111111111111111");
 
-const SENDING_SIGNER: GrillSigner = {
+const SENDING_SIGNER: TransactionSendingSigner<Address> = {
   address: ADDRESS,
   signAndSendTransactions: () => Promise.resolve([]),
 };

@@ -142,7 +142,7 @@ The core innovation is automatic batching of concurrent account requests:
 The connected wallet's signer lives on the kit client, not in a grill context:
 
 - `reactiveSigner()` (grill kit plugin) installs `payer` and `identity` (the
-  same `GrillSigner`, throwing `SOLANA_ERROR__WALLET__NO_SIGNER_CONNECTED` while
+  same `TransactionSendingSigner`, throwing `SOLANA_ERROR__WALLET__NO_SIGNER_CONNECTED` while
   unset) plus `subscribeToPayer`/`subscribeToIdentity` from
   `@solana/plugin-interfaces`, and a `setSigner(signer | null)` method.
 - `WalletAdapterCompatProvider` (`@macalinao/wallet-adapter-compat`) bridges

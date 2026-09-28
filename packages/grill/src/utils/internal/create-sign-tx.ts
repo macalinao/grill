@@ -5,12 +5,13 @@ import type {
   SolanaCluster,
   simulateTransactionFactory,
 } from "@macalinao/gill-extra";
-import type { Instruction, Transaction } from "@solana/kit";
 import type {
-  GrillClient,
-  GrillSigner,
-  TransactionStatusEvent,
-} from "../../types.js";
+  Address,
+  Instruction,
+  Transaction,
+  TransactionSendingSigner,
+} from "@solana/kit";
+import type { GrillClient, TransactionStatusEvent } from "../../types.js";
 import {
   isTransactionModifyingSigner,
   isTransactionPartialSigner,
@@ -19,7 +20,11 @@ import {
 import { prepareTransactionMessage } from "./prepare-transaction-message.js";
 
 export interface CreateSignTXParams {
-  signer: GrillSigner | null;
+  /**
+   * The wallet signer. Signing without sending requires it to also be a
+   * partial or modifying signer, which is detected at runtime.
+   */
+  signer: TransactionSendingSigner<Address> | null;
   rpc: GrillClient["rpc"];
   /**
    * Preflight simulation function, built once by the caller via

@@ -1,4 +1,4 @@
-import type { GrillSigner } from "../types.js";
+import type { Address, TransactionSendingSigner } from "@solana/kit";
 import { useWalletSigner } from "./use-wallet-signer.js";
 
 /**
@@ -10,7 +10,7 @@ import { useWalletSigner } from "./use-wallet-signer.js";
  * @throws Error if no wallet is connected.
  * @returns The connected wallet's signer.
  */
-export const useConnectedWallet = (): GrillSigner => {
+export const useConnectedWallet = (): TransactionSendingSigner<Address> => {
   const signer = useWalletSigner();
   if (!signer) {
     throw new Error("Wallet is not connected");

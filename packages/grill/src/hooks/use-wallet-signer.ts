@@ -1,5 +1,9 @@
-import type { ClientWithPayer, ClientWithSubscribeToPayer } from "@solana/kit";
-import type { GrillSigner } from "../types.js";
+import type {
+  Address,
+  ClientWithPayer,
+  ClientWithSubscribeToPayer,
+  TransactionSendingSigner,
+} from "@solana/kit";
 import { isTransactionSendingSigner } from "@solana/kit";
 import { useClient, usePayer } from "@solana/react";
 
@@ -15,11 +19,12 @@ import { useClient, usePayer } from "@solana/react";
  * `TransactionSendingSigner`. A payer that cannot send (for example a
  * keypair signer installed with `@solana/kit-plugin-signer`) is treated as no
  * wallet. A client with no payer capability at all also yields `null`, so
- * read-only apps need no signer plugin.
+ * read-only apps need no signer plugin. The signer may additionally be a
+ * partial or modifying signer, which `useSignTX` detects at runtime.
  *
  * @returns The signer, or `null` when not connected
  */
-export function useWalletSigner(): GrillSigner | null {
+export function useWalletSigner(): TransactionSendingSigner<Address> | null {
   const client =
     useClient<Partial<ClientWithPayer & ClientWithSubscribeToPayer>>();
   // `usePayer` reads `client.payer` inside a try/catch, so a client without a

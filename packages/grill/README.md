@@ -227,8 +227,8 @@ Any plugin that sets a reactive `payer` works, e.g. `walletSigner()` from
 Read the signer with:
 
 ```tsx
-const signer = useWalletSigner(); // GrillSigner | null
-const signer = useConnectedWallet(); // GrillSigner, throws when disconnected
+const signer = useWalletSigner(); // TransactionSendingSigner | null
+const signer = useConnectedWallet(); // TransactionSendingSigner, throws when disconnected
 ```
 
 `usePayer(client)` / `useIdentity(client)` from `@solana/react` read the same

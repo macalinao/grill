@@ -21,7 +21,6 @@ import type {
   GrillContextValue,
   GrillHeadlessProviderProps,
   GrillProviderProps,
-  GrillSigner,
   PdaHook,
   PdaQueryKey,
   PdasHook,
@@ -104,7 +103,6 @@ export interface ProviderTypes {
   subscription: SubscriptionProviderProps;
   grillContext: GrillContextValue;
   signerClient: ClientWithReactiveSigner;
-  signer: GrillSigner;
 }
 
 /** WebSocket subscription plumbing. */
