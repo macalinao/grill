@@ -300,7 +300,7 @@ const SwapButton: React.FC = () => {
 ```
 
 Outside React, the plain functions in `@macalinao/gill-extra` that log
-(`logTransactionSimulation`, `fetchTokenInfo`, `pollConfirmTransaction`) take an
+(`logTransactionSimulation`, `fetchTokenInfo`, `confirmTransaction`) take an
 optional `logger`, so `createLogger("off")` silences those too.
 
 ### Headless Mode
