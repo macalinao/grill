@@ -13,8 +13,11 @@ import { createLogger } from "@macalinao/gill-extra";
 import {
   AccountRole,
   address,
+  decompileTransactionMessage,
   generateKeyPairSigner,
   getBase58Encoder,
+  getCompiledTransactionMessageDecoder,
+  getTransactionMessageComputeUnitLimit,
 } from "@solana/kit";
 
 const BLOCKHASH: BlockhashLifetimeConstraint = {
@@ -570,6 +573,186 @@ describe("createSendTX", () => {
       });
 
       expect(getTransactionCalls()).toBe(0);
+    });
+  });
+
+  describe("transaction planning and execution", () => {
+    /** An RPC that also simulates, counting simulations. */
+    const makeSimulatingRpc = (): {
+      rpc: GrillClient["rpc"];
+      simulations: () => number;
+    } => {
+      let simulations = 0;
+      const rpc = {
+        ...makeRpc().rpc,
+        simulateTransaction: () => ({
+          send: () => {
+            simulations += 1;
+            return Promise.resolve({
+              value: { err: null, logs: [], unitsConsumed: 5_000n },
+            });
+          },
+        }),
+      } as unknown as GrillClient["rpc"];
+      return { rpc, simulations: () => simulations };
+    };
+
+    /** A sending signer that records the messages it is asked to send. */
+    const makeRecordingSigner = (
+      addr: Address,
+    ): { signer: TransactionSendingSigner; sent: Uint8Array[] } => {
+      const sent: Uint8Array[] = [];
+      return {
+        sent,
+        signer: {
+          address: addr,
+          signAndSendTransactions: (transactions) => {
+            for (const tx of transactions) {
+              sent.push(new Uint8Array(tx.messageBytes));
+            }
+            return Promise.resolve([SIG_BYTES]);
+          },
+        },
+      };
+    };
+
+    it("emits the same lifecycle with preflight on", async () => {
+      const { rpc, simulations } = makeSimulatingRpc();
+      const events: string[] = [];
+      const sendTX = createSendTX(
+        params(rpc, {
+          onTransactionStatusEvent: (e) => {
+            events.push(e.type);
+          },
+        }),
+      );
+
+      await sendTX("Test", [makeIx(signer.address)]);
+
+      expect(simulations()).toBe(1);
+      expect(events).toEqual([
+        "preparing",
+        "awaiting-wallet-signature",
+        "waiting-for-confirmation",
+        "confirmed",
+      ]);
+    });
+
+    it("estimates resource limits with one simulation and the same lifecycle", async () => {
+      const { rpc, simulations } = makeSimulatingRpc();
+      const recording = makeRecordingSigner(signer.address);
+      const events: string[] = [];
+      const sendTX = createSendTX(
+        params(rpc, {
+          signer: recording.signer,
+          onTransactionStatusEvent: (e) => {
+            events.push(e.type);
+          },
+        }),
+      );
+
+      await sendTX("Test", [makeIx(signer.address)], {
+        estimateResourceLimits: true,
+      });
+
+      expect(simulations()).toBe(1);
+      expect(events).toEqual([
+        "preparing",
+        "awaiting-wallet-signature",
+        "waiting-for-confirmation",
+        "confirmed",
+      ]);
+      // The sent transaction carries the estimated limit: 5,000 CUs plus a
+      // ~9.9% margin, rounded up exactly as `@solana/kit-plugin-rpc` does.
+      const [messageBytes] = recording.sent;
+      if (!messageBytes) {
+        throw new Error("expected a sent transaction");
+      }
+      const message = decompileTransactionMessage(
+        getCompiledTransactionMessageDecoder().decode(messageBytes),
+      );
+      expect(getTransactionMessageComputeUnitLimit(message)).toBe(5_497);
+    });
+
+    it("fails before signing when the instructions do not fit in one transaction", async () => {
+      const { rpc } = makeRpc();
+      const recording = makeRecordingSigner(signer.address);
+      const events: string[] = [];
+      const sendTX = createSendTX(
+        params(rpc, {
+          signer: recording.signer,
+          onTransactionStatusEvent: (e) => {
+            events.push(e.type);
+          },
+        }),
+      );
+      // 40 distinct accounts: too large for a single transaction.
+      const ixs: Instruction[] = await Promise.all(
+        Array.from({ length: 40 }, async () => ({
+          programAddress: MEMO_PROGRAM,
+          accounts: [
+            {
+              address: (await generateKeyPairSigner()).address,
+              role: AccountRole.READONLY,
+            },
+          ],
+          data: new Uint8Array([1]),
+        })),
+      );
+
+      const error = await sendTX("Too big", ixs, { skipPreflight: true }).then(
+        () => undefined,
+        (err: unknown) => err,
+      );
+
+      expect(error).toBeInstanceOf(Error);
+      expect(events).toEqual(["preparing", "error-transaction-send-failed"]);
+      // Nothing was split off and sent.
+      expect(recording.sent).toHaveLength(0);
+    });
+
+    it("sends a transaction with no instructions", async () => {
+      const { rpc } = makeRpc();
+      const recording = makeRecordingSigner(signer.address);
+      const sendTX = createSendTX(params(rpc, { signer: recording.signer }));
+
+      const sig = await sendTX("Empty", [], { skipPreflight: true });
+
+      expect(typeof sig).toBe("string");
+      expect(recording.sent).toHaveLength(1);
+    });
+
+    it("rethrows the wallet's own error, not the executor's wrapper", async () => {
+      const { rpc } = makeRpc();
+      const rejection = new Error("user rejected the request");
+      const sendTX = createSendTX(
+        params(rpc, { signer: makeFailingSigner(signer.address, rejection) }),
+      );
+
+      const error = await sendTX("Rejected", [makeIx(signer.address)], {
+        skipPreflight: true,
+      }).then(
+        () => undefined,
+        (err: unknown) => err,
+      );
+
+      expect(error).toBe(rejection);
+    });
+
+    it("rethrows the confirmation's own error, not the executor's wrapper", async () => {
+      const { rpc } = makeRpc();
+      const expired = new Error("Transaction expired");
+      confirmControl.error = expired;
+      const sendTX = createSendTX(params(rpc));
+
+      const error = await sendTX("Expired", [makeIx(signer.address)], {
+        skipPreflight: true,
+      }).then(
+        () => undefined,
+        (err: unknown) => err,
+      );
+
+      expect(error).toBe(expired);
     });
   });
 });

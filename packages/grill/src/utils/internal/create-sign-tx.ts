@@ -16,6 +16,7 @@ import {
   isTransactionPartialSigner,
   signTransactionMessageWithSigners,
 } from "@solana/kit";
+import { executeSingleTransactionMessage } from "./execute-single-transaction-message.js";
 import { prepareTransactionMessage } from "./prepare-transaction-message.js";
 
 export interface CreateSignTXParams {
@@ -128,31 +129,40 @@ export const createSignTX = ({
       },
     });
 
-    onTransactionStatusEvent({
-      ...baseEvent,
-      type: "awaiting-wallet-signature",
-    });
+    // Sign through kit's transaction plan executor. The prepared message is
+    // always exactly one transaction.
+    const { transaction } = await executeSingleTransactionMessage(
+      finalTransactionMessage,
+      async (_context: Partial<{ transaction: Transaction }>, message) => {
+        onTransactionStatusEvent({
+          ...baseEvent,
+          type: "awaiting-wallet-signature",
+        });
 
-    try {
-      const signedTransaction = await signTransactionMessageWithSigners(
-        finalTransactionMessage,
-      );
+        try {
+          const signedTransaction =
+            await signTransactionMessageWithSigners(message);
 
-      onTransactionStatusEvent({
-        ...baseEvent,
-        type: "signed",
-      });
+          onTransactionStatusEvent({
+            ...baseEvent,
+            type: "signed",
+          });
 
-      return signedTransaction;
-    } catch (error: unknown) {
-      const errorMessage =
-        error instanceof Error ? error.message : "Failed to sign transaction";
-      onTransactionStatusEvent({
-        ...baseEvent,
-        type: "error-transaction-sign-failed",
-        errorMessage,
-      });
-      throw error;
-    }
+          return { transaction: signedTransaction };
+        } catch (error: unknown) {
+          const errorMessage =
+            error instanceof Error
+              ? error.message
+              : "Failed to sign transaction";
+          onTransactionStatusEvent({
+            ...baseEvent,
+            type: "error-transaction-sign-failed",
+            errorMessage,
+          });
+          throw error;
+        }
+      },
+    );
+    return transaction;
   };
 };
