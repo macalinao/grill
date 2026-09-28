@@ -208,7 +208,7 @@
       },
       "peerDependencies": {
         "@macalinao/grill": "workspace:^",
-        "@solana/kit": "catalog:peer",
+        "@solana/kit": "^8.3.0",
         "react": "catalog:peer",
       },
     },
@@ -283,7 +283,7 @@
       },
       "peerDependencies": {
         "@macalinao/grill": "workspace:^",
-        "@solana/kit": "catalog:peer",
+        "@solana/kit": "^8.3.0",
         "@solana/wallet-adapter-base": "catalog:",
         "@solana/wallet-adapter-react": "catalog:",
         "@solana/web3.js": "^1.98.4",
