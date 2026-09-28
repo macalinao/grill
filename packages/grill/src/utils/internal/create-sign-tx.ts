@@ -2,12 +2,15 @@ import type {
   Logger,
   SignTXFunction,
   SignTXOptions,
-  SolanaClient,
   SolanaCluster,
   simulateTransactionFactory,
 } from "@macalinao/gill-extra";
 import type { Instruction, Transaction } from "@solana/kit";
-import type { GrillSigner, TransactionStatusEvent } from "../../types.js";
+import type {
+  GrillClient,
+  GrillSigner,
+  TransactionStatusEvent,
+} from "../../types.js";
 import {
   isTransactionModifyingSigner,
   isTransactionPartialSigner,
@@ -17,7 +20,7 @@ import { prepareTransactionMessage } from "./prepare-transaction-message.js";
 
 export interface CreateSignTXParams {
   signer: GrillSigner | null;
-  rpc: SolanaClient["rpc"];
+  rpc: GrillClient["rpc"];
   /**
    * Preflight simulation function, built once by the caller via
    * `simulateTransactionFactory` from `@macalinao/gill-extra`. Injected rather

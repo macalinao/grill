@@ -1,7 +1,7 @@
-import type { Signature } from "@solana/kit";
+import type { GetTransactionApi, Rpc, Signature } from "@solana/kit";
 import type { ConfirmedTransaction } from "./get-confirmed-transaction.js";
 import type { Logger } from "./logger.js";
-import type { SolanaClient } from "./solana-client.js";
+import type { ConfirmationRpc } from "./poll-transaction-confirmation.js";
 import { getSolanaErrorFromTransactionError } from "@solana/kit";
 import { getConfirmedTransaction } from "./get-confirmed-transaction.js";
 import { defaultLogger } from "./logger.js";
@@ -10,7 +10,7 @@ import { pollTransactionConfirmation } from "./poll-transaction-confirmation.js"
 export interface PollConfirmTransactionOptions {
   signature: Signature;
   lastValidBlockHeight: bigint;
-  rpc: SolanaClient["rpc"];
+  rpc: ConfirmationRpc & Rpc<GetTransactionApi>;
   maxRetries?: number | undefined;
   retryInterval?: number | undefined;
   /**

@@ -83,7 +83,7 @@ The project uses Bun workspaces with packages in two directories:
    - Modern alternative to classic DataLoader
 
 5. **@macalinao/gill-extra** - Solana client utilities built on @solana/kit
-   - The Solana client: `createSolanaClient`, `SolanaClient`, `getPublicSolanaRpcUrl`
+   - Cluster URLs: `getPublicSolanaRpcUrl` (returns kit's branded `MainnetUrl`/`DevnetUrl`/`TestnetUrl`)
    - Transactions: `createTransaction`, `simulateTransactionFactory`, `sendAndConfirmTransactionWithSignersFactory`
    - Exports: `fetchAndDecodeAccount`, `fetchTokenInfo`, transaction utilities, explorer helpers
    - No React dependencies
@@ -106,12 +106,21 @@ When using Grill, providers must be set up in this order:
 
 ```tsx
 QueryClientProvider
-  -> SolanaProvider (@macalinao/grill)
+  -> ClientProvider (@solana/react, client = createClient().use(solanaRpcConnection(...)))
     -> ConnectionProvider (@solana/wallet-adapter-react)
       -> WalletProvider (@solana/wallet-adapter-react)
         -> WalletModalProvider
           -> GrillProvider (or GrillHeadlessProvider)
 ```
+
+Grill has no client provider of its own: it reads the kit client from
+`@solana/react`'s `ClientContext` (via `useSolanaClient`, a typed wrapper around
+`useClientCapability`), so the app shares one client with `@solana/react`. The
+client needs the `rpc` and `rpcSubscriptions` capabilities (the `GrillClient`
+type); `solanaRpcConnection` from `@solana/kit-plugin-rpc` installs both.
+`ClientProvider` also accepts a promise of a client (for async plugins) and
+suspends until it resolves. `@solana/react` is a peer dependency of grill;
+`@solana/kit-plugin-rpc` is an app-level dependency only.
 
 ### Account Batching Architecture
 

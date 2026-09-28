@@ -1,14 +1,14 @@
-import type { TokenInfo } from "@macalinao/grill";
+import type { GrillClient, TokenInfo } from "@macalinao/grill";
 import type * as React from "react";
 import {
-  createSolanaClient,
   getPublicSolanaRpcUrl,
   getSolscanExplorerLink,
   GrillProvider,
-  SolanaProvider,
 } from "@macalinao/grill";
 import { WalletAdapterCompatProvider } from "@macalinao/wallet-adapter-compat";
-import { address } from "@solana/kit";
+import { address, createClient } from "@solana/kit";
+import { solanaRpcConnection } from "@solana/kit-plugin-rpc";
+import { ClientProvider } from "@solana/react";
 import {
   ConnectionProvider,
   WalletProvider as WalletAdapterProvider,
@@ -45,9 +45,12 @@ const endpoint =
   import.meta.env.VITE_SOLANA_RPC_URL || getPublicSolanaRpcUrl("mainnet-beta");
 
 const queryClient = new QueryClient();
-const solanaClient = createSolanaClient({
-  urlOrMoniker: endpoint,
-});
+// A kit client with the `rpc` and `rpcSubscriptions` capabilities grill needs.
+// `solanaRpcConnection` derives the websocket URL from the RPC URL. The
+// `satisfies` check proves the client is a `GrillClient` at compile time.
+const solanaClient = createClient().use(
+  solanaRpcConnection({ rpcUrl: endpoint }),
+) satisfies GrillClient;
 
 // Example static token info - in production, this could come from a config file
 // or be fetched once at startup and cached
@@ -81,7 +84,7 @@ export const App: React.FC = () => {
           <WalletAdapterProvider wallets={wallets} autoConnect>
             <WalletModalProvider>
               <WalletAdapterCompatProvider>
-                <SolanaProvider client={solanaClient}>
+                <ClientProvider client={solanaClient}>
                   <GrillProvider
                     getExplorerLink={getSolscanExplorerLink}
                     staticTokenInfo={STATIC_TOKEN_INFO}
@@ -95,7 +98,7 @@ export const App: React.FC = () => {
                       <ReactQueryDevtools initialIsOpen={false} />
                     </div>
                   </GrillProvider>
-                </SolanaProvider>
+                </ClientProvider>
               </WalletAdapterCompatProvider>
             </WalletModalProvider>
           </WalletAdapterProvider>

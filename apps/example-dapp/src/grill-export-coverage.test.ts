@@ -89,8 +89,9 @@ describe("@macalinao/grill export coverage", () => {
     // Symbols grill merely re-exports must have been filtered out.
     expect(exports).not.toContain("formatTokenAmount");
     expect(exports).not.toContain("getExplorerLink");
-    // Grill defines these itself now that `@gillsdk/react` is gone.
-    expect(exports).toContain("SolanaProvider");
+    // Grill reads the client from `@solana/react`'s `ClientProvider`, so it
+    // no longer ships a provider of its own -- only the typed accessor.
+    expect(exports).not.toContain("SolanaProvider");
     expect(exports).toContain("useSolanaClient");
   });
 

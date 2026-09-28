@@ -59,6 +59,7 @@
   "devDependencies": {
     "@macalinao/tsconfig": "catalog:",
     "@solana/kit": "catalog:",
+    "@solana/react": "catalog:",
     "@tanstack/react-query": "catalog:",
     "@types/bun": "catalog:",
     "@types/react": "catalog:",
@@ -67,7 +68,8 @@
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "@solana/kit": "catalog:peer",
+    "@solana/kit": "^8.3.0",
+    "@solana/react": "catalog:peer",
     "@tanstack/react-query": "catalog:peer",
     "react": "catalog:peer",
     "sonner": "^2"
