@@ -231,7 +231,7 @@ This significantly reduces RPC calls and improves performance, especially in dat
 
 ## Requirements
 
-- React 18+ or React 19
+- React 19
 - @solana/web3.js v2
 - @solana/kit
 - @tanstack/react-query v5
