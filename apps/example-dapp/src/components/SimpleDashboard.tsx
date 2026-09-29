@@ -1,7 +1,7 @@
 import type * as React from "react";
 import { useAccount, useKitWallet, useSolanaClient } from "@macalinao/grill";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,8 +17,6 @@ export const SimpleDashboard: React.FC = () => {
   const { rpc } = useSolanaClient();
   // Only fetch account if signer is available
   const accountQuery = useAccount({ address: signer ? signer.address : null });
-  const [slot, setSlot] = useState<number | null>(null);
-  const [loading, setLoading] = useState(false);
 
   const handleRefreshBalance = (): void => {
     if (!signer) {
@@ -30,19 +28,16 @@ export const SimpleDashboard: React.FC = () => {
     toast.success("Balance refreshed");
   };
 
-  const handleGetSlot = async (): Promise<void> => {
-    setLoading(true);
-    try {
-      const currentSlot = await rpc.getSlot().send();
-      setSlot(Number(currentSlot));
+  const getSlot = useMutation({
+    mutationFn: async (): Promise<bigint> => rpc.getSlot().send(),
+    onSuccess: (currentSlot) => {
       toast.success(`Current slot: ${currentSlot.toString()}`);
-    } catch (error) {
+    },
+    onError: (error) => {
       console.error(error);
       toast.error("Failed to fetch slot");
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+  });
 
   return (
     <div className="container mx-auto p-6">
@@ -71,8 +66,10 @@ export const SimpleDashboard: React.FC = () => {
                 ) : (
                   <p className="text-lg">Balance: 0 SOL</p>
                 )}
-                {slot !== null && (
-                  <p className="text-lg">Current Slot: {slot}</p>
+                {getSlot.data !== undefined && (
+                  <p className="text-lg">
+                    Current Slot: {getSlot.data.toString()}
+                  </p>
                 )}
                 <div className="flex gap-4">
                   <Button
@@ -82,8 +79,10 @@ export const SimpleDashboard: React.FC = () => {
                     {accountQuery.isLoading ? "Loading..." : "Refresh Balance"}
                   </Button>
                   <Button
-                    onClick={() => void handleGetSlot()}
-                    disabled={loading}
+                    onClick={() => {
+                      getSlot.mutate();
+                    }}
+                    disabled={getSlot.isPending}
                     variant="secondary"
                   >
                     Get Current Slot

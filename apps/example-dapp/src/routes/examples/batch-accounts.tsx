@@ -80,22 +80,15 @@ const BatchAccountsComparison: React.FC = () => {
 
   // Count how many are loading, have data, or errored
   const stats = useMemo(() => {
-    let found = 0;
-    let notFound = 0;
     const errors = 0;
 
     if (batchResults.isLoading) {
       const loading = tokenAccountAddresses.length;
-      return { loading, found, notFound, errors };
+      return { loading, found: 0, notFound: 0, errors };
     }
 
-    batchResults.data.forEach((account) => {
-      if (account) {
-        found++;
-      } else {
-        notFound++;
-      }
-    });
+    const found = batchResults.data.filter(Boolean).length;
+    const notFound = batchResults.data.length - found;
 
     return { loading: 0, found, notFound, errors };
   }, [batchResults, tokenAccountAddresses.length]);

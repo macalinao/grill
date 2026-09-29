@@ -14,6 +14,7 @@ import {
 } from "@macalinao/grill";
 import { getTransferSolInstruction } from "@solana-program/system";
 import { getBase64EncodedWireTransaction, lamports } from "@solana/kit";
+import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { BellOff, PenLine, Send } from "lucide-react";
 import { useCallback, useState } from "react";
@@ -57,33 +58,28 @@ const isErrorEvent = (event: TransactionStatusEvent): boolean =>
 const SendButton: React.FC = () => {
   const signer = useConnectedWallet();
   const sendTX = useSendTX();
-  const [busy, setBusy] = useState(false);
-
-  const send = async () => {
-    setBusy(true);
-    try {
-      await sendTX("Headless provider demo", [
+  // Failures surface as error events in the log, so there is no onError.
+  const send = useMutation({
+    mutationFn: async () =>
+      sendTX("Headless provider demo", [
         getTransferSolInstruction({
           source: signer,
           destination: signer.address,
           amount: lamports(0n),
         }),
-      ]);
-    } finally {
-      setBusy(false);
-    }
-  };
+      ]),
+  });
 
   return (
     <div className="space-y-2">
       <Button
-        disabled={busy}
+        disabled={send.isPending}
         onClick={() => {
-          void send();
+          send.mutate();
         }}
       >
         <Send className="mr-2 h-4 w-4" />
-        {busy ? "Sending…" : "Send a 0 SOL self-transfer"}
+        {send.isPending ? "Sending…" : "Send a 0 SOL self-transfer"}
       </Button>
       <p className="text-xs text-muted-foreground">
         Transfers 0 SOL to yourself, so the only cost is the network fee (~5000
@@ -101,39 +97,36 @@ const SendButton: React.FC = () => {
 const SignButton: React.FC = () => {
   const signer = useConnectedWallet();
   const signTX = useSignTX();
-  const [busy, setBusy] = useState(false);
-
-  const sign = useCallback(async () => {
-    setBusy(true);
-    try {
-      const signed = await signTX("Sign-only demo", [
+  const sign = useMutation({
+    mutationFn: async () =>
+      signTX("Sign-only demo", [
         getTransferSolInstruction({
           source: signer,
           destination: signer.address,
           amount: lamports(0n),
         }),
-      ]);
+      ]),
+    onSuccess: (signed) => {
       // The signed transaction is never broadcast; hand it to a backend, add
       // co-signers, or send it later.
       console.log("Signed wire tx:", getBase64EncodedWireTransaction(signed));
-    } catch (error: unknown) {
+    },
+    onError: (error) => {
       console.error("Failed to sign transaction", error);
-    } finally {
-      setBusy(false);
-    }
-  }, [signTX, signer]);
+    },
+  });
 
   return (
     <div className="space-y-2">
       <Button
         variant="secondary"
-        disabled={busy}
+        disabled={sign.isPending}
         onClick={() => {
-          void sign();
+          sign.mutate();
         }}
       >
         <PenLine className="mr-2 h-4 w-4" />
-        {busy ? "Signing…" : "Sign without sending"}
+        {sign.isPending ? "Signing…" : "Sign without sending"}
       </Button>
       <p className="text-xs text-muted-foreground">
         Signs the same 0 SOL self-transfer but does not broadcast it. The base64

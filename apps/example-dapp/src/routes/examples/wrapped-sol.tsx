@@ -11,6 +11,7 @@ import {
   useLogger,
   useSendTX,
 } from "@macalinao/grill";
+import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowDownUp, X } from "lucide-react";
 import { useMemo, useState } from "react";
@@ -42,8 +43,6 @@ const WrappedSOLPage: React.FC = () => {
 
   // State for wrap amount
   const [wrapAmount, setWrapAmount] = useState("");
-  const [isWrapping, setIsWrapping] = useState(false);
-  const [isClosing, setIsClosing] = useState(false);
 
   // Get the wSOL ATA address and account data using the combined hook
   const { data: wsolTokenAccount } = useAssociatedTokenAccount({
@@ -84,24 +83,24 @@ const WrappedSOLPage: React.FC = () => {
     return formatTokenAmount(tokenAmount);
   }, [wsolTokenAccount, wsolToken]);
 
-  // Handle wrap SOL action
-  const handleWrapSOL = async (): Promise<void> => {
-    if (!(signer && wrapAmount) || Number.parseFloat(wrapAmount) <= 0) {
-      toast.error("Invalid wrap amount");
-      return;
-    }
-
-    setIsWrapping(true);
-    try {
+  // Wrap SOL into the wSOL ATA
+  const wrapSOL = useMutation({
+    mutationFn: async ({
+      owner,
+      amount,
+    }: {
+      owner: NonNullable<typeof signer>;
+      amount: string;
+    }): Promise<void> => {
       // Parse the amount using parseTokenAmount
-      const parsedAmount = parseTokenAmount(wsolToken, wrapAmount);
+      const parsedAmount = parseTokenAmount(wsolToken, amount);
       const lamportAmount = parsedAmount.amount[0];
 
       // Get the wrap instructions
-      const instructions = await getWrapSOLInstructions(signer, lamportAmount);
+      const instructions = await getWrapSOLInstructions(owner, lamportAmount);
 
       // Send the transaction using useSendTX
-      const signature = await sendTX(`Wrap ${wrapAmount} SOL`, instructions);
+      const signature = await sendTX(`Wrap ${amount} SOL`, instructions);
 
       // Show explorer link
       const explorerLink = getExplorerLink({
@@ -109,26 +108,29 @@ const WrappedSOLPage: React.FC = () => {
         cluster: "mainnet",
       });
       logger.info("Transaction:", explorerLink);
-
+    },
+    onSuccess: () => {
       setWrapAmount("");
-    } catch (error) {
+    },
+    onError: (error) => {
+      // The failure toast comes from useSendTX
       logger.error("Error wrapping SOL:", error);
-      // Error already handled by mutation
-    } finally {
-      setIsWrapping(false);
-    }
-  };
+    },
+  });
 
-  // Handle close wSOL account action
-  const handleCloseAccount = async (): Promise<void> => {
-    if (!signer) {
+  // Handle wrap SOL action
+  const handleWrapSOL = (): void => {
+    if (!(signer && wrapAmount) || Number.parseFloat(wrapAmount) <= 0) {
+      toast.error("Invalid wrap amount");
       return;
     }
+    wrapSOL.mutate({ owner: signer, amount: wrapAmount });
+  };
 
-    setIsClosing(true);
-    try {
-      // Get the close account instructions (this will also unwrap any remaining wSOL)
-      const instructions = await getCloseAccountInstructions(signer);
+  // Close the wSOL account (this will also unwrap any remaining wSOL)
+  const closeAccount = useMutation({
+    mutationFn: async (owner: NonNullable<typeof signer>): Promise<void> => {
+      const instructions = await getCloseAccountInstructions(owner);
 
       // Send the transaction using useSendTX
       const signature = await sendTX("Close wSOL Account", instructions);
@@ -139,12 +141,19 @@ const WrappedSOLPage: React.FC = () => {
         cluster: "mainnet",
       });
       logger.info("Transaction:", explorerLink);
-    } catch (error) {
+    },
+    onError: (error) => {
+      // The failure toast comes from useSendTX
       logger.error("Error closing wSOL account:", error);
-      // Error already handled by mutation
-    } finally {
-      setIsClosing(false);
+    },
+  });
+
+  // Handle close wSOL account action
+  const handleCloseAccount = (): void => {
+    if (!signer) {
+      return;
     }
+    closeAccount.mutate(signer);
   };
 
   // Calculate what you'll receive (1:1 conversion)
@@ -278,16 +287,16 @@ const WrappedSOLPage: React.FC = () => {
           </div>
 
           <Button
-            onClick={() => void handleWrapSOL()}
+            onClick={handleWrapSOL}
             disabled={
               !wrapAmount ||
               Number.parseFloat(wrapAmount) <= 0 ||
               Number.parseFloat(wrapAmount) > Number.parseFloat(solBalance) ||
-              isWrapping
+              wrapSOL.isPending
             }
             className="w-full"
           >
-            {isWrapping ? "Wrapping..." : "Wrap SOL"}
+            {wrapSOL.isPending ? "Wrapping..." : "Wrap SOL"}
           </Button>
         </CardContent>
       </Card>
@@ -322,13 +331,15 @@ const WrappedSOLPage: React.FC = () => {
               </div>
 
               <Button
-                onClick={() => void handleCloseAccount()}
-                disabled={isClosing}
+                onClick={handleCloseAccount}
+                disabled={closeAccount.isPending}
                 variant="destructive"
                 className="w-full"
               >
                 <X className="mr-2 h-4 w-4" />
-                {isClosing ? "Closing Account..." : "Close wSOL Account"}
+                {closeAccount.isPending
+                  ? "Closing Account..."
+                  : "Close wSOL Account"}
               </Button>
             </div>
           </CardContent>
