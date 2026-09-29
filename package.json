@@ -13,8 +13,8 @@
       "peer": {
         "@solana/kit": "^8.3.0",
         "@tanstack/react-query": "^5.103.2",
-        "react": "^19",
-        "react-dom": "^19",
+        "react": "^19.3.0",
+        "react-dom": "^19.3.0",
         "zod": "^4.6.5",
         "@solana/react": "^8.3.0"
       }

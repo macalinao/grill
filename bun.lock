@@ -23,7 +23,7 @@
     },
     "apps/example-dapp": {
       "name": "example-dapp",
-      "version": "11.0.3",
+      "version": "11.0.4",
       "dependencies": {
         "@hookform/resolvers": "^5.9.1",
         "@macalinao/wallet-adapter-compat": "workspace:^",
@@ -138,7 +138,7 @@
     },
     "packages/grill": {
       "name": "@macalinao/grill",
-      "version": "0.20.0",
+      "version": "0.21.0",
       "dependencies": {
         "@macalinao/dataloader-es": "workspace:^",
         "@macalinao/gill-extra": "workspace:^",
@@ -193,7 +193,7 @@
     },
     "packages/react-quarry": {
       "name": "@macalinao/react-quarry",
-      "version": "12.1.0",
+      "version": "12.2.0",
       "dependencies": {
         "@macalinao/quarry": "workspace:^",
       },
@@ -263,7 +263,7 @@
     },
     "packages/wallet-adapter-compat": {
       "name": "@macalinao/wallet-adapter-compat",
-      "version": "14.2.0",
+      "version": "14.3.0",
       "dependencies": {
         "@solana/webcrypto-ed25519-polyfill": "8.3.0",
         "tslib": "catalog:",
@@ -334,8 +334,8 @@
       "@solana/kit": "^8.3.0",
       "@solana/react": "^8.3.0",
       "@tanstack/react-query": "^5.103.2",
-      "react": "^19",
-      "react-dom": "^19",
+      "react": "^19.3.0",
+      "react-dom": "^19.3.0",
       "zod": "^4.6.5",
     },
   },
@@ -1626,7 +1626,7 @@
 
     "ee-first": ["ee-first@1.1.1", "", {}, "sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow=="],
 
-    "electron-to-chromium": ["electron-to-chromium@1.5.433", "", {}, "sha512-5lCAbyZBjtmUt/RAGHRqrL2q0oEFRThDAsZHHDn9XHa89Qw7gMYOeSicBTy+AHfvo0r6vwsZvqNJTQIQy1BLzA=="],
+    "electron-to-chromium": ["electron-to-chromium@1.5.434", "", {}, "sha512-7EeFW9OLf1NN9NKQP9xdOE/XKqjxv7JDPP6AEAkHli11+Fae1OaLoNuAf13hQv1PPNtuES0pLQSPk2+fS3s8ww=="],
 
     "elliptic": ["elliptic@6.6.1", "", { "dependencies": { "bn.js": "^4.11.9", "brorand": "^1.1.0", "hash.js": "^1.0.0", "hmac-drbg": "^1.0.1", "inherits": "^2.0.4", "minimalistic-assert": "^1.0.1", "minimalistic-crypto-utils": "^1.0.1" } }, "sha512-RaddvvMatK2LJHqFJ+YA4WysVN5Ita9E35botqIYspQ4TkRAlCicdzKOjlyv/1Za5RyTNn7di//eEV0uTAfe3g=="],
 
