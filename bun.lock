@@ -148,7 +148,6 @@
         "@solana-program/address-lookup-table": "^0.14.1",
         "@solana-program/token": "^0.16.1",
         "@solana-programs/token-metadata": "^0.8.0",
-        "react-compiler-runtime": "^1.0.0",
       },
       "devDependencies": {
         "@macalinao/tsconfig": "catalog:",
@@ -197,7 +196,6 @@
       "version": "12.1.0",
       "dependencies": {
         "@macalinao/quarry": "workspace:^",
-        "react-compiler-runtime": "^1.0.0",
       },
       "devDependencies": {
         "@macalinao/grill": "workspace:^",
@@ -268,7 +266,6 @@
       "version": "14.2.0",
       "dependencies": {
         "@solana/webcrypto-ed25519-polyfill": "8.3.0",
-        "react-compiler-runtime": "^1.0.0",
         "tslib": "catalog:",
       },
       "devDependencies": {
@@ -337,8 +334,8 @@
       "@solana/kit": "^8.3.0",
       "@solana/react": "^8.3.0",
       "@tanstack/react-query": "^5.103.2",
-      "react": "^18 || ^19",
-      "react-dom": "^18 || ^19",
+      "react": "^19",
+      "react-dom": "^19",
       "zod": "^4.6.5",
     },
   },
@@ -2206,8 +2203,6 @@
     "range-parser": ["range-parser@1.2.1", "", {}, "sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg=="],
 
     "react": ["react@19.3.0", "", {}, "sha512-E8LUcbtBWt20bbl2YoHfx4ZDBdxVTfOKtCZn9cDSJ4l6/nuoApcpIBcj47t2wZoVX8g2ZHuMHbiShgCR1T5Sog=="],
-
-    "react-compiler-runtime": ["react-compiler-runtime@1.0.0", "", { "peerDependencies": { "react": "^17.0.0 || ^18.0.0 || ^19.0.0 || ^0.0.0-experimental" } }, "sha512-rRfjYv66HlG8896yPUDONgKzG5BxZD1nV9U6rkm+7VCuvQc903C4MjcoZR4zPw53IKSOX9wMQVpA1IAbRtzQ7w=="],
 
     "react-devtools-core": ["react-devtools-core@6.1.5", "", { "dependencies": { "shell-quote": "^1.6.1", "ws": "^7" } }, "sha512-ePrwPfxAnB+7hgnEr8vpKxL9cmnp7F322t8oqcPshbIQQhDKgFDW4tjhF2wjVbdXF9O/nyuy3sQWd9JGpiLPvA=="],
 
