@@ -1,5 +1,19 @@
 # @macalinao/wallet-adapter-compat
 
+## 14.3.0
+
+### Minor Changes
+
+- ebde463: Breaking: require React 19. Compiled hooks now use React's built-in `react/compiler-runtime` instead of the `react-compiler-runtime` polyfill, removing ~6 KB min from bundles.
+  
+  - The `react` (and, for `wallet-adapter-compat`, `react-dom`) peer range is now `^19` (was `^18 || ^19`).
+  - The `react-compiler-runtime` dependency is removed.
+
+### Patch Changes
+
+- Updated dependencies [ebde463]
+  - @macalinao/grill@0.21.0
+
 ## 14.2.0
 
 ### Minor Changes
