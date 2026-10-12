@@ -1,7 +1,7 @@
-import type { Address } from "@solana/addresses";
+import type { Address } from "@solana/kit";
 import type * as React from "react";
 import { useMintAccount, useTokenInfo } from "@macalinao/grill";
-import { address } from "@solana/addresses";
+import { address } from "@solana/kit";
 import { createFileRoute } from "@tanstack/react-router";
 import { Coins } from "lucide-react";
 import {

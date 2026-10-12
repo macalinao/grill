@@ -1,4 +1,4 @@
-import type { Address } from "@solana/addresses";
+import type { Address } from "@solana/kit";
 import type * as React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -12,7 +12,7 @@ import {
   useSendTX,
 } from "@macalinao/grill";
 import { getTransferSolInstruction } from "@solana-program/system";
-import { lamports } from "@solana/rpc-types";
+import { lamports } from "@solana/kit";
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, Wallet } from "lucide-react";
 import { useMemo } from "react";

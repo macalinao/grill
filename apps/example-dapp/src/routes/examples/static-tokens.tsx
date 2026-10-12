@@ -1,8 +1,8 @@
 import type { TokenInfo } from "@macalinao/grill";
-import type { Address } from "@solana/addresses";
+import type { Address } from "@solana/kit";
 import type * as React from "react";
 import { useTokenInfo } from "@macalinao/grill";
-import { address } from "@solana/addresses";
+import { address } from "@solana/kit";
 import { createFileRoute } from "@tanstack/react-router";
 import { Coins, Info } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";

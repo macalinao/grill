@@ -6,9 +6,8 @@ import {
   GrillProvider,
 } from "@macalinao/grill";
 import { WalletAdapterCompatProvider } from "@macalinao/wallet-adapter-compat";
-import { address } from "@solana/addresses";
+import { address, createClient } from "@solana/kit";
 import { solanaRpcConnection } from "@solana/kit-plugin-rpc";
-import { createClient } from "@solana/plugin-core";
 import { ClientProvider } from "@solana/react";
 import {
   ConnectionProvider,

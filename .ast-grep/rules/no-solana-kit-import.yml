@@ -1,3 +1,6 @@
+# Applies to the published packages under packages/ only; apps may import from
+# @solana/kit.
+#
 # Import from the granular @solana/* package that declares a symbol (e.g.
 # `address` from @solana/addresses, `Rpc` from @solana/rpc-spec) instead of the
 # @solana/kit umbrella. Only kit-only helpers (e.g. sendAndConfirmTransactionFactory)
@@ -7,6 +10,8 @@ id: no-solana-kit-import
 message: Import from the granular @solana/* package that declares this symbol, not @solana/kit
 severity: error
 language: TypeScript
+files:
+  - packages/**
 rule:
   any:
     - pattern: import $$$ from "@solana/kit"
@@ -16,6 +21,8 @@ id: no-solana-kit-import-tsx
 message: Import from the granular @solana/* package that declares this symbol, not @solana/kit
 severity: error
 language: Tsx
+files:
+  - packages/**
 rule:
   any:
     - pattern: import $$$ from "@solana/kit"

@@ -1,7 +1,7 @@
 import type { Pool } from "@solana-programs/meteora-damm-v2";
 import { useAccount, useTokenInfo } from "@macalinao/grill";
 import { getPoolDecoder } from "@solana-programs/meteora-damm-v2";
-import { address } from "@solana/addresses";
+import { address } from "@solana/kit";
 import { createFileRoute } from "@tanstack/react-router";
 import { Activity, Droplets, RefreshCw, TrendingUp } from "lucide-react";
 import { useMemo } from "react";

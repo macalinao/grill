@@ -1,12 +1,15 @@
 import type { PdaFn, PdaHook, PdasHook } from "@macalinao/grill";
-import type { Address } from "@solana/addresses";
+import type { Address } from "@solana/kit";
 import {
   createPdaHook,
   createPdasHook,
   TOKEN_METADATA_PROGRAM_ADDRESS,
 } from "@macalinao/grill";
-import { getAddressEncoder, getProgramDerivedAddress } from "@solana/addresses";
-import { getUtf8Encoder } from "@solana/codecs-strings";
+import {
+  getAddressEncoder,
+  getProgramDerivedAddress,
+  getUtf8Encoder,
+} from "@solana/kit";
 
 export interface MasterEditionSeeds {
   mint: Address;

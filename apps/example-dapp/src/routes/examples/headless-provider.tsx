@@ -13,8 +13,7 @@ import {
   useSignTX,
 } from "@macalinao/grill";
 import { getTransferSolInstruction } from "@solana-program/system";
-import { lamports } from "@solana/rpc-types";
-import { getBase64EncodedWireTransaction } from "@solana/transactions";
+import { getBase64EncodedWireTransaction, lamports } from "@solana/kit";
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { BellOff, PenLine, Send } from "lucide-react";

@@ -54,8 +54,8 @@ import type {
 } from "@macalinao/grill";
 import type { Mint } from "@solana-program/token";
 import { getPublicSolanaRpcUrl } from "@macalinao/grill";
+import { createClient } from "@solana/kit";
 import { solanaRpcConnection } from "@solana/kit-plugin-rpc";
-import { createClient } from "@solana/plugin-core";
 
 /** Reading a single account. */
 export interface AccountReadTypes {
