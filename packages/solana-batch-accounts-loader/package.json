@@ -62,6 +62,8 @@
   },
   "peerDependencies": {
     "@solana/accounts": "catalog:peer",
-    "@solana/addresses": "catalog:peer"
+    "@solana/addresses": "catalog:peer",
+    "@solana/rpc-api": "catalog:peer",
+    "@solana/rpc-spec": "catalog:peer"
   }
 }
