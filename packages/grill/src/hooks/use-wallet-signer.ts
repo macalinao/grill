@@ -1,0 +1,36 @@
+import type { Address } from "@solana/addresses";
+import type {
+  ClientWithPayer,
+  ClientWithSubscribeToPayer,
+} from "@solana/plugin-interfaces";
+import type { TransactionSendingSigner } from "@solana/signers";
+import { useClient, usePayer } from "@solana/react";
+import { isTransactionSendingSigner } from "@solana/signers";
+
+/**
+ * Returns the connected wallet's signer: the `payer` of the kit client from
+ * `@solana/react`'s `ClientProvider`, or `null` when no wallet is connected.
+ *
+ * Re-renders when the payer changes, as long as the client advertises
+ * `subscribeToPayer` -- which {@link reactiveSigner} and
+ * `@solana/kit-plugin-wallet` both do.
+ *
+ * Grill sends transactions with this signer as the fee payer, so it must be a
+ * `TransactionSendingSigner`. A payer that cannot send (for example a
+ * keypair signer installed with `@solana/kit-plugin-signer`) is treated as no
+ * wallet. A client with no payer capability at all also yields `null`, so
+ * read-only apps need no signer plugin. The signer may additionally be a
+ * partial or modifying signer, which `useSignTX` detects at runtime.
+ *
+ * @returns The signer, or `null` when not connected
+ */
+export function useWalletSigner(): TransactionSendingSigner<Address> | null {
+  const client =
+    useClient<Partial<ClientWithPayer & ClientWithSubscribeToPayer>>();
+  // `usePayer` reads `client.payer` inside a try/catch, so a client without a
+  // payer (or whose payer getter throws while disconnected) yields undefined.
+  const payer = usePayer(
+    client as ClientWithPayer & Partial<ClientWithSubscribeToPayer>,
+  );
+  return payer && isTransactionSendingSigner(payer) ? payer : null;
+}

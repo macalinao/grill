@@ -1,5 +1,5 @@
 import type * as React from "react";
-import { useKitWallet } from "@macalinao/grill";
+import { useWalletSigner } from "@macalinao/grill";
 import { useMergeMiner } from "../accounts/merge-miner.js";
 import { useMergePool } from "../accounts/merge-pool.js";
 import { MergeMinerContext } from "../contexts/merge-miner.js";
@@ -23,7 +23,7 @@ export const MergeMinerProvider: React.FC<Props> = ({
   loading,
 }: Props) => {
   const poolInfo = usePoolInfo();
-  const { signer } = useKitWallet();
+  const signer = useWalletSigner();
   const mergePoolAddress = useMergePoolPda({
     primaryMint: poolInfo.poolInfo.stakedToken.mint,
   });

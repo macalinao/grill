@@ -7,5 +7,3 @@ export { GrillHeadlessProvider } from "./grill-headless-provider.js";
 export { GrillProvider } from "./grill-provider.js";
 // Export subscription provider
 export { SubscriptionProvider } from "./subscription-provider.js";
-// Export wallet provider
-export * from "./wallet-provider.js";

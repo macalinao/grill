@@ -1,25 +1,38 @@
-import { WalletProvider } from "@macalinao/grill";
+import type { ClientWithReactiveSigner } from "@macalinao/grill";
+import { useClientCapability } from "@solana/react";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { install } from "@solana/webcrypto-ed25519-polyfill";
-import { useMemo } from "react";
+import { useLayoutEffect, useMemo } from "react";
 import { createWalletTransactionSendingSigner } from "./wallet-transaction-sending-signer.js";
 
 // Install the polyfill
 install();
 
 export interface WalletAdapterCompatProviderProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 /**
- * A compatibility provider that creates a TransactionSendingSigner from
- * wallet-adapter and provides it through grill's WalletProvider.
+ * Bridges @solana/wallet-adapter to @solana/kit: creates a
+ * `TransactionSendingSigner` from the connected wallet-adapter wallet and
+ * writes it to the kit client's `payer` and `identity` with
+ * `client.setSigner(...)`, clearing it when the wallet disconnects.
  *
- * This bridges the gap between @solana/wallet-adapter and @solana/kit.
+ * Must be rendered inside `ClientProvider` from `@solana/react` (whose client
+ * has grill's `reactiveSigner()` plugin installed) and inside wallet-adapter's
+ * `ConnectionProvider` and `WalletProvider`. Read the signer with grill's
+ * `useWalletSigner` / `useConnectedWallet`, or `usePayer` from
+ * `@solana/react`.
  */
 export const WalletAdapterCompatProvider: React.FC<
   WalletAdapterCompatProviderProps
 > = ({ children }) => {
+  const client = useClientCapability<ClientWithReactiveSigner>({
+    capability: "setSigner",
+    hookName: "WalletAdapterCompatProvider",
+    providerHint:
+      "Install `reactiveSigner()` from `@macalinao/grill` on the client passed to `ClientProvider`.",
+  });
   const { connection } = useConnection();
   const { publicKey, sendTransaction, signTransaction, connected } =
     useWallet();
@@ -41,5 +54,13 @@ export const WalletAdapterCompatProvider: React.FC<
     }
   }, [connected, publicKey, sendTransaction, signTransaction, connection]);
 
-  return <WalletProvider signer={signer}>{children}</WalletProvider>;
+  // A layout effect so the signer is on the client before the browser paints.
+  useLayoutEffect(() => {
+    client.setSigner(signer);
+    return () => {
+      client.setSigner(null);
+    };
+  }, [client, signer]);
+
+  return <>{children}</>;
 };
