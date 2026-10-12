@@ -4,7 +4,7 @@ import type {
   SendTXFunction,
   SendTXOptions,
   SolanaCluster,
-  simulateTransactionFactory,
+  SimulateTransactionFunction,
 } from "@macalinao/gill-extra";
 import type { Address } from "@solana/addresses";
 import type { Instruction } from "@solana/instructions";
@@ -38,7 +38,7 @@ export interface CreateSendTXParams {
    * `simulateTransactionFactory` from `@macalinao/gill-extra`. Injected rather
    * than created here so the caller controls its lifetime.
    */
-  simulateTransaction: ReturnType<typeof simulateTransactionFactory>;
+  simulateTransaction: SimulateTransactionFunction;
   refetchAccounts: (addresses: Address[]) => Promise<void>;
   onTransactionStatusEvent: (event: TransactionStatusEvent) => void;
   getExplorerLink: GetExplorerLinkFunction;
