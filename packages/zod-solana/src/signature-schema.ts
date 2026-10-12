@@ -1,6 +1,6 @@
-import type { Signature } from "@solana/kit";
+import type { Signature } from "@solana/keys";
 import type * as z from "zod";
-import { signature } from "@solana/kit";
+import { signature } from "@solana/keys";
 import { createBrandedStringSchema } from "./create-branded-string-schema.js";
 
 /**

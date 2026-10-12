@@ -1,5 +1,5 @@
-import type { Address } from "@solana/kit";
-import { address } from "@solana/kit";
+import type { Address } from "@solana/addresses";
+import { address } from "@solana/addresses";
 
 export interface DemoToken {
   symbol: string;

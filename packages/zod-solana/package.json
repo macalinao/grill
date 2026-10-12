@@ -44,12 +44,17 @@
     "test": "bun test"
   },
   "peerDependencies": {
-    "@solana/kit": "catalog:peer",
+    "@solana/addresses": "catalog:peer",
+    "@solana/keys": "catalog:peer",
+    "@solana/rpc-types": "catalog:peer",
     "zod": "catalog:peer"
   },
   "devDependencies": {
     "@macalinao/tsconfig": "catalog:",
-    "@solana/kit": "catalog:",
+    "@solana/addresses": "catalog:",
+    "@solana/keys": "catalog:",
+    "@solana/rpc-types": "catalog:",
+    "@solana/signers": "catalog:",
     "@types/bun": "catalog:",
     "tsdown": "catalog:",
     "typescript": "catalog:",

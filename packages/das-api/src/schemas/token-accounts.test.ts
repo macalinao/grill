@@ -1,6 +1,6 @@
 import type { GetTokenAccountsResponse } from "../types/token-accounts.js";
 import { describe, expect, it } from "bun:test";
-import { address } from "@solana/kit";
+import { address } from "@solana/addresses";
 import {
   dasApiTokenAccountSchema,
   getTokenAccountsResponseSchema,

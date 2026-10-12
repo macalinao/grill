@@ -1,13 +1,15 @@
+import type { Address } from "@solana/addresses";
+import type { Signature } from "@solana/keys";
 import type {
-  Address,
   ClientWithRpc,
   ClientWithRpcSubscriptions,
-  Signature,
-  SolanaRpcApiMainnet,
-  SolanaRpcSubscriptionsApi,
+} from "@solana/plugin-interfaces";
+import type { SolanaRpcApiMainnet } from "@solana/rpc-api";
+import type { SolanaRpcSubscriptionsApi } from "@solana/rpc-subscriptions-api";
+import type {
   TransactionPartialSigner,
   TransactionSendingSigner,
-} from "@solana/kit";
+} from "@solana/signers";
 
 /**
  * A signer usable by grill. It can always send transactions

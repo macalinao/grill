@@ -1,6 +1,6 @@
 import type * as z from "zod";
 import { describe, expect, it } from "bun:test";
-import { signature } from "@solana/kit";
+import { signature } from "@solana/keys";
 import { signatureSchema } from "./signature-schema.js";
 
 const VALID_SIGNATURE =

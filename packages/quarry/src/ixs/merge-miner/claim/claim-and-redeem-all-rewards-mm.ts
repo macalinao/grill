@@ -1,6 +1,7 @@
 import type { AccountInfo } from "@macalinao/gill-extra";
 import type { Rewarder } from "@solana-programs/quarry";
-import type { Instruction, TransactionSigner } from "@solana/kit";
+import type { Instruction } from "@solana/instructions";
+import type { TransactionSigner } from "@solana/signers";
 import type { PoolInfo } from "../../../types.js";
 import type { MergePoolAccount } from "../types.js";
 import { isPoolRewardsInfoWithIouMint } from "../../../types.js";

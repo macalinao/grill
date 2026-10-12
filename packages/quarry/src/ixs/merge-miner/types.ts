@@ -1,6 +1,7 @@
 import type { AccountInfo } from "@macalinao/gill-extra";
 import type { MergePool } from "@solana-programs/quarry";
-import type { Address, TransactionSigner } from "@solana/kit";
+import type { Address } from "@solana/addresses";
+import type { TransactionSigner } from "@solana/signers";
 
 /**
  * A merge pool account with primary/replica mint exposed.

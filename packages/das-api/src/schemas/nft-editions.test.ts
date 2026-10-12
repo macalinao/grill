@@ -1,6 +1,6 @@
 import type { GetNftEditionsResponse } from "../types/nft-editions.js";
 import { describe, expect, it } from "bun:test";
-import { address } from "@solana/kit";
+import { address } from "@solana/addresses";
 import {
   dasApiNftEditionSchema,
   getNftEditionsResponseSchema,

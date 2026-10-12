@@ -1,5 +1,5 @@
 import { useAccount, useAccounts } from "@macalinao/grill";
-import { address } from "@solana/kit";
+import { address } from "@solana/addresses";
 import { createFileRoute } from "@tanstack/react-router";
 import { Coins, Loader2, Zap } from "lucide-react";
 import { useMemo } from "react";

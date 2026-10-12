@@ -1,4 +1,4 @@
-import type { Address } from "@solana/kit";
+import type { Address } from "@solana/addresses";
 
 /**
  * A merkle proof for a compressed asset, as returned by `getAssetProof`.

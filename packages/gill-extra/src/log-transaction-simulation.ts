@@ -1,8 +1,8 @@
+import type { TransactionError } from "@solana/rpc-types";
 import type {
-  TransactionError,
   TransactionMessage,
   TransactionMessageWithFeePayer,
-} from "@solana/kit";
+} from "@solana/transaction-messages";
 import type { LogLevel, Logger } from "./logger.js";
 import type { SolanaCluster } from "./transaction.js";
 import { defaultLogger } from "./logger.js";

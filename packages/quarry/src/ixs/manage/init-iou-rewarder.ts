@@ -1,4 +1,6 @@
-import type { Address, Instruction, TransactionSigner } from "@solana/kit";
+import type { Address } from "@solana/addresses";
+import type { Instruction } from "@solana/instructions";
+import type { TransactionSigner } from "@solana/signers";
 import { U64_MAX } from "@macalinao/gill-extra";
 import {
   findAssociatedTokenPda,
@@ -17,7 +19,7 @@ import {
   getNewRewarderV2InstructionAsync,
   getTransferAuthorityInstruction,
 } from "@solana-programs/quarry";
-import { generateKeyPairSigner } from "@solana/kit";
+import { generateKeyPairSigner } from "@solana/signers";
 
 /**
  * Initialize an IOU rewarder for an existing mint wrapper.

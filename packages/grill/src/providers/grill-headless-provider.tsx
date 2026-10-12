@@ -5,7 +5,7 @@ import type {
   TokenMetadataValidator,
 } from "@macalinao/gill-extra";
 import type { TokenInfo } from "@macalinao/token-utils";
-import type { Address } from "@solana/kit";
+import type { Address } from "@solana/addresses";
 import type { FC, ReactNode } from "react";
 import type {
   TransactionStatusEvent,

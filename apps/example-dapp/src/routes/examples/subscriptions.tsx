@@ -5,7 +5,7 @@ import type {
   SubscriptionProviderProps,
   SubscriptionStatus,
 } from "@macalinao/grill";
-import type { Address } from "@solana/kit";
+import type { Address } from "@solana/addresses";
 import type { ReactNode } from "react";
 import {
   createAccountDecoderFromDecoder,

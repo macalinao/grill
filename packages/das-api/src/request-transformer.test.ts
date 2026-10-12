@@ -1,4 +1,4 @@
-import type { RpcRequest } from "@solana/kit";
+import type { RpcRequest } from "@solana/rpc-spec-types";
 import { describe, expect, it } from "bun:test";
 import { dasApiRequestTransformer } from "./request-transformer.js";
 

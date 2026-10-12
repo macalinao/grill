@@ -1,21 +1,17 @@
-import type {
-  Address,
-  Blockhash,
-  BlockhashLifetimeConstraint,
-  Instruction,
-  SignatureBytes,
-  TransactionSendingSigner,
-} from "@solana/kit";
+import type { Address } from "@solana/addresses";
+import type { Instruction } from "@solana/instructions";
+import type { SignatureBytes } from "@solana/keys";
+import type { Blockhash } from "@solana/rpc-types";
+import type { TransactionSendingSigner } from "@solana/signers";
+import type { BlockhashLifetimeConstraint } from "@solana/transaction-messages";
 import type { GrillClient, TransactionStatusEvent } from "../../types.js";
 import { beforeAll, beforeEach, describe, expect, it, mock } from "bun:test";
 import * as gillExtra from "@macalinao/gill-extra";
 import { createLogger } from "@macalinao/gill-extra";
-import {
-  AccountRole,
-  address,
-  generateKeyPairSigner,
-  getBase58Encoder,
-} from "@solana/kit";
+import { address } from "@solana/addresses";
+import { getBase58Encoder } from "@solana/codecs-strings";
+import { AccountRole } from "@solana/instructions";
+import { generateKeyPairSigner } from "@solana/signers";
 
 const BLOCKHASH: BlockhashLifetimeConstraint = {
   blockhash: "11111111111111111111111111111111" as Blockhash,

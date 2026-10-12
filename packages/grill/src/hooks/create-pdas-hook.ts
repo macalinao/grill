@@ -1,5 +1,5 @@
 import type { PdaFn } from "@macalinao/gill-extra";
-import type { Address } from "@solana/kit";
+import type { Address } from "@solana/addresses";
 import { useQueries } from "@tanstack/react-query";
 import { createPdaQuery } from "./pda-query-utils.js";
 

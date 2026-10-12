@@ -1,9 +1,9 @@
 import type { SendTXFunction } from "@macalinao/gill-extra";
-import type { Client } from "@solana/kit";
+import type { Client } from "@solana/plugin-core";
 import type { FC } from "react";
 import type { GrillClient, TransactionStatusEvent } from "../types.js";
 import { describe, expect, it } from "bun:test";
-import { address } from "@solana/kit";
+import { address } from "@solana/addresses";
 import { ClientProvider } from "@solana/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderToString } from "react-dom/server";

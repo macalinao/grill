@@ -6,7 +6,8 @@ import type {
   TokenMetadataValidator,
 } from "@macalinao/gill-extra";
 import type { TokenInfo } from "@macalinao/token-utils";
-import type { Address, EncodedAccount } from "@solana/kit";
+import type { EncodedAccount } from "@solana/accounts";
+import type { Address } from "@solana/addresses";
 import type { TransactionStatusEventCallback } from "../types.js";
 import { createContext, useContext } from "react";
 

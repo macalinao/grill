@@ -1,6 +1,6 @@
 import type { TokenInfo } from "./types.js";
 import { describe, expect, it } from "bun:test";
-import { address } from "@solana/kit";
+import { address } from "@solana/addresses";
 import { parseTokenAmount } from "./parse-token-amount.js";
 import { tokenAmountToBigInt } from "./token-amount-to-bigint.js";
 

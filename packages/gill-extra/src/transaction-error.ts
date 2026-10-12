@@ -1,4 +1,4 @@
-import type { TransactionError } from "@solana/kit";
+import type { TransactionError } from "@solana/rpc-types";
 import { getTransactionErrorMessage } from "@macalinao/solana-errors";
 
 export const parseTransactionError = (

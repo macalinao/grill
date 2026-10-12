@@ -1,13 +1,14 @@
-import type { AddressesByLookupTableAddress, Instruction } from "@solana/kit";
+import type { Instruction } from "@solana/instructions";
+import type { AddressesByLookupTableAddress } from "@solana/transaction-messages";
 import { describe, expect, it } from "bun:test";
+import { address } from "@solana/addresses";
+import { AccountRole } from "@solana/instructions";
 import {
-  AccountRole,
-  address,
   appendTransactionMessageInstructions,
   compressTransactionMessageUsingAddressLookupTables,
   createTransactionMessage,
   setTransactionMessageFeePayer,
-} from "@solana/kit";
+} from "@solana/transaction-messages";
 import { getWritableAccounts } from "./get-writable-accounts.js";
 
 const FEE_PAYER = address("MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr");

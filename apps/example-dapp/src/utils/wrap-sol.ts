@@ -1,4 +1,4 @@
-import type { TransactionSendingSigner } from "@solana/kit";
+import type { TransactionSendingSigner } from "@solana/signers";
 import { getTransferSolInstruction } from "@solana-program/system";
 // Import token program functions from @solana-program/token
 import {
@@ -8,7 +8,7 @@ import {
   getSyncNativeInstruction,
   TOKEN_PROGRAM_ADDRESS,
 } from "@solana-program/token";
-import { address } from "@solana/kit";
+import { address } from "@solana/addresses";
 
 // Native mint (wSOL) address
 export const WSOL_MINT = address("So11111111111111111111111111111111111111112");

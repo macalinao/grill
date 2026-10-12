@@ -1,4 +1,4 @@
-import type { Address } from "@solana/kit";
+import type { Address } from "@solana/addresses";
 import type { TokenInfo } from "./types.js";
 
 export interface CreateTokenInfoParams<

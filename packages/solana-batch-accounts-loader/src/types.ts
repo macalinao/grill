@@ -1,5 +1,6 @@
 import type { DataLoader } from "@macalinao/dataloader-es";
-import type { Address, EncodedAccount } from "@solana/kit";
+import type { EncodedAccount } from "@solana/accounts";
+import type { Address } from "@solana/addresses";
 
 export type RawAccount = EncodedAccount;
 
@@ -8,7 +9,7 @@ export type RawAccount = EncodedAccount;
  * This is a permissive type that accepts any Rpc with getMultipleAccounts.
  */
 export type RpcWithGetMultipleAccounts = Parameters<
-  typeof import("@solana/kit").fetchEncodedAccounts
+  typeof import("@solana/accounts").fetchEncodedAccounts
 >[0];
 
 export interface BatchAccountsLoaderConfig {

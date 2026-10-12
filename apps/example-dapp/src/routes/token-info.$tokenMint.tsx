@@ -1,5 +1,5 @@
 import { useTokenInfo } from "@macalinao/grill";
-import { address } from "@solana/kit";
+import { address } from "@solana/addresses";
 import { createFileRoute } from "@tanstack/react-router";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 

@@ -1,4 +1,4 @@
-import type { Address } from "@solana/kit";
+import type { Address } from "@solana/addresses";
 import type { JsonValue } from "./json-value.js";
 
 /**

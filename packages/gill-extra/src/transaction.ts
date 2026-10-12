@@ -2,12 +2,12 @@ import type {
   CompiledTransactionMessage,
   TransactionMessage,
   TransactionMessageWithFeePayer,
-} from "@solana/kit";
+} from "@solana/transaction-messages";
+import { getBase64Decoder } from "@solana/codecs-strings";
 import {
   compileTransactionMessage,
-  getBase64Decoder,
   getCompiledTransactionMessageEncoder,
-} from "@solana/kit";
+} from "@solana/transaction-messages";
 
 /**
  * Encodes a transaction message to base64 format.

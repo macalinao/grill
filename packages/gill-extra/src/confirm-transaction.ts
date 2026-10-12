@@ -1,8 +1,6 @@
-import type {
-  RpcSubscriptions,
-  Signature,
-  SignatureNotificationsApi,
-} from "@solana/kit";
+import type { Signature } from "@solana/keys";
+import type { SignatureNotificationsApi } from "@solana/rpc-subscriptions-api";
+import type { RpcSubscriptions } from "@solana/rpc-subscriptions-spec";
 import type { Logger } from "./logger.js";
 import type {
   ConfirmationRpc,

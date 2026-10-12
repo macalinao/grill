@@ -6,13 +6,10 @@ import type {
   SolanaCluster,
   simulateTransactionFactory,
 } from "@macalinao/gill-extra";
-import type {
-  Address,
-  Instruction,
-  Signature,
-  SignatureBytes,
-  TransactionSendingSigner,
-} from "@solana/kit";
+import type { Address } from "@solana/addresses";
+import type { Instruction } from "@solana/instructions";
+import type { Signature, SignatureBytes } from "@solana/keys";
+import type { TransactionSendingSigner } from "@solana/signers";
 import type { GrillClient, TransactionStatusEvent } from "../../types.js";
 import {
   confirmTransaction,
@@ -20,12 +17,10 @@ import {
   getConfirmedTransaction,
   getWritableAccounts,
 } from "@macalinao/gill-extra";
-import {
-  getBase58Decoder,
-  getSolanaErrorFromTransactionError,
-  signAndSendTransactionMessageWithSigners,
-  signature,
-} from "@solana/kit";
+import { getBase58Decoder } from "@solana/codecs-strings";
+import { getSolanaErrorFromTransactionError } from "@solana/errors";
+import { signature } from "@solana/keys";
+import { signAndSendTransactionMessageWithSigners } from "@solana/signers";
 import { prepareTransactionMessage } from "./prepare-transaction-message.js";
 
 export interface CreateSendTXParams {

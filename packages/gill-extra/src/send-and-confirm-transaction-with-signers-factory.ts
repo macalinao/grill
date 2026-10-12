@@ -1,30 +1,39 @@
+import type { Signature } from "@solana/keys";
 import type {
-  FullySignedTransaction,
   GetEpochInfoApi,
   GetLatestBlockhashApi,
   GetSignatureStatusesApi,
-  Rpc,
-  RpcSubscriptions,
   SendTransactionApi,
-  Signature,
+} from "@solana/rpc-api";
+import type { Rpc } from "@solana/rpc-spec";
+import type {
   SignatureNotificationsApi,
   SlotNotificationsApi,
-  Transaction,
+} from "@solana/rpc-subscriptions-api";
+import type { RpcSubscriptions } from "@solana/rpc-subscriptions-spec";
+import type {
   TransactionMessage,
   TransactionMessageWithFeePayer,
+} from "@solana/transaction-messages";
+import type {
+  FullySignedTransaction,
+  Transaction,
   TransactionWithLifetime,
-} from "@solana/kit";
+} from "@solana/transactions";
+// ast-grep-ignore: no-solana-kit-import -- kit-only helper with no granular package
+import { sendAndConfirmTransactionFactory } from "@solana/kit";
+import { signTransactionMessageWithSigners } from "@solana/signers";
+import {
+  assertIsTransactionMessageWithBlockhashLifetime,
+  setTransactionMessageLifetimeUsingBlockhash,
+} from "@solana/transaction-messages";
 import {
   assertIsFullySignedTransaction,
   assertIsSendableTransaction,
-  assertIsTransactionMessageWithBlockhashLifetime,
   assertIsTransactionWithBlockhashLifetime,
   assertIsTransactionWithinSizeLimit,
   getSignatureFromTransaction,
-  sendAndConfirmTransactionFactory,
-  setTransactionMessageLifetimeUsingBlockhash,
-  signTransactionMessageWithSigners,
-} from "@solana/kit";
+} from "@solana/transactions";
 
 /**
  * A transaction, or a transaction message that still needs signing, that can

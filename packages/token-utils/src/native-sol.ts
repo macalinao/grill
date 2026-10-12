@@ -1,5 +1,5 @@
 import type { TokenAmount, TokenInfo } from "./types.js";
-import { address } from "@solana/kit";
+import { address } from "@solana/addresses";
 import { createTokenAmount } from "./create-token-amount.js";
 
 /**

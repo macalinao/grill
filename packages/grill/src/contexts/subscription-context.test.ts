@@ -1,13 +1,13 @@
-import type {
-  Address,
-  Lamports,
-  RpcSubscriptions,
-  SolanaRpcSubscriptionsApi,
-} from "@solana/kit";
+import type { Address } from "@solana/addresses";
+import type { SolanaRpcSubscriptionsApi } from "@solana/rpc-subscriptions-api";
+import type { RpcSubscriptions } from "@solana/rpc-subscriptions-spec";
+import type { Lamports } from "@solana/rpc-types";
 import type { AccountDecoder } from "./subscription-context.js";
 import { afterEach, beforeEach, describe, expect, it, spyOn } from "bun:test";
 import { createLogger } from "@macalinao/gill-extra";
-import { address, getBase64Decoder, lamports } from "@solana/kit";
+import { address } from "@solana/addresses";
+import { getBase64Decoder } from "@solana/codecs-strings";
+import { lamports } from "@solana/rpc-types";
 import { QueryClient } from "@tanstack/react-query";
 import { createAccountQueryKey } from "../query-keys.js";
 import { createSubscriptionManager } from "./subscription-context.js";

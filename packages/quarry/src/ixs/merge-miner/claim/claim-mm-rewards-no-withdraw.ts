@@ -1,4 +1,4 @@
-import type { Instruction } from "@solana/kit";
+import type { Instruction } from "@solana/instructions";
 import type { ClaimMMRewardsNoWithdrawArgs } from "./types.js";
 import {
   findAssociatedTokenPda,

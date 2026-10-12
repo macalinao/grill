@@ -56,12 +56,42 @@
   "devDependencies": {
     "@macalinao/tsconfig": "catalog:",
     "@solana-program/compute-budget": "catalog:",
+    "@solana/accounts": "catalog:",
+    "@solana/addresses": "catalog:",
+    "@solana/codecs-core": "catalog:",
+    "@solana/codecs-strings": "catalog:",
+    "@solana/errors": "catalog:",
+    "@solana/functional": "catalog:",
+    "@solana/instructions": "catalog:",
+    "@solana/keys": "catalog:",
     "@solana/kit": "catalog:",
+    "@solana/rpc-api": "catalog:",
+    "@solana/rpc-spec": "catalog:",
+    "@solana/rpc-subscriptions-api": "catalog:",
+    "@solana/rpc-subscriptions-spec": "catalog:",
+    "@solana/rpc-types": "catalog:",
+    "@solana/signers": "catalog:",
+    "@solana/transaction-messages": "catalog:",
+    "@solana/transactions": "catalog:",
     "@types/bun": "catalog:",
     "tsdown": "catalog:",
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "@solana/kit": "catalog:peer"
+    "@solana/accounts": "catalog:peer",
+    "@solana/addresses": "catalog:peer",
+    "@solana/codecs-core": "catalog:peer",
+    "@solana/codecs-strings": "catalog:peer",
+    "@solana/instructions": "catalog:peer",
+    "@solana/keys": "catalog:peer",
+    "@solana/kit": "catalog:peer",
+    "@solana/rpc-api": "catalog:peer",
+    "@solana/rpc-spec": "catalog:peer",
+    "@solana/rpc-subscriptions-api": "catalog:peer",
+    "@solana/rpc-subscriptions-spec": "catalog:peer",
+    "@solana/rpc-types": "catalog:peer",
+    "@solana/signers": "catalog:peer",
+    "@solana/transaction-messages": "catalog:peer",
+    "@solana/transactions": "catalog:peer"
   }
 }
