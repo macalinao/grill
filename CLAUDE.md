@@ -84,7 +84,7 @@ The project uses Bun workspaces with packages in two directories:
 
 5. **@macalinao/gill-extra** - Solana client utilities built on @solana/kit
    - Cluster URLs: `getPublicSolanaRpcUrl` (returns kit's branded `MainnetUrl`/`DevnetUrl`/`TestnetUrl`)
-   - Transactions: `createTransaction`, `simulateTransactionFactory`, `sendAndConfirmTransactionWithSignersFactory`
+   - Transactions: `createTransaction`, `simulateTransactionFactory`
    - Exports: `fetchAndDecodeAccount`, `fetchTokenInfo`, transaction utilities, explorer helpers
    - No React dependencies
 
@@ -214,9 +214,9 @@ from the granular `@solana/*` package that declares it, not from the
 codecs from `@solana/codecs-core`/`-strings`/`-numbers`, and so on. To find the
 origin of a symbol, follow the `export *` chain from
 `node_modules/@solana/kit/dist/types/index.d.ts` down to the package whose own
-`dist/types` declares it. Only kit-only helpers (e.g.
-`sendAndConfirmTransactionFactory`) come from `@solana/kit`; mark those imports
-with `// ast-grep-ignore: no-solana-kit-import`. Apps under `apps/` (e.g.
+`dist/types` declares it. If a package genuinely needs a kit-only
+helper (e.g. `sendAndConfirmTransactionFactory`), import it from `@solana/kit`
+and mark the import with `// ast-grep-ignore: no-solana-kit-import`. Apps under `apps/` (e.g.
 example-dapp) are not published and may import from `@solana/kit` directly.
 
 Every granular package a library imports must be declared the same way

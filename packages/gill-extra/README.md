@@ -13,7 +13,7 @@ bun add @macalinao/gill-extra
 ## Features
 
 - **Cluster URLs**: `getPublicSolanaRpcUrl` returns kit's branded public cluster URLs, ready for `solanaRpcConnection` from `@solana/kit-plugin-rpc`
-- **Transaction sending**: `sendAndConfirmTransactionWithSignersFactory` and `simulateTransactionFactory` build send and simulate helpers from an `rpc`/`rpcSubscriptions` pair
+- **Transaction simulation**: `simulateTransactionFactory` builds a simulate helper from an `rpc`
 - **Transaction building**: `createTransaction` assembles a transaction message from instructions, a fee payer and optional compute budget settings
 - **Zod schemas**: Type-safe Solana data validation from `@macalinao/zod-solana`
 - **Transaction utilities**: Base64 encoding, transaction inspector URLs
@@ -32,21 +32,16 @@ import {
   getSolscanExplorerLink,
   createTransactionInspectorUrl,
   fetchAndDecodeAccount,
-  sendAndConfirmTransactionWithSignersFactory,
   simulateTransactionFactory,
 } from "@macalinao/gill-extra";
 import { createClient } from "@solana/kit";
 import { solanaRpcConnection } from "@solana/kit-plugin-rpc";
 
 // A kit client with `rpc` and `rpcSubscriptions`.
-const { rpc, rpcSubscriptions } = createClient().use(
+const { rpc } = createClient().use(
   solanaRpcConnection({ rpcUrl: getPublicSolanaRpcUrl("mainnet") }),
 );
 
-const sendAndConfirmTransaction = sendAndConfirmTransactionWithSignersFactory({
-  rpc,
-  rpcSubscriptions,
-});
 const simulateTransaction = simulateTransactionFactory({ rpc });
 ```
 

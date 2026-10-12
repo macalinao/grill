@@ -19,7 +19,6 @@ export * from "./log-transaction-simulation.js";
 export * from "./logger.js";
 export * from "./poll-transaction-confirmation.js";
 export * from "./reconnect.js";
-export * from "./send-and-confirm-transaction-with-signers-factory.js";
 export * from "./simulate-transaction-factory.js";
 export type * from "./simplify.js";
 export type * from "./solana-cluster-moniker.js";
