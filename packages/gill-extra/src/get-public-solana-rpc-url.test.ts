@@ -1,4 +1,4 @@
-import type { DevnetUrl, MainnetUrl, TestnetUrl } from "@solana/kit";
+import type { DevnetUrl, MainnetUrl, TestnetUrl } from "@solana/rpc-types";
 import { describe, expect, it } from "bun:test";
 import { getPublicSolanaRpcUrl } from "./get-public-solana-rpc-url.js";
 

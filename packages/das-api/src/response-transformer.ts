@@ -1,4 +1,7 @@
-import type { RpcResponse, RpcResponseTransformer } from "@solana/kit";
+import type {
+  RpcResponse,
+  RpcResponseTransformer,
+} from "@solana/rpc-spec-types";
 import type { DasApiErrorObject } from "./das-api-error.js";
 import type { JsonValue } from "./types/json-value.js";
 import { DasApiError } from "./das-api-error.js";

@@ -1,0 +1,23 @@
+id: no-solana-kit-import
+snapshots:
+  ? |
+    import type { Address } from "@solana/kit";
+  : labels:
+    - source: import type { Address } from "@solana/kit";
+      style: primary
+      start: 0
+      end: 43
+  ? |
+    import { address } from "@solana/kit";
+  : labels:
+    - source: import { address } from "@solana/kit";
+      style: primary
+      start: 0
+      end: 38
+  ? |
+    import { address, type Address } from "@solana/kit";
+  : labels:
+    - source: import { address, type Address } from "@solana/kit";
+      style: primary
+      start: 0
+      end: 52

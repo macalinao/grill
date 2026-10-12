@@ -1,4 +1,4 @@
-import type { RpcApi } from "@solana/kit";
+import type { RpcApi } from "@solana/rpc-spec";
 import type {
   DasApiAsset,
   DasApiAssetList,
@@ -20,7 +20,7 @@ import type {
   GetTokenAccountsResponse,
   SearchAssetsRequest,
 } from "./types/index.js";
-import { createJsonRpcApi } from "@solana/kit";
+import { createJsonRpcApi } from "@solana/rpc-spec";
 import { dasApiRequestTransformer } from "./request-transformer.js";
 import { dasApiResponseTransformer } from "./response-transformer.js";
 

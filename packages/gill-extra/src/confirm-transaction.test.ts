@@ -1,8 +1,12 @@
-import type { Signature, TransactionError } from "@solana/kit";
+import type { Signature } from "@solana/keys";
+import type { TransactionError } from "@solana/rpc-types";
 import type { ConfirmationRpcSubscriptions } from "./confirm-transaction.js";
 import type { ConfirmationRpc } from "./poll-transaction-confirmation.js";
 import { describe, expect, it } from "bun:test";
-import { getSolanaErrorFromTransactionError, SolanaError } from "@solana/kit";
+import {
+  getSolanaErrorFromTransactionError,
+  SolanaError,
+} from "@solana/errors";
 import { confirmTransaction } from "./confirm-transaction.js";
 import { createLogger } from "./logger.js";
 import {

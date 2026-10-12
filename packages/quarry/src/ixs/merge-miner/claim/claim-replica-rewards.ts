@@ -1,5 +1,7 @@
 import type { Rewarder } from "@solana-programs/quarry";
-import type { Address, Instruction, TransactionSigner } from "@solana/kit";
+import type { Address } from "@solana/addresses";
+import type { Instruction } from "@solana/instructions";
+import type { TransactionSigner } from "@solana/signers";
 import type { MergePoolAccount } from "../types.js";
 import type { QuarryStakeAccounts } from "./types.js";
 import {

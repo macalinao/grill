@@ -1,8 +1,6 @@
 import { describe, expect, test } from "bun:test";
-import {
-  createKeyPairFromPrivateKeyBytes,
-  createKeyPairSignerFromPrivateKeyBytes,
-} from "@solana/kit";
+import { createKeyPairFromPrivateKeyBytes } from "@solana/keys";
+import { createKeyPairSignerFromPrivateKeyBytes } from "@solana/signers";
 import { jsonUint8ArraySchema, uint8ArraySchema } from "./uint8array-schema.js";
 
 describe("uint8ArraySchema", () => {

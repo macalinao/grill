@@ -5,14 +5,16 @@ import type {
   SolanaCluster,
   simulateTransactionFactory,
 } from "@macalinao/gill-extra";
+import type { Instruction } from "@solana/instructions";
 import type {
-  BlockhashLifetimeConstraint,
-  Instruction,
-  TransactionMessageWithBlockhashLifetime,
   TransactionMessageWithFeePayerSigner,
   TransactionSigner,
+} from "@solana/signers";
+import type {
+  BlockhashLifetimeConstraint,
+  TransactionMessageWithBlockhashLifetime,
   TransactionVersion,
-} from "@solana/kit";
+} from "@solana/transaction-messages";
 import type { GrillClient } from "../../types.js";
 import {
   createTransaction,
@@ -20,10 +22,8 @@ import {
   logTransactionSimulation,
   parseTransactionError,
 } from "@macalinao/gill-extra";
-import {
-  compressTransactionMessageUsingAddressLookupTables,
-  getSolanaErrorFromTransactionError,
-} from "@solana/kit";
+import { getSolanaErrorFromTransactionError } from "@solana/errors";
+import { compressTransactionMessageUsingAddressLookupTables } from "@solana/transaction-messages";
 
 export interface PrepareTransactionMessageParams {
   /** The fee payer signer for the transaction. */

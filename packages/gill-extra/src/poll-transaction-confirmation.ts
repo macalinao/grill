@@ -1,10 +1,10 @@
+import type { Signature } from "@solana/keys";
 import type {
   GetBlockHeightApi,
   GetSignatureStatusesApi,
-  Rpc,
-  Signature,
-  TransactionError,
-} from "@solana/kit";
+} from "@solana/rpc-api";
+import type { Rpc } from "@solana/rpc-spec";
+import type { TransactionError } from "@solana/rpc-types";
 import type { Logger } from "./logger.js";
 import { defaultLogger } from "./logger.js";
 import { waitForDelay } from "./reconnect.js";

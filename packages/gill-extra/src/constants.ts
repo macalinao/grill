@@ -1,4 +1,4 @@
-import { address } from "@solana/kit";
+import { address } from "@solana/addresses";
 
 /** Address of the special mint for wrapped native SOL in spl-token */
 export const NATIVE_MINT = address(

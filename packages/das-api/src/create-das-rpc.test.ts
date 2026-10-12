@@ -1,9 +1,10 @@
-import type { RpcResponse, RpcTransport } from "@solana/kit";
+import type { RpcTransport } from "@solana/rpc-spec";
+import type { RpcResponse } from "@solana/rpc-spec-types";
 import type { DasRpc } from "./create-das-rpc.js";
 import type { DasApiErrorObject } from "./das-api-error.js";
 import type { JsonObject, JsonValue } from "./types/json-value.js";
 import { describe, expect, it } from "bun:test";
-import { address } from "@solana/kit";
+import { address } from "@solana/addresses";
 import { createDasRpc, createDasRpcFromTransport } from "./create-das-rpc.js";
 import { DasApiError } from "./das-api-error.js";
 

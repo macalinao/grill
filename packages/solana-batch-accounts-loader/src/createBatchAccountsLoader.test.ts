@@ -1,6 +1,9 @@
-import type { GetMultipleAccountsApi, Rpc } from "@solana/kit";
+import type { GetMultipleAccountsApi } from "@solana/rpc-api";
+import type { Rpc } from "@solana/rpc-spec";
 import { describe, expect, it, mock } from "bun:test";
-import { address, getBase64Encoder, lamports } from "@solana/kit";
+import { address } from "@solana/addresses";
+import { getBase64Encoder } from "@solana/codecs-strings";
+import { lamports } from "@solana/rpc-types";
 import { createBatchAccountsLoader } from "./createBatchAccountsLoader.js";
 
 describe("createBatchAccountsLoader", () => {

@@ -50,12 +50,18 @@
   },
   "devDependencies": {
     "@macalinao/tsconfig": "catalog:",
-    "@solana/kit": "catalog:",
+    "@solana/accounts": "catalog:",
+    "@solana/addresses": "catalog:",
+    "@solana/codecs-strings": "catalog:",
+    "@solana/rpc-api": "catalog:",
+    "@solana/rpc-spec": "catalog:",
+    "@solana/rpc-types": "catalog:",
     "@types/bun": "catalog:",
     "tsdown": "catalog:",
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "@solana/kit": "catalog:peer"
+    "@solana/accounts": "catalog:peer",
+    "@solana/addresses": "catalog:peer"
   }
 }

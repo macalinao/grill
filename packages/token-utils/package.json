@@ -48,12 +48,12 @@
   },
   "devDependencies": {
     "@macalinao/tsconfig": "catalog:",
-    "@solana/kit": "catalog:",
+    "@solana/addresses": "catalog:",
     "@types/bun": "catalog:",
     "tsdown": "catalog:",
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "@solana/kit": "catalog:peer"
+    "@solana/addresses": "catalog:peer"
   }
 }

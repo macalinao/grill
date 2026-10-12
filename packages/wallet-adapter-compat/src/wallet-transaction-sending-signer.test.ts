@@ -1,4 +1,5 @@
-import type { Blockhash, Instruction } from "@solana/kit";
+import type { Instruction } from "@solana/instructions";
+import type { Blockhash } from "@solana/rpc-types";
 import type {
   Connection,
   VersionedTransaction as Web3VersionedTransaction,
@@ -6,12 +7,12 @@ import type {
 import type { WalletAdapter } from "./wallet-transaction-sending-signer.js";
 import { describe, expect, it } from "bun:test";
 import { createTransaction } from "@macalinao/gill-extra";
+import { address } from "@solana/addresses";
+import { isTransactionPartialSigner } from "@solana/signers";
 import {
-  address,
   assertIsTransactionWithinSizeLimit,
   compileTransaction,
-  isTransactionPartialSigner,
-} from "@solana/kit";
+} from "@solana/transactions";
 import { Keypair } from "@solana/web3.js";
 import { createWalletTransactionSendingSigner } from "./wallet-transaction-sending-signer.js";
 

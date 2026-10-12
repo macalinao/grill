@@ -1,10 +1,10 @@
+import type { Address } from "@solana/addresses";
+import type { SignatureBytes } from "@solana/keys";
 import type {
-  Address,
-  SignatureBytes,
-  Transaction,
   TransactionPartialSigner,
   TransactionSendingSigner,
-} from "@solana/kit";
+} from "@solana/signers";
+import type { Transaction } from "@solana/transactions";
 import type {
   SendTransactionOptions,
   SignerWalletAdapterProps,
@@ -12,11 +12,9 @@ import type {
   TransactionOrVersionedTransaction,
 } from "@solana/wallet-adapter-base";
 import type { Connection, TransactionSignature } from "@solana/web3.js";
-import {
-  address,
-  getBase58Encoder,
-  getTransactionVersionDecoder,
-} from "@solana/kit";
+import { address } from "@solana/addresses";
+import { getBase58Encoder } from "@solana/codecs-strings";
+import { getTransactionVersionDecoder } from "@solana/transaction-messages";
 import {
   PublicKey,
   VersionedMessage,

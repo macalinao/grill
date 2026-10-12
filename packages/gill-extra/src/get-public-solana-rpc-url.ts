@@ -1,6 +1,6 @@
-import type { DevnetUrl, MainnetUrl, TestnetUrl } from "@solana/kit";
+import type { DevnetUrl, MainnetUrl, TestnetUrl } from "@solana/rpc-types";
 import type { SolanaClusterMoniker } from "./solana-cluster-moniker.js";
-import { devnet, mainnet, testnet } from "@solana/kit";
+import { devnet, mainnet, testnet } from "@solana/rpc-types";
 
 /**
  * Get a public Solana RPC endpoint for a cluster based on its moniker.

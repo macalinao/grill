@@ -58,13 +58,17 @@
   },
   "peerDependencies": {
     "@macalinao/grill": "workspace:^",
-    "@solana/kit": "^8.3.0",
+    "@solana/accounts": "catalog:peer",
+    "@solana/addresses": "catalog:peer",
+    "@solana/keys": "catalog:peer",
     "react": "catalog:peer"
   },
   "devDependencies": {
     "@macalinao/grill": "workspace:^",
     "@macalinao/tsconfig": "catalog:",
-    "@solana/kit": "catalog:",
+    "@solana/accounts": "catalog:",
+    "@solana/addresses": "catalog:",
+    "@solana/keys": "catalog:",
     "@types/bun": "catalog:",
     "@types/react": "catalog:",
     "tsdown": "catalog:",

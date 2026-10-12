@@ -4,7 +4,7 @@
  * https://docs.rs/solana-sdk/latest/solana_sdk/transaction/enum.TransactionError.html
  */
 
-import type { TransactionError } from "@solana/kit";
+import type { TransactionError } from "@solana/rpc-types";
 import { ERROR_MESSAGES_ENABLED } from "./flags.js";
 import { getInstructionErrorMessage } from "./instruction-error.js";
 

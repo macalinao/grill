@@ -1,4 +1,6 @@
-import type { Account, Address, Decoder } from "@solana/kit";
+import type { Account } from "@solana/accounts";
+import type { Address } from "@solana/addresses";
+import type { Decoder } from "@solana/codecs-core";
 import type { UseQueryResult } from "@tanstack/react-query";
 import type { UseAccountOptions } from "./use-account.js";
 import { useAccount } from "./use-account.js";

@@ -1,14 +1,14 @@
-import type { Blockhash } from "@solana/kit";
+import type { Blockhash } from "@solana/rpc-types";
 import type { Mock } from "bun:test";
 import type { SimulationResultValue } from "./log-transaction-simulation.js";
 import { afterEach, beforeEach, describe, expect, it, spyOn } from "bun:test";
+import { address } from "@solana/addresses";
+import { pipe } from "@solana/functional";
 import {
-  address,
   createTransactionMessage,
-  pipe,
   setTransactionMessageFeePayer,
   setTransactionMessageLifetimeUsingBlockhash,
-} from "@solana/kit";
+} from "@solana/transaction-messages";
 import {
   createSimulationDebugBlock,
   formatSimulationLog,

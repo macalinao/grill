@@ -2,15 +2,12 @@ import type {
   Logger,
   SubscriptionReconnectConfig,
 } from "@macalinao/gill-extra";
-import type {
-  Account,
-  Address,
-  Decoder,
-  EncodedAccount,
-  Lamports,
-  RpcSubscriptions,
-  SolanaRpcSubscriptionsApi,
-} from "@solana/kit";
+import type { Account, EncodedAccount } from "@solana/accounts";
+import type { Address } from "@solana/addresses";
+import type { Decoder } from "@solana/codecs-core";
+import type { SolanaRpcSubscriptionsApi } from "@solana/rpc-subscriptions-api";
+import type { RpcSubscriptions } from "@solana/rpc-subscriptions-spec";
+import type { Lamports } from "@solana/rpc-types";
 import type { QueryClient } from "@tanstack/react-query";
 import {
   defaultLogger,
@@ -18,7 +15,7 @@ import {
   resolveReconnectConfig,
   waitBeforeReconnect,
 } from "@macalinao/gill-extra";
-import { getBase64Encoder } from "@solana/kit";
+import { getBase64Encoder } from "@solana/codecs-strings";
 import { createContext, useContext } from "react";
 import { createAccountQueryKey } from "../query-keys.js";
 

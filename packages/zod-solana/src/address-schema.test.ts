@@ -1,6 +1,6 @@
 import type * as z from "zod";
 import { describe, expect, it } from "bun:test";
-import { address } from "@solana/kit";
+import { address } from "@solana/addresses";
 import { addressSchema } from "./address-schema.js";
 
 describe("addressSchema", () => {

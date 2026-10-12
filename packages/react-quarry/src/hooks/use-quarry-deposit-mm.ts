@@ -1,4 +1,4 @@
-import type { Signature } from "@solana/kit";
+import type { Signature } from "@solana/keys";
 import { useKitWallet, useSendTX } from "@macalinao/grill";
 import { createDepositMergeMinerIxs } from "@macalinao/quarry";
 import { useCallback } from "react";

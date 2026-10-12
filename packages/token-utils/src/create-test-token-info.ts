@@ -1,5 +1,5 @@
 import type { TokenInfo } from "./types.js";
-import { address } from "@solana/kit";
+import { address } from "@solana/addresses";
 import { createTokenInfoFromMint } from "./create-token-info-from-mint.js";
 
 /**

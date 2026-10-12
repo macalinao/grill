@@ -1,7 +1,7 @@
 import type { RpcWithGetMultipleAccounts } from "@macalinao/solana-batch-accounts-loader";
 import type { TokenInfo } from "@macalinao/token-utils";
 import type { Metadata } from "@solana-programs/token-metadata";
-import type { Address } from "@solana/kit";
+import type { Address } from "@solana/addresses";
 import type { FetchTokenInfoParams } from "./fetch-token-info.js";
 import { getMintDecoder } from "@solana-program/token";
 import {
@@ -9,7 +9,7 @@ import {
   getMetadataDecoder,
   TOKEN_METADATA_PROGRAM_ADDRESS,
 } from "@solana-programs/token-metadata";
-import { decodeAccount, fetchEncodedAccounts } from "@solana/kit";
+import { decodeAccount, fetchEncodedAccounts } from "@solana/accounts";
 import { fetchTokenInfo } from "./fetch-token-info.js";
 
 export interface FetchTokenInfoForMintParams extends Omit<

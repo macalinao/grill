@@ -51,12 +51,20 @@
     "@macalinao/zod-solana": "workspace:^"
   },
   "peerDependencies": {
-    "@solana/kit": "catalog:peer",
+    "@solana/addresses": "catalog:peer",
+    "@solana/rpc": "catalog:peer",
+    "@solana/rpc-spec": "catalog:peer",
+    "@solana/rpc-spec-types": "catalog:peer",
+    "@solana/rpc-types": "catalog:peer",
     "zod": "catalog:peer"
   },
   "devDependencies": {
     "@macalinao/tsconfig": "catalog:",
-    "@solana/kit": "catalog:",
+    "@solana/addresses": "catalog:",
+    "@solana/rpc": "catalog:",
+    "@solana/rpc-spec": "catalog:",
+    "@solana/rpc-spec-types": "catalog:",
+    "@solana/rpc-types": "catalog:",
     "@types/bun": "catalog:",
     "tsdown": "catalog:",
     "typescript": "catalog:",

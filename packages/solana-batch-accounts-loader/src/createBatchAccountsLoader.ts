@@ -1,11 +1,13 @@
-import type { Address, EncodedAccount } from "@solana/kit";
+import type { EncodedAccount } from "@solana/accounts";
+import type { Address } from "@solana/addresses";
 import type {
   BatchAccountsLoader,
   BatchAccountsLoaderConfig,
   RawAccount,
 } from "./types.js";
 import { DataLoader } from "@macalinao/dataloader-es";
-import { address, fetchEncodedAccounts } from "@solana/kit";
+import { fetchEncodedAccounts } from "@solana/accounts";
+import { address } from "@solana/addresses";
 
 /**
  * Splits `items` into consecutive slices of at most `size`.

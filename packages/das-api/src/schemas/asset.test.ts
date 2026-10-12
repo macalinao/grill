@@ -1,6 +1,6 @@
 import type { DasApiAsset } from "../types/asset.js";
 import { describe, expect, it } from "bun:test";
-import { address } from "@solana/kit";
+import { address } from "@solana/addresses";
 import {
   dasApiAssetAuthoritySchema,
   dasApiAssetCompressionSchema,

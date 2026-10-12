@@ -1,12 +1,16 @@
 import type { simulateTransactionFactory } from "@macalinao/gill-extra";
-import type { Address, Blockhash, Instruction } from "@solana/kit";
+import type { Address } from "@solana/addresses";
+import type { Instruction } from "@solana/instructions";
+import type { Blockhash } from "@solana/rpc-types";
 import type {
   GrillClient,
   GrillSigner,
   TransactionStatusEvent,
 } from "../../types.js";
 import { beforeAll, describe, expect, it } from "bun:test";
-import { address, generateKeyPairSigner, getBase58Encoder } from "@solana/kit";
+import { address } from "@solana/addresses";
+import { getBase58Encoder } from "@solana/codecs-strings";
+import { generateKeyPairSigner } from "@solana/signers";
 import { createSignTX } from "./create-sign-tx.js";
 
 const BLOCKHASH = {

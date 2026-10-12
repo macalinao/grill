@@ -1,5 +1,5 @@
 import type { TokenInfo } from "@macalinao/token-utils";
-import type { Address } from "@solana/kit";
+import type { Address } from "@solana/addresses";
 import { fetchTokenInfo } from "@macalinao/gill-extra";
 import { useQueries } from "@tanstack/react-query";
 import { useMintAccounts } from "../accounts/mint.js";

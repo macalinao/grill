@@ -1,6 +1,8 @@
-import type { ClusterUrl, Rpc, RpcTransport } from "@solana/kit";
+import type { Rpc, RpcTransport } from "@solana/rpc-spec";
+import type { ClusterUrl } from "@solana/rpc-types";
 import type { SolanaDasApi } from "./das-api.js";
-import { createDefaultRpcTransport, createRpc } from "@solana/kit";
+import { createDefaultRpcTransport } from "@solana/rpc";
+import { createRpc } from "@solana/rpc-spec";
 import { createDasApi } from "./das-api.js";
 
 /**

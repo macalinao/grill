@@ -1,9 +1,9 @@
+import type { Address } from "@solana/addresses";
 import type {
-  Address,
   TransactionMessage,
   TransactionMessageWithFeePayer,
-} from "@solana/kit";
-import { isWritableRole } from "@solana/kit";
+} from "@solana/transaction-messages";
+import { isWritableRole } from "@solana/instructions";
 
 /**
  * The addresses a transaction message may write to: its fee payer, whose

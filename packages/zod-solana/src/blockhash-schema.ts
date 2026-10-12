@@ -1,6 +1,6 @@
-import type { Blockhash } from "@solana/kit";
+import type { Blockhash } from "@solana/rpc-types";
 import type * as z from "zod";
-import { blockhash } from "@solana/kit";
+import { blockhash } from "@solana/rpc-types";
 import { createBrandedStringSchema } from "./create-branded-string-schema.js";
 
 /**

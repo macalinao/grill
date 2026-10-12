@@ -1,4 +1,4 @@
-import type { Address } from "@solana/kit";
+import type { Address } from "@solana/addresses";
 
 export const GRILL_REACT_QUERY_NAMESPACE = "solana" as const;
 
