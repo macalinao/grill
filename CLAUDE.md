@@ -200,6 +200,31 @@ comments in `.oxlintrc.json`.
 The project uses ast-grep for pattern enforcement:
 - Configuration in `sgconfig.yml` and `.ast-grep/rules/`
 - Example: Enforces namespace imports for Zod (`import * as zod from "zod"`)
+- `no-solana-kit-import`: bans imports from `@solana/kit` (see
+  [Solana Imports](#solana-imports))
+
+### Solana Imports
+
+Import each `@solana/kit` symbol from the granular `@solana/*` package that
+declares it, not from the `@solana/kit` umbrella: `address`/`Address` from
+`@solana/addresses`, `Signature` from `@solana/keys`, `Rpc` from
+`@solana/rpc-spec`, RPC method types (`GetMultipleAccountsApi`, ...) from
+`@solana/rpc-api`, `Lamports`/`Commitment`/cluster URLs from `@solana/rpc-types`,
+codecs from `@solana/codecs-core`/`-strings`/`-numbers`, and so on. To find the
+origin of a symbol, follow the `export *` chain from
+`node_modules/@solana/kit/dist/types/index.d.ts` down to the package whose own
+`dist/types` declares it. Only kit-only helpers (e.g.
+`sendAndConfirmTransactionFactory`) come from `@solana/kit`; mark those imports
+with `// ast-grep-ignore: no-solana-kit-import`.
+
+Every granular package a library imports must be declared the same way
+`@solana/kit` is: in `peerDependencies` as `catalog:peer` and in
+`devDependencies` as `catalog:` (devDependencies only if it is used just in
+tests). All `@solana/*` packages are released in lockstep with kit and must stay
+on the same version as `@solana/kit` in the catalogs, or consumers get duplicate
+copies of branded types. Packages keep `@solana/kit` as a peer only if they
+import from it or depend on something that peers on it (`@solana-program/*`,
+`@solana/react`).
 
 ## Example App (example-dapp)
 
@@ -291,7 +316,10 @@ When creating new packages:
 - Scripts should be: `build`, `build:watch`, `clean`, `typecheck`
 - All packages use ES modules (`"type": "module"` in package.json)
 - Keep package.json scripts simple and consistent
-- Use workspace catalogs for shared dependency versions
+- Use workspace catalogs for shared dependency versions. Every Solana dependency
+  (`@solana/*`, `@solana-program/*`, `@solana-programs/*`, wallet-adapter) is
+  declared in the root `package.json` catalogs and referenced as `catalog:` /
+  `catalog:peer`
 
 ## Solana PDA Guidelines
 

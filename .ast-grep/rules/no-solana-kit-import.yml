@@ -1,0 +1,22 @@
+# Import from the granular @solana/* package that declares a symbol (e.g.
+# `address` from @solana/addresses, `Rpc` from @solana/rpc-spec) instead of the
+# @solana/kit umbrella. Only kit-only helpers (e.g. sendAndConfirmTransactionFactory)
+# should come from @solana/kit; mark those imports with
+# `// ast-grep-ignore: no-solana-kit-import`.
+id: no-solana-kit-import
+message: Import from the granular @solana/* package that declares this symbol, not @solana/kit
+severity: error
+language: TypeScript
+rule:
+  any:
+    - pattern: import $$$ from "@solana/kit"
+    - pattern: import type $$$ from "@solana/kit"
+---
+id: no-solana-kit-import-tsx
+message: Import from the granular @solana/* package that declares this symbol, not @solana/kit
+severity: error
+language: Tsx
+rule:
+  any:
+    - pattern: import $$$ from "@solana/kit"
+    - pattern: import type $$$ from "@solana/kit"
