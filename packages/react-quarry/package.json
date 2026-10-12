@@ -58,7 +58,7 @@
   },
   "peerDependencies": {
     "@macalinao/grill": "workspace:^",
-    "@solana/kit": "^8.3.0",
+    "@solana/kit": "catalog:peer",
     "react": "catalog:peer"
   },
   "devDependencies": {

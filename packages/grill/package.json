@@ -51,9 +51,9 @@
     "@macalinao/solana-batch-accounts-loader": "workspace:^",
     "@macalinao/token-utils": "workspace:^",
     "@macalinao/zod-solana": "workspace:^",
-    "@solana-program/address-lookup-table": "^0.14.1",
-    "@solana-program/token": "^0.16.1",
-    "@solana-programs/token-metadata": "^0.8.0"
+    "@solana-program/address-lookup-table": "catalog:",
+    "@solana-program/token": "catalog:",
+    "@solana-programs/token-metadata": "catalog:"
   },
   "devDependencies": {
     "@macalinao/tsconfig": "catalog:",
@@ -69,7 +69,7 @@
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "@solana/kit": "^8.3.0",
+    "@solana/kit": "catalog:peer",
     "@solana/react": "catalog:peer",
     "@tanstack/react-query": "catalog:peer",
     "react": "catalog:peer",

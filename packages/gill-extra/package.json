@@ -49,13 +49,13 @@
     "@macalinao/solana-errors": "workspace:^",
     "@macalinao/token-utils": "workspace:^",
     "@macalinao/zod-solana": "workspace:^",
-    "@solana-program/system": "^0.14.1",
-    "@solana-program/token": "^0.16.1",
-    "@solana-programs/token-metadata": "^0.8.0"
+    "@solana-program/system": "catalog:",
+    "@solana-program/token": "catalog:",
+    "@solana-programs/token-metadata": "catalog:"
   },
   "devDependencies": {
     "@macalinao/tsconfig": "catalog:",
-    "@solana-program/compute-budget": "^0.18.1",
+    "@solana-program/compute-budget": "catalog:",
     "@solana/kit": "catalog:",
     "@types/bun": "catalog:",
     "tsdown": "catalog:",
