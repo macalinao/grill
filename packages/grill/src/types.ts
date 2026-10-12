@@ -1,10 +1,10 @@
+import type { Signature } from "@solana/keys";
 import type {
   ClientWithRpc,
   ClientWithRpcSubscriptions,
-  Signature,
-  SolanaRpcApiMainnet,
-  SolanaRpcSubscriptionsApi,
-} from "@solana/kit";
+} from "@solana/plugin-interfaces";
+import type { SolanaRpcApiMainnet } from "@solana/rpc-api";
+import type { SolanaRpcSubscriptionsApi } from "@solana/rpc-subscriptions-api";
 
 export type TransactionId = string;
 

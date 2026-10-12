@@ -5,18 +5,16 @@ import type {
   SolanaCluster,
   simulateTransactionFactory,
 } from "@macalinao/gill-extra";
-import type {
-  Address,
-  Instruction,
-  Transaction,
-  TransactionSendingSigner,
-} from "@solana/kit";
+import type { Address } from "@solana/addresses";
+import type { Instruction } from "@solana/instructions";
+import type { TransactionSendingSigner } from "@solana/signers";
+import type { Transaction } from "@solana/transactions";
 import type { GrillClient, TransactionStatusEvent } from "../../types.js";
 import {
   isTransactionModifyingSigner,
   isTransactionPartialSigner,
   signTransactionMessageWithSigners,
-} from "@solana/kit";
+} from "@solana/signers";
 import { prepareTransactionMessage } from "./prepare-transaction-message.js";
 
 export interface CreateSignTXParams {

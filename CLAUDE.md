@@ -10,7 +10,7 @@ Grill is a modern Solana development kit monorepo that provides React components
 
 - **Package Manager**: Bun (v1.3.6)
 - **Build System**: Turbo v2 for monorepo orchestration
-- **Framework**: React 18/19 with TypeScript 5.9
+- **Framework**: React 19 with TypeScript 5.9
 - **Solana**: @solana/kit
 - **State Management**: @tanstack/react-query for caching
 - **Routing**: @tanstack/react-router (in example-dapp)
@@ -84,7 +84,7 @@ The project uses Bun workspaces with packages in two directories:
 
 5. **@macalinao/gill-extra** - Solana client utilities built on @solana/kit
    - Cluster URLs: `getPublicSolanaRpcUrl` (returns kit's branded `MainnetUrl`/`DevnetUrl`/`TestnetUrl`)
-   - Transactions: `createTransaction`, `simulateTransactionFactory`, `sendAndConfirmTransactionWithSignersFactory`
+   - Transactions: `createTransaction`, `simulateTransactionFactory`
    - Exports: `fetchAndDecodeAccount`, `fetchTokenInfo`, transaction utilities, explorer helpers
    - No React dependencies
 
@@ -216,6 +216,33 @@ comments in `.oxlintrc.json`.
 The project uses ast-grep for pattern enforcement:
 - Configuration in `sgconfig.yml` and `.ast-grep/rules/`
 - Example: Enforces namespace imports for Zod (`import * as zod from "zod"`)
+- `no-solana-kit-import`: bans imports from `@solana/kit` under `packages/` (see
+  [Solana Imports](#solana-imports))
+
+### Solana Imports
+
+In the published packages under `packages/`, import each `@solana/kit` symbol
+from the granular `@solana/*` package that declares it, not from the
+`@solana/kit` umbrella: `address`/`Address` from
+`@solana/addresses`, `Signature` from `@solana/keys`, `Rpc` from
+`@solana/rpc-spec`, RPC method types (`GetMultipleAccountsApi`, ...) from
+`@solana/rpc-api`, `Lamports`/`Commitment`/cluster URLs from `@solana/rpc-types`,
+codecs from `@solana/codecs-core`/`-strings`/`-numbers`, and so on. To find the
+origin of a symbol, follow the `export *` chain from
+`node_modules/@solana/kit/dist/types/index.d.ts` down to the package whose own
+`dist/types` declares it. If a package genuinely needs a kit-only
+helper (e.g. `sendAndConfirmTransactionFactory`), import it from `@solana/kit`
+and mark the import with `// ast-grep-ignore: no-solana-kit-import`. Apps under `apps/` (e.g.
+example-dapp) are not published and may import from `@solana/kit` directly.
+
+Every granular package a library imports must be declared the same way
+`@solana/kit` is: in `peerDependencies` as `catalog:peer` and in
+`devDependencies` as `catalog:` (devDependencies only if it is used just in
+tests). All `@solana/*` packages are released in lockstep with kit and must stay
+on the same version as `@solana/kit` in the catalogs, or consumers get duplicate
+copies of branded types. Packages keep `@solana/kit` as a peer only if they
+import from it or depend on something that peers on it (`@solana-program/*`,
+`@solana/react`).
 
 ## Example App (example-dapp)
 
@@ -307,7 +334,10 @@ When creating new packages:
 - Scripts should be: `build`, `build:watch`, `clean`, `typecheck`
 - All packages use ES modules (`"type": "module"` in package.json)
 - Keep package.json scripts simple and consistent
-- Use workspace catalogs for shared dependency versions
+- Use workspace catalogs for shared dependency versions. Every Solana dependency
+  (`@solana/*`, `@solana-program/*`, `@solana-programs/*`, wallet-adapter) is
+  declared in the root `package.json` catalogs and referenced as `catalog:` /
+  `catalog:peer`
 
 ## Solana PDA Guidelines
 

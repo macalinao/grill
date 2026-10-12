@@ -1,11 +1,11 @@
+import type { Address } from "@solana/addresses";
 import type {
-  Address,
   ClientWithPayer,
   ClientWithSubscribeToPayer,
-  TransactionSendingSigner,
-} from "@solana/kit";
-import { isTransactionSendingSigner } from "@solana/kit";
+} from "@solana/plugin-interfaces";
+import type { TransactionSendingSigner } from "@solana/signers";
 import { useClient, usePayer } from "@solana/react";
+import { isTransactionSendingSigner } from "@solana/signers";
 
 /**
  * Returns the connected wallet's signer: the `payer` of the kit client from

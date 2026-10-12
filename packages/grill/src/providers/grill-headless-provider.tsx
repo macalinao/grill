@@ -5,7 +5,7 @@ import type {
   TokenMetadataValidator,
 } from "@macalinao/gill-extra";
 import type { TokenInfo } from "@macalinao/token-utils";
-import type { Address } from "@solana/kit";
+import type { Address } from "@solana/addresses";
 import type { FC, ReactNode } from "react";
 import type {
   TransactionStatusEvent,
@@ -22,8 +22,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useMemo } from "react";
 import { GrillContext } from "../contexts/grill-context.js";
 import { useSolanaClient } from "../hooks/use-solana-client.js";
-import { useWalletSigner } from "../hooks/use-wallet-signer.js";
-import { createSendTX } from "../utils/internal/create-send-tx.js";
 import { refetchAccounts as doRefetchAccounts } from "../utils/refetch-accounts.js";
 import { SubscriptionProvider } from "./subscription-provider.js";
 
@@ -108,9 +106,8 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
   cluster = "mainnet-beta",
   logLevel = DEFAULT_LOG_LEVEL,
 }) => {
-  const { rpc, rpcSubscriptions } = useSolanaClient();
+  const { rpc } = useSolanaClient();
   const queryClient = useQueryClient();
-  const signer = useWalletSigner();
 
   const logger = useMemo(() => createLogger(logLevel), [logLevel]);
 
@@ -146,32 +143,6 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
     [queryClient, accountLoader],
   );
 
-  const sendTX = useMemo(
-    () =>
-      createSendTX({
-        signer,
-        rpc,
-        rpcSubscriptions,
-        refetchAccounts,
-        onTransactionStatusEvent: handleTransactionStatusEvent,
-        getExplorerLink,
-        rpcUrl,
-        cluster,
-        logger,
-      }),
-    [
-      signer,
-      rpc,
-      rpcSubscriptions,
-      refetchAccounts,
-      handleTransactionStatusEvent,
-      getExplorerLink,
-      rpcUrl,
-      cluster,
-      logger,
-    ],
-  );
-
   const staticTokenInfoMap = useMemo(
     () => new Map(staticTokenInfo.map((info) => [info.mint, info])),
     [staticTokenInfo],
@@ -183,7 +154,6 @@ export const GrillHeadlessProvider: FC<GrillHeadlessProviderProps> = ({
         value={{
           accountLoader,
           refetchAccounts,
-          sendTX,
           getExplorerLink,
           onTransactionStatusEvent: handleTransactionStatusEvent,
           rpcUrl,

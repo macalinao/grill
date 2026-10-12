@@ -1,4 +1,4 @@
-import type { Address } from "@solana/kit";
+import type { Address } from "@solana/addresses";
 
 /**
  * A single printed edition of a master edition NFT (Helius extension).

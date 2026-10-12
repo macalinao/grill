@@ -1,6 +1,6 @@
 {
   "name": "@macalinao/solana-errors",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Solana error message formatting - works in production without __DEV__ flag",
   "type": "module",
   "sideEffects": false,
@@ -45,12 +45,12 @@
   },
   "devDependencies": {
     "@macalinao/tsconfig": "catalog:",
-    "@solana/kit": "catalog:",
+    "@solana/rpc-types": "catalog:",
     "@types/bun": "catalog:",
     "tsdown": "catalog:",
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "@solana/kit": "catalog:peer"
+    "@solana/rpc-types": "catalog:peer"
   }
 }

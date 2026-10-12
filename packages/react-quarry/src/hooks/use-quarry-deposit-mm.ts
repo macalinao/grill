@@ -1,5 +1,5 @@
-import type { Signature } from "@solana/kit";
-import { useWalletSigner, useSendTX } from "@macalinao/grill";
+import type { Signature } from "@solana/keys";
+import { useSendTX, useWalletSigner } from "@macalinao/grill";
 import { createDepositMergeMinerIxs } from "@macalinao/quarry";
 import { useCallback } from "react";
 import { useMergeMinerContext } from "../contexts/merge-miner.js";

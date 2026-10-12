@@ -1,4 +1,4 @@
-import type { Address } from "@solana/kit";
+import type { Address } from "@solana/addresses";
 
 /**
  * Basic information about a token on the Solana blockchain.

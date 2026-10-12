@@ -1,4 +1,6 @@
-import type { GetTransactionApi, Rpc, Signature } from "@solana/kit";
+import type { Signature } from "@solana/keys";
+import type { GetTransactionApi } from "@solana/rpc-api";
+import type { Rpc } from "@solana/rpc-spec";
 
 /**
  * Gets a confirmed transaction from the blockchain with parsed JSON encoding

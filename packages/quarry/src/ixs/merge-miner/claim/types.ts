@@ -1,5 +1,6 @@
 import type { Rewarder } from "@solana-programs/quarry";
-import type { Address, TransactionSigner } from "@solana/kit";
+import type { Address } from "@solana/addresses";
+import type { TransactionSigner } from "@solana/signers";
 
 export interface QuarryStakeAccounts {
   pool: Address;

@@ -1,6 +1,8 @@
-import type { Blockhash, Rpc, SimulateTransactionApi } from "@solana/kit";
+import type { SimulateTransactionApi } from "@solana/rpc-api";
+import type { Rpc } from "@solana/rpc-spec";
+import type { Blockhash } from "@solana/rpc-types";
 import { describe, expect, it } from "bun:test";
-import { address } from "@solana/kit";
+import { address } from "@solana/addresses";
 import { createTransaction } from "./create-transaction.js";
 import { simulateTransactionFactory } from "./simulate-transaction-factory.js";
 

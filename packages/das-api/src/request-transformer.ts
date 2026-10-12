@@ -1,4 +1,4 @@
-import type { RpcRequest, RpcRequestTransformer } from "@solana/kit";
+import type { RpcRequest, RpcRequestTransformer } from "@solana/rpc-spec-types";
 import type { JsonValue } from "./types/json-value.js";
 
 /**

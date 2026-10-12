@@ -5,7 +5,7 @@ import type {
   UseDecodedAccountsHook,
 } from "@macalinao/grill";
 import type { Metadata } from "@solana-programs/token-metadata";
-import type { Address } from "@solana/kit";
+import type { Address } from "@solana/addresses";
 import type { UseAccountResult } from "./use-account.js";
 import type { UseAccountsResult } from "./use-accounts.js";
 import {

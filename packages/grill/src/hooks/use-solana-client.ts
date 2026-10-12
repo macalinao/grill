@@ -1,4 +1,4 @@
-import type { Client } from "@solana/kit";
+import type { Client } from "@solana/plugin-core";
 import type { GrillClient } from "../types.js";
 import { useClientCapability } from "@solana/react";
 

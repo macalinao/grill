@@ -165,8 +165,23 @@
     // Rules of React violations like `react/purity`, `react/immutability`,
     // `react/refs`, `react/set-state-in-render` -- landed in `correctness`, so
     // the `react` plugin plus the `correctness: error` category above is the
-    // migration path oxlint documents, and the packages stay compiler-safe for
-    // downstream apps that do run the compiler.
+    // migration path oxlint documents. The other 10 live in other categories and
+    // are listed below, so every compiler rule is enforced.
+    // `react/todo` matters most: it fires when the compiler bails out on syntax
+    // it cannot yet compile. `packages/*` are precompiled with the React Compiler
+    // at build time, so a bail-out there would silently ship a hook without
+    // memoization. `react/rule-suppression` stops the compiler rules from being
+    // disabled with inline comments.
+    "react/todo": "error",
+    "react/unsupported-syntax": "error",
+    "react/syntax": "error",
+    "react/hooks": "error",
+    "react/capitalized-calls": "error",
+    "react/invariant": "error",
+    "react/memo-dependencies": "error",
+    "react/exhaustive-effect-dependencies": "error",
+    "react/no-deriving-state-in-effects": "error",
+    "react/rule-suppression": "error",
     // The repo targets the automatic JSX runtime (jsx: "react-jsx"), so React
     // does not need to be in scope. The old ESLint config turned this off too.
     "react/react-in-jsx-scope": "off",

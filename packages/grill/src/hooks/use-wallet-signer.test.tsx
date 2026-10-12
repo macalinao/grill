@@ -1,11 +1,12 @@
+import type { Address } from "@solana/addresses";
+import type { Client } from "@solana/plugin-core";
 import type {
-  Address,
-  Client,
   TransactionSendingSigner,
   TransactionSigner,
-} from "@solana/kit";
+} from "@solana/signers";
 import { describe, expect, it } from "bun:test";
-import { address, createClient } from "@solana/kit";
+import { address } from "@solana/addresses";
+import { createClient } from "@solana/plugin-core";
 import { ClientProvider } from "@solana/react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { reactiveSigner } from "../plugins/reactive-signer.js";

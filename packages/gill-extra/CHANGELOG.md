@@ -1,5 +1,91 @@
 # @macalinao/gill-extra
 
+## 0.13.0
+
+### Minor Changes
+
+- b944b52: Replace `createSolanaClient`/`SolanaProvider` with kit 8's plugin-based `Client` and `@solana/react`'s `ClientProvider`.
+  
+  **Breaking changes**
+  
+  - `@macalinao/gill-extra`: removed `createSolanaClient` and the `SolanaClient`, `CreateSolanaClientArgs`, `SolanaClientUrlOrMoniker`, `LocalnetUrl`, `ModifiedClusterUrl` and `GenericUrl` types. Build the client with `createClient().use(solanaRpcConnection(...))` from `@solana/kit` and `@solana/kit-plugin-rpc` instead.
+  - `@macalinao/gill-extra`: `getPublicSolanaRpcUrl` now returns kit's branded cluster URLs (`MainnetUrl`, `DevnetUrl`, `TestnetUrl`), so an RPC built from them is typed for that cluster. `"localnet"`/`"localhost"` still return the plain string `http://127.0.0.1:8899`.
+  - `@macalinao/grill`: removed `SolanaProvider`, `SolanaProviderProps` and grill's own client context. Grill now reads the client from `ClientProvider` in `@solana/react`, so the app shares one kit client with `@solana/react`'s hooks. `@solana/react` (`^8.3.0`) is a new peer dependency of `@macalinao/grill`. `@macalinao/grill`'s `@solana/kit` peer range goes from `^8` (the kit 8 requirement for v1 transactions) to `^8.3.0`, the minimum `@solana/react` requires.
+  - `@macalinao/react-quarry` and `@macalinao/wallet-adapter-compat`: the `@solana/kit` peer range goes from `^8` to `^8.3.0` as well. Both peer-depend on `@macalinao/grill`, so kit 8.0 to 8.2 could not satisfy them anyway.
+  - `@macalinao/grill`: `useSolanaClient()` is now a typed wrapper around `@solana/react`'s `useClientCapability` and returns a `Client<GrillClient>`. The new `GrillClient` type describes the `rpc` and `rpcSubscriptions` capabilities grill needs.
+  - `SolanaProvider`'s optional `queryClient` prop is gone. Wrap the tree in `QueryClientProvider` yourself (the default setup already required this).
+  
+  **Migration**
+  
+  Before:
+  
+  ```tsx
+  import { createSolanaClient, GrillProvider, SolanaProvider } from "@macalinao/grill";
+  
+  const client = createSolanaClient({ urlOrMoniker: "mainnet" });
+  
+  <QueryClientProvider client={queryClient}>
+    <SolanaProvider client={client}>
+      {/* wallet providers */}
+      <GrillProvider>{children}</GrillProvider>
+    </SolanaProvider>
+  </QueryClientProvider>;
+  ```
+  
+  After:
+  
+  ```tsx
+  import { getPublicSolanaRpcUrl, GrillProvider } from "@macalinao/grill";
+  import { createClient } from "@solana/kit";
+  import { solanaRpcConnection } from "@solana/kit-plugin-rpc";
+  import { ClientProvider } from "@solana/react";
+  
+  const client = createClient().use(
+    solanaRpcConnection({ rpcUrl: getPublicSolanaRpcUrl("mainnet") }),
+  );
+  
+  <QueryClientProvider client={queryClient}>
+    <ClientProvider client={client}>
+      {/* wallet providers */}
+      <GrillProvider>{children}</GrillProvider>
+    </ClientProvider>
+  </QueryClientProvider>;
+  ```
+  
+  `ClientProvider` also accepts a promise of a client (for async plugins) and suspends until it resolves.
+  
+  **Behaviour differences from `createSolanaClient`**
+  
+  - No moniker strings: `solanaRpcConnection` takes a URL. Use `getPublicSolanaRpcUrl("mainnet" | "devnet" | "testnet" | "localnet")` for the public endpoints.
+  - No `URL` objects: pass a string (`url.toString()`).
+  - No `port` options: put the port in the URL, or pass `rpcSubscriptionsUrl` when websockets are served elsewhere.
+  - The websocket URL is derived from the RPC URL (`http` → `ws`, `https` → `wss`). The local-validator port rewrite to 8900 applies only to the exact URLs `http://127.0.0.1:8899` and `http://localhost:8899`; any other local URL needs an explicit `rpcSubscriptionsUrl`.
+  - `sendAndConfirmTransaction` and `simulateTransaction` are no longer on the client. Build them when you need them with `sendAndConfirmTransactionWithSignersFactory({ rpc, rpcSubscriptions })` and `simulateTransactionFactory({ rpc })` from `@macalinao/gill-extra`.
+  - `urlOrMoniker` is no longer on the client. Pass `rpcUrl` to `GrillProvider` if you want transaction inspector links for a custom RPC.
+- 9901c43: Remove gill-extra helpers that duplicate `@solana/kit` or other gill-extra exports.
+  
+  - **Breaking (`@macalinao/gill-extra`)**: removed `getSignatureFromBytes`. Use kit directly: `signature(getBase58Decoder().decode(sigBytes))`.
+  - **Breaking (`@macalinao/gill-extra`)**: removed `pollConfirmTransaction` and `PollConfirmTransactionOptions`. Use `confirmTransaction` (WebSocket with a polling fallback) or `pollTransactionConfirmation`, raise a failed transaction's `err` with kit's `getSolanaErrorFromTransactionError`, and fetch the transaction with `getConfirmedTransaction` if you need it.
+  - `@macalinao/grill`: `createSendTX` now builds the signature with kit's `signature()` and `getBase58Decoder()` instead of `getSignatureFromBytes`.
+- c715d97: Add support for Solana v1 transactions, and require `@solana/kit` 8.
+  
+  - **Breaking:** the `@solana/kit` peer dependency is now `^8` (was `^6 || ^7 || ^8`) in every package. The v1 transaction APIs used here were added in kit 8.
+  - `createTransaction` (`@macalinao/gill-extra`) accepts `version: 1`. The compute budget is now set with kit's version-aware setters: legacy and v0 transactions still get Compute Budget instructions placed before your instructions, and v1 transactions get the same values in `message.config`.
+  - New `createTransaction` options: `priorityFeeLamports`, the total priority fee in lamports (v1 only), and `loadedAccountsDataSizeLimit` (any version).
+  - `createTransaction` now throws on invalid combinations. With version 1, both `computeUnitLimit` and `loadedAccountsDataSizeLimit` are required, because an unset value budgets zero compute units or zero bytes and the transaction would fail. `computeUnitPrice` is rejected for v1 (use `priorityFeeLamports`), and `priorityFeeLamports` is rejected for legacy and v0 (use `computeUnitPrice`). `version: "auto"` still only picks legacy or v0.
+  - `BuildTXOptions`, shared by `SendTXOptions` and `SignTXOptions` in `@macalinao/grill`, adds `version` (default `0`, as before), `priorityFeeLamports` and `loadedAccountsDataSizeLimit`. Both `useSendTX` and `useSignTX` build v1 transactions. `lookupTables` is only allowed with version 0. If the options are invalid, the send or sign fails with an error status event rather than leaving the toast on "preparing".
+  - `getConfirmedTransaction` requests `maxSupportedTransactionVersion: 1`, so it can fetch v1 transactions.
+  - `@macalinao/wallet-adapter-compat` rejects v1 transactions with a clear error, whether they are being sent or only signed. Wallet adapters take `@solana/web3.js` transactions, and web3.js can parse v1 messages but cannot serialize them. Send v1 transactions through a Wallet Standard or kit signer.
+  - `@solana-program/compute-budget` is no longer a runtime dependency of `@macalinao/gill-extra`.
+
+### Patch Changes
+
+- Updated dependencies [c715d97]
+  - @macalinao/solana-batch-accounts-loader@0.5.0
+  - @macalinao/solana-errors@0.5.0
+  - @macalinao/token-utils@0.4.0
+  - @macalinao/zod-solana@0.6.0
+
 ## 0.12.0
 
 ### Minor Changes

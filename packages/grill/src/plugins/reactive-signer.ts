@@ -1,17 +1,17 @@
+import type { Address } from "@solana/addresses";
+import type { ExtendedClient } from "@solana/plugin-core";
 import type {
-  Address,
   ClientWithIdentity,
   ClientWithPayer,
   ClientWithSubscribeToIdentity,
   ClientWithSubscribeToPayer,
-  ExtendedClient,
-  TransactionSendingSigner,
-} from "@solana/kit";
+} from "@solana/plugin-interfaces";
+import type { TransactionSendingSigner } from "@solana/signers";
 import {
-  extendClient,
   SOLANA_ERROR__WALLET__NO_SIGNER_CONNECTED,
   SolanaError,
-} from "@solana/kit";
+} from "@solana/errors";
+import { extendClient } from "@solana/plugin-core";
 
 /**
  * A kit client whose `payer` and `identity` are a signer that can change at

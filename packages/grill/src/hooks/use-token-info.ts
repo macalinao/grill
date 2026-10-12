@@ -1,5 +1,5 @@
 import type { TokenInfo } from "@macalinao/token-utils";
-import type { Address } from "@solana/kit";
+import type { Address } from "@solana/addresses";
 import type { UseQueryResult } from "@tanstack/react-query";
 import { fetchTokenInfo } from "@macalinao/gill-extra";
 import { useQuery } from "@tanstack/react-query";

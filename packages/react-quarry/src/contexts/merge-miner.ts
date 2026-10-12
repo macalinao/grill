@@ -1,5 +1,6 @@
 import type { MergeMiner, MergePool } from "@macalinao/quarry";
-import type { Account, Address } from "@solana/kit";
+import type { Account } from "@solana/accounts";
+import type { Address } from "@solana/addresses";
 import { createContext, useContext } from "react";
 
 export interface MergeMinerContextValue {

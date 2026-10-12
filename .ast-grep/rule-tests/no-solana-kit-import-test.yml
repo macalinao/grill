@@ -1,0 +1,16 @@
+id: no-solana-kit-import
+valid:
+  - |
+    import { address } from "@solana/addresses";
+  - |
+    import type { Rpc } from "@solana/rpc-spec";
+  - |
+    import { solanaRpcConnection } from "@solana/kit-plugin-rpc";
+
+invalid:
+  - |
+    import { address } from "@solana/kit";
+  - |
+    import type { Address } from "@solana/kit";
+  - |
+    import { address, type Address } from "@solana/kit";

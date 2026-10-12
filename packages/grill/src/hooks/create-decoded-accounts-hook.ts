@@ -1,4 +1,5 @@
-import type { Address, Decoder } from "@solana/kit";
+import type { Address } from "@solana/addresses";
+import type { Decoder } from "@solana/codecs-core";
 import type { UseAccountOptions } from "./use-account.js";
 import type { UseAccountsResult } from "./use-accounts.js";
 import { useAccounts } from "./use-accounts.js";

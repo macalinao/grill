@@ -1,4 +1,6 @@
-import type { Address, Instruction, TransactionSigner } from "@solana/kit";
+import type { Address } from "@solana/addresses";
+import type { Instruction } from "@solana/instructions";
+import type { TransactionSigner } from "@solana/signers";
 import { getCreateAccountInstruction } from "@solana-program/system";
 import {
   getInitializeMint2Instruction,

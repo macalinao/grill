@@ -1,4 +1,5 @@
-import type { Address, TransactionSendingSigner } from "@solana/kit";
+import type { Address } from "@solana/addresses";
+import type { TransactionSendingSigner } from "@solana/signers";
 import { useWalletSigner } from "./use-wallet-signer.js";
 
 /**

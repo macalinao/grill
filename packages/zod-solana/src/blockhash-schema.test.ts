@@ -1,6 +1,6 @@
 import type * as z from "zod";
 import { describe, expect, it } from "bun:test";
-import { blockhash } from "@solana/kit";
+import { blockhash } from "@solana/rpc-types";
 import { blockhashSchema } from "./blockhash-schema.js";
 
 const VALID_BLOCKHASH = "8qbHbw2BbbTHBW1sbeqakYXVKRQM8Ne7pLK7m6CVfeR";

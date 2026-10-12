@@ -1,12 +1,12 @@
+import type { Account } from "@solana/accounts";
+import type { Instruction } from "@solana/instructions";
+import type { Signature } from "@solana/keys";
 import type {
-  Account,
   AddressesByLookupTableAddress,
   BlockhashLifetimeConstraint,
-  Instruction,
-  Signature,
-  Transaction,
   TransactionVersion,
-} from "@solana/kit";
+} from "@solana/transaction-messages";
+import type { Transaction } from "@solana/transactions";
 import type { TransactionConfirmationTuning } from "./confirm-transaction.js";
 import type { CreateTransactionInput } from "./create-transaction.js";
 

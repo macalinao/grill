@@ -1,4 +1,4 @@
-import type { Instruction } from "@solana/kit";
+import type { Instruction } from "@solana/instructions";
 import type { RescueTokensMergeMinerArgs } from "./types.js";
 import { getRescueTokensMMInstruction } from "@solana-programs/quarry";
 

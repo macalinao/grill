@@ -1,11 +1,12 @@
-import type { Address, TransactionSendingSigner } from "@solana/kit";
+import type { Address } from "@solana/addresses";
+import type { TransactionSendingSigner } from "@solana/signers";
 import { describe, expect, it } from "bun:test";
+import { address } from "@solana/addresses";
 import {
-  address,
-  createClient,
   isSolanaError,
   SOLANA_ERROR__WALLET__NO_SIGNER_CONNECTED,
-} from "@solana/kit";
+} from "@solana/errors";
+import { createClient } from "@solana/plugin-core";
 import { reactiveSigner } from "./reactive-signer.js";
 
 function makeSigner(addr: string): TransactionSendingSigner<Address> {

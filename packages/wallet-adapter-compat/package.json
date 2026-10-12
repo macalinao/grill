@@ -1,6 +1,6 @@
 {
   "name": "@macalinao/wallet-adapter-compat",
-  "version": "14.1.0",
+  "version": "14.3.0",
   "description": "Compatibility layer that bridges @solana/wallet-adapter with @solana/kit and grill",
   "type": "module",
   "sideEffects": false,
@@ -45,17 +45,24 @@
     "clean": "rm -fr dist/ node_modules/ tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "@solana/webcrypto-ed25519-polyfill": "8.3.0",
-    "react-compiler-runtime": "^1.0.0",
+    "@solana/webcrypto-ed25519-polyfill": "catalog:",
     "tslib": "catalog:"
   },
   "devDependencies": {
     "@macalinao/gill-extra": "workspace:^",
     "@macalinao/grill": "workspace:^",
     "@macalinao/tsconfig": "catalog:",
+    "@solana/addresses": "catalog:",
+    "@solana/codecs-strings": "catalog:",
+    "@solana/instructions": "catalog:",
+    "@solana/keys": "catalog:",
     "@solana/kit": "catalog:",
     "@solana/react": "catalog:",
-    "@solana/web3.js": "^1.99.0",
+    "@solana/rpc-types": "catalog:",
+    "@solana/signers": "catalog:",
+    "@solana/transaction-messages": "catalog:",
+    "@solana/transactions": "catalog:",
+    "@solana/web3.js": "catalog:",
     "@types/bun": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
@@ -64,11 +71,17 @@
   },
   "peerDependencies": {
     "@macalinao/grill": "workspace:^",
-    "@solana/kit": "^8.3.0",
+    "@solana/addresses": "catalog:peer",
+    "@solana/codecs-strings": "catalog:peer",
+    "@solana/keys": "catalog:peer",
+    "@solana/kit": "catalog:peer",
     "@solana/react": "catalog:peer",
+    "@solana/signers": "catalog:peer",
+    "@solana/transaction-messages": "catalog:peer",
+    "@solana/transactions": "catalog:peer",
     "@solana/wallet-adapter-base": "catalog:",
     "@solana/wallet-adapter-react": "catalog:",
-    "@solana/web3.js": "^1.98.4",
+    "@solana/web3.js": "catalog:peer",
     "react": "catalog:peer",
     "react-dom": "catalog:peer"
   }

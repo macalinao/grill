@@ -1,6 +1,6 @@
-import type { Address } from "@solana/kit";
+import type { Address } from "@solana/addresses";
 import type * as z from "zod";
-import { address } from "@solana/kit";
+import { address } from "@solana/addresses";
 import { createBrandedStringSchema } from "./create-branded-string-schema.js";
 
 /**

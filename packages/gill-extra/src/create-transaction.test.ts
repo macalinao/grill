@@ -1,13 +1,15 @@
-import type { Address, Blockhash, Instruction } from "@solana/kit";
+import type { Address } from "@solana/addresses";
+import type { Instruction } from "@solana/instructions";
+import type { Blockhash } from "@solana/rpc-types";
 import { describe, expect, it } from "bun:test";
 import { COMPUTE_BUDGET_PROGRAM_ADDRESS } from "@solana-program/compute-budget";
+import { address } from "@solana/addresses";
+import { generateKeyPairSigner } from "@solana/signers";
 import {
-  address,
-  generateKeyPairSigner,
   getTransactionMessageComputeUnitLimit,
   getTransactionMessageComputeUnitPrice,
   getTransactionMessageLoadedAccountsDataSizeLimit,
-} from "@solana/kit";
+} from "@solana/transaction-messages";
 import { createTransaction } from "./create-transaction.js";
 
 const FEE_PAYER = address("So11111111111111111111111111111111111111112");

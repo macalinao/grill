@@ -1,6 +1,6 @@
 {
   "name": "@macalinao/solana-batch-accounts-loader",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "Efficient batch account loading for Solana using DataLoader and @solana/kit",
   "type": "module",
   "sideEffects": false,
@@ -50,12 +50,18 @@
   },
   "devDependencies": {
     "@macalinao/tsconfig": "catalog:",
-    "@solana/kit": "catalog:",
+    "@solana/accounts": "catalog:",
+    "@solana/addresses": "catalog:",
+    "@solana/codecs-strings": "catalog:",
+    "@solana/rpc-api": "catalog:",
+    "@solana/rpc-spec": "catalog:",
+    "@solana/rpc-types": "catalog:",
     "@types/bun": "catalog:",
     "tsdown": "catalog:",
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "@solana/kit": "catalog:peer"
+    "@solana/accounts": "catalog:peer",
+    "@solana/addresses": "catalog:peer"
   }
 }

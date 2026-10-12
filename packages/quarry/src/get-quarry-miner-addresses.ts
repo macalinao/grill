@@ -1,5 +1,5 @@
 import type { TokenInfo } from "@macalinao/token-utils";
-import type { Address } from "@solana/kit";
+import type { Address } from "@solana/addresses";
 import type { NonEmptyArray } from "nonempty-array";
 import type { PoolInfo, PoolRewardsInfo } from "./types.js";
 import {

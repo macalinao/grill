@@ -1,26 +1,30 @@
+import type { Address } from "@solana/addresses";
+import type { Instruction } from "@solana/instructions";
 import type {
-  Address,
-  Instruction,
+  TransactionMessageWithFeePayerSigner,
+  TransactionSigner,
+} from "@solana/signers";
+import type {
   TransactionMessage,
   TransactionMessageWithBlockhashLifetime,
   TransactionMessageWithFeePayer,
-  TransactionMessageWithFeePayerSigner,
-  TransactionSigner,
   TransactionVersion,
-} from "@solana/kit";
+} from "@solana/transaction-messages";
 import type { Simplify } from "./simplify.js";
+import {
+  isTransactionSigner,
+  setTransactionMessageFeePayerSigner,
+} from "@solana/signers";
 import {
   appendTransactionMessageInstructions,
   createTransactionMessage,
-  isTransactionSigner,
   setTransactionMessageComputeUnitLimit,
   setTransactionMessageComputeUnitPrice,
   setTransactionMessageFeePayer,
-  setTransactionMessageFeePayerSigner,
   setTransactionMessageLifetimeUsingBlockhash,
   setTransactionMessageLoadedAccountsDataSizeLimit,
   setTransactionMessagePriorityFeeLamports,
-} from "@solana/kit";
+} from "@solana/transaction-messages";
 
 /**
  * Input accepted by {@link createTransaction}.
