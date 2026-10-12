@@ -1,6 +1,6 @@
 {
   "name": "@macalinao/gill-extra",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "Solana client utilities built on @solana/kit - no React dependencies",
   "type": "module",
   "sideEffects": false,
