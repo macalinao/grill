@@ -1,3 +1,4 @@
+import type { Address } from "@solana/kit";
 import { formatTokenAmount, useATABalance } from "@macalinao/grill";
 import { address } from "@solana/kit";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -46,7 +47,7 @@ function TokenBalanceRow({
   owner,
 }: {
   token: (typeof TOKENS)[0];
-  owner: ReturnType<typeof address> | undefined;
+  owner: Address | undefined;
 }) {
   const balance = useATABalance({
     mint: token.mint,
