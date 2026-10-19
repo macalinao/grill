@@ -1,5 +1,12 @@
 # @macalinao/gill-extra
 
+## 0.14.1
+
+### Patch Changes
+
+- Updated dependencies [753c448]
+  - @macalinao/solana-batch-accounts-loader@0.7.0
+
 ## 0.14.0
 
 ### Minor Changes
