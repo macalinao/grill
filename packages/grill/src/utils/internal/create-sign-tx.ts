@@ -3,7 +3,7 @@ import type {
   SignTXFunction,
   SignTXOptions,
   SolanaCluster,
-  simulateTransactionFactory,
+  SimulateTransactionFunction,
 } from "@macalinao/gill-extra";
 import type { Instruction } from "@solana/instructions";
 import type { Transaction } from "@solana/transactions";
@@ -27,7 +27,7 @@ export interface CreateSignTXParams {
    * `simulateTransactionFactory` from `@macalinao/gill-extra`. Injected rather
    * than created here so the caller controls its lifetime.
    */
-  simulateTransaction: ReturnType<typeof simulateTransactionFactory>;
+  simulateTransaction: SimulateTransactionFunction;
   onTransactionStatusEvent: (event: TransactionStatusEvent) => void;
   /**
    * The RPC URL used for creating transaction inspector URLs.

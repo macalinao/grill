@@ -3,7 +3,7 @@ import type {
   FullTransaction,
   Logger,
   SolanaCluster,
-  simulateTransactionFactory,
+  SimulateTransactionFunction,
 } from "@macalinao/gill-extra";
 import type { Instruction } from "@solana/instructions";
 import type {
@@ -30,7 +30,7 @@ export interface PrepareTransactionMessageParams {
   signer: TransactionSigner;
   rpc: GrillClient["rpc"];
   /** Reused simulate function (created once via simulateTransactionFactory). */
-  simulateTransaction: ReturnType<typeof simulateTransactionFactory>;
+  simulateTransaction: SimulateTransactionFunction;
   name: string;
   ixs: readonly Instruction[];
   options: BuildTXOptions;
