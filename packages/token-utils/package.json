@@ -44,7 +44,7 @@
     "test": "bun test"
   },
   "dependencies": {
-    "dnum": "^2.17.0"
+    "dnum": "^2.18.0"
   },
   "devDependencies": {
     "@macalinao/tsconfig": "catalog:",
