@@ -1,5 +1,5 @@
 import type { Signature } from "@solana/keys";
-import type { TransactionError } from "@solana/rpc-types";
+import type { Commitment, TransactionError } from "@solana/rpc-types";
 import type { ConfirmationRpcSubscriptions } from "./confirm-transaction.js";
 import type { ConfirmationRpc } from "./poll-transaction-confirmation.js";
 import { describe, expect, it } from "bun:test";
@@ -34,7 +34,7 @@ const ON_CHAIN_ERROR: TransactionError = {
 };
 
 interface SignatureStatus {
-  confirmationStatus: "processed" | "confirmed" | "finalized" | null;
+  confirmationStatus: Commitment | null;
   err: TransactionError | null;
 }
 

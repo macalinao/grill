@@ -1,5 +1,27 @@
 # @macalinao/token-utils
 
+## 0.5.1
+
+### Patch Changes
+
+- 04e4845: Update dependencies to their latest versions:
+  
+  - `@solana/kit` and all granular `@solana/*` packages to 8.5.0 (peer ranges now `^8.5.0`)
+  - `@solana-program/*` to the latest minors (system 0.16, token 0.18, token-2022 0.20, compute-budget 0.20, address-lookup-table 0.16)
+  - `react`/`react-dom` 19.3.1, `@tanstack/react-query` 5.104.5, `zod` 4.6.7, `dnum` 2.18.0
+
+## 0.5.0
+
+### Minor Changes
+
+- 6f7ec92: Import from the granular `@solana/*` packages instead of the `@solana/kit` umbrella, and bump Solana dependencies.
+  
+  - Every package now imports each symbol from the `@solana/*` package that declares it (`@solana/addresses`, `@solana/keys`, `@solana/rpc-types`, `@solana/transaction-messages`, ...) and declares those packages as peer dependencies (`^8.4.0`). They ship in lockstep with `@solana/kit`, so installing `@solana/kit@^8.4.0` already provides them; with strict installers (pnpm without `auto-install-peers`) add them to your app.
+  - `@solana/kit` is no longer a peer dependency of `das-api`, `react-quarry`, `solana-batch-accounts-loader`, `solana-errors`, `token-utils`, `wallet-adapter-compat` and `zod-solana`. `gill-extra`, `grill` and `quarry` still peer on it.
+  - **Breaking (`@macalinao/gill-extra`)**: removed `sendAndConfirmTransactionWithSignersFactory` and its types `SendAndConfirmTransactionWithSignersFunction`, `SendAndConfirmTransactionWithSignersFactoryConfig`, `SendableTransactionOrMessage` and `SendAndConfirmTransactionConfig`. Nothing in this repo used them. Use `sendAndConfirmTransactionFactory` from `@solana/kit` together with `signTransactionMessageWithSigners` from `@solana/signers` instead. gill-extra no longer imports `@solana/kit`. It still lists kit as a peer only because its `@solana-program/*` and `@solana-programs/token-metadata` dependencies require kit.
+  - The `@solana/kit` and `@solana/react` peer ranges are now `^8.4.0`.
+  - Bumped `@solana-program/address-lookup-table` to 0.15, `@solana-program/system` to 0.15, `@solana-program/token` to 0.17, `@solana-programs/token-metadata` to 0.9 and `@solana-programs/quarry` to 0.8, and `@solana/webcrypto-ed25519-polyfill` to 8.4.
+
 ## 0.4.0
 
 ### Minor Changes

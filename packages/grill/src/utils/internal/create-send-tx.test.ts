@@ -5,6 +5,7 @@ import type { Blockhash } from "@solana/rpc-types";
 import type { TransactionSendingSigner } from "@solana/signers";
 import type { BlockhashLifetimeConstraint } from "@solana/transaction-messages";
 import type { GrillClient, TransactionStatusEvent } from "../../types.js";
+import type { CreateSendTXParams } from "./create-send-tx.js";
 import { beforeAll, beforeEach, describe, expect, it, mock } from "bun:test";
 import * as gillExtra from "@macalinao/gill-extra";
 import { createLogger } from "@macalinao/gill-extra";
@@ -181,7 +182,7 @@ describe("createSendTX", () => {
 
   const params = (
     rpc: GrillClient["rpc"],
-    overrides: Partial<Parameters<typeof createSendTX>[0]> = {},
+    overrides: Partial<CreateSendTXParams> = {},
   ) => ({
     signer,
     rpc,

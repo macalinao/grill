@@ -1,4 +1,4 @@
-import type { simulateTransactionFactory } from "@macalinao/gill-extra";
+import type { SimulateTransactionFunction } from "@macalinao/gill-extra";
 import type { Address } from "@solana/addresses";
 import type { Instruction } from "@solana/instructions";
 import type { Blockhash } from "@solana/rpc-types";
@@ -49,7 +49,7 @@ function makeRpc(): {
   return { rpc, getLatestBlockhashCalls: () => calls };
 }
 
-type SimulateTransaction = ReturnType<typeof simulateTransactionFactory>;
+type SimulateTransaction = SimulateTransactionFunction;
 
 /**
  * Builds a stub for the injected simulate function. `err` drives whether

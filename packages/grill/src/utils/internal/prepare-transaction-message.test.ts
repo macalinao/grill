@@ -1,4 +1,4 @@
-import type { simulateTransactionFactory } from "@macalinao/gill-extra";
+import type { SimulateTransactionFunction } from "@macalinao/gill-extra";
 import type { Address } from "@solana/addresses";
 import type { Instruction } from "@solana/instructions";
 import type { Blockhash } from "@solana/rpc-types";
@@ -49,14 +49,14 @@ function makeRpc(): {
 
 /** A simulate fn that returns a fixed err value, spying on invocation. */
 function makeSimulate(err: unknown): {
-  simulate: ReturnType<typeof simulateTransactionFactory>;
+  simulate: SimulateTransactionFunction;
   calls: () => number;
 } {
   let calls = 0;
   const simulate = (() => {
     calls += 1;
     return Promise.resolve({ value: { err, logs: [] } });
-  }) as unknown as ReturnType<typeof simulateTransactionFactory>;
+  }) as unknown as SimulateTransactionFunction;
   return { simulate, calls: () => calls };
 }
 
