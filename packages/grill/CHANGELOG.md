@@ -1,5 +1,25 @@
 # @macalinao/grill
 
+## 0.22.1
+
+### Patch Changes
+
+- 04e4845: Update dependencies to their latest versions:
+  
+  - `@solana/kit` and all granular `@solana/*` packages to 8.5.0 (peer ranges now `^8.5.0`)
+  - `@solana-program/*` to the latest minors (system 0.16, token 0.18, token-2022 0.20, compute-budget 0.20, address-lookup-table 0.16)
+  - `react`/`react-dom` 19.3.1, `@tanstack/react-query` 5.104.5, `zod` 4.6.7, `dnum` 2.18.0
+- 753c448: Replace derived types with explicit named types from the granular `@solana/*` packages:
+  
+  - `@macalinao/solana-batch-accounts-loader`: `RpcWithGetMultipleAccounts` is now declared as `Rpc<GetMultipleAccountsApi>` instead of being derived from `fetchEncodedAccounts`'s parameter type. The shape is unchanged; `@solana/rpc-api` and `@solana/rpc-spec` are now peer dependencies.
+  - `@macalinao/grill`: internal helpers use `SimulateTransactionFunction` instead of `ReturnType<typeof simulateTransactionFactory>`. No public type changes.
+- Updated dependencies [04e4845]
+- Updated dependencies [753c448]
+  - @macalinao/gill-extra@0.14.1
+  - @macalinao/solana-batch-accounts-loader@0.7.0
+  - @macalinao/token-utils@0.5.1
+  - @macalinao/zod-solana@0.7.1
+
 ## 0.22.0
 
 ### Minor Changes
