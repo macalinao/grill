@@ -1,4 +1,3 @@
-import type { Address } from "@solana/addresses";
 import type { Signature } from "@solana/keys";
 import type {
   ClientWithRpc,
@@ -6,19 +5,6 @@ import type {
 } from "@solana/plugin-interfaces";
 import type { SolanaRpcApiMainnet } from "@solana/rpc-api";
 import type { SolanaRpcSubscriptionsApi } from "@solana/rpc-subscriptions-api";
-import type {
-  TransactionPartialSigner,
-  TransactionSendingSigner,
-} from "@solana/signers";
-
-/**
- * A signer usable by grill. It can always send transactions
- * ({@link TransactionSendingSigner}) and, when the underlying wallet supports
- * signing without sending, it can also sign them
- * ({@link TransactionPartialSigner}) — enabling `useSignTX`.
- */
-export type GrillSigner = TransactionSendingSigner<Address> &
-  Partial<Pick<TransactionPartialSigner<Address>, "signTransactions">>;
 
 export type TransactionId = string;
 

@@ -8,7 +8,6 @@ import { ClientProvider } from "@solana/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderToString } from "react-dom/server";
 import { GrillHeadlessProvider } from "../providers/grill-headless-provider.js";
-import { WalletProvider } from "../providers/wallet-provider.js";
 import { useSendTX } from "./use-send-tx.js";
 
 const MEMO_PROGRAM = address("MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr");
@@ -28,7 +27,8 @@ function renderUseSendTX(
   onTransactionStatusEvent: (event: TransactionStatusEvent) => void,
 ): SendTXFunction {
   // Nothing here touches the network: the tests below only exercise paths
-  // that finish before any RPC call is made.
+  // that finish before any RPC call is made. The client has no `payer`, so
+  // no wallet is connected.
   const client = {
     rpc: {},
     rpcSubscriptions: {},
@@ -38,18 +38,16 @@ function renderUseSendTX(
   renderToString(
     <QueryClientProvider client={new QueryClient()}>
       <ClientProvider client={client}>
-        <WalletProvider signer={null}>
-          <GrillHeadlessProvider
-            onTransactionStatusEvent={onTransactionStatusEvent}
-            logLevel="off"
-          >
-            <Capture
-              onRender={(sendTX) => {
-                captured.sendTX = sendTX;
-              }}
-            />
-          </GrillHeadlessProvider>
-        </WalletProvider>
+        <GrillHeadlessProvider
+          onTransactionStatusEvent={onTransactionStatusEvent}
+          logLevel="off"
+        >
+          <Capture
+            onRender={(sendTX) => {
+              captured.sendTX = sendTX;
+            }}
+          />
+        </GrillHeadlessProvider>
       </ClientProvider>
     </QueryClientProvider>,
   );

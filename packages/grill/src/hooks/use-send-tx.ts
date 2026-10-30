@@ -2,8 +2,8 @@ import type { SendTXFunction } from "@macalinao/gill-extra";
 import { simulateTransactionFactory } from "@macalinao/gill-extra";
 import { useGrillContext } from "../contexts/grill-context.js";
 import { createSendTX } from "../utils/internal/create-send-tx.js";
-import { useKitWallet } from "./use-kit-wallet.js";
 import { useSolanaClient } from "./use-solana-client.js";
+import { useWalletSigner } from "./use-wallet-signer.js";
 
 /**
  * Hook that provides a function to send transactions using the modern @solana/kit API
@@ -21,7 +21,7 @@ import { useSolanaClient } from "./use-solana-client.js";
  */
 export const useSendTX = (): SendTXFunction => {
   const { rpc, rpcSubscriptions } = useSolanaClient();
-  const { signer } = useKitWallet();
+  const signer = useWalletSigner();
   const {
     refetchAccounts,
     onTransactionStatusEvent,

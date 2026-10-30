@@ -1,5 +1,5 @@
 import type * as React from "react";
-import { useKitWallet } from "@macalinao/grill";
+import { useWalletSigner } from "@macalinao/grill";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { Wallet } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -12,13 +12,13 @@ export interface ConnectWalletGateProps {
 
 /**
  * Renders `children` only when a wallet is connected, otherwise shows a
- * connect-wallet prompt. Reads the signer from grill's `useKitWallet`.
+ * connect-wallet prompt. Reads the signer from grill's `useWalletSigner`.
  */
 export const ConnectWalletGate: React.FC<ConnectWalletGateProps> = ({
   reason,
   children,
 }) => {
-  const { signer } = useKitWallet();
+  const signer = useWalletSigner();
 
   if (!signer) {
     return (

@@ -14,13 +14,13 @@ import type {
   AccountData,
   AccountDecoder,
   AccountQueryKey,
+  ClientWithReactiveSigner,
   DecodedAccountResult,
   DecodedAccountsResult,
   GrillClient,
   GrillContextValue,
   GrillHeadlessProviderProps,
   GrillProviderProps,
-  GrillSigner,
   PdaHook,
   PdaQueryKey,
   PdasHook,
@@ -49,8 +49,6 @@ import type {
   UseTokenInfoInput,
   UseTokenInfosInput,
   UseTokenInfosResult,
-  WalletContextState,
-  WalletProviderProps,
 } from "@macalinao/grill";
 import type { Mint } from "@solana-program/token";
 import { getPublicSolanaRpcUrl } from "@macalinao/grill";
@@ -103,10 +101,8 @@ export interface ProviderTypes {
   headless: GrillHeadlessProviderProps;
   client: GrillClient;
   subscription: SubscriptionProviderProps;
-  wallet: WalletProviderProps;
   grillContext: GrillContextValue;
-  walletContext: WalletContextState;
-  signer: GrillSigner;
+  signerClient: ClientWithReactiveSigner;
 }
 
 /** WebSocket subscription plumbing. */

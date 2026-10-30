@@ -147,10 +147,10 @@ const SwapButton: FC<SwapButtonProps> = ({ buildSwapInstructions }) => {
 
 ```tsx
 import type { FC } from "react";
-import { useKitWallet } from "@macalinao/grill";
+import { useWalletSigner } from "@macalinao/grill";
 
 const WalletInfo: FC = () => {
-  const { signer } = useKitWallet();
+  const signer = useWalletSigner();
   // Works with any @solana/kit compatible wallet
   
   return (
@@ -172,7 +172,7 @@ Grill follows React's philosophy of composition. Instead of a monolithic SDK wit
 ```tsx
 import type { FC } from "react";
 import type { Address, TokenAccount, TransactionInstruction } from "@solana/kit";
-import { useKitWallet, useAssociatedTokenAccount, useAccount, useSendTX } from "@macalinao/grill";
+import { useWalletSigner, useAssociatedTokenAccount, useAccount, useSendTX } from "@macalinao/grill";
 
 interface MyDeFiAppProps {
   USDC_MINT: Address;
@@ -181,7 +181,7 @@ interface MyDeFiAppProps {
 
 const MyDeFiApp: FC<MyDeFiAppProps> = ({ USDC_MINT, buildInstructions }) => {
   // Get the user's wallet
-  const { signer } = useKitWallet();
+  const signer = useWalletSigner();
 
   // Fetch their token accounts (batched automatically)
   const { data: usdcAccount } = useAssociatedTokenAccount({

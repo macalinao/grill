@@ -4,6 +4,7 @@ import {
   getPublicSolanaRpcUrl,
   getSolscanExplorerLink,
   GrillProvider,
+  reactiveSigner,
 } from "@macalinao/grill";
 import { WalletAdapterCompatProvider } from "@macalinao/wallet-adapter-compat";
 import { address, createClient } from "@solana/kit";
@@ -48,9 +49,13 @@ const queryClient = new QueryClient();
 // A kit client with the `rpc` and `rpcSubscriptions` capabilities grill needs.
 // `solanaRpcConnection` derives the websocket URL from the RPC URL. The
 // `satisfies` check proves the client is a `GrillClient` at compile time.
-const solanaClient = createClient().use(
-  solanaRpcConnection({ rpcUrl: endpoint }),
-) satisfies GrillClient;
+//
+// `reactiveSigner()` makes the connected wallet the client's `payer` and
+// `identity`; `WalletAdapterCompatProvider` below keeps it in sync with
+// wallet-adapter.
+const solanaClient = createClient()
+  .use(solanaRpcConnection({ rpcUrl: endpoint }))
+  .use(reactiveSigner()) satisfies GrillClient;
 
 // Example static token info - in production, this could come from a config file
 // or be fetched once at startup and cached
@@ -83,8 +88,8 @@ export const App: React.FC = () => {
         <ConnectionProvider endpoint={endpoint}>
           <WalletAdapterProvider wallets={wallets} autoConnect>
             <WalletModalProvider>
-              <WalletAdapterCompatProvider>
-                <ClientProvider client={solanaClient}>
+              <ClientProvider client={solanaClient}>
+                <WalletAdapterCompatProvider>
                   <GrillProvider
                     getExplorerLink={getSolscanExplorerLink}
                     staticTokenInfo={STATIC_TOKEN_INFO}
@@ -98,8 +103,8 @@ export const App: React.FC = () => {
                       <ReactQueryDevtools initialIsOpen={false} />
                     </div>
                   </GrillProvider>
-                </ClientProvider>
-              </WalletAdapterCompatProvider>
+                </WalletAdapterCompatProvider>
+              </ClientProvider>
             </WalletModalProvider>
           </WalletAdapterProvider>
         </ConnectionProvider>

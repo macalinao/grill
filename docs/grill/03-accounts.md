@@ -368,7 +368,7 @@ interface AppLayoutProps {
 }
 
 const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
-  const { signer } = useKitWallet();
+  const signer = useWalletSigner();
   
   // Prefetch user's main account and common token accounts
   useAccount({ address: signer?.address });

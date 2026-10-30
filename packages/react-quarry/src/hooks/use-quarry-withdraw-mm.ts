@@ -1,6 +1,6 @@
 import type { Address } from "@solana/addresses";
 import type { Signature } from "@solana/keys";
-import { useKitWallet, useSendTX } from "@macalinao/grill";
+import { useSendTX, useWalletSigner } from "@macalinao/grill";
 import { createWithdrawMergeMinerIxs } from "@macalinao/quarry";
 import { useCallback } from "react";
 import { useMergeMinerContext } from "../contexts/merge-miner.js";
@@ -19,7 +19,7 @@ export interface UseQuarryWithdrawMMResult {
 export const useQuarryWithdrawMM = (): UseQuarryWithdrawMMResult => {
   const { mergePool } = useMergeMinerContext();
   const { poolInfo } = usePoolInfo();
-  const { signer } = useKitWallet();
+  const signer = useWalletSigner();
   const sendTX = useSendTX();
 
   const withdraw = useCallback(

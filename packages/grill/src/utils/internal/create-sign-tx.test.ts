@@ -3,10 +3,10 @@ import type { Address } from "@solana/addresses";
 import type { Instruction } from "@solana/instructions";
 import type { Blockhash } from "@solana/rpc-types";
 import type {
-  GrillClient,
-  GrillSigner,
-  TransactionStatusEvent,
-} from "../../types.js";
+  TransactionPartialSigner,
+  TransactionSendingSigner,
+} from "@solana/signers";
+import type { GrillClient, TransactionStatusEvent } from "../../types.js";
 import { beforeAll, describe, expect, it } from "bun:test";
 import { address } from "@solana/addresses";
 import { getBase58Encoder } from "@solana/codecs-strings";
@@ -68,7 +68,8 @@ function makeSimulate(err: unknown = null): {
 }
 
 describe("createSignTX", () => {
-  let signer: GrillSigner;
+  let signer: TransactionPartialSigner<Address> &
+    TransactionSendingSigner<Address>;
 
   beforeAll(async () => {
     // A realistic composite signer: a real keypair (partial signer) plus a stub
@@ -212,7 +213,7 @@ describe("createSignTX", () => {
     const { rpc } = makeRpc();
     const events: TransactionStatusEvent[] = [];
     // A sending-only signer: no signTransactions method.
-    const sendingOnly: GrillSigner = {
+    const sendingOnly: TransactionSendingSigner<Address> = {
       address: signer.address,
       signAndSendTransactions: () => Promise.resolve([]),
     };
